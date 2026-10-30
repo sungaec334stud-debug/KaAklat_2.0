@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $errorList = $errors === [] ? '' : '<div class="flash flash-error" role="alert"><ul><li>' . implode('</li><li>', array_map('h', $errors)) . '</li></ul></div>';
 $content = $errorList
-    . '<section class="panel"><h1>Create student account</h1><p>Use a username with 3-32 lowercase letters, numbers, or underscores. Passwords need 12-72 characters.</p>'
+    . '<section class="panel auth-panel"><div class="page-eyebrow">Start your next chapter</div><h1>Create student account</h1><p>Use a username with 3-32 lowercase letters, numbers, or underscores. Passwords need 12-72 characters.</p>'
     . '<form method="post" action="/register.php" novalidate>'
     . '<input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '">'
     . '<label for="display_name">Display name</label><input id="display_name" name="display_name" maxlength="100" required value="' . h($values['display_name']) . '">'

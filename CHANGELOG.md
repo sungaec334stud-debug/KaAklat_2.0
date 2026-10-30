@@ -4,6 +4,42 @@ All dates use Asia/Manila. This records completed document changes, not applicat
 
 ## [Unreleased]
 
+- Pre-push review removed a previously hardcoded demo password from the authentication integration test and test-plan text. Existing-account test now requires local `KAAKLAT_TEST_PASSWORD`; it was not rerun without that secret. Private files remain ignored. Usage: 28% five-hour and 22% weekly used.
+
+### Librarian catalog management — 2026-10-30
+
+- Added librarian-only `/manage_books.php` with searchable/paginated title selection, create/edit forms, multiple authors (one per line), initial/additional quantities 1–100, private cover replacement, book archive and individually paginated copy archive controls. Dashboard link added; current theme and all 20 real samples preserved.
+- Added `app/catalog_management.php`: server validation, POST/CSRF checks, forged-field rejection, current active librarian/session checks before image processing and under actor lock, book/copy/request/loan lock order, unique random copy codes, transactional author links/copies/audit, and up to three retries for lock conflicts. Archive refuses pending title requests or unresolved allocations, including stale holds until resolved; history remains intact. No schema migration.
+- Uploads enforce genuine HTTP upload origin, actual JPEG/PNG content, 2 MB/4000×4000 bounds, GD decoding/re-encoding to JPEG, metadata removal, transparency flattening and random private filenames. Authenticated cover endpoint supports existing Gutenberg and new uploads. Failed rolled-back saves clean only the new generated file; previous covers remain. Ambiguous connection failures retain staged files for reconciliation.
+- PASS: new validation/image tests; temporary-InnoDB management transaction/authorization/archive/rollback tests; real multipart upload/file rollback test; existing foundation/auth/account/catalog policy and isolated integration regressions; PHP lint and diff whitespace checks. Signed-out management GET returned 303. Browser visual/keyboard acceptance and simultaneous archive/approval races remain unverified.
+- Read-only sample verification still reports 20 visible titles, 300 copies, 17 requests, 14 loans. Usage start/end: 22%/27% five-hour used and 21%/22% weekly used; 73%/78% remaining at finish.
+
+### Real book samples and protected covers — 2026-10-30
+
+- Replaced local demo IDs 1–20 with 20 real classics, correct author links and original descriptions sourced against Gutenberg records. Downloaded/decoded/re-encoded all 20 edition covers. Remaining unused fictional titles archived; actual active catalog count verified as 20. Private catalog backup created before transaction; 300 copies, 17 requests and 14 loans retained.
+- Added source manifest, local preparation/install scripts, protected JPEG delivery, and cover display in catalog cards/details. No raw image URL exposed, ISBN added or schema migration required. These remain simulated physical holdings; no school inventory claim.
+- Full PHP lint and catalog policy/SQL regression tests passed. All 20 database titles and cover images validated. Signed-out cover request returned 403. One cover visually inspected; full authenticated browser layout not checked. Usage at finish: 21% five-hour/weekly used, 79% remaining in both.
+
+### Protected catalog — 2026-10-30
+
+- Signed-out local catalog HTTP check returned 303. Usage start/end: 13%/15% five-hour used, 20% weekly used (85%/80% remaining at finish).
+
+- Added `app/catalog.php`, `/catalog.php` list/detail, title/author literal search, validated search/page inputs, 12-book pages, archived-book exclusion, ordered authors, description previews/full text and derived copy counts. Inline placeholders require no public book-image path; uploaded covers are deferred.
+- Authenticated pending/active students and active staff may browse; suspended/archived/revoked sessions are rejected. Added dashboard/header links, no-store catalog responses, safe error references and matching responsive styling.
+- Resolved account audit rollback verification with a UNIQUE audit-code constraint in a connection-local temporary fixture; removed the rejected ALTER approach. Account integration test now passes, including session revocation and persisted rollback assertions.
+- Catalog policy/input and SQL integration tests passed with temporary fictional fixtures: pagination, literal wildcard/apostrophe search, injection input, archived titles/copies and active/held/expired/returned/cancelled availability. Full PHP lint and existing unit/policy regressions passed. Browser visual acceptance remains pending. No persistent records or schema changed.
+
+- Visual refresh (2026-10-30): forest-green header, warm paper background, serif headings, consistent buttons/forms/alerts, focused authentication cards, account-management tabs, student cards, status badges and responsive stacking. Shared header navigation and footer added. No account-policy or schema changes. PHP lint and student policy regression tests passed; browser visual verification pending.
+
+- Separated librarian student management into Activate pending students, Suspend active students and Reactivate suspended students views. Status filter is allowlisted and parameterized; pagination and POST redirects retain the selected view. Usage: 9% five-hour and 19% weekly used.
+
+### Student account management - 2026-10-30
+
+- Added librarian-only `/students.php`, pending-first student list with pagination, and Activate/Suspend/Reactivate forms. Added librarian dashboard link.
+- Status updates validate CSRF and transitions; lock actor/target rows in numeric order; recheck active librarian role and session version; reject staff targets; increment student session version and commit audit atomically. No schema changes.
+- Policy tests passed after initial expected missing-module failure. Foundation/auth unit tests and PHP lint passed. Integration verification is incomplete: temporary-table fixture setup and failure injection required corrections; final ALTER fixture run was rejected by automatic approval review over possible persistent-table risk. Rollback remains unverified. Browser checks not run.
+- Usage checked at start/end: 5% to 7% used in five-hour window; weekly 18% to 19% used.
+
 ### Added - 2026-10-30
 
 - Local CLI password bootstrap script `bin/set_user_password.php` and backing function `set_user_password()` in `app/auth.php` for setting account passwords with 12-72 character validation, session-version rotation, rate-limit clearing, and audit logging.

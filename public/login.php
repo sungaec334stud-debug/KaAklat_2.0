@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $errorList = $errors === [] ? '' : '<div class="flash flash-error" role="alert"><ul><li>' . implode('</li><li>', array_map('h', $errors)) . '</li></ul></div>';
 $content = $errorList
-    . '<section class="panel"><h1>Log in</h1><form method="post" action="/login.php" novalidate>'
+    . '<section class="panel auth-panel"><div class="page-eyebrow">Welcome back</div><h1>Your library awaits.</h1><p>Sign in to your KaAklat account.</p><form method="post" action="/login.php" novalidate>'
     . '<input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '">'
     . '<label for="username">Username</label><input id="username" name="username" maxlength="32" required value="' . h($username) . '">'
     . '<label for="password">Password</label><input id="password" name="password" type="password" required>'

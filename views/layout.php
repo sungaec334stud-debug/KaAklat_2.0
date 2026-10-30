@@ -7,6 +7,7 @@ function render_page(string $title, string $content): void
     $safeTitle = h($title);
     $appName = h((string) application_config()['app_name']);
     $flashes = '';
+    $navigation = isset($_SESSION['user_id']) ? '<a href="/">Dashboard</a><a href="/catalog.php">Book catalog</a>' : '<a href="/login.php">Log in</a><a href="/register.php">Create an account</a>';
 
     foreach (['success', 'error', 'info'] as $type) {
         $message = flash_pull($type);
@@ -27,12 +28,15 @@ function render_page(string $title, string $content): void
 </head>
 <body>
     <header class="site-header">
-        <a class="brand" href="/">{$appName}</a>
+        <a class="brand" href="/">{$appName}<small>Your school library</small></a>
+        <nav class="header-nav" aria-label="Main navigation">{$navigation}</nav>
     </header>
     <main class="container">
+        <div class="page-eyebrow">Library / {$safeTitle}</div>
         {$flashes}
         {$content}
     </main>
+    <footer class="site-footer">KaAklat · A place for books, learning, and discovery.</footer>
 </body>
 </html>
 HTML;

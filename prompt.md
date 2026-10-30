@@ -16,6 +16,41 @@ This is append-only. Record only real prompts available to the coding agent. Do 
 
 ## Actual entries
 
+### Librarian catalog management — 2026-10-30
+
+- Prompt submitted: Implement the next small increment: librarian catalog management. Read AGENTS.md, PROGRESS.md, SRS.md, SCHEMA.md, TEST_PLAN.md and catalog/auth/cover code; inspect Git and preserve work/design/20 samples. Use plain PHP/PDO. Build librarian-only adding/editing titles, multiple authors, description, optional covers and quantity; add copies; replace covers; archive eligible titles/copies preserving history. Follow SRS, generate unique codes, derive availability, no ISBN/barcodes/counters. Enforce current-session librarian authorization, POST/CSRF, parameterization, validation/escaping/redirects. Validate JPEG/PNG at 2 MB/4000×4000 with decoding/re-encoding, generated private paths and authenticated delivery, preserving old covers on failure and Gutenberg samples. Use transactional documented locking/audit/archive guards. Test authorization/forgery/CSRF/copies/availability/archives/uploads/rollback in isolated fixtures without reset/reimport. Run lint/tests/available browser checks and report limitations. Update progress/test/changelog and prompt outcome; check usage start/end; explain local use and next increment. Exclude requests/loan actions.
+- Outcome: Added shared management module, librarian page/dashboard link, private JPEG upload handling and safe cover endpoint support. No schema migration or sample/history mutations.
+- Verification: validation/image, isolated transaction/authorization/archive/rollback and genuine multipart/file rollback tests passed; regressions and lint passed. Browser visual checks and simultaneous races pending. Temporary upload test server stopped. Next: local UI acceptance then circulation request/decision increment.
+
+### Real book samples — 2026-10-30
+
+- Prompt: "can you replace the book demos for actual books that exist with their respesctive infos and description and with book covers? Make the book samples atleast 20 for now"
+- Outcome: Curated 20 Gutenberg classics, original descriptions, real author links and downloaded/re-encoded covers. Applied guarded local replacement with private catalog backup, preserving circulation records and archiving unused fictional titles. Added authorized cover delivery and source/preparation documentation.
+- Verification: 20 active titles and covers checked; 300 copies, 17 requests, 14 loans retained; lint and catalog tests passed; signed-out cover denied. Authenticated browser appearance pending.
+
+### Protected book catalog — 2026-10-30
+
+- Prompt: Implement the next small increment, the login-protected book catalog. Read project instructions/docs/code and preserve Git work. First verify isolated audit rollback and suspension/session revocation. Allow pending/active students and active staff to browse nonarchived books, title/author search and bounded pagination, details, derived availability including expired holds, protected local placeholders, dashboard navigation and useful empty/error states. Exclude editing/uploads/requests/loan actions. Write isolated meaningful tests, run lint/tests/available browser checks, update progress/test/changelog/prompt records, check usage start/end and explain local use; next increment is librarian cataloging and covers.
+- Outcome: Implemented catalog module and list/detail route, navigation and responsive cards. No schema change or persistent test writes. Fixed account failure-injection fixture without ALTER; rollback/revocation passed.
+- Verification: Catalog policy/input and database query/availability tests passed; account integration passed; PHP lint and existing unit/policy regressions passed. Browser acceptance remains pending.
+
+### Visual refresh — 2026-10-30
+
+- Prompt: "can you improve the design of the system so far? it lacks design"
+- Outcome: Applied warm paper/forest-green theme with serif headings, navigation, footer, focused login/register panels and student-management cards/tabs/badges. No dependencies added. PHP lint and student account policy tests passed; browser visual checks pending.
+
+### Student management views — 2026-10-30
+
+- Prompt: "can you separate the suspend, activate, and reactivate for the librarian"
+- Outcome: Added three status-filtered views with corresponding actions and persistent view navigation. PHP lint and policy regression tests passed; browser checks pending.
+
+### Entry ID: 2026-10-30-student-management
+
+- **Prompt submitted:** Implement the next small increment: librarian activation and suspension of student accounts. Read project documentation and authentication code; add pending list, activate/suspend/reactivate, staff-target denial, POST/CSRF/authorization/validation, transactional status/session/audit changes, dashboard link, meaningful tests and updated progress/test/changelog/prompt records. Check usage at start and finish; keep scope focused and explain local use.
+- **Outcome:** Implemented `app/student_accounts.php`, `public/students.php`, dashboard link, policy and integration tests. User implementation approval acknowledged. No schema migration.
+- **Verification:** Policy and existing unit tests plus lint passed. Integration test not passed: failure-injection fixture corrections followed by automatic approval rejection of temporary-table ALTER; rollback and browser verification pending.
+- **Next:** Resolve isolated rollback verification safely and manually test librarian/student sessions. Then catalog.
+
 ### Entry ID: 2026-10-29-01
 
 - **Date/time/timezone:** 2026-10-29, Asia/Manila.

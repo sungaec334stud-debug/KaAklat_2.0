@@ -182,6 +182,17 @@ PowerShell does not support the common Bash-style `mysql ... < schema.sql` examp
 
 ## Phase 6 — Build books, authors, physical copies and covers
 
+Implemented local entry point: sign in as an active librarian, then Dashboard → Manage books (`/manage_books.php`). Add a new book, one author per line, 1–100 initial copies and optional JPEG/PNG; select an existing book to edit details, add copies, replace its cover or archive an eligible book/copy. Pending requests block title archive; unresolved allocations block affected archives. Resolve even stale allocations explicitly before archiving. Old cover files are retained for backup/history; do not manually remove referenced images.
+
+Verification commands from the project directory:
+
+```powershell
+& 'C:\php-8.4.14\php.exe' tests\catalog_management_test.php
+& 'C:\php-8.4.14\php.exe' tests\catalog_management_integration_test.php
+```
+
+The integration test writes only connection-local temporary InnoDB fixtures. Multipart upload verification uses a separate loopback server with `tests/catalog_upload_router.php` as router; never deploy tests or that router. Keep serving the application with `-t public`. No schema import or reset is needed for this increment.
+
 **Goal:** create a catalog whose displayed availability matches physical copies. Covers FR-03, FR-04; NFR-01 and NFR-03.
 
 **Prerequisites:** working authorization and verified GD. Read schema relationships and cover constraints.

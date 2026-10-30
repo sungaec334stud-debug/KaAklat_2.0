@@ -69,12 +69,43 @@ NFR-01: T01/02/08/20/26/27/28/29; NFR-02: T03/18/26/28/29; NFR-03: T07/09/21/22/
 
 ## Executed evidence
 
+### Librarian catalog management — 2026-10-30
+
+- PASS: `C:\php-8.4.14\php.exe tests/catalog_management_test.php`. Title/author/description validation, quantity bounds/fractions/arrays, malformed/SVG/PHP/oversized image rejection, valid PNG decoding, oversized dimensions, partial/forged upload rejection. Test initially failed before module existed.
+- PASS: `C:\php-8.4.14\php.exe tests/catalog_management_integration_test.php`. Connection-local temporary InnoDB tables; students/admin/stale-session denial, forged role/CSRF rejection, two-author creation with 3 distinct copies, editing, adding copies and derived availability, whole-mutation rollback on forced audit uniqueness failure, pending-title/live-allocation archive denial, incorrect copy target denial, successful available-copy/title archive, loan-history retention and archived-title mutation denial. Fixture needed session restoration after testing revocation; rerun passed.
+- PASS: genuine multipart HTTP test on temporary `127.0.0.1:8012` PHP router `tests/catalog_upload_router.php`. Submitted local JPEG with `filename=../../renamed.php` and PHP MIME: actual JPEG accepted, generated name used and output decoded. PHP source disguised as image/jpeg rejected. Duplicate audit failure on a second cover replacement restored prior cover path, retained old file and removed the new file. Router uses temporary database fixtures and deletes only its own generated test cover; server stopped afterward. Never deploy this router.
+- PASS: existing foundation/auth/student/catalog unit/policy tests; catalog/student integration tests; full app/public/views/tests/bin PHP lint and `git diff --check`. Signed-out GET `/manage_books.php` returned 303. Read-only real sample check still: 20 visible books, 300 copies, 17 requests, 14 loans.
+- NOT RUN: authenticated browser layout/keyboard/mobile acceptance, concurrent archive/approval races, hosting upload limits. No claim that all T-07/T-08/T-09/T-25/T-30 scenarios are fully passed.
+
+Real book sample update: full PHP lint and catalog unit/integration tests passed. `verification/real_books_check.php` validated 20 active real titles and decoded private covers; retained counts 300 copies, 17 requests, 14 loans. Signed-out GET cover.php?id=1 returned 403. Gutenberg Pride and Prejudice cover visually inspected. Authenticated cover HTTP and full catalog visual checks remain pending. No upload security pass claimed: these are curated downloaded images only.
+
+### Catalog and account verification — 2026-10-30
+
+- HTTP check: signed-out GET `/catalog.php` returned 303 from the local server. Authenticated browser checks still pending.
+
+- PASS: `C:\php-8.4.14\php.exe tests/student_accounts_integration_test.php`. Temporary users and audit tables only. Verified status transitions, forged CSRF/action rejection, staff-target denial, role/session-version enforcement, suspension revocation and atomic rollback of status/version/audit after duplicate audit failure. This supersedes the earlier blocked ALTER fixture. No persistent fixture writes.
+- PASS: `C:\php-8.4.14\php.exe tests/catalog_test.php`: role/status access policy and malformed/overlong search/page inputs.
+- PASS: `C:\php-8.4.14\php.exe tests/catalog_integration_test.php`: isolated temporary catalog/author/copy/request/loan tables. Search by author/title, literal percent/underscore, apostrophe/injection inputs, 12-item pagination, out-of-range empty page, absent/archived detail, archived-copy exclusion, total and available counts across active checkout, unexpired hold, >48h hold, exact 48h boundary, returned and cancelled allocations. Escaping check passed.
+- PASS: all PHP syntax lint and existing foundation/auth/student policy tests. Initial catalog test failed before implementation as expected.
+- NOT RUN: authenticated browser/HTTP acceptance for each role, search/detail/pagination navigation, cover placeholder visual appearance and responsive/keyboard checks. No uploaded-cover delivery exists in this increment. T-03/T-06/T-30 are not fully passed; T-05 return behavior remains deferred.
+
+Visual refresh, 2026-10-30: syntax lint for public/views PHP and student account policy tests passed. Desktop/mobile visual inspection and keyboard checks remain NOT RUN; do not mark T-30 passed.
+
+Student-management view separation: PHP lint and policy regression tests passed. Manually verify each status view, invalid filter fallback, pagination retaining status, and successful POST returning to the selected view; browser verification pending.
+
+### Student account management increment - 2026-10-30
+
+- `php tests/student_accounts_test.php`: passed permitted transitions and rejection of invalid transitions and unauthorized roles.
+- Existing foundation and auth unit tests passed. PHP lint passed across app/public/views/tests.
+- `php tests/student_accounts_integration_test.php`: incomplete. Uses connection-local temporary tables to shadow users/audit_events. Status, revocation, CSRF and authorization assertions executed before the failure-injection stage. First audit-failure fixture did not force an error; subsequent CHECK fixtures failed compatibility checks. Final temporary audit-column rename fixture remains unexecuted because automatic approval review rejected the ALTER operation over possible persistent-table risk. Do not mark rollback or the integration suite passed.
+- Browser role denial, pagination, POST redirects and end-to-end student suspension still require manual verification. T-05 remains incomplete; return handling is outside this increment.
+
 No complete application scenario above has been executed.
 
 ### Local account bootstrap and authentication check - 2026-10-30
 
 - **Environment:** Local PHP 8.4.14 CLI, MariaDB 10.4.32 on `kaaklat_dev`.
-- **Action:** Executed `bin/set_user_password.php demo_admin AdminPass1234!` and executed `tests/auth_integration_test.php`.
+- **Action:** Set the demo administrator password using the local bootstrap script (credential omitted) and executed `tests/auth_integration_test.php`. The test now reads its credential from the local `KAAKLAT_TEST_PASSWORD` environment variable.
 - **Observed:** CLI successfully validated username and length boundaries, updated `password_hash`, incremented `session_version` to 2, recorded `account.password_set` in `audit_events`, and cleared failures. `tests/auth_integration_test.php` verified authentication succeeds for `demo_admin` with valid credentials, rejects invalid password, and rejects non-existent username.
 - **Result:** Pass for local CLI account bootstrap and database authentication.
 - **Next action:** Verify login through the web interface using `demo_admin`.
