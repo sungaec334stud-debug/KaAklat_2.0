@@ -1,0 +1,103 @@
+:root {
+    color-scheme: light;
+    font-family: system-ui, sans-serif;
+    background: #f6f7fb;
+    color: #1c2430;
+}
+
+body {
+    margin: 0;
+}
+
+.site-header {
+    background: #153b57;
+    padding: 1rem;
+}
+
+.brand {
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 60rem;
+    padding: 1.5rem;
+}
+
+.panel {
+    background: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 15%);
+    padding: 1.5rem;
+}
+
+label {
+    display: block;
+    font-weight: 700;
+    margin-top: 1rem;
+}
+
+input,
+button,
+.button {
+    box-sizing: border-box;
+    font: inherit;
+}
+
+input {
+    border: 1px solid #65717e;
+    border-radius: 0.25rem;
+    display: block;
+    margin-top: 0.25rem;
+    max-width: 30rem;
+    padding: 0.6rem;
+    width: 100%;
+}
+
+button,
+.button {
+    background: #0b5d8c;
+    border: 0;
+    border-radius: 0.25rem;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.65rem 1rem;
+    text-decoration: none;
+}
+
+.button-secondary {
+    background: #4b5563;
+}
+
+.flash {
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+}
+
+.flash-success {
+    background: #d9f6e6;
+    color: #124f2a;
+}
+
+.flash-error {
+    background: #fde5e5;
+    color: #7c2020;
+}
+
+.flash-info {
+    background: #e1effa;
+    color: #143d5a;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 3px solid #f2a900;
+    outline-offset: 2px;
+}

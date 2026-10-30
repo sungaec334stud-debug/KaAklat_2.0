@@ -1,0 +1,15 @@
+# Private configuration and runtime data
+.env
+.env.*
+!.env.example
+config.local.php
+private/
+backups/
+storage/
+tmp/
+*.log
+# OS/editor local state
+Thumbs.db
+.DS_Store
+.idea/
+.vscode/
