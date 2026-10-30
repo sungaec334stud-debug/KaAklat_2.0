@@ -1,5 +1,7 @@
 # KaAklat documentation handoff
 
+2026-10-31 approval update: user approved 1–30-day durations, five pending requests, one outstanding title request/allocation/loan, 48-hour pickup, overdue blocking with returns allowed and five combined approved pickups/active loans. These clauses supersede proposal labels below. Other details remain proposals, and no school-policy claim is made.
+
 2026-10-29. Option A selected by user: PHP 8.4, PDO MySQL, MariaDB locally (XAMPP client 10.4.32; server not verified), portable MySQL 8.0/MariaDB 10.4+ SQL, semantic HTML, custom responsive CSS, minimal JavaScript. No framework, Composer, npm or paid services required. InfinityFree is recommended on official documentation; no actual hosting tested or provider account created. See STACK_AND_HOSTING_REVIEW.md.
 
 This turn prepares design/documentation, SQL and test data, NOT the full application or rewritten research chapters. All new library policy details are proposals. Existing user-confirmed rules take precedence. Original paper stays unchanged.

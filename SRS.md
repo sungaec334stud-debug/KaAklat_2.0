@@ -73,6 +73,9 @@ Pending users can browse but cannot request. Suspended users cannot sign in; sus
 
 ## 5. Functional requirements and acceptance criteria
 
+2026-10-31 implementation update (supersedes older implementation summaries): FR-05 pending submission, own list and pending cancellation implemented with local automated evidence; approved cancellation remains pending. P-06 requiring a currently available copy explicitly approved by user for demo today. Five live allocations block additional submissions; pending consumes only the separate pending cap. Expired holds are excluded logically; no allocation history changed by request submission.
+
+
 | ID | Requirement | Testable acceptance |
 | --- | --- | --- |
 | FR-01 | Register, sign in/out and maintain account status. | Registration creates a student with pending status regardless of submitted role/status. Duplicate canonical username is rejected. Pending student can browse; cannot borrow. Logout invalidates the session. Suspension prevents subsequent protected requests. |
@@ -90,7 +93,7 @@ Pending users can browse but cannot request. Suspended users cannot sign in; sus
 
 ## 6. Business rules
 
-Confirmed rules have prefix C. Rules P are proposed defaults for this demonstration; they are not claims about school policy.
+Confirmed rules have prefix C. P identifiers are retained for traceability. On 2026-10-31 the user approved these demonstration defaults: 1–30-day requested/approved periods; five pending requests; one outstanding request/allocation/loan per student/title; a 48-hour pickup deadline; overdue blocking of requests/approval/pickup while returns remain allowed; five combined approved pickups and active loans. This approves C-01, P-01, the duration clause of P-02, deadline clause of P-03 and overdue-blocking clause of P-05. Other P-rule details remain proposals. These decisions do not establish school policy or prove implemented circulation.
 
 | ID | Rule |
 | --- | --- |
@@ -154,13 +157,13 @@ Use nonpublic backups. Restore into a separate empty database, check expected co
 - DB server version, InnoDB constraints, PDO, GD/image support, HTTPS, session cookies, private-file protection, upload limits and backup import need actual local/host verification.
 - Internet reliability at presentation is unknown. Prepare a local fallback; offline synchronization is outside scope.
 - Host selection/account signup remains unperformed. No real school/student data may be inferred from test data.
-- P-01 through P-11 are proposed demo rules for design review; exact school policies are not supplied.
+- Approved borrowing clauses are enumerated in section 6; other P-rule details remain proposals. Exact school policies are not supplied.
 - Exact November presentation date, exact librarian participant count, research instrument, ISO/IEC 25010 edition/subset, sampling justification, consent/approval process, and evidence of school interviews remain open. Do not delay safe design drafting to invent answers.
-- Original research references require source checking before chapter rewriting. No test, survey or deployment result exists yet.
+- Original research references require source checking before chapter rewriting. Automated local tests exist in TEST_PLAN.md; participant surveys and hosted deployment results remain pending.
 - Actual adoption, lost/damaged procedures, retention/deletion obligations and operational ownership require a separate school-approved phase. For this demo an unreturned copy stays on its loan; no invented fine or lost-item resolution workflow.
 
 ## 10. Traceability and delivery boundaries
 
 SCHEMA.md describes storage and concurrency; schema.sql/seed.sql are the initial database artifacts. TEST_PLAN.md maps every FR/NFR to unexecuted and executed checks. WORKFLOW.md guides implementation phases; DEPLOYMENT.md separates provider documentation from runtime evidence. AGENTS.md governs future agents. PROGRESS.md records current truth, CHANGELOG.md historical changes, and prompt.md only actual prompts. RESEARCH_REVISION_PLAN.md maps paper changes before any rewriting.
 
-The current deliverable is a reviewable design and documentation set. Application functionality remains unimplemented. After design review, implement and verify one small vertical workflow at a time, starting with a local and hosted compatibility check.
+Current implementation includes authentication, librarian student activation/suspension, catalog browsing/filtering, catalog editing/copy management, protected cover handling and audit for these mutations. Local automated evidence is recorded in TEST_PLAN.md. Staff administration, recovery, circulation requests/decisions/pickup/returns, complete history, restore rehearsal, hosting and participant evaluation remain pending. Full authenticated browser/accessibility/concurrency acceptance is not yet complete.

@@ -8,10 +8,14 @@
 
 ## Order of work
 
+Decision update 2026-10-31: six borrowing defaults listed in SRS section 6 are approved for the demonstration. Other P-rule details retain their proposal status. Circulation implementation and verification remain pending.
+
+Status checkpoint, 2026-10-30: Git baseline, private configuration, schema import and local tooling exist. Shared foundation, registration/login/logout/idle timeout/throttling, librarian student activation, catalog/copy/cover management and category/year/availability filters are implemented. Eleven regression scripts pass locally; full browser/accessibility/concurrency coverage remains pending. Checkboxes below are acceptance bundles: an unchecked bundle can include implemented components with remaining verification or subfeatures. Staff administration, recovery, circulation, hosted smoke checks, restore rehearsal and research evaluation remain pending.
+
 ### 1. Repository and isolated local database baseline
 
-- [ ] Initialize Git only if the user confirms it is the intended repository location; do not overwrite another repository.
-- [ ] Create `public/`, `app/`, `views/`, `tests/`, `verification/`, private local configuration outside `public/`, and an `.env.example` without secrets.
+- [x] Initialize Git only if the user confirms it is the intended repository location; do not overwrite another repository.
+- [x] Create `public/`, `app/`, `views/`, `tests/`, `verification/`, private local configuration outside `public/`, and an `.env.example` without secrets.
 - [ ] Verify PHP 8.4, PDO MySQL, actual MariaDB version and InnoDB in an explicitly named empty test database.
 - [ ] Import `schema.sql`, then `seed.sql`, only into that empty test database. Record successful table/fixture counts and constraint checks in TEST_PLAN.md.
 - [ ] Create the first database verification script with safe, read-only assertions. Do not use the fictional seeded accounts for sign-in because they contain no password hashes.
@@ -32,9 +36,9 @@
 
 ### 4. Login-protected catalog and physical copies
 
-- [ ] Write tests for catalog access control, author/title search, pagination, title/copy creation, archive guards, and count-derived availability.
-- [ ] Implement catalog list/detail and librarian-only title, multiple-author and individual-copy management. Generate a unique copy code per physical copy; never store an editable available-count field.
-- [ ] Implement restricted cover handling: decode/re-encode JPEG/PNG, enforce byte/pixel limits, generated names, private storage and authorized delivery. Test rejected disguised/non-image uploads.
+- [x] Write tests for catalog access control, author/title search, pagination, title/copy creation, archive guards, and count-derived availability.
+- [x] Implement catalog list/detail and librarian-only title, multiple-author and individual-copy management. Generate a unique copy code per physical copy; never store an editable available-count field.
+- [x] Implement restricted cover handling: decode/re-encode JPEG/PNG, enforce byte/pixel limits, generated names, private storage and authorized delivery. Test rejected disguised/non-image uploads.
 - [ ] Execute T-03, T-06 through T-09, T-25, T-26 and relevant accessibility checks.
 
 ### 5. Borrow-request and decision workflow

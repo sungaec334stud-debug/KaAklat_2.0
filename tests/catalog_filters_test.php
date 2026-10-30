@@ -2,8 +2,9 @@
 declare(strict_types=1);
 require_once dirname(__DIR__) . '/app/catalog_management.php';
 function filters_assert(bool $ok): void { if (!$ok) { throw new RuntimeException('Filter assertion failed'); } }
-filters_assert(catalog_filters(['letter'=>'a','year'=>'1813','author'=>' Austen ','category'=>'2']) === ['letter'=>'A','year'=>1813,'author'=>'Austen','category'=>2,'title'=>'']);
-foreach ([['letter'=>'AA'],['year'=>'1 OR 1=1'],['category'=>[]],['author'=>[]],['year'=>'0']] as $input) {
+filters_assert(catalog_filters(['letter'=>'a','year'=>'1813','author'=>' Austen ','category'=>'2']) === ['letter'=>'A','year'=>1813,'author'=>'Austen','category'=>2,'title'=>'','available'=>'']);
+filters_assert(catalog_filters(['available'=>'1'])['available'] === '1');
+foreach ([['available'=>[]],['available'=>'yes'],['letter'=>'AA'],['year'=>'1 OR 1=1'],['category'=>[]],['author'=>[]],['year'=>'0']] as $input) {
     try { catalog_filters($input); throw new RuntimeException('Invalid filter accepted'); } catch (InvalidArgumentException) {}
 }
 filters_assert(catalog_publication_year('') === null);

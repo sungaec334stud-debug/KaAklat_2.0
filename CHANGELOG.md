@@ -1,8 +1,25 @@
 # Changelog
 
+## 2026-10-31 — Student borrowing requests
+
+Added transactional student create/list/pending-cancel service and page, catalog/detail/dashboard links, current-role/session/CSRF/ownership checks, bounded validation and pagination. Five-pending/live allowance, duplicate title, overdue, archive and available-copy guards; expired holds excluded logically. Original terms/history preserved; safe audit atomic; no copies reserved. P-06 explicitly approved in chat. No schema migration.
+
+PASS 12 regression scripts, PHP lint and whitespace checks; independent-process cap/title races passed in retained fictional DB kaaklat_request_test_b5596349e8e5. Authenticated UI and HTTP acceptance still pending. Existing demo data and user edits preserved.
+
+Hosting deferred; user-operated PHP/DB/private paths/sessions/rollback/CHECK/FK checks passed, intermittent certificate warning unresolved. Cookie flags/GD processing/generated uniqueness/host locking/restore/app deployment pending. Remote diagnostics/private config/canaries/two probe tables await cleanup (see PROGRESS.md). No deployment claim. Next: local student acceptance then librarian decisions/allocation.
+
+
 All dates use Asia/Manila. This records completed document changes, not application features or test results.
 
 ## [Unreleased]
+
+- 2026-10-31: recorded explicit user approval of six borrowing defaults in SRS/progress/design/implementation-plan notes, preserving identifiers and limiting approval to stated clauses. No circulation implementation or test results inferred. Usage: 2% five-hour / 3% weekly used.
+
+- 2026-10-31: recorded user-operated Chrome simulated 360px/768px, keyboard, login/register, catalog navigation, librarian forms and 400% zoom acceptance: all Pass, no problems. Actual-phone/contrast/concurrency/hosting verification remains pending. Corrected stale TEST_PLAN header that claimed all application scenarios were unrun. Usage: 1% five-hour and 2% weekly used.
+
+- 2026-10-30: user-operated Chrome desktop acceptance reported Pass for all eight catalog/account-management checklist scenarios, with no observed problems. Phone/keyboard/concurrency/hosting not covered. Usage snapshot: 12% five-hour, 2% weekly used.
+
+- Authentication hardening: fixed dummy-hash path for unknown/disabled accounts and precise username-constraint duplicate classification, keeping unrelated audit integrity failures as database errors. Added isolated hardening test to regression runner. Changed PHP lint and six non-DB scripts passed; full regression blocked by MySQL connection refusal, so database results are NOT verified. No commit/push performed.
 
 ### Regression testing — 2026-10-30
 

@@ -1,6 +1,6 @@
 # KaAklat progress
 
-Updated: 2026-10-30 (Asia/Manila)
+Updated: 2026-10-31 (Asia/Manila)
 
 Status vocabulary: Planned; In progress; Implemented but unverified; Verified; Blocked.
 Verified applies only to the named evidence, not to the entire application.
@@ -16,10 +16,12 @@ Verified applies only to the named evidence, not to the entire application.
 | Approve stack and workflow | Verified | User approved implementation; plain PHP/PDO/custom CSS selected. | Proposed business defaults still require confirmation before circulation; hosting runtime unverified. | Confirm proposed circulation defaults before borrowing increment. |
 | SRS and normalized schema | Verified | User imported schema.sql and seed.sql through local XAMPP/phpMyAdmin into new database `kaaklat_dev` on 2026-10-29. Aggregate count query returned 33 users, 100 books, 300 copies, 17 requests and 14 loans, matching the fictional seed. | Import/count verification does not prove application workflows, transactions, every database constraint, backup restoration or hosted compatibility. | Begin application foundation only after design approval; later run constraint and concurrency checks. |
 | Development documentation | Implemented but unverified | AGENTS.md, WORKFLOW.md, prompt.md, CHANGELOG.md, TEST_PLAN.md, DEPLOYMENT.md, research plan and implementation plan exist. | Documents require review and later updates based on real implementation/runtime evidence. | Review documents, then update per increment. |
-| Application implementation | In progress | Auth, librarian student activation/suspension and protected catalog list/detail implemented. Account rollback/revocation and catalog SQL tests pass with temporary fixtures; unit/policy tests and PHP lint pass. Signed-out catalog HTTP returned 303. | Authenticated catalog browser acceptance pending. Catalog editing, cover uploads, circulation and deployment remain. | Verify catalog visually, then librarian cataloging and secure covers. |
+| Application implementation | In progress | Auth including idle expiry, throttling and dummy verification; librarian activation/suspension; catalog browsing/combined filters/available-only; librarian book/copy/cover/archive management implemented. 11 regression scripts and PHP lint pass. | Authenticated desktop/mobile/keyboard browser acceptance, concurrency, staff administration/recovery, circulation and hosting remain pending. | Finish browser acceptance; confirm borrowing defaults; build request/decision workflow. |
 | Deployment and evaluation | Planned | User requires hosted demonstration. | No deployed system or evaluator results. | Test a minimal hosted page/database connection early; evaluate complete workflows later. |
 
 ## Confirmed workflow decisions
+
+- 2026-10-31: user approved 1–30-day durations, five pending requests, one outstanding request/allocation/loan per student/title, 48-hour pickup deadline, overdue blocking with returns allowed, and five combined approved pickups/active loans. Other proposal details were not blanket-approved.
 
 - Login-required catalog; students register and need librarian activation before borrowing.
 - Requests, approvals and physical pickup are distinct stages; only librarians record pickup and return.
@@ -38,6 +40,27 @@ These are agreed demonstration requirements, not evidence of existing institutio
 - Fictional student accounts and simulated loan records; book metadata may use well-known titles.
 
 ## Resume here
+
+### Current handoff — 2026-10-31 (supersedes older notes below)
+
+Student request submission, own paginated list and pending cancellation implemented. Active students only; 1–30 days, 10–500 character reason; five pending, duplicate outstanding title, overdue and full five-live-allocation guards. User approved P-06 requiring an available copy today. Pending requests never reserve copies; expired holds are excluded logically. No schema migration.
+
+PASS: 12 regression scripts, PHP lint, whitespace checks. Two independent-process races passed (pending cap and duplicate title). New fictional scratch DB retained: kaaklat_request_test_b5596349e8e5. Demo tables/data preserved. New authenticated browser/phone/keyboard and HTTP forged-field checks remain unverified. Next: local student acceptance, then librarian review/approval/rejection; allocation, pickup, returns and approved cancellation remain pending.
+
+Hosting deferred. User-operated PHP 8.4.27/extensions, MariaDB 11.4.13/InnoDB, private access deny/internal read, session persistence, PDO connection, rollback, CHECK and FK rejection passed. HTTPS intermittently presents an expired/untrusted certificate. Cookie flags, actual GD processing, generated uniqueness, host lock contention, restore and deployed app acceptance remain unverified. Hosting is not complete.
+
+Remote cleanup pending: storage_check.php, runtime_check.php, session_check.php, database_check.php; protected hosting_db.php and canaries; kaaklat_hosting_fk_probe followed by kaaklat_hosting_rollback_probe. Keep private folder denial. No remote cleanup performed.
+
+
+Latest decision — 2026-10-31: six borrowing defaults explicitly approved (SRS section 6). Prior requests for approval of these defaults are superseded. No circulation code added in this update. Next implementation: student requests/own list/cancellation and librarian approval/rejection with transactional copy allocation and cap/overdue enforcement. Hosting provider/account gate remains pending.
+
+Latest user acceptance — 2026-10-31: Chrome simulated widths 360px/768px, keyboard navigation, login/register, catalog filters/pagination, librarian forms and 400% zoom all reported PASS; no problems. Together with the earlier eight desktop checks, this completes the supplied manual checklists for current screens. Actual-phone testing, contrast audit, concurrency and hosted acceptance remain pending; this is not full accessibility certification. Next required user decisions: approve/change borrowing defaults and select/create hosting account. No borrowing defaults approved merely by this test report.
+
+Latest acceptance: user reported all eight Chrome desktop checklist scenarios PASS with no problems: student catalog, combined filters, availability, pagination, detail, student permission denial, librarian forms, signed-out access. Recorded in TEST_PLAN.md. Phone/keyboard/accessibility checks still pending. Authentication hardening regression passed in the preceding turn. Next: remaining phone/keyboard checks, confirm proposed borrowing defaults with the user, then build requests/decisions. Hosting provider/account and early compatibility gate remain outstanding.
+
+Current status: MySQL restarted; all 11 regression scripts PASS including auth_hardening_test (unknown/disabled accounts, duplicate key classification, unrelated audit failure and rollback). Available-only filter added with validation, derived-count filtering before pagination and combined-filter tests; all 11 scripts rerun PASS. PHP lint PASS. Earlier connection-refusal blocker below is resolved. Documentation synchronized for implemented vs pending scope. Full authenticated desktop/mobile/keyboard browser acceptance still pending; borrowing defaults still need user approval; hosting provider/account not selected. Do not mark those complete from automated tests alone.
+
+Current task: resolve five listed gaps sequentially. Authentication hardening implemented but database verification BLOCKED because local MySQL connection was actively refused. Start XAMPP MySQL, then run `php tests/run_regression.php` (now includes auth_hardening_test.php). New changes use fixed dummy verification for missing/disabled accounts and restrict duplicate-username translation to users INSERT + driver 1062 + named uq_users_username key. Six non-DB tests and changed-file lint passed. Next after DB verification: availability filter/browser acceptance, documentation synchronization, user confirmation of borrowing defaults, hosting setup.
 
 Latest regression run (2026-10-30): fixed rolling login-failure retention, idle-session expiry and malformed credential types. See verification/REGRESSION_2026-10-30.md and tests/run_regression.php. Database tests use temporary fixtures; current 21 books/305 copies/17 requests/14 loans preserved. Full visual/authenticated-browser/concurrency tests remain pending; dummy verification timing and integrity-error classification noted as follow-ups. Usage remaining 60% five-hour/76% weekly.
 

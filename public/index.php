@@ -15,12 +15,13 @@ if (isset($_SESSION['user_id'], $_SESSION['session_version'])) {
 if ($user !== null) {
     $message = $user['account_status'] === 'pending'
         ? 'You can browse the catalog. A librarian must activate borrowing before you can request a book.'
-        : 'Explore the catalog and check which books are available. Borrowing requests will be added in a later increment.';
+        : 'Explore the catalog and check which books are available.';
 
     render_page(
         'Dashboard',
         '<section class="panel"><h1>Welcome, ' . h($user['display_name']) . '</h1><p>' . h($message) . '</p>'
         . '<p><a class="button" href="/catalog.php">Browse books</a></p>'
+        . ($user['role'] === 'student' && $user['account_status'] === 'active' ? '<p><a href="/requests.php">My borrowing requests</a></p>' : '')
         . ($user['role'] === 'librarian' ? '<p><a href="/students.php">Manage student accounts</a> · <a href="/manage_books.php">Manage books</a></p>' : '')
         . '<form method="post" action="/logout.php"><input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '"><button type="submit">Log out</button></form></section>'
     );

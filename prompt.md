@@ -1,5 +1,65 @@
 # KaAklat prompt log
 
+## 2026-10-31 — Student borrowing requests
+
+Actual user prompt:
+
+```text
+Implement the next small increment: student borrowing requests.
+
+Read AGENTS.md, PROGRESS.md, SRS.md, SCHEMA.md, TEST_PLAN.md, and the existing authentication, catalog, availability, and audit code. Inspect Git status and preserve current work, design, sample books, and database data. Use the existing plain PHP/PDO stack.
+
+First update the documentation:
+- Record that hosting work is deferred while local development continues.
+- Record the user-operated hosting evidence: PHP 8.4.27 and required extensions available; MariaDB 11.4.13 with InnoDB supported; private-file access checks, session persistence, database connection, rollback, CHECK enforcement, and foreign-key rejection passed.
+- Record the unresolved intermittent HTTPS certificate warning and unverified cookie flags, actual GD processing, and remaining deployment checks.
+- Note that diagnostic files, private hosting configuration, and two hosting probe tables still require eventual cleanup.
+- Do not describe the application as deployed or fully hosting-compatible.
+
+Implement:
+- A borrowing-request form linked from book details for active students.
+- Requested duration of 1–30 days and a required borrowing reason, validated using SRS limits.
+- A student page listing only their own requests, with clear status and original request details.
+- Cancellation of their own pending requests.
+- Useful validation, empty, success, and error states.
+
+Enforce the approved demonstration defaults:
+- Maximum five pending requests per student.
+- One outstanding request, live approved pickup, or active loan per student/title.
+- Overdue loans block new requests.
+- Respect the five-book combined approved-pickup/active-loan limit according to the SRS.
+- Pending and suspended students cannot submit requests.
+- Librarians and administrators cannot submit student requests through forged requests.
+- Pending requests do not reserve copies or reduce availability.
+- Follow documented rules for archived books, unavailable copies, and expired uncollected allocations. Identify any genuinely unresolved policy before implementing dependent behavior.
+
+Secure every action with current account/session checks, ownership checks, POST, CSRF protection, parameterized queries, server validation, and output escaping. Redirect after successful submissions.
+
+Use transactions and the documented lock order. Serialize concurrent submissions so duplicate-title and pending-request limits cannot be bypassed. Save each state change and its audit event atomically. Preserve borrowing reasons and history; do not put reasons in logs or audit payloads.
+
+Keep this increment focused. Do not implement librarian approval/rejection, copy allocation, pickup, returns, fines, ISBNs, or barcodes.
+
+Write meaningful tests for:
+- Role/status and ownership restrictions.
+- CSRF and forged inputs.
+- Duration/reason validation.
+- Pending limits, duplicate titles, overdue blocking, and applicable allowance rules.
+- Cancellation and repeated submissions.
+- Archived/unavailable books and expired allocations.
+- Concurrent requests and audit-failure rollback.
+- Unchanged availability after submitting or cancelling a pending request.
+
+Use isolated fictional fixtures. Never reset, reimport, or delete existing demo data. Run relevant regression tests, PHP lint, and available browser checks. Report actual results and anything not verified.
+
+Update PROGRESS.md, TEST_PLAN.md, CHANGELOG.md, and append this prompt and its outcome to prompt.md. Check usage at the start and finish; if usage becomes low, record the current state and exact next steps.
+
+Finish with beginner-friendly local testing instructions and identify the next increment: librarian review and approval/rejection of borrowing requests.
+```
+
+Follow-up decision: user answered “Yes—require an available copy” for P-06.
+
+Outcome: implemented request service/page, catalog and dashboard links; temporary-fixture policy/security/rollback tests and independent-process concurrency tests pass. Full 12-script regression/lint pass. New authenticated browser/phone/keyboard and HTTP endpoint acceptance not verified. Hosting deferred with partial user-operated evidence, certificate warning and cleanup outstanding. No migration/deployment/commit/push. Fictional concurrency DB retained: kaaklat_request_test_b5596349e8e5. Next: local UI acceptance then librarian review/approval/rejection.
+
 This is append-only. Record only real prompts available to the coding agent. Do not put passwords, reset secrets, database credentials, private borrower information, or fabricated results here.
 
 ## Template
@@ -15,6 +75,14 @@ This is append-only. Record only real prompts available to the coding agent. Do 
 - **Follow-up:**
 
 ## Actual entries
+
+- 2026-10-31 prompt: "I approve these borrowing defaults for the demonstration". Recorded approval of the six defaults presented immediately beforehand: 1–30 days, five pending requests, one outstanding title request/allocation/loan, 48-hour pickup, overdue blocking with returns allowed, five combined approved pickups/active loans. Updated requirements/decision records; no implementation or evaluation claimed.
+
+- 2026-10-31: user reported Chrome simulated viewport 360px/768px Pass; keyboard/login/register/catalog filters/pagination/librarian forms Pass; 400% zoom Pass; problems None. Recorded limited user-operated acceptance in TEST_PLAN/PROGRESS/CHANGELOG. No borrowing-rule approval or real-phone/hosting pass inferred.
+
+- 2026-10-30 manual acceptance report: user reported Chrome; student catalog, combined filters, availability, pagination, book details, student permissions, librarian forms and signed-out access all Pass; problems None. Recorded limited user-operated desktop evidence in TEST_PLAN/PROGRESS/CHANGELOG. No phone or keyboard pass inferred. Next: remaining acceptance checks and borrowing-default confirmation.
+
+- Sequential gap-resolution request: user asked to fix authentication, catalog acceptance, outdated documentation, borrowing defaults and hosting one by one. Began authentication dummy hash/error classification and isolated tests. Lint/non-DB tests pass; DB regression blocked by local connection refusal. Resume once MySQL starts, then proceed to catalog acceptance. User borrowing-default/provider decisions remain outstanding.
 
 ### Regression audit — 2026-10-30
 

@@ -28,6 +28,9 @@ try {
             $content .= '<div class="book-detail">' . catalog_cover_html($book) . '<div><h2>' . h($book['title']) . '</h2><p>' . h($book['authors'] ?: 'Author not listed') . '</p><p class="book-description">' . nl2br(h($book['description'])) . '</p><p><strong>' . h($book['available_copies']) . ' available</strong> of ' . h($book['total_copies']) . ' active copies</p>' . ((int) $book['available_copies'] === 0 ? '<p>No copies available right now.</p>' : '') . '</div></div>';
         }
         $content .= '<p><a href="/catalog.php">Back to catalog</a></p>';
+        if ($book !== null && $user['role'] === 'student' && $user['account_status'] === 'active') {
+            $content .= '<p><a class="button" href="/requests.php?book=' . h($book['book_id']) . '">Request this book</a></p>';
+        }
     } else {
         [$query, $page] = catalog_parameters($_GET);
         $filters = catalog_filters($_GET);
@@ -40,7 +43,7 @@ try {
         foreach (range('A','Z') as $letter) { $content .= '<option' . ($letter === $filters['letter'] ? ' selected' : '') . '>' . $letter . '</option>'; }
         $content .= '</select></div><div><label for="year-filter">Year first published</label><input id="year-filter" name="year" type="number" min="1" max="' . date('Y') . '" value="' . h($filters['year'] ?? '') . '"></div>';
         if ($query !== '') { $content .= '<input type="hidden" name="q" value="' . h($query) . '">'; }
-        $content .= '<div class="filter-actions"><button>Apply filters</button> <a href="/catalog.php">Clear filters</a></div></form><div class="book-grid">';
+        $content .= '<div><label for="available-filter">Availability</label><select id="available-filter" name="available"><option value="">All books</option><option value="1"' . ($filters['available'] === '1' ? ' selected' : '') . '>Available books only</option></select></div><div class="filter-actions"><button>Apply filters</button> <a href="/catalog.php">Clear filters</a></div></form><div class="book-grid">';
         foreach ($result['books'] as $book) {
             $content .= '<article class="book-card">' . catalog_cover_html($book) . '<h2><a href="?id=' . h($book['book_id']) . '">' . h($book['title']) . '</a></h2><p>' . h($book['authors'] ?: 'Author not listed') . '</p>' . catalog_metadata_html($book) . '<p>' . h(mb_strimwidth($book['description'], 0, 150, '…', 'UTF-8')) . '</p><p class="availability">' . h($book['available_copies']) . ' copies available</p></article>';
         }

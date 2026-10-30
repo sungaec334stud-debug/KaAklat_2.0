@@ -64,7 +64,8 @@ function catalog_books(PDO $connection, string $query, int $page, array $filters
             WHERE sx.book_id = b.book_id AND ax.author_name LIKE :author ESCAPE '!'))";
         $parameters += ['title' => $pattern, 'author' => $pattern];
     }
-    $statement = $connection->prepare($sql . ' ORDER BY b.title, b.book_id LIMIT 13 OFFSET ' . (($page - 1) * 12));
+    if ($filters['available'] === '1') { $sql = 'SELECT * FROM (' . $sql . ') catalog_results WHERE available_copies > 0'; }
+    $statement = $connection->prepare($sql . ' ORDER BY ' . ($filters['available'] === '1' ? 'title, book_id' : 'b.title, b.book_id') . ' LIMIT 13 OFFSET ' . (($page - 1) * 12));
     $statement->execute($parameters);
     $rows = $statement->fetchAll();
     return ['books' => array_slice($rows, 0, 12), 'has_next' => count($rows) > 12];
@@ -85,7 +86,10 @@ function catalog_publication_year(mixed $value): ?int
 
 function catalog_filters(array $input): array
 {
-    $result = ['letter' => '', 'year' => null, 'author' => '', 'category' => null, 'title' => ''];
+    $result = ['letter' => '', 'year' => null, 'author' => '', 'category' => null, 'title' => '', 'available' => ''];
+    $available = $input['available'] ?? '';
+    if (!is_string($available) || !in_array($available, ['', '1'], true)) { throw new InvalidArgumentException('Choose a valid availability filter.'); }
+    $result['available'] = $available;
     foreach (['letter', 'author', 'title'] as $key) {
         $value = $input[$key] ?? '';
         if (!is_string($value) || mb_strlen($value) > 100) { throw new InvalidArgumentException('Use valid title, author and letter filters.'); }

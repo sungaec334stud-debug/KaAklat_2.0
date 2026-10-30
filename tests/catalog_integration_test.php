@@ -43,3 +43,7 @@ catalog_assert(count(catalog_books($pdo, '', 1, ['author'=>"O'Brien",'title'=>'0
 catalog_assert(catalog_books($pdo, '', 1, ['category'=>999])['books'] === []);
 catalog_assert(catalog_books($pdo, '', 1, ['year'=>1814])['books'] === []);
 echo "Combined category/year/title/letter/author SQL filters passed.\n";
+catalog_assert(count(catalog_books($pdo, '', 1, ['available'=>'1'])['books']) === 1);
+catalog_assert(count(catalog_books($pdo, '', 1, ['available'=>'1','year'=>1813,'author'=>"O'Brien"])['books']) === 1);
+catalog_assert(catalog_books($pdo, '', 2, ['available'=>'1'])['books'] === []);
+echo "Available-only filtering with combined filters and pagination passed.\n";

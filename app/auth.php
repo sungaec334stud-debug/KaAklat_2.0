@@ -37,6 +37,7 @@ function register_student(PDO $connection, string $username, string $displayName
     $passwordHash = password_hash(validate_new_password($password), PASSWORD_DEFAULT);
 
     $connection->beginTransaction();
+    $insertingUser = true;
 
     try {
         $statement = $connection->prepare(
@@ -49,6 +50,7 @@ function register_student(PDO $connection, string $username, string $displayName
             'password_hash' => $passwordHash,
         ]);
         $userId = (int) $connection->lastInsertId();
+        $insertingUser = false;
 
         record_audit_event($connection, null, 'account.registered', 'users', $userId, 'Student registration created.');
         $connection->commit();
@@ -59,7 +61,8 @@ function register_student(PDO $connection, string $username, string $displayName
             $connection->rollBack();
         }
 
-        if ($exception->getCode() === '23000') {
+        if ($insertingUser && $exception->getCode() === '23000' && (int) ($exception->errorInfo[1] ?? 0) === 1062
+            && preg_match('/[\x27`"](?:[^\x27`"]+\.)?uq_users_username[\x27`"]/i', (string) ($exception->errorInfo[2] ?? ''))) {
             throw new InvalidArgumentException('That username is already in use.');
         }
 
@@ -172,9 +175,13 @@ function authenticate_user(PDO $connection, mixed $usernameInput, mixed $passwor
         $statement->execute(['username' => $username]);
         $user = $statement->fetch();
 
+        $hash = is_array($user) && is_string($user['password_hash']) && in_array($user['account_status'], ['pending', 'active'], true)
+            ? $user['password_hash']
+            : '$2y$12$S1vDmrKdWHcIuvcCQBmrUelCiQsanFw2znPuNHGS8MS4NG1lbIbnG';
+        $verified = password_verify($password, $hash);
         $isAllowed = is_array($user)
             && is_string($user['password_hash'])
-            && password_verify((string) $password, $user['password_hash'])
+            && $verified
             && in_array($user['account_status'], ['pending', 'active'], true);
 
         if (!$isAllowed) {

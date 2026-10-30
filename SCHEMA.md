@@ -333,6 +333,9 @@ CHECKs inspect a row; they cannot count another student's loans or join requests
 
 ## 9. Transaction and race protocol
 
+Request increment 2026-10-31: user -> book -> request locks, READ COMMITTED, post-lock UTC time, bounded transient retries and atomic audit. Full live allowance blocks submission. Cancellation retains terms; repeat cancellation produces no duplicate event. No schema changes; approval/expiry writes remain future work.
+
+
 Use PDO exceptions, real prepared statements, and explicit BEGIN/COMMIT/ROLLBACK. Use session READ COMMITTED for circulation transactions (a normal session setting), or prove equivalent current-read behavior before choosing another isolation level. Capture a fresh UTC database time **after acquiring the relevant locks**, and reuse it within the decision. A pre-lock timestamp may be stale after waiting.
 
 Use one lock order throughout the service: involved user rows by numeric ID, book rows by ID, copy rows by ID, request rows by ID, then loan rows by ID. Read immutable relationship IDs first if needed to locate locks, then re-read and validate after locking. Do not acquire additional earlier-order locks late. Lock the actor as well as the borrower for mutations requiring an active staff role. Cleanup that only releases expired allocations can skip user locks because it never increases allowance, but must keep book -> copy -> request -> loan order. For the small demo, locking the book row during copy allocation/archiving is an acceptable simplification that serializes allocation within one title.
