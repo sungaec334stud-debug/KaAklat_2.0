@@ -11,8 +11,8 @@ $errors = [];
 $values = ['display_name' => '', 'username' => ''];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $values['display_name'] = (string) ($_POST['display_name'] ?? '');
-    $values['username'] = (string) ($_POST['username'] ?? '');
+    $values['display_name'] = is_string($_POST['display_name'] ?? null) ? $_POST['display_name'] : '';
+    $values['username'] = is_string($_POST['username'] ?? null) ? $_POST['username'] : '';
 
     if (!csrf_is_valid($_POST['csrf_token'] ?? null)) {
         $errors[] = 'Your form expired. Please try again.';
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 database_connection($config['database']),
                 $values['username'],
                 $values['display_name'],
-                (string) ($_POST['password'] ?? '')
+                is_string($_POST['password'] ?? null) ? $_POST['password'] : ''
             );
             flash_set('success', 'Your account was created. A librarian must activate borrowing before you can request books.');
             redirect('/login.php');

@@ -1,5 +1,7 @@
 # KaAklat research revision plan
 
+Scope addition, 2026-10-30: include primary category and first-publication year in catalog descriptions/ERD and title/author/category/year/initial filters in FR-03 evaluation. Migration 001 adds a category lookup and optional fields. This is an implemented demo feature subject to test evidence, not a completed participant evaluation or verified school policy.
+
 Date: 2026-10-29 (Asia/Manila)
 Status: Preliminary review; not a rewritten or adviser-approved paper.
 

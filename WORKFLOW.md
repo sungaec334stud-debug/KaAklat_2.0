@@ -182,6 +182,8 @@ PowerShell does not support the common Bash-style `mysql ... < schema.sql` examp
 
 ## Phase 6 — Build books, authors, physical copies and covers
 
+Category/year update: existing databases require `migrations/001_book_categories_year.sql` once before running current code. Local `kaaklat_dev` was migrated by `bin/migrate_book_metadata.php`, which first saves a private full-table JSON snapshot (including schema definitions) and then adds nullable fields and populates matching samples. Do not rerun it against an already migrated database. For a fresh setup, import baseline schema/seed and apply migration 001 before using catalog pages. The optional sample enrichment runner expects the real sample titles to have already been installed. Metadata can instead be entered through Manage books. Keep JSON snapshots out of Git; they are not a verified restore rehearsal.
+
 Implemented local entry point: sign in as an active librarian, then Dashboard → Manage books (`/manage_books.php`). Add a new book, one author per line, 1–100 initial copies and optional JPEG/PNG; select an existing book to edit details, add copies, replace its cover or archive an eligible book/copy. Pending requests block title archive; unresolved allocations block affected archives. Resolve even stale allocations explicitly before archiving. Old cover files are retained for backup/history; do not manually remove referenced images.
 
 Verification commands from the project directory:

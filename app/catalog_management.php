@@ -20,9 +20,14 @@ function catalog_book_input(array $input, bool $creating): array
     $authors = array_values(array_filter(array_map('trim', preg_split('/\R/u', $input['authors']) ?: []), static fn ($value) => $value !== ''));
     if (count($authors) < 1 || count($authors) > 20) { throw new InvalidArgumentException('Enter between 1 and 20 authors, one per line.'); }
     foreach ($authors as $name) { required_text($name, 1, 100, 'Author name'); }
+    $category = $input['category_name'] ?? '';
+    if (!is_string($category)) { throw new InvalidArgumentException('Enter a valid category.'); }
+    $category = trim($category);
+    if ($category !== '') { required_text($category, 1, 60, 'Category'); }
     return ['title' => required_text($input['title'], 1, 255, 'Title'),
         'description' => required_text($input['description'], 1, 2000, 'Description'),
-        'authors' => $authors, 'quantity' => $creating ? catalog_quantity($input['quantity'] ?? null) : 0];
+        'authors' => $authors, 'quantity' => $creating ? catalog_quantity($input['quantity'] ?? null) : 0,
+        'category_name' => $category, 'publication_year' => catalog_publication_year($input['publication_year'] ?? null)];
 }
 
 function catalog_decode_cover(string $bytes): GdImage
@@ -115,6 +120,12 @@ function catalog_manage_once(PDO $pdo, array $input, mixed $token, ?array $uploa
             if (!$book || $book['archived_at'] !== null) { throw new InvalidArgumentException('This book is archived or no longer available to edit.'); }
         }
         if ($data !== null) {
+            $categoryId = null;
+            if ($data['category_name'] !== '') {
+                $pdo->prepare('INSERT INTO categories (category_name) VALUES (?) ON DUPLICATE KEY UPDATE category_id = LAST_INSERT_ID(category_id)')->execute([$data['category_name']]);
+                $categoryId = (int) $pdo->lastInsertId();
+            }
+            $pdo->prepare('UPDATE books SET category_id = ?, publication_year = ? WHERE book_id = ?')->execute([$categoryId, $data['publication_year'], $bookId]);
             if ($action === 'edit') { $pdo->prepare('UPDATE books SET title = ?, description = ? WHERE book_id = ?')->execute([$data['title'], $data['description'], $bookId]); }
             $pdo->prepare('DELETE FROM book_authors WHERE book_id = ?')->execute([$bookId]);
             foreach ($data['authors'] as $index => $name) {

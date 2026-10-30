@@ -8,6 +8,8 @@ $pdo = database_connection(application_config()['database']);
 $pdo->exec("CREATE TEMPORARY TABLE users (user_id INT PRIMARY KEY, role VARCHAR(20), account_status VARCHAR(20), session_version INT, username VARCHAR(32), display_name VARCHAR(100)) ENGINE=InnoDB");
 $pdo->exec("INSERT INTO users VALUES (1,'librarian','active',1,'fixture_staff','Fictional librarian'),(2,'student','active',1,'fixture_student','Fictional student'),(3,'administrator','active',1,'fixture_admin','Fictional admin')");
 $pdo->exec('CREATE TEMPORARY TABLE books (book_id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255), description TEXT, cover_path VARCHAR(255), archived_at DATETIME NULL) ENGINE=InnoDB');
+require_once __DIR__ . '/metadata_fixtures.php';
+metadata_fixture_columns($pdo);
 $pdo->exec('CREATE TEMPORARY TABLE authors (author_id INT AUTO_INCREMENT PRIMARY KEY, author_name VARCHAR(100)) ENGINE=InnoDB');
 $pdo->exec('CREATE TEMPORARY TABLE book_authors (book_id INT, author_id INT, credit_order INT, UNIQUE(book_id, credit_order)) ENGINE=InnoDB');
 $pdo->exec('CREATE TEMPORARY TABLE book_copies (copy_id INT AUTO_INCREMENT PRIMARY KEY, book_id INT, copy_code VARCHAR(32) UNIQUE, archived_at DATETIME NULL) ENGINE=InnoDB');
@@ -21,7 +23,7 @@ function cm_reject(callable $operation): void {
 }
 $_SESSION = ['user_id' => 1, 'session_version' => 1, 'csrf_token' => str_repeat('b',64)];
 $token = $_SESSION['csrf_token'];
-$input = ['action' => 'create', 'title' => 'Fictional integration book', 'description' => 'Fictional description', 'authors' => "Author One\nAuthor Two", 'quantity' => '3'];
+$input = ['action' => 'create', 'title' => 'Fictional integration book', 'description' => 'Fictional description', 'authors' => "Author One\nAuthor Two", 'quantity' => '3', 'category_name'=>'Test Category', 'publication_year'=>'2001'];
 cm_reject(fn () => catalog_manage($pdo, $input, 'forged'));
 foreach ([2,3] as $actor) { $_SESSION['user_id'] = $actor; cm_reject(fn () => catalog_manage($pdo, $input, $token)); }
 $_SESSION['user_id'] = 1;
@@ -29,6 +31,7 @@ $_SESSION['session_version'] = 0; cm_reject(fn () => catalog_manage($pdo, $input
 $_SESSION = ['user_id' => 1, 'session_version' => 1, 'csrf_token' => $token];
 cm_reject(fn () => catalog_manage($pdo, $input + ['role' => 'administrator'], $token));
 $id = catalog_manage($pdo, $input, $token);
+cm_assert((int) catalog_book($pdo, $id)['publication_year'] === 2001 && catalog_book($pdo, $id)['category_name'] === 'Test Category');
 cm_assert((int) $pdo->query('SELECT COUNT(*) FROM book_copies')->fetchColumn() === 3);
 cm_assert((int) $pdo->query('SELECT COUNT(DISTINCT copy_code) FROM book_copies')->fetchColumn() === 3);
 cm_assert((int) $pdo->query('SELECT COUNT(*) FROM book_authors')->fetchColumn() === 2);

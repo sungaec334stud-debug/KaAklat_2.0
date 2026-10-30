@@ -1,5 +1,13 @@
 # KaAklat database design
 
+## Category/publication-year extension (migration 001)
+
+Current schema is initial `schema.sql` plus `migrations/001_book_categories_year.sql`. Existing databases apply only the migration once. It adds `categories(category_id BIGINT UNSIGNED PK, category_name VARCHAR(60) UNIQUE)` and nullable `books.category_id` (FK RESTRICT, indexed) and `books.publication_year SMALLINT UNSIGNED` (indexed, CHECK 1–9999 or NULL). Existing rows remain valid with unknown metadata. Each book has one optional primary category; names share a case-insensitive normalized lookup under the database collation. Category insertion and book updates share the catalog mutation transaction. No student/loan relationships change.
+
+The website accepts year 1 through current Manila calendar year, or unknown. It means first book-publication year, not the pictured edition/reprint year; the earliest book volume is used for multi-volume works. Categories are editorial browsing labels. Filters combine category ID, literal title substring, literal author substring, A–Z displayed-title prefix and exact year. A/The are included in prefix matching. Blank means no filter; unknown metadata is displayed explicitly.
+
+DDL commits implicitly. Back up privately before applying migration, inspect partial state after a failure, and do not blindly rerun. Rollback should restore compatible old code while retaining the additive table/columns and metadata; no automatic DROP rollback is supplied. Current runtime needs migration 001. A snapshot restore must be rehearsed in a separate database before any production use.
+
 Version 0.1, 2026-10-29. This design implements the proposed defaults in SRS.md; it does not establish school policy or prove that the application exists. `schema.sql` defines the tables and `seed.sql` supplies fictional fixtures. Review the application-only rules below before building any circulation endpoint.
 
 ## 1. Model and terminology

@@ -16,6 +16,18 @@ This is append-only. Record only real prompts available to the coding agent. Do 
 
 ## Actual entries
 
+### Regression audit — 2026-10-30
+
+- Prompt: "can you perform a regression testing for the system so far and check if there are any errors or bugs we missed"
+- Outcome: Ran implemented-feature unit/integration/HTTP/multipart regression checks with isolated fixtures. Reproduced/fixed lost throttle history and missing idle expiration, hardened malformed credential input, added regression runner/report. Preserved uncommitted feature changes and persistent demo data.
+- Evidence and limits: verification/REGRESSION_2026-10-30.md. Browser visual, concurrency and hosting checks remain pending; timing resistance and integrity-error classification recorded for follow-up. No automatic commit/push.
+
+### Categories and publication year — 2026-10-30
+
+- Prompt: "can you also add a feature that adds book genres or category , and improve the book information: it should contain the year published. and the book catalog feature should have a filter for genre/category, letter for title, author title, year published"
+- Outcome: Added optional normalized primary category and first-publication year via migration 001; librarian forms, catalog metadata and combined filters with pagination. Private snapshot before local migration, matching 20 samples enriched, user-added records retained. Sources and year/category interpretation documented.
+- Verification: new validation tests, isolated combined SQL/persistence/rollback regressions, existing policy/image/unit checks and lint passed. Local metadata/schema verification passed and signed-out HTTP redirect confirmed. Authenticated visual/pagination UI verification pending. Usage remaining 65% five-hour/77% weekly.
+
 ### Librarian catalog management — 2026-10-30
 
 - Prompt submitted: Implement the next small increment: librarian catalog management. Read AGENTS.md, PROGRESS.md, SRS.md, SCHEMA.md, TEST_PLAN.md and catalog/auth/cover code; inspect Git and preserve work/design/20 samples. Use plain PHP/PDO. Build librarian-only adding/editing titles, multiple authors, description, optional covers and quantity; add copies; replace covers; archive eligible titles/copies preserving history. Follow SRS, generate unique codes, derive availability, no ISBN/barcodes/counters. Enforce current-session librarian authorization, POST/CSRF, parameterization, validation/escaping/redirects. Validate JPEG/PNG at 2 MB/4000×4000 with decoding/re-encoding, generated private paths and authenticated delivery, preserving old covers on failure and Gutenberg samples. Use transactional documented locking/audit/archive guards. Test authorization/forgery/CSRF/copies/availability/archives/uploads/rollback in isolated fixtures without reset/reimport. Run lint/tests/available browser checks and report limitations. Update progress/test/changelog and prompt outcome; check usage start/end; explain local use and next increment. Exclude requests/loan actions.

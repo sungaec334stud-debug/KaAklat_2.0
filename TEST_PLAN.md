@@ -69,6 +69,18 @@ NFR-01: T01/02/08/20/26/27/28/29; NFR-02: T03/18/26/28/29; NFR-03: T07/09/21/22/
 
 ## Executed evidence
 
+### Regression audit — 2026-10-30
+
+See `verification/REGRESSION_2026-10-30.md` for reproduction failures, corrections, executed unit/temporary-database/HTTP/multipart checks and limitations. Repeat CLI suite with `C:\php-8.4.14\php.exe tests/run_regression.php`. Idle expiry and rolling failure retention now have passing isolated tests; full T-02/T-27/T-28 browser and concurrency coverage remains incomplete. Credential-dependent existing-account test was not run.
+
+### Category/year increment — 2026-10-30
+
+- PASS `tests/catalog_filters_test.php`: initial expected undefined-function failure, then valid/invalid category IDs, A–Z input, author/title input types, malformed/injection years, optional/future year handling.
+- PASS `tests/catalog_integration_test.php`: temporary categories/book fields, combinations of category/year/letter and author/title/year, unknown category/no-match year, existing literal search, archives, pagination and availability tests.
+- PASS `tests/catalog_management_integration_test.php`: category/year saved and read with new book, existing edit/archive/authorization/rollback assertions still pass. Temporary fixture upgrade uses only connection-local tables. Image validation and existing foundation/auth/catalog policy tests pass; full PHP lint and whitespace check pass.
+- PASS `verification/book_metadata_check.php`: actual local database has 20 populated sample metadata rows, expected combined Austen/Pride/1813/P match and FK/CHECK metadata definitions. Verification is read-only; it does not claim all constraint rejection cases executed.
+- Local migration completed after private full-table JSON snapshot; existing catalog/loan counts preserved (21 visible titles, 305 copies, 17 requests, 14 loans). Signed-out filtered catalog returned 303. Browser rendering and filter persistence across UI page links still pending; no hosted or restore-rehearsal claim.
+
 ### Librarian catalog management — 2026-10-30
 
 - PASS: `C:\php-8.4.14\php.exe tests/catalog_management_test.php`. Title/author/description validation, quantity bounds/fractions/arrays, malformed/SVG/PHP/oversized image rejection, valid PNG decoding, oversized dimensions, partial/forged upload rejection. Test initially failed before module existed.

@@ -4,6 +4,20 @@ All dates use Asia/Manila. This records completed document changes, not applicat
 
 ## [Unreleased]
 
+### Regression testing — 2026-10-30
+
+- Reproduced and fixed login clearing failed-attempt history and missing 30-minute idle session expiration. Hardened malformed credential form types. Added isolated auth regression and repeatable 10-script regression runner.
+- Full details in `verification/REGRESSION_2026-10-30.md`: unit/integration tests, lint, signed-out HTTP and multipart rollback checks passed; current sample/user data preserved. Browser/accessibility/concurrency/hosting checks remain pending. Dummy password timing path and precise registration integrity-error classification remain follow-ups.
+- Usage recorded: 40% five-hour / 24% weekly used at completion.
+
+### Categories, publication years and catalog filters — 2026-10-30
+
+- Added one optional primary genre/category and year first published to librarian add/edit forms and catalog cards/details. Category names can be selected from existing suggestions or entered by librarians; blank metadata displays Uncategorized/Unknown. Years validate as 1 through current year.
+- Added combinable exact-category/exact-year, A–Z displayed-title prefix, literal title-text and author-text filters. Clear-filter link and pagination preserve filter state; alphabet matching includes leading A/The.
+- Applied additive migration 001 locally after a private full-table schema/data snapshot. Existing records receive nullable fields; 20 matching real samples enriched with sourced years and editorial categories. User-added title/copies retained: current 21 visible titles, 305 copies, 17 requests, 14 loans. No schema reimport or loan mutation.
+- PASS: new validation tests (failed before implementation), temporary SQL combined-filter and metadata persistence/transaction regressions, image validation tests, existing foundation/auth/catalog unit tests, PHP lint and diff checks. Read-only actual schema/sample metadata check passed; signed-out filtered catalog returned 303. Authenticated browser presentation and multi-page UI checks pending.
+- Updated schema/SRS/workflow/research/source notes. Usage start/end: 30%/35% five-hour used, 22%/23% weekly used (65%/77% remaining).
+
 - Pre-push review removed a previously hardcoded demo password from the authentication integration test and test-plan text. Existing-account test now requires local `KAAKLAT_TEST_PASSWORD`; it was not rerun without that secret. Private files remain ignored. Usage: 28% five-hour and 22% weekly used.
 
 ### Librarian catalog management — 2026-10-30

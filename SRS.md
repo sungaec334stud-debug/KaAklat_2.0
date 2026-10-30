@@ -32,6 +32,8 @@ Organize small HTTP entry pages under `public/`, shared security/database/busine
 
 ## 3. Confirmed MVP and exclusions
 
+User extension (2026-10-30): book records include an optional primary genre/category and year first published. Librarians can select/type category names and edit the year; blank year means unknown, valid years are 1 through the current year. The catalog displays both and combines category, A–Z displayed-title initial, title text, author text and exact-year filters with pagination retaining selections. Publication year refers to the original book publication rather than the displayed cover edition. These additions extend FR-03/FR-04; ISBN remains excluded.
+
 Confirmed by the user:
 
 - Three distinct roles: student, librarian, administrator.

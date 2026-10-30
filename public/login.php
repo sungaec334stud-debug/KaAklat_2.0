@@ -11,7 +11,7 @@ $errors = [];
 $username = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = (string) ($_POST['username'] ?? '');
+    $username = is_string($_POST['username'] ?? null) ? $_POST['username'] : '';
 
     if (!csrf_is_valid($_POST['csrf_token'] ?? null)) {
         $errors[] = 'Your form expired. Please try again.';

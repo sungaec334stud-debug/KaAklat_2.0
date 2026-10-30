@@ -7,6 +7,7 @@ require_once __DIR__ . '/helpers.php';
 
 function normalize_username(mixed $username): string
 {
+    if (!is_string($username)) { throw new InvalidArgumentException('Enter a valid username.'); }
     $normalized = strtolower(trim((string) $username));
 
     if (!preg_match('/^[a-z0-9_]{3,32}$/', $normalized)) {
@@ -18,6 +19,7 @@ function normalize_username(mixed $username): string
 
 function validate_new_password(mixed $password): string
 {
+    if (!is_string($password)) { throw new InvalidArgumentException('Enter a valid password.'); }
     $password = (string) $password;
     $length = strlen($password);
 
@@ -128,6 +130,7 @@ function set_user_password(
 
 function authenticate_user(PDO $connection, mixed $usernameInput, mixed $password): ?array
 {
+    if (!is_string($password)) { return null; }
     try {
         $username = normalize_username($usernameInput);
     } catch (InvalidArgumentException) {
@@ -147,7 +150,7 @@ function authenticate_user(PDO $connection, mixed $usernameInput, mixed $passwor
         )->execute(['username' => $username]);
 
         $cutoff = (new DateTimeImmutable('now', new DateTimeZone('UTC')))->modify('-15 minutes')->format('Y-m-d H:i:s');
-        $connection->prepare('DELETE FROM login_failures WHERE username_key = :username AND attempted_at < :cutoff')
+        $connection->prepare('DELETE FROM login_failures WHERE username_key = :username AND attempted_at <= :cutoff')
             ->execute(['username' => $username, 'cutoff' => $cutoff]);
 
         $failureStatement = $connection->prepare(
@@ -182,8 +185,6 @@ function authenticate_user(PDO $connection, mixed $usernameInput, mixed $passwor
             return null;
         }
 
-        $connection->prepare('DELETE FROM login_failures WHERE username_key = :username')
-            ->execute(['username' => $username]);
         $connection->commit();
 
         return $user;
@@ -225,6 +226,7 @@ function establish_login_session(array $user): void
     session_regenerate_id(true);
     $_SESSION['user_id'] = (int) $user['user_id'];
     $_SESSION['session_version'] = (int) $user['session_version'];
+    $_SESSION['last_activity'] = time();
 }
 
 function current_user(PDO $connection): ?array
@@ -233,6 +235,11 @@ function current_user(PDO $connection): ?array
     $sessionVersion = $_SESSION['session_version'] ?? null;
 
     if (!is_int($userId) || !is_int($sessionVersion)) {
+        return null;
+    }
+    $lastActivity = $_SESSION['last_activity'] ?? time();
+    if (!is_int($lastActivity) || time() - $lastActivity >= 1800) {
+        clear_login_session();
         return null;
     }
 
@@ -249,6 +256,7 @@ function current_user(PDO $connection): ?array
         return null;
     }
 
+    $_SESSION['last_activity'] = time();
     return $user;
 }
 

@@ -1,4 +1,5 @@
 -- KaAklat proposed demo schema, 2026-10-29. See SCHEMA.md before importing.
+-- This baseline must be followed by migrations/001_book_categories_year.sql.
 -- Select a NEW, EMPTY database supplied by your host/phpMyAdmin first.
 -- Target: MariaDB 10.4+ / MySQL 8.0 family (8.0.16+ required for CHECK enforcement).
 -- No CREATE DATABASE, destructive DDL, triggers, events, or privileged server settings.

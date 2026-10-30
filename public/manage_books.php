@@ -36,7 +36,7 @@ try {
             $authors->execute([$id]);
             $authorText = implode("\n", $authors->fetchAll(PDO::FETCH_COLUMN));
         }
-        $values = ['title' => $book['title'] ?? '', 'description' => $book['description'] ?? '', 'authors' => $authorText, 'quantity' => '1'];
+        $values = ['title' => $book['title'] ?? '', 'description' => $book['description'] ?? '', 'authors' => $authorText, 'quantity' => '1', 'category_name' => $book['category_name'] ?? '', 'publication_year' => (string) ($book['publication_year'] ?? '')];
         if ($error !== '' && in_array($_POST['action'] ?? null, ['create', 'edit'], true)) {
             foreach ($values as $key => $value) { if (is_string($_POST[$key] ?? null)) { $values[$key] = $_POST[$key]; } }
         }
@@ -45,6 +45,9 @@ try {
             . '<label for="title">Title</label><input id="title" name="title" maxlength="255" required value="' . h($values['title']) . '">'
             . '<label for="authors">Authors — one per line</label><textarea id="authors" name="authors" rows="3" required>' . h($values['authors']) . '</textarea>'
             . '<label for="description">Description</label><textarea id="description" name="description" rows="5" maxlength="2000" required>' . h($values['description']) . '</textarea>';
+        $content .= '<label for="category_name">Genre / category</label><input id="category_name" name="category_name" maxlength="60" list="category-options" value="' . h($values['category_name']) . '"><datalist id="category-options">';
+        foreach ($pdo->query('SELECT category_name FROM categories ORDER BY category_name')->fetchAll(PDO::FETCH_COLUMN) as $name) { $content .= '<option value="' . h($name) . '">'; }
+        $content .= '</datalist><label for="publication_year">Year first published</label><input id="publication_year" name="publication_year" type="number" min="1" max="' . date('Y') . '" value="' . h($values['publication_year']) . '"><p>Leave blank if unknown. Use the first book-publication year, rather than a reprint year.</p>';
         if (!$book) {
             $content .= '<label for="quantity">Initial copies (1–100)</label><input id="quantity" name="quantity" type="number" min="1" max="100" required value="' . h($values['quantity']) . '">'
                 . '<label for="cover">Cover (optional)</label><input id="cover" type="file" name="cover" accept="image/jpeg,image/png"><p>JPEG or PNG, up to 2 MB and 4000 × 4000 pixels.</p>';

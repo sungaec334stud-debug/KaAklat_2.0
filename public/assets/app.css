@@ -103,6 +103,14 @@ input:focus-visible {
 }
 
 /* Library theme shared by the existing PHP screens. */
+.catalog-filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 16px; padding: 20px; background: #eef1ea; border-radius: 12px; }
+.catalog-filters input, .catalog-filters select { width: 100%; max-width: none; }
+.catalog-filters label { margin-top: 0; }
+.filter-actions { align-self: end; }
+.filter-actions button { margin-top: 0; }
+select { display: block; font: inherit; padding: 12px; margin-top: 7px; border: 1px solid #b9c9bf; border-radius: 9px; background: white; }
+select:focus-visible { outline: 3px solid #f2a900; outline-offset: 2px; }
+.book-metadata { font-size: 13px; color: #53634f; }
 textarea { display: block; width: 100%; max-width: 46rem; border: 1px solid #b9c9bf; border-radius: 9px; padding: 12px; font: inherit; resize: vertical; }
 .management-section { border-top: 1px solid #dce3da; margin-top: 32px; padding-top: 16px; }
 .management-section .book-cover { max-width: 220px; }
