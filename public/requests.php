@@ -9,9 +9,12 @@ try {
     $db=database_connection(application_config()['database']);
     $user=current_user($db);
     if ($user === null) { redirect('/login.php'); }
-    require_request_student($user);
+    if ($user['role'] !== 'student' || !in_array($user['account_status'], ['pending', 'active'], true)) {
+        throw new DomainException('Only students can view their borrowing requests.');
+    }
     $method=$_SERVER['REQUEST_METHOD'];
     if (!in_array($method,['GET','POST'],true)) { http_response_code(405); header('Allow: GET, POST'); exit; }
+    $filter=request_history_filter($_GET['status'] ?? 'all');
     $errors='';
     if ($method === 'POST') {
         try {
@@ -27,12 +30,12 @@ try {
                 cancel_borrow_request($db,$id,$_POST['csrf_token'] ?? null);
                 flash_set('success','Your pending request is cancelled.');
             } else { throw new InvalidArgumentException('Choose a valid action.'); }
-            redirect('/requests.php');
+            redirect('/requests.php?status=' . ($action === 'create' ? 'pending' : $filter));
         } catch (InvalidArgumentException $e) { http_response_code(400); $errors='<p role="alert">'.h($e->getMessage()).'</p>'; }
     }
     $content='<section class="panel"><h1>My borrowing requests</h1>'.$errors.'<p><a href="/catalog.php">Find a book</a></p>';
     $bookId=$_GET['book'] ?? ($method === 'POST' && ($_POST['action'] ?? null) === 'create' ? ($_POST['book_id'] ?? null) : null);
-    if ($bookId !== null) {
+    if ($bookId !== null && $user['account_status'] === 'active') {
         $id=filter_var($bookId,FILTER_VALIDATE_INT,['options'=>['min_range'=>1]]);
         $book=$id === false ? null : catalog_book($db,$id);
         if (!$book) { throw new InvalidArgumentException('This book is no longer listed.'); }
@@ -44,16 +47,37 @@ try {
     }
     $page=filter_var($_GET['page'] ?? '1',FILTER_VALIDATE_INT,['options'=>['min_range'=>1,'max_range'=>10000]]);
     if ($page === false) { throw new InvalidArgumentException('Choose a valid page.'); }
-    $rows=own_borrow_requests($db,$page);
-    if (!$rows) { $content.='<p>No requests on this page. Browse the catalog to request an available book.</p>'; }
+    $tabs=['all'=>'All requests','pending'=>'Pending','rejected'=>'Rejected','awaiting_pickup'=>'Awaiting pickup','active'=>'Active'];
+    $content.='<nav class="account-tabs" aria-label="Borrowing request status"><ul>';
+    foreach($tabs as $key=>$label) {
+        $content.='<li><a href="?status='.h($key).'"'.($filter===$key?' aria-current="page"':'').'>'.h($label).'</a></li>';
+    }
+    $content.='</ul></nav>';
+    if($filter==='active') { $content.='<p>Active loans include overdue books. Check each due date below.</p>'; }
+    $rows=own_borrow_requests($db,$page,$filter);
+    if (!$rows) { $content.='<p>No requests in this tab on this page. Choose another tab or browse the catalog.</p>'; }
     foreach(array_slice($rows,0,20) as $row) {
         $content.='<article class="panel"><h2>'.h($row['title']).'</h2><p>Status: <strong>'.h(ucfirst($row['lifecycle'])).'</strong></p><p>Requested '.h($row['requested_days']).' days · Submitted '.h((new DateTimeImmutable($row['requested_at'],new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a')).' (Manila)</p><p>'.nl2br(h($row['request_reason'])).'</p>';
-        if ($row['decision'] === 'pending') { $content.='<form method="post"><input type="hidden" name="action" value="cancel"><input type="hidden" name="request_id" value="'.h($row['request_id']).'"><input type="hidden" name="csrf_token" value="'.h(csrf_token()).'"><button>Cancel pending request</button></form>'; }
+        if ($row['decision'] === 'approved') {
+            $deadline = (new DateTimeImmutable($row['decided_at'], new DateTimeZone('UTC')))
+                ->modify('+48 hours')->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a');
+            $content .= '<p>Approved duration: <strong>' . h($row['approved_days']) . ' days</strong><br>Pickup deadline: ' . h($deadline) . ' (Manila)</p>';
+            if ($row['lifecycle'] === 'awaiting pickup') { $content .= '<p>Your copy is held until the pickup deadline. Your borrowing period has not started.</p>'; }
+        }
+        if ($row['checked_out_at'] !== null) {
+            $pickup=(new DateTimeImmutable($row['checked_out_at'],new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a');
+            $due=(new DateTimeImmutable($row['due_date'],new DateTimeZone('Asia/Manila')))->format('M j, Y');
+            $content.='<p>Picked up: '.h($pickup).' (Manila)<br>Due date: <strong>'.h($due).'</strong> (Manila; the entire due date is allowed)</p>';
+        }
+        if (in_array($row['decision'], ['approved', 'rejected'], true) && $row['decision_note'] !== null && $row['decision_note'] !== '') {
+            $content .= '<p class="book-description"><strong>Librarian’s explanation:</strong><br>' . nl2br(h($row['decision_note'])) . '</p>';
+        }
+        if ($row['decision'] === 'pending' && $user['account_status'] === 'active') { $content.='<form method="post"><input type="hidden" name="action" value="cancel"><input type="hidden" name="request_id" value="'.h($row['request_id']).'"><input type="hidden" name="csrf_token" value="'.h(csrf_token()).'"><button>Cancel pending request</button></form>'; }
         $content.='</article>';
     }
     $content.='<nav aria-label="Request pages">';
-    if ($page>1) { $content.='<a href="?page='.($page-1).'">Previous</a> '; }
-    if (count($rows)>20) { $content.='<a href="?page='.($page+1).'">Next</a>'; }
+    if ($page>1) { $content.='<a href="?status='.h($filter).'&amp;page='.($page-1).'">Previous</a> '; }
+    if (count($rows)>20 && $page<10000) { $content.='<a href="?status='.h($filter).'&amp;page='.($page+1).'">Next</a>'; }
     render_page('My requests',$content.'</nav></section>');
 } catch (DomainException $e) {
     http_response_code(403); render_page('Borrowing unavailable','<section class="panel"><h1>Borrowing unavailable</h1><p role="alert">'.h($e->getMessage()).'</p><a href="/">Dashboard</a></section>');

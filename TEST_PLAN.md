@@ -188,3 +188,40 @@ Status (Pass/Fail/Blocked):
 Evidence path (no secrets/private borrower data):
 Issue and next action:
 ```
+
+## Research PDF checks — 2026-10-31
+
+PASS: revised PDF has 16 pages; original cover and TOC render identically; contents text/page numbers/bookmark hierarchy preserved; all original university headers and centered page numbers preserved. All 23 internal TOC annotations and 22 bookmark destinations verified against actual heading text. All pages rendered and visually reviewed, with no body overflow. Evidence: output/pdf/verification.json and REVISION_NOTES.md. Not run: manual clicks in every PDF viewer, formal participant evaluation. No application tests rerun because application code/data were unchanged.
+
+## Librarian decisions verification — 2026-10-31
+
+Command: C:\php-8.4.14\php.exe tests/run_regression.php — PASS, 13 scripts, connection-local temporary fixtures.
+Command: C:\php-8.4.14\php.exe tests/request_decisions_concurrency_test.php — PASS, four independent-process scenarios: same request, last copy, last student allowance slot and cancellation/approval. Fresh fictional scratch DB retained: kaaklat_decision_test_133cf46ca372. Workers start at a shared scheduled time; no deterministic lock barrier was used.
+PHP lint: PASS for all 41 files under app/public/views/tests. git diff --check: PASS, line-ending warnings only.
+Service coverage: librarian/student/admin authorization, stale/idle sessions, CSRF, input/duration/note rules, changed duration, approval/rejection, original terms, current student status, overdue/cap/duplicate guards, archived books/copies, expiry reuse, stale decisions, own-history isolation, derived availability, audit-write rollback and omission of sensitive text from audit summaries.
+Still pending: new-page authenticated desktop/360px/768px/keyboard checks; HTTP forged POST fields; exhaustive queue pagination fixtures; deterministic contention synchronization. Prior catalog manual acceptance does not verify the new pages.
+Local acceptance: active student requests a book; librarian opens Dashboard > Review borrowing requests, searches student/title, approves with changed days and explanation; student checks My borrowing requests for original days/reason, approved days, explanation and Manila pickup deadline. Check catalog availability reduced by one. Repeat with rejection and verify unchanged availability. Refresh old librarian form and confirm stale decision rejected. Student/admin direct /review_requests.php must be denied. Pending students can read own history but cannot submit/cancel. Do not use real student information.
+
+
+Additional executed check: expiry cleanup followed by injected final approval-audit failure rolls back old loan cancellation, new request decision and expiry audit; subsequent approval succeeds. request_decisions_test.php rerun PASS; its lint PASS.
+
+Documentation check 2026-10-31: PROGRESS.md current-status table compared with latest decision handoff and recorded hosting/manual acceptance evidence; stale counts, approval gates and next actions corrected. No application tests rerun for this documentation-only change.
+
+## User-reported stale-submission acceptance — 2026-11-01
+User confirmed the repeated stale-submission test passed after following the same-session two-tab procedure: reject the pending request with an explanation in tab 1, then attempt approval of the same request from the unrefreshed tab 2. Recorded as user-operated acceptance, not agent-observed browser evidence. This confirms only the reported stale-submission scenario; separate changed-duration, student-visible decision and availability checks are not blanket-approved by this report.
+
+## User-reported decision acceptance — 2026-11-01
+User confirmed all three remaining targeted checks PASS: changing approved duration requires an explanation; student history preserves original terms and displays approved days, explanation and pickup deadline; approval reduces available copies by one while rejection leaves availability unchanged. Together with the separately reported stale-submission PASS, all four targeted decision checks are now user-reported PASS. These are user-operated results, not agent-observed browser evidence. New-page phone/keyboard acceptance, HTTP forged-field checks and deterministic lock-contention verification remain pending.
+
+## Physical pickup verification — 2026-11-01
+New commands: C:\php-8.4.14\php.exe tests/pickups_test.php and C:\php-8.4.14\php.exe tests/pickups_concurrency_test.php. Initial runs PASS; concurrent workers use independent processes with a shared scheduled start (not a deterministic lock barrier). Scratch DB retained kaaklat_pickup_test_53d69f9d4310. Fixtures are temporary tables or a new fictional scratch database; no reset/reimport of demo tables.
+PHP lint PASS for 45 files; earlier 13 regression scripts PASS after own-history query changes. Expanded final results follow.
+Not verified: new pickup page authenticated desktop/360px/768px/keyboard acceptance, HTTP forged-field end-to-end tests and deterministic contention. Computer Use previously stopped because it could not identify Chrome's URL confidently; no new browser-pass claim is made. Previous decision manual passes remain user-reported passes for those pages only.
+Local checks: sign in as librarian > Record physical pickup; search an approved student/title and compare the internal code with the physical simulated copy. Confirm handover; as student check My borrowing requests for active status, pickup time and due date. Catalog availability should stay the same. Submit the old form again: original dates must remain. Expired rows must refuse handover; Release expired allocation only releases/audits the hold. Student/admin direct /pickups.php access must be denied. Returns remain pending.
+
+Final pickup verification: 14 regression scripts PASS after expanded exact-deadline, student history/original-term, duplicate/missing/rejected-allocation and expiry-audit rollback tests. Two pickup race scenarios previously executed PASS. All 45 PHP files lint PASS. Trailing blank lines found by whitespace check were corrected. Finish usage snapshot: 51% five-hour / 74% weekly remaining.
+
+## Student request tabs — 2026-11-01
+Implemented All requests/Pending/Rejected/Awaiting pickup/Active. Active includes overdue; closed history remains in All requests. SQL filtering precedes pagination and retains session ownership. Tests cover rejected pagination (22 fixtures, pages return 21 fetch-ahead / 2), awaiting pickup excludes stale holds, empty/positive pending, overdue included in Active, invalid/array status rejection and cross-student isolation. 14-script regression PASS before final test additions; final targeted borrow_requests_test PASS; 45-file lint and changed test lint PASS. No browser/phone/keyboard pass claimed.
+
+Pre-commit verification 2026-11-01: 14 regression scripts and 45-file lint PASS; four decision and two pickup independent-process race scenarios PASS. New retained scratch DBs: kaaklat_decision_test_f1dac2220538, kaaklat_pickup_test_f2d34f1487ca. Automated checks do not replace remaining browser/phone/keyboard/HTTP acceptance.

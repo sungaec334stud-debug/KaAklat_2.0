@@ -90,4 +90,25 @@ for($i=1;$i<=5;$i++) {
 }
 request_denied(fn()=>create_borrow_request($pdo,6,7,'Fictional study reason',$token));
 request_assert(!str_contains(implode(' ', $pdo->query('SELECT event_summary FROM audit_events')->fetchAll(PDO::FETCH_COLUMN)), 'Fictional private reason'));
+// Student status tabs filter before pagination and retain ownership.
+$_SESSION['user_id']=2;
+for($i=0;$i<22;$i++) {
+    $pdo->exec("INSERT INTO borrow_requests(student_id,book_id,requested_days,request_reason,decision,decided_at,decided_by,decision_note) VALUES(2,8,7,'Fictional rejected fixture','rejected',UTC_TIMESTAMP(),3,'Fictional explanation')");
+}
+request_assert(count(own_borrow_requests($pdo,1,'rejected'))===21);
+request_assert(count(own_borrow_requests($pdo,2,'rejected'))===2);
+request_assert(count(own_borrow_requests($pdo,1,'awaiting_pickup'))===5);
+request_assert(own_borrow_requests($pdo,1,'active')===[]);
+request_assert(own_borrow_requests($pdo,1,'pending')===[]);
+
+$pdo->exec("UPDATE loans SET checked_out_at=UTC_TIMESTAMP()-INTERVAL 8 DAY,checked_out_by=3,due_date=DATE(UTC_TIMESTAMP()+INTERVAL 8 HOUR)-INTERVAL 1 DAY WHERE request_id=301");
+$activeRows=own_borrow_requests($pdo,1,'active');
+request_assert(count($activeRows)===1 && $activeRows[0]['lifecycle']==='overdue');
+$pdo->exec("INSERT INTO borrow_requests(student_id,book_id,requested_days,request_reason) VALUES(2,8,7,'Fictional pending tab fixture')");
+request_assert(count(own_borrow_requests($pdo,1,'pending'))===1);
+foreach(own_borrow_requests($pdo,1,'all') as $row) { request_assert((int)$row['student_id']===2); }
+request_denied(fn()=>own_borrow_requests($pdo,1,'forged'));
+request_denied(fn()=>request_history_filter([]));
+$_SESSION['user_id']=1;
+request_assert(own_borrow_requests($pdo,1,'rejected')===[]);
 echo "Borrow request validation, ownership, limits, cancellation, availability and rollback passed (temporary tables).\n";

@@ -222,3 +222,104 @@ This is append-only. Record only real prompts available to the coding agent. Do 
 - **Follow-up:** Test logging in with `demo_admin` in the browser, then implement librarian account activation for pending students.
 
 
+
+## 2026-10-31 — Research rewrite
+
+User prompt: "can you help me revise and rewrite this entire research paper chapter 1 and 2 based on this project. Make sure you dont change the format and the design, dont change the table of contents, and make sure that the table of contents still redirects me to that section of the paper when I click it"
+
+Follow-ups: "make sure you finish it before my usage runs out"; "continue where this stopped".
+
+Outcome: revised 16-page PDF delivered under output/pdf, preserving source, cover/TOC, university headers, page numbers and working internal navigation. Chapter body, IPO figure and references rewritten against project evidence; implemented and planned work clearly distinguished. Rendered visual review and 23 contents/22 bookmark structural checks passed. Adviser approval of evaluation instrument remains pending; no research results invented. Usage reached 89% before interruption and reset to 1% at continuation. No application/database changes or Git commit.
+
+## Librarian decisions — prompt/outcome 2026-10-31
+
+User requested: implement the next small increment, librarian review and approval/rejection of student borrowing requests, using existing plain PHP/PDO, current SRS/schema and lock order; preserve original terms/data/design; librarian-only queue with pagination/filtering, current eligibility and availability; 1–30 approved days, explanations for changed duration/rejection; atomic copy allocation/audit, 48-hour deadline, no pickup clock; student-visible decisions; role/session/CSRF/ownership checks; concurrency and rollback tests; docs and usage handoff; hosting deferred. Follow-up: “continue where this conversation stopped. Make sure that if usage is almost out you finish where it is possible to stop and document where you stopped.”
+
+Outcome: service, librarian queue/forms/dashboard navigation and student decision display implemented without migration. 13 regression scripts and 41-file PHP lint passed. Four independent-process decision races passed; retained fictional scratch database kaaklat_decision_test_133cf46ca372. Full new-page browser acceptance and additional fault/HTTP checks remain pending; see TEST_PLAN.md. Existing research edits/output preserved. Hosting deferred; next feature is physical pickup after acceptance gaps. No commit/push.
+
+## Documentation correction — 2026-10-31
+Prompt: Fix the outdated top progress table so it agrees with the latest Librarian decisions handoff under Resume here.
+Outcome: Synchronized all top table rows with recorded evidence and remaining work; retained historical notes. Documentation-only check; no application behavior changed.
+
+## Acceptance confirmation — 2026-11-01
+User prompt: "okay this test passed" (same-session two-tab stale-submission retest).
+Outcome: Recorded user-reported PASS for this scenario in TEST_PLAN.md, PROGRESS.md and CHANGELOG.md. Other manual checks remain pending; no code changes or automated rerun.
+
+## Acceptance confirmation — 2026-11-01
+User prompt: "all of these passed as well" (changed-duration explanation, student decision display and availability checks).
+Outcome: Recorded all three as user-reported PASS alongside prior stale-submission PASS. Updated current progress/handoff, test plan and changelog; remaining phone/keyboard/HTTP/lock-contention limitations retained. No application changes or automated rerun.
+
+## Physical pickup request — 2026-11-01
+
+Implement the next small increment: librarian-recorded physical pickup.
+
+Read AGENTS.md, PROGRESS.md (especially the latest Resume here handoff), SRS.md, SCHEMA.md, TEST_PLAN.md, and the existing authentication, request-decision, availability, audit and student-history code. Inspect Git status and preserve existing work, design, sample books and database data. Use the existing plain PHP/PDO stack. Keep hosting deferred.
+
+Respect the recorded user-reported passes for changed-duration explanations, student-visible decisions, availability changes and stale submissions. Do not describe the remaining browser/phone/keyboard or HTTP security checks as completed.
+
+Build librarian-only pages that:
+- List approved requests awaiting collection, with bounded pagination and useful book/student search.
+- Show the student, book, allocated internal copy code, approved days and pickup deadline.
+- Clearly distinguish expired allocations from collectable ones.
+- Allow the librarian to confirm physical handover using POST.
+- Provide clear success, validation, expired, stale and error states.
+- Add navigation from the librarian dashboard.
+
+At pickup:
+- Recheck the librarian’s current active role and session.
+- Recheck that the borrower is an active student.
+- Require an approved, uncollected, uncancelled allocation before its 48-hour deadline.
+- Recheck overdue blocking, duplicate-title rules, the five-book combined allowance and applicable archive rules.
+- Recognize that this allocation already consumes an allowance slot: pickup must not count it twice or reject a valid fifth allocation merely because the total is five.
+- Recheck the allocated copy and request relationship.
+- Record checkout time and librarian.
+- Calculate due date from the actual Asia/Manila pickup date plus approved whole days.
+- Store event timestamps in UTC.
+- Preserve original request and approved terms.
+- Leave available-copy count unchanged: approval already reserved this copy.
+- Prevent repeated pickup from changing the original checkout or due date, creating another loan or duplicating audit events.
+
+Use existing SRS/schema rules for expired allocations. At the exact collection deadline, pickup must be refused. Release an expired allocation and record its expiry atomically where required by the documented lifecycle. Do not rely on cron or mutate records through GET requests.
+
+Update the student’s own history to show active-loan status, actual pickup time and due date, with Manila timezone context. Preserve ownership protection and show overdue status according to the documented calendar-date rule.
+
+Secure all pages and actions with librarian authorization, current account/session checks, POST, CSRF protection, validated and allowlisted inputs, parameterized queries, output escaping and redirects after successful actions. Students and administrators must not gain pickup permissions.
+
+Use transactions and the documented lock order. Serialize operations affecting the borrower and allocation. Save checkout and its audit event atomically; roll back all required writes if any fails. Keep borrowing reasons and sensitive decision text out of logs and audit payloads.
+
+Identify genuinely unresolved policy before implementing dependent behavior. Do not silently change approved demonstration defaults.
+
+Write meaningful tests for:
+- Role/status/session restrictions, CSRF and forged inputs.
+- Successful pickup and correct student-visible results.
+- Manila date calculation, midnight boundaries and the full due-date allowance.
+- Suspended students, overdue blocking, duplicate titles and allowance checks.
+- Valid pickup when this is the student’s fifth allocation.
+- Expired, rejected, cancelled, returned and already-collected records.
+- Applicable archive restrictions.
+- Repeated submissions without changed checkout details or duplicate audit events.
+- Concurrent pickup of the same allocation.
+- Expiry/reallocation versus stale pickup.
+- Audit-failure rollback.
+- Unchanged availability after successful pickup and correct availability after expiry release.
+- Student ownership and preservation of original/approved terms.
+
+Use isolated fictional fixtures following existing conventions. Never reset, reimport or delete current demo data. Execute independent-process concurrency tests before claiming concurrent behavior passed.
+
+Run relevant regression tests, PHP lint and available browser checks. Report actual results and anything not verified.
+
+Update PROGRESS.md, TEST_PLAN.md, CHANGELOG.md, affected SRS/schema documentation and prompt.md with this prompt and its outcome. Keep the top progress table consistent with the latest handoff. Check usage at the start and finish; if usage becomes low, save the current state and exact next steps.
+
+Keep this increment focused on pickup. Do not implement returns, renewals, fines, notifications, ISBNs or barcodes.
+
+Finish with beginner-friendly local testing instructions. Identify the following increment: librarian-recorded returns and active/overdue loan management.
+
+Pickup outcome 2026-11-01: implemented app/pickups.php, public/pickups.php, navigation and student checkout/due-date display with no migration. 14 regression scripts, 45-file lint and two independent-process pickup races PASS. Scratch DB retained kaaklat_pickup_test_53d69f9d4310. Browser/HTTP and deterministic-contention checks remain pending. Demo data preserved; no commit/push. Next: manual acceptance, then returns/loan management. Usage start 86%/80% remaining, finish 51%/74% (five-hour/weekly).
+
+## Student request tabs — 2026-11-01
+Prompt: "now can you make a separate tabs for my borrowing request for student: pending, rejected, awaiting pick up and active"
+Outcome: Added requested four tabs plus All requests to preserve historical visibility; Active includes overdue loans. Server-side allowlist, ownership and pre-pagination status filtering; selected status retained in page links. No schema/data changes. 14-script regression PASS, final targeted tab tests PASS, lint PASS. Browser acceptance pending.
+
+## Commit/push request — 2026-11-01
+Prompt: "can you push and commit it yourself and do all the checking that you proposed here first before you commit and push"
+Outcome before commit: reviewed staged scope and excluded output/; private config/runtime files ignored; no staged secret-pattern matches; 14 regression scripts, 45-file lint and six concurrency scenarios PASS. Whitespace cleanup performed. Commit/push result reported separately after remote verification.

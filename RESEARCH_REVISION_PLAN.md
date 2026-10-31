@@ -73,3 +73,7 @@ Software will check the five-book rule, derive availability from copy/loan recor
 7. Cross-check the paper, diagrams, schema, tests and actual site before presentation.
 
 No chapter has been rewritten by this initial review.
+
+## Delivered revision — 2026-10-31
+
+Both chapters have been rewritten in output/pdf/SUNGA_CHAPTER1_2_REVISED_KaAklat.pdf, retaining the original contents and navigation. See its companion REVISION_NOTES.md for source corrections, verification and adviser decisions still needed. Original PDF preserved. This supersedes earlier planned-only wording about the chapter rewrite; formal evaluation remains planned.

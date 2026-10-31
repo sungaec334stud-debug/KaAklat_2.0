@@ -1,6 +1,6 @@
 # KaAklat progress
 
-Updated: 2026-10-31 (Asia/Manila)
+Updated: 2026-11-01 (Asia/Manila)
 
 Status vocabulary: Planned; In progress; Implemented but unverified; Verified; Blocked.
 Verified applies only to the named evidence, not to the entire application.
@@ -9,15 +9,15 @@ Verified applies only to the named evidence, not to the entire application.
 
 | Task | Status | Evidence | Known issues | Next action |
 | --- | --- | --- | --- | --- |
-| Capture project direction | In progress | User confirmed librarian-recorded pickup/return; five-book allowance counts approved pickups and active loans; login-only catalog; librarian account activation; no ISBN; title/authors/description/cover/copy-count entry. Stack A selected. Presentation approximately November 2026; PDF is the required template; planned 20 students and a couple of librarians. | Exact deadline, evaluation instrument and librarian count unresolved. Pending cap, duplicate handling, 48-hour pickup expiry and 1-30-day range are recorded as proposed defaults, not school policies. | Review/confirm proposed defaults before changing them in code. |
-| Review Chapters 1 and 2 | Verified | Read all 16 PDF pages as text; rendered and inspected PDF p. 5 Figure 1; findings in RESEARCH_REVISION_PLAN.md. User confirms this PDF is the required template. | Bibliography claims have not been independently audited. | Resolve evaluation requirements; revise after scope agreement. |
-| Inspect local tools | Verified | Terminal PHP 8.4.14 with PDO and pdo_mysql; Git 2.47.1; XAMPP PHP 8.2.12; XAMPP database client reports MariaDB 10.4.32. Commands executed 2026-10-29. | Database client version does not prove running server version. No server connection, Apache test, or browser test performed. | Choose explicit executable paths; later verify server version and storage engines. |
-| Evaluate free hosting | Verified | Official provider documentation checked on 2026-10-29; sources and limits recorded in STACK_AND_HOSTING_REVIEW.md. InfinityFree is recommended; AwardSpace free SSL restriction disqualifies it. | This verifies the source review only. No account created or deployment tested. | Select stack/host; perform early hosting smoke test. |
-| Approve stack and workflow | Verified | User approved implementation; plain PHP/PDO/custom CSS selected. | Proposed business defaults still require confirmation before circulation; hosting runtime unverified. | Confirm proposed circulation defaults before borrowing increment. |
-| SRS and normalized schema | Verified | User imported schema.sql and seed.sql through local XAMPP/phpMyAdmin into new database `kaaklat_dev` on 2026-10-29. Aggregate count query returned 33 users, 100 books, 300 copies, 17 requests and 14 loans, matching the fictional seed. | Import/count verification does not prove application workflows, transactions, every database constraint, backup restoration or hosted compatibility. | Begin application foundation only after design approval; later run constraint and concurrency checks. |
-| Development documentation | Implemented but unverified | AGENTS.md, WORKFLOW.md, prompt.md, CHANGELOG.md, TEST_PLAN.md, DEPLOYMENT.md, research plan and implementation plan exist. | Documents require review and later updates based on real implementation/runtime evidence. | Review documents, then update per increment. |
-| Application implementation | In progress | Auth including idle expiry, throttling and dummy verification; librarian activation/suspension; catalog browsing/combined filters/available-only; librarian book/copy/cover/archive management implemented. 11 regression scripts and PHP lint pass. | Authenticated desktop/mobile/keyboard browser acceptance, concurrency, staff administration/recovery, circulation and hosting remain pending. | Finish browser acceptance; confirm borrowing defaults; build request/decision workflow. |
-| Deployment and evaluation | Planned | User requires hosted demonstration. | No deployed system or evaluator results. | Test a minimal hosted page/database connection early; evaluate complete workflows later. |
+| Capture project direction | In progress | Stack A and implementation approved. Six demonstration borrowing defaults approved 2026-10-31; available-copy-at-request rule also approved. Login-only catalog, student activation, five-book allowance and librarian pickup/return confirmed. | Exact November presentation deadline, evaluation instrument and librarian participant count remain unresolved. Demo rules are not verified school policies. | Resolve research/evaluation details; use approved demo rules for implementation. |
+| Review Chapters 1 and 2 | Implemented but unverified | Original 16-page PDF reviewed; revised PDF and revision notes saved under output/pdf with TOC links preserved. See RESEARCH_REVISION_PLAN.md. | Adviser/content acceptance and remaining reference/evaluation questions are unresolved. | Review revised paper with adviser and align later claims with actual implementation/evaluation evidence. |
+| Inspect local tools | Verified | PHP 8.4.14 and existing plain PHP/PDO stack used for local tests; XAMPP MySQL started for latest database checks. All 41 PHP files linted successfully. | Tool/client versions alone do not establish hosted compatibility. | Keep explicit PHP executable; verify each deployment target separately. |
+| Evaluate free hosting | In progress | InfinityFree account and user-operated compatibility probes recorded: PHP 8.4.27/extensions, MariaDB 11.4.13/InnoDB, private-file protection/read, session persistence, database connection, rollback, CHECK and FK rejection passed. | Intermittent HTTPS certificate warning; cookie flags, actual GD processing, generated uniqueness, host contention, restore and deployed application acceptance unverified. Remote diagnostics/config/probe cleanup pending. | Hosting deferred while local development continues; revisit deployment and cleanup using DEPLOYMENT.md. |
+| Approve stack and workflow | Verified | User approved implementation, plain PHP/PDO/custom CSS and six borrowing demonstration defaults. | Other proposed details must not be described as institutional policy. | Continue small increments against approved requirements; pickup is implemented; next feature is returns after pickup acceptance checks. |
+| SRS and normalized schema | Verified | Initial local import/count evidence retained below; subsequent catalog/request/decision tests use isolated fictional fixtures. Decision increment needs no schema migration. | Import and local tests do not prove every constraint on the host or backup restoration. | Preserve current data; run target-specific integrity and restore checks before deployment. |
+| Development documentation | In progress | SRS, schema, test plan, changelog, prompt history and latest Resume here handoff record implemented scope and limitations. Top status table synchronized with current handoff. | Older dated notes are historical and may contain superseded statuses. | Use the latest handoff and dated test evidence; update documents after each increment. |
+| Application implementation | In progress | Authentication, student activation/suspension, catalog/filtering, librarian catalog management, student requests/pending cancellation, librarian approval/rejection/allocation and student decision display implemented. Latest evidence: 14 regression scripts and 45-file lint passed; four decision races and two pickup races passed; audit/expiry rollback checks passed. Earlier catalog/account desktop, simulated-width and keyboard checklists were user-reported PASS. | Four targeted decision checks user-reported PASS on 2026-11-01 (duration explanation, student display, availability, stale submissions). Other request/decision browser/phone/keyboard and HTTP forged-field checks remain pending; deterministic contention checks remain. Physical pickup is implemented with local automated evidence; pickup browser acceptance, returns, approved cancellation, complete loan lists, staff administration and account recovery remain unfinished. | Finish pickup/new-screen acceptance; next feature is returns and active/overdue loan management. |
+| Deployment and evaluation | Planned | Partial hosting compatibility probes recorded; local development continues by user decision. | Application is not deployed; hosted acceptance, backup/restore rehearsal, performance measurements and participant evaluation remain pending. | Complete local implementation/security checks, then deployment verification and evaluation. |
 
 ## Confirmed workflow decisions
 
@@ -40,6 +40,20 @@ These are agreed demonstration requirements, not evidence of existing institutio
 - Fictional student accounts and simulated loan records; book metadata may use well-known titles.
 
 ## Resume here
+### Current pickup handoff — 2026-11-01
+Physical pickup service/page, librarian navigation and student checkout/due-date display implemented. No schema migration. Actual Manila pickup date + approved days; existing allocation counts once; atomic checkout/audit and expiry cleanup; repeated pickup preserves dates. Previous four decision checks remain user-reported PASS. Hosting deferred. Initial pickup integration and two independent-process race tests PASS; see latest TEST_PLAN.md for final expanded results and limitations. Scratch DB retained kaaklat_pickup_test_53d69f9d4310. No demo reset/reimport.
+Next: manual pickup desktop/phone/keyboard acceptance and outstanding HTTP checks, then librarian-recorded returns and active/overdue loan management. Do not claim pickup browser acceptance or returns are complete. Earlier handoffs below are historical and superseded for pickup scope.
+
+### Latest acceptance — 2026-11-01
+All four targeted librarian-decision checks user-reported PASS: changed duration requires explanation; student sees original terms plus approved days, note and pickup deadline; approval decreases availability by one and rejection leaves it unchanged; stale second-tab submission is refused. These results supersede older pending statements for those four checks only. Phone/keyboard acceptance of new pages, HTTP forged-field checks and deterministic contention verification remain pending. Next implementation: librarian-recorded physical pickup. Hosting stays deferred.
+
+
+### Librarian decisions handoff — 2026-10-31 (current)
+
+Implemented: librarian pending queue/search and 20-row pagination, approve/reject with validated explanations, transactional allocation and expiry reuse, student-visible approved duration/deadline/note. Original terms retained; no loan clock before pickup. No migration. Hosting deferred.
+
+Verified: 13 regression scripts; 41-file lint; whitespace check; four independent-process races (same request, last copy, last allowance slot, cancellation/approval). Scratch DB retained: kaaklat_decision_test_133cf46ca372. No demo reset or reimport. Browser/phone/keyboard and HTTP forged-field checks for new pages remain pending, as do deterministic lock-barrier tests. See latest TEST_PLAN section. Next: finish these acceptance checks, then librarian-recorded physical pickup. Do not describe pickup/returns/approved cancellation as implemented.
+
 
 ### Current handoff — 2026-10-31 (supersedes older notes below)
 
@@ -78,3 +92,22 @@ Student management now has separate activation, suspension and reactivation view
 
 Implementation was approved by the user. Student activation/suspension is now implemented in `app/student_accounts.php` and `public/students.php`, linked from the librarian dashboard. Policy tests, existing foundation/auth unit tests and PHP lint passed. Database test reached activation, suspension, reactivation, revocation and authorization assertions; the audit-failure fixture initially failed to induce failure, then used incompatible CHECK fixtures. The final temporary-table ALTER fixture was blocked by automatic approval review and has NOT passed. Resume by safely verifying rollback and browser access before catalog work. No schema migration is required. Remaining usage at handoff: 93% five-hour, 81% weekly.
 
+
+## Research revision completed — 2026-10-31
+
+The revised Chapters 1–2 PDF is saved in output/pdf/SUNGA_CHAPTER1_2_REVISED_KaAklat.pdf. This supersedes the older table row stating that revision and bibliography checking have not begun. Both chapters, definitions, IPO diagram and retained literature/reference entries were revised. Original cover and TOC are visually unchanged; all 23 TOC links and 22 bookmarks point to the revised headings on their original pages. All 16 pages were rendered and reviewed; source/output hashes and preservation checks are in output/pdf/verification.json. The source file remains untouched.
+
+Research next steps: adviser review, exact librarian count, approved participant/instrument procedures and consistent ISO edition/criteria; subsequent data collection and evaluation are still planned. Application work and hosting status are unchanged. Usage reached 89% before interruption; after reset continuation showed 1% used/99% remaining (weekly 24% used). No unfinished PDF authoring remains.
+
+
+
+Additional expiry rollback injection PASS: final approval audit failure restores old allocation, pending decision and expiry audit together; successful retry then passes. Usage finish: 97% five-hour / 81% weekly remaining.
+
+
+### Acceptance update — 2026-11-01
+User-operated stale-submission test PASS: rejection in one tab followed by approval attempt from the unrefreshed second tab, using the same librarian session. This supersedes the pending status for that specific manual scenario only. Changed-duration explanations, student-visible decisions, availability and remaining new-page layout/keyboard checks still need separate results. No application code changed.
+
+Final verification 2026-11-01: 14 regression scripts PASS. Expanded pickup checks include exact deadline, original/approved terms, actual student history fields, rejected/missing allocation, duplicate title and expiry-audit rollback. All 45 PHP files lint PASS. Two pickup independent-process races PASS. Browser/HTTP acceptance remains unverified. Finish usage snapshot: 51% five-hour / 74% weekly remaining. Next: manual pickup acceptance then returns/loan lists.
+
+### Student request tabs — 2026-11-01
+Student history now has All requests, Pending, Rejected, Awaiting pickup and Active tabs. Overdue stays visible in Active; closed/expired history in All requests. Ownership, filtering before pagination and selected-tab pagination are retained. Regression and targeted fixture tests PASS; visual/keyboard acceptance pending. Next remains pickup acceptance, then returns and operational loan lists.

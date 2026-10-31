@@ -128,3 +128,45 @@ All dates use Asia/Manila. This records completed document changes, not applicat
 
 - No database-backed browser workflow, hosted site, complete functional/security test suite, backup restoration, participant interview, questionnaire response, or research evaluation has been completed.
 
+
+## 2026-10-31 — Chapters 1 and 2 rewritten
+
+Created output/pdf/SUNGA_CHAPTER1_2_REVISED_KaAklat.pdf from the preserved source PDF. Rewrote both chapters, conceptual framework and references against the actual plain PHP/PDO demonstration and current implementation status. Preserved the cover, contents text/page numbers, 16-page structure, university headers and page numbers. All 23 TOC annotations and 22 bookmarks were structurally verified against destination headings; rendered pages visually reviewed. See output/pdf/REVISION_NOTES.md and verification.json. No application/database changes or commit.
+
+Usage snapshot before interruption: 89% five-hour used. Continuation after reset: 1% used/99% remaining, weekly 24% used. Deliverable complete; next research step is adviser review of the evaluation edition, criteria, instrument and participant procedures. Do not invent evaluation results. Next software increment remains librarian review/approval/rejection, after student request acceptance.
+
+## Librarian decision increment — 2026-10-31
+
+Implemented librarian pending queue/search with bounded 20-row pages, approval/rejection forms, original terms and current eligibility/availability. Approval assigns the lowest eligible internal copy, holds it for 48 hours, and leaves pickup/due date unset. Changed duration and rejection require a student-visible explanation (1–500 characters). Student history shows approved days, deadline and note; pending students may read their own history, while mutations remain active-student only. Actor/student, book, copies, requests and loans are locked in documented order. Expired selected allocations are released and audited atomically with approval. No schema migration; demo data preserved; hosting deferred.
+
+Executed: 13 regression scripts PASS; 41 PHP files lint PASS; git diff --check PASS (line-ending warnings only). Four independent-process races PASS: same request, last copy, last allowance slot, cancellation versus approval. Scratch database retained: kaaklat_decision_test_133cf46ca372. Database initially refused connections; existing XAMPP MySQL started for tests.
+
+Not verified: authenticated HTTP forged-field tests and desktop/phone/keyboard acceptance of the new forms; deterministic lock-contention/barrier coverage beyond simultaneous worker starts. Automated service tests cover audit rollback of decision/allocation, expiry reuse, archives, stale decisions, roles/session, original terms, availability and ownership. Do not infer full security or deployment acceptance.
+
+Next: complete these acceptance gaps, then librarian-recorded physical pickup. No pickup, returns or approved cancellation implemented. Existing research output and edits preserved. No commit/push performed.
+
+
+Additional verification: injected final approval-audit failure after expiry cleanup; PASS — old expired allocation remained unresolved, current request remained pending, no expiry audit survived rollback. Then successful retry passed. Changed test lint passed. Usage finish snapshot: 3% used / 97% remaining in five-hour window; 19% used / 81% remaining weekly. This is not a usage-limit stop.
+
+## Documentation synchronization — 2026-10-31
+Updated PROGRESS.md top status table to match the latest librarian-decision handoff: 13 regression scripts, 41-file lint, four decision races, remaining browser/HTTP checks, deferred hosting and physical pickup next. Corrected outdated implementation approval, defaults, hosting-account/probe and research revision statements. Historical notes and existing work retained. Documentation-only; no application tests rerun.
+
+## Acceptance update — 2026-11-01
+User reported same-session two-tab rejection-versus-stale-approval check PASS. TEST_PLAN.md records the scope. Other new-screen manual checks remain pending. No application code changed or automated tests rerun.
+
+## Decision acceptance update — 2026-11-01
+Recorded user-reported PASS for changed-duration explanations, student-visible original/approved terms and pickup deadline, and approval/rejection availability effects. All four targeted decision checks, including stale submissions, now reported PASS. Phone/keyboard and other unverified checks remain pending. Documentation-only; no automated tests rerun.
+
+## Physical pickup — 2026-11-01
+Added librarian pickup queue/search with bounded pagination, allocated copy code, approved days, Manila deadline and explicit expired state. POST handover records checkout and due date on the existing loan, with current role/session and borrower checks, overdue/duplicate/allowance/archive guards and atomic audit. Repeated pickup preserves dates; expiry cleanup commits separately as a successful expired outcome. Student history shows actual checkout time and due date. No schema migration; hosting remains deferred. Current demo data and previous research/code work preserved. No commit/push.
+
+Verification: previous 13 regression scripts passed after history/UI changes; pickup integration and two independent-process races passed (same allocation; expiry/reallocation versus stale pickup). Scratch DB retained kaaklat_pickup_test_53d69f9d4310. PHP lint passed for 45 files. Final expanded test results follow in TEST_PLAN.md.
+
+Final pickup results: 14 regression scripts and 45-file lint PASS; two independent-process pickup races PASS; expanded exact-deadline, original/history field and expiry-audit rollback checks PASS. Whitespace cleanup applied. Browser/HTTP acceptance remains pending. Usage finish: 51% five-hour, 74% weekly remaining; no usage-limit stop.
+
+## Student request tabs — 2026-11-01
+Added Pending, Rejected, Awaiting pickup and Active tabs using existing theme, plus All requests to retain access to cancelled/expired/returned history. Active includes overdue loans with their derived overdue label. Status is allowlisted; ownership is enforced before filtering; SQL filters before bounded pagination; page links retain status. New submissions redirect to Pending; cancellations keep selected tab. No schema change or demo-data modification.
+Verification: 14 regression scripts PASS; added positive Pending/overdue Active fixtures then reran borrow_requests_test PASS. 45-file lint PASS, changed test lint PASS. Browser visual/keyboard checks not performed. A test-only fixture initially collided with an occupied copy; corrected the fictional fixture and reran successfully. No application integrity rule weakened.
+
+## Pre-commit verification — 2026-11-01
+User authorized review, commit and push of application/documentation changes; output/ research artifacts excluded. Fresh checks: 14 regression scripts PASS; 45 PHP files lint PASS; four decision concurrency scenarios and two pickup concurrency scenarios PASS. Fictional scratch databases retained: kaaklat_decision_test_f1dac2220538 and kaaklat_pickup_test_f2d34f1487ca. Staged filenames and secret patterns reviewed: private config/runtime/logs/backups/temporary artifacts excluded; no secret-pattern matches. Trailing test-file blank lines corrected. Remaining browser/phone/keyboard and HTTP acceptance limitations remain documented. No demo data reset/reimport.

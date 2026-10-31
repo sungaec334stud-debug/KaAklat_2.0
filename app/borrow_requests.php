@@ -105,15 +105,34 @@ function cancel_borrow_request(PDO $db, int $requestId, mixed $token): void
     });
 }
 
-function own_borrow_requests(PDO $db, int $page): array
+function request_history_filter(mixed $filter): string
 {
-    require_request_student(current_user($db));
+    if (!is_string($filter) || !in_array($filter, ['all', 'pending', 'rejected', 'awaiting_pickup', 'active'], true)) {
+        throw new InvalidArgumentException('Choose a valid request tab.');
+    }
+    return $filter;
+}
+
+function own_borrow_requests(PDO $db, int $page, string $filter = 'all'): array
+{
+    $user=current_user($db);
+    if ($user===null || $user['role']!=='student' || !in_array($user['account_status'],['pending','active'],true)) {
+        throw new DomainException('Sign in as a student to view your requests.');
+    }
     if ($page < 1 || $page > 10000) { throw new InvalidArgumentException('Choose a valid page.'); }
-    $s=$db->prepare("SELECT r.*,b.title,CASE WHEN r.decision <> 'approved' THEN r.decision
+    $filter = request_history_filter($filter);
+    $condition = match ($filter) {
+        'pending' => " WHERE lifecycle='pending'",
+        'rejected' => " WHERE lifecycle='rejected'",
+        'awaiting_pickup' => " WHERE lifecycle='awaiting pickup'",
+        'active' => " WHERE lifecycle IN ('active','overdue')",
+        default => ''
+    };
+    $s=$db->prepare("SELECT * FROM (SELECT r.*,b.title,l.checked_out_at,l.due_date,CASE WHEN r.decision <> 'approved' THEN r.decision
         WHEN l.returned_at IS NOT NULL THEN 'returned' WHEN l.cancelled_at IS NOT NULL THEN COALESCE(l.cancellation_kind,'cancelled')
         WHEN l.checked_out_at IS NOT NULL THEN IF(l.due_date < DATE(UTC_TIMESTAMP()+INTERVAL 8 HOUR),'overdue','active')
         WHEN r.decided_at <= UTC_TIMESTAMP()-INTERVAL 48 HOUR THEN 'expired' ELSE 'awaiting pickup' END AS lifecycle
         FROM borrow_requests r JOIN books b ON b.book_id=r.book_id LEFT JOIN loans l ON l.request_id=r.request_id
-        WHERE r.student_id=? ORDER BY r.requested_at DESC,r.request_id DESC LIMIT 21 OFFSET " . (($page-1)*20));
+        WHERE r.student_id=?) AS own_history" . $condition . " ORDER BY requested_at DESC,request_id DESC LIMIT 21 OFFSET " . (($page-1)*20));
     $s->execute([$_SESSION['user_id']]); return $s->fetchAll();
 }

@@ -21,8 +21,8 @@ if ($user !== null) {
         'Dashboard',
         '<section class="panel"><h1>Welcome, ' . h($user['display_name']) . '</h1><p>' . h($message) . '</p>'
         . '<p><a class="button" href="/catalog.php">Browse books</a></p>'
-        . ($user['role'] === 'student' && $user['account_status'] === 'active' ? '<p><a href="/requests.php">My borrowing requests</a></p>' : '')
-        . ($user['role'] === 'librarian' ? '<p><a href="/students.php">Manage student accounts</a> · <a href="/manage_books.php">Manage books</a></p>' : '')
+        . ($user['role'] === 'student' ? '<p><a href="/requests.php">My borrowing requests</a></p>' : '')
+        . ($user['role'] === 'librarian' ? '<p><a href="/students.php">Manage student accounts</a> · <a href="/manage_books.php">Manage books</a> · <a href="/review_requests.php">Review borrowing requests</a> · <a href="/pickups.php">Record physical pickup</a></p>' : '')
         . '<form method="post" action="/logout.php"><input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '"><button type="submit">Log out</button></form></section>'
     );
 
