@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
+  <title>KaAklat book mark</title>
+  <rect width="80" height="80" rx="20" fill="#175CD3"/>
+  <path d="M14 22c9-2 18 0 26 6v35c-8-6-17-8-26-6V22Z" fill="#FFFFFF"/>
+  <path d="M40 28c8-6 17-8 26-6v35c-9-2-18 0-26 6V28Z" fill="#D9E8FF"/>
+  <path d="M40 29v32" stroke="#175CD3" stroke-width="3" stroke-linecap="round"/>
+  <path d="m55 30-9 11 10 12" stroke="#175CD3" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m22 33 9 3m-9 6 9 3" stroke="#A9C9F7" stroke-width="3" stroke-linecap="round"/>
+</svg>

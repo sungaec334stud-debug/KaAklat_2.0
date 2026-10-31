@@ -3,6 +3,7 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/app/bootstrap.php';
 require_once dirname(__DIR__) . '/app/borrow_requests.php';
 require_once dirname(__DIR__) . '/views/layout.php';
+require_once dirname(__DIR__) . '/views/request_ui.php';
 start_application_session();
 header('Cache-Control: no-store');
 try {
@@ -16,6 +17,7 @@ try {
     if (!in_array($method,['GET','POST'],true)) { http_response_code(405); header('Allow: GET, POST'); exit; }
     $filter=request_history_filter($_GET['status'] ?? 'all');
     $errors='';
+    $fieldErrors=[];
     if ($method === 'POST') {
         try {
             $action=$_POST['action'] ?? null;
@@ -24,6 +26,8 @@ try {
             $id=filter_var($_POST[$action === 'create' ? 'book_id' : 'request_id'] ?? null,FILTER_VALIDATE_INT,['options'=>['min_range'=>1]]);
             if ($id === false) { throw new InvalidArgumentException('Choose a valid book or request.'); }
             if ($action === 'create') {
+                $fieldErrors=borrowing_field_errors($_POST['days'] ?? null,$_POST['reason'] ?? null);
+                if($fieldErrors) { throw new InvalidArgumentException('Check the highlighted fields.'); }
                 create_borrow_request($db,$id,$_POST['days'] ?? null,$_POST['reason'] ?? null,$_POST['csrf_token'] ?? null);
                 flash_set('success','Request submitted. A librarian will review it. No copy is reserved yet.');
             } elseif ($action === 'cancel') {
@@ -31,7 +35,7 @@ try {
                 flash_set('success','Your pending request is cancelled.');
             } else { throw new InvalidArgumentException('Choose a valid action.'); }
             redirect('/requests.php?status=' . ($action === 'create' ? 'pending' : $filter));
-        } catch (InvalidArgumentException $e) { http_response_code(400); $errors='<p role="alert">'.h($e->getMessage()).'</p>'; }
+        } catch (InvalidArgumentException $e) { http_response_code(400); $errors=form_error_summary($fieldErrors ?: [''=>$e->getMessage()]); }
     }
     $content='<section class="panel"><h1>My borrowing requests</h1>'.$errors.'<p><a href="/catalog.php">Find a book</a></p>';
     $bookId=$_GET['book'] ?? ($method === 'POST' && ($_POST['action'] ?? null) === 'create' ? ($_POST['book_id'] ?? null) : null);
@@ -43,7 +47,7 @@ try {
         $reason=is_string($_POST['reason'] ?? null) ? $_POST['reason'] : '';
         $content.='<h2>Request '.h($book['title']).'</h2><p>The librarian decides the final duration. Borrowing starts at physical pickup.</p>';
         if ((int)$book['available_copies'] < 1) { $content.='<p>No copies available. Please check again later.</p>'; }
-        else { $content.='<form method="post"><input type="hidden" name="action" value="create"><input type="hidden" name="book_id" value="'.h($id).'"><input type="hidden" name="csrf_token" value="'.h(csrf_token()).'"><label for="days">Requested days (1–30)</label><input id="days" name="days" type="number" min="1" max="30" required value="'.h($days).'"><label for="reason">Why do you need the book for this duration? (10–500 characters)</label><textarea id="reason" name="reason" minlength="10" maxlength="500" required>'.h($reason).'</textarea><button>Submit request</button></form>'; }
+        else { $content.=borrowing_form_html($id,$days,$reason,$fieldErrors); }
     }
     $page=filter_var($_GET['page'] ?? '1',FILTER_VALIDATE_INT,['options'=>['min_range'=>1,'max_range'=>10000]]);
     if ($page === false) { throw new InvalidArgumentException('Choose a valid page.'); }
@@ -55,9 +59,9 @@ try {
     $content.='</ul></nav>';
     if($filter==='active') { $content.='<p>Active loans include overdue books. Check each due date below.</p>'; }
     $rows=own_borrow_requests($db,$page,$filter);
-    if (!$rows) { $content.='<p>No requests in this tab on this page. Choose another tab or browse the catalog.</p>'; }
+    if (!$rows) { $content.='<div class="empty-state"><h2>No '.h($filter==='all'?'requests':str_replace('_',' ',$filter)).' on this page</h2><p>Choose another status or find an available book to get started.</p><a class="button" href="/catalog.php">Browse available books</a> <a href="?status='.h($filter).'">Back to first page</a></div>'; }
     foreach(array_slice($rows,0,20) as $row) {
-        $content.='<article class="panel"><h2>'.h($row['title']).'</h2><p>Status: <strong>'.h(ucfirst($row['lifecycle'])).'</strong></p><p>Requested '.h($row['requested_days']).' days · Submitted '.h((new DateTimeImmutable($row['requested_at'],new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a')).' (Manila)</p><p>'.nl2br(h($row['request_reason'])).'</p>';
+        $content.='<article class="panel request-card"><div class="request-heading"><div class="request-cover">'.catalog_cover_html($row).'</div><div><span class="status-badge status-'.h(str_replace(' ','-',$row['lifecycle'])).'">'.h(request_status_label($row['lifecycle'])).'</span><h2>'.h($row['title']).'</h2><p>Requested '.h($row['requested_days']).' days · Submitted '.h((new DateTimeImmutable($row['requested_at'],new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a')).' (Manila)</p></div></div>'.request_progress_html($row['lifecycle']);
         if ($row['decision'] === 'approved') {
             $deadline = (new DateTimeImmutable($row['decided_at'], new DateTimeZone('UTC')))
                 ->modify('+48 hours')->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a');
@@ -69,6 +73,7 @@ try {
             $due=(new DateTimeImmutable($row['due_date'],new DateTimeZone('Asia/Manila')))->format('M j, Y');
             $content.='<p>Picked up: '.h($pickup).' (Manila)<br>Due date: <strong>'.h($due).'</strong> (Manila; the entire due date is allowed)</p>';
         }
+        $content.='<details class="request-details"><summary>Original borrowing reason</summary><p>'.nl2br(h($row['request_reason'])).'</p></details>';
         if (in_array($row['decision'], ['approved', 'rejected'], true) && $row['decision_note'] !== null && $row['decision_note'] !== '') {
             $content .= '<p class="book-description"><strong>Librarian’s explanation:</strong><br>' . nl2br(h($row['decision_note'])) . '</p>';
         }
