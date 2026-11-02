@@ -66,5 +66,17 @@ try {
  [$code]=accept_http($staff,'/returns.php',['request_id'=>$id,'action'=>'return','receipt_confirmation'=>'on','csrf_token'=>$staffToken]);accept_check($code===303 && $returned===$db->query('SELECT * FROM loans WHERE request_id='.$id)->fetch() && (int)$db->query("SELECT COUNT(*) FROM audit_events WHERE event_code='loan.returned'")->fetchColumn()===1,'Return retry unchanged one audit');
  [$code,$html]=accept_http($student,'/requests.php');accept_check(str_contains($html,'Returned:') && str_contains($html,'This loan is complete'),'Student return history');
  [$code,$html]=accept_http($staff,'/returns.php');accept_check(!str_contains($html,'Receive copy:') && str_contains($html,'No outstanding loans'),'Returned loan leaves queue');
+ $db->exec("INSERT INTO borrow_requests(request_id,student_id,book_id,requested_days,request_reason,decision,approved_days,decided_at,decided_by) VALUES(101,1,3,7,'Fictional cancellation acceptance','approved',7,UTC_TIMESTAMP(),3)");
+ $db->exec('INSERT INTO loans(request_id,copy_id) VALUES(101,3)');
+ [$code,$html]=accept_http($student,'/requests.php?status=awaiting_pickup'); accept_check($code===200 && str_contains($html,'cancel_approved'),'Student cancellation action');
+ [$code]=accept_http($clients['other'],'/requests.php',['action'=>'cancel_approved','request_id'=>101,'csrf_token'=>accept_token($html)]); accept_check($code===400 || $code===403,'Other student cancellation refused');
+ [$code,$html]=accept_http($staff,'/pickups.php?q=Acceptance&page=1',['action'=>'cancel_approved','request_id'=>101,'cancellation_note'=>'','csrf_token'=>$staffToken]); accept_check($code===400 && str_contains($html,'href="#cancel-note-101"') && str_contains($html,'value="Acceptance"'),'Cancellation field error link and search retained');
+ [$code,$html]=accept_http($staff,'/pickups.php?q=Acceptance&page=1',['action'=>'cancel_approved','request_id'=>101,'cancellation_note'=>'<script>private</script>','csrf_token'=>'forged']); accept_check($code===400 && str_contains($html,'&lt;script&gt;private&lt;/script&gt;'),'Cancellation explanation escaped and preserved');
+ [$code]=accept_http($staff,'/pickups.php',['action'=>'cancel_approved','request_id'=>101,'cancellation_note'=>'Fictional student-visible explanation','csrf_token'=>$staffToken]); accept_check($code===303,'Librarian cancellation HTTP');
+ [$code,$html]=accept_http($student,'/requests.php'); accept_check(str_contains($html,'Fictional student-visible explanation') && str_contains($html,'Cancelled by a librarian'),'Student sees cancellation history');
+ accept_check((int)catalog_book($db,3)['available_copies']===1,'Cancellation HTTP availability release');
+ [$code]=accept_http($staff,'/pickups.php',['action'=>'pickup','request_id'=>101,'csrf_token'=>$staffToken]); accept_check($code===400,'Cancelled pickup HTTP refused');
+ $db->exec("INSERT INTO borrow_requests(request_id,student_id,book_id,requested_days,request_reason,decision,approved_days,decided_at,decided_by) VALUES(102,1,3,7,'Fictional own cancellation','approved',7,UTC_TIMESTAMP(),3)"); $db->exec('INSERT INTO loans(request_id,copy_id) VALUES(102,3)');
+ [$code]=accept_http($student,'/requests.php?status=awaiting_pickup&page=1',['action'=>'cancel_approved','request_id'=>102,'csrf_token'=>$token]); accept_check($code===303 && $db->query('SELECT cancellation_kind FROM loans WHERE request_id=102')->fetchColumn()==='student','Student cancellation HTTP');
  echo "Scratch database retained: $name\n";
 } finally {proc_terminate($server);proc_close($server);}

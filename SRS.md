@@ -156,13 +156,36 @@ Use nonpublic backups. Restore into a separate empty database, check expected co
 
 - DB server version, InnoDB constraints, PDO, GD/image support, HTTPS, session cookies, private-file protection, upload limits and backup import need actual local/host verification.
 - Internet reliability at presentation is unknown. Prepare a local fallback; offline synchronization is outside scope.
-- Host selection/account signup remains unperformed. No real school/student data may be inferred from test data.
+- An InfinityFree account and partial compatibility probes exist. Hosting is deferred; intermittent HTTPS warnings and remaining deployment checks are unresolved. No deployed application or full hosting compatibility is claimed. No real school/student data may be inferred from test data.
 - Approved borrowing clauses are enumerated in section 6; other P-rule details remain proposals. Exact school policies are not supplied.
 - Exact November presentation date, exact librarian participant count, research instrument, ISO/IEC 25010 edition/subset, sampling justification, consent/approval process, and evidence of school interviews remain open. Do not delay safe design drafting to invent answers.
 - Original research references require source checking before chapter rewriting. Automated local tests exist in TEST_PLAN.md; participant surveys and hosted deployment results remain pending.
 - Actual adoption, lost/damaged procedures, retention/deletion obligations and operational ownership require a separate school-approved phase. For this demo an unreturned copy stays on its loan; no invented fine or lost-item resolution workflow.
 
 ## 10. Traceability and delivery boundaries
+
+### Current implementation summary — 2026-11-02
+
+| Requirement | Current state |
+| --- | --- |
+| FR-01 | Login/logout, student registration and librarian activation/suspension implemented locally. |
+| FR-02 | Existing role/ownership controls implemented; administrator staff management and last-admin workflow pending. |
+| FR-03 / FR-04 | Protected catalog, filters, covers, catalog/copy management and archive controls implemented. |
+| FR-05 | Submission, own history tabs, pending cancellation and approved-uncollected cancellation implemented; new cancellation browser acceptance pending. |
+| FR-06 | Librarian decisions and atomic copy allocation implemented; queue automatically selects lowest eligible copy. |
+| FR-07 / FR-08 | Physical pickup, Manila-based due date and atomic, repeat-safe returns implemented. |
+| FR-09 | Own history and searchable outstanding returns queue with derived overdue state implemented; broader operational acceptance pending. |
+| FR-10 | Audit implemented for existing mutations; future staff/recovery events pending with those features. |
+| FR-11 | Backup/recovery procedures documented; actual restore rehearsal and measurements pending. |
+| FR-12 | Staff-assisted recovery pending; current login guidance does not imply a working reset page. |
+
+Latest recorded pre-commit evidence: 18 regression scripts, 36 HTTP assertions, 57 PHP lints and two independent-process return races PASS. Named interface/refinement checklists user-reported PASS. Full accessibility/device, deterministic contention, performance, hosted acceptance and participant evaluation remain unverified. See TEST_PLAN.md for evidence boundaries.
+
+Hosting remains deferred. User-operated PHP/extensions, MariaDB/InnoDB, private-file protection/read, session persistence, connection, rollback, CHECK and foreign-key rejection probes passed. Intermittent HTTPS warnings, cookie flags, actual hosted GD processing and remaining deployment/restore checks are unresolved. Remote diagnostics/configuration/canaries/probe tables still require cleanup. No deployed-application claim.
+
+### Historical implementation checkpoints (superseded for current status)
+
+The dated notes below preserve implementation history. Statements that pickup/returns or circulation remain pending describe earlier checkpoints, not the current state above.
 
 SCHEMA.md describes storage and concurrency; schema.sql/seed.sql are the initial database artifacts. TEST_PLAN.md maps every FR/NFR to unexecuted and executed checks. WORKFLOW.md guides implementation phases; DEPLOYMENT.md separates provider documentation from runtime evidence. AGENTS.md governs future agents. PROGRESS.md records current truth, CHANGELOG.md historical changes, and prompt.md only actual prompts. RESEARCH_REVISION_PLAN.md maps paper changes before any rewriting.
 
@@ -174,3 +197,6 @@ Implementation status 2026-10-31: FR-06 librarian review/approval/rejection and 
 FR-07 now has a librarian pickup service/page and student checkout/due-date display. Pickup transitions the existing allocation; it does not create another loan or consume another allowance slot. Actor/student, book, copy, request and loan are locked in documented order; event time is read after locks. Exact/late deadline releases the expired allocation and expiry audit together before reporting refusal. Repeated successful pickup preserves checkout and due date. Hosting remains deferred. Verification results are recorded in TEST_PLAN.md; implementation alone is not browser acceptance. Returns remain pending.
 
 Return implementation 2026-11-02: FR-08 implemented using existing loans returned_at/by; FR-09 gains searchable outstanding returns queue and student return time. Local regression/HTTP/concurrency evidence is in TEST_PLAN.md; new-screen visual acceptance pending. No schema migration. Remaining FR-05 approved-uncollected cancellation, staff administration/recovery and operational acceptance remain separate. Hosting deferred.
+
+## Approved cancellation implementation — 2026-11-02
+FR-05 approved-uncollected cancellation now implemented: pending/active students may cancel their own allocation, active librarians require a 1–500-character explanation, administrators excluded. Suspended sign-in remains blocked; librarians may cancel suspended borrowers' allocations. Original approval remains historical. Cancel/expiry atomically release derived availability and allowance with audit, no counter updates. Expired holds remain expired; collected loans cannot be cancelled; repeats preserve original cancellation details. Existing schema fields used, no migration/policy change. Earlier pending statements are historical. New browser acceptance remains pending; see TEST_PLAN.md for automated/HTTP/race evidence. Next functional increment: administrator staff-account management, subject to SRS and current-role/last-admin safeguards. Hosting deferred.

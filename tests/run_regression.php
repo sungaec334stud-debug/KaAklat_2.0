@@ -10,6 +10,7 @@ $tests[] = 'dashboard_test.php';
 $tests[] = 'returns_test.php';
 $tests[] = 'request_ui_test.php';
 $tests[] = 'interface_refinement_test.php';
+$tests[] = 'approved_cancellation_test.php';
 foreach ($tests as $test) {
     $process = proc_open([PHP_BINARY, __DIR__ . '/' . $test], [0=>STDIN,1=>STDOUT,2=>STDERR], $pipes);
     if (!is_resource($process) || proc_close($process) !== 0) { fwrite(STDERR, "FAIL: $test\n"); exit(1); }

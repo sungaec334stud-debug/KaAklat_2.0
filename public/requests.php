@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require_once dirname(__DIR__) . '/app/bootstrap.php';
 require_once dirname(__DIR__) . '/app/borrow_requests.php';
+require_once dirname(__DIR__) . '/app/approved_cancellation.php';
 require_once dirname(__DIR__) . '/views/layout.php';
 require_once dirname(__DIR__) . '/views/request_ui.php';
 start_application_session();
@@ -33,8 +34,11 @@ try {
             } elseif ($action === 'cancel') {
                 cancel_borrow_request($db,$id,$_POST['csrf_token'] ?? null);
                 flash_set('success','Your pending request is cancelled.');
+            } elseif ($action === 'cancel_approved') {
+                $result=cancel_approved_request($db,$id,$_POST['csrf_token']??null);
+                flash_set($result==='expired'?'error':'success', $result==='expired'?'The pickup deadline passed. This allocation expired.':($result==='already_cancelled'?'This allocation was already cancelled. Its history is unchanged.':'Your uncollected allocation is cancelled. Its history is preserved.'));
             } else { throw new InvalidArgumentException('Choose a valid action.'); }
-            redirect('/requests.php?status=' . ($action === 'create' ? 'pending' : $filter));
+            redirect('/requests.php?'.http_build_query(['status'=>$action==='create'?'pending':$filter,'page'=>$_GET['page']??1]));
         } catch (InvalidArgumentException $e) { http_response_code(400); $errors=form_error_summary($fieldErrors ?: [''=>$e->getMessage()]); }
     }
     $content='<section class="panel"><h1>My borrowing requests</h1>'.$errors.'<p><a href="/catalog.php">Find a book</a></p>';
@@ -82,6 +86,14 @@ try {
             $content .= '<p class="book-description"><strong>Librarian’s explanation:</strong><br>' . nl2br(h($row['decision_note'])) . '</p>';
         }
         if ($row['decision'] === 'pending' && $user['account_status'] === 'active') { $content.='<form method="post"><input type="hidden" name="action" value="cancel"><input type="hidden" name="request_id" value="'.h($row['request_id']).'"><input type="hidden" name="csrf_token" value="'.h(csrf_token()).'"><button>Cancel pending request</button></form>'; }
+        if ($row['cancelled_at'] !== null) {
+            $cancelTime=(new DateTimeImmutable($row['cancelled_at'],new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a');
+            $content.='<p>'.h($row['cancellation_kind']==='expired'?'Expiry recorded':'Cancelled by '.($row['cancellation_kind']==='student'?'you':'a librarian')).': '.h($cancelTime).' (Manila)</p>';
+            if($row['cancellation_note']!==null) { $content.='<p><strong>Cancellation explanation:</strong> '.nl2br(h($row['cancellation_note'])).'</p>'; }
+        }
+        if ($row['lifecycle']==='awaiting pickup') {
+            $content.='<form method="post"><p>Cancel only if you no longer need this allocation. Its copy will be released; a new request is needed if you change your mind.</p><input type="hidden" name="action" value="cancel_approved"><input type="hidden" name="request_id" value="'.h($row['request_id']).'"><input type="hidden" name="csrf_token" value="'.h(csrf_token()).'"><button class="button-caution" aria-label="'.h('Cancel uncollected allocation for '.$row['title']).'">Cancel allocation</button></form>';
+        }
         $content.='</article>';
     }
     $content.='<nav aria-label="Request pages">';

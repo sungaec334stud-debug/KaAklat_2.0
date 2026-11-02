@@ -219,3 +219,13 @@ Recorded user-reported PASS for all nine refinement checklist checks, no problem
 
 ## Commit verification — 2026-11-02
 User authorized all application/documentation/test changes committed and pushed, excluding separate output/ research artifacts as before. Fresh verification: 18 regressions PASS; two return concurrency scenarios PASS (scratch kaaklat_return_test_afe8caed91ef); final HTTP 36 checks PASS (scratch kaaklat_acceptance_a5868b73455d). Slow machine exposed fixed 500ms test-server startup assumption; test harness now polls loopback readiness for at most 45 seconds, then rerun passed. No application behavior change from this harness fix. Scope/secret-pattern and whitespace checks passed before this final staging. Remaining new-screen visual limits remain documented.
+
+## 2026-11-02 — Status synchronization and local service check
+Updated SRS current requirement/deployment summary and progress table/handoff; labeled older checkpoints historical. Read-only PDO check passed; started absent local PHP listener; health ready and login HTTP 200. No application/database/configuration changes. Hosting deferred; no commit/push.
+
+## 2026-11-02 — Approved-uncollected cancellation
+Added atomic, audited student-own/librarian cancellation using existing loan cancellation fields; current-session/ownership/role checks, expiry distinction, repeat safety and copy/allowance release. Existing pending cancellation preserved. Student history shows cancellation details; librarian pickup queue supplies required explanation with error link, escaped retained input and search context. No migration/data reset. 19 regression scripts, 45 HTTP assertions, 60-file lint and three independent-process cancellation races PASS. Browser acceptance remains pending; hosting deferred. No commit/push.
+
+2026-11-03: reran 19 regression scripts, three cancellation race scenarios, 45 HTTP assertions, 60 PHP lints, JS syntax and whitespace checks; all PASS. No application changes. Manual cancellation acceptance remains pending; hosting deferred.
+
+2026-11-03: recorded user-reported visual and keyboard acceptance PASS for approved-uncollected cancellation controls. No code changes or new automated checks; no full accessibility/hosting certification. Next: administrator staff-account management.
