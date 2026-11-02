@@ -16,7 +16,7 @@ function render_page(string $title, string $content): void
     $links = $navigationUser!==null ? ['/' => 'Dashboard', '/catalog.php' => 'Book catalog'] : ['/login.php' => 'Log in', '/register.php' => 'Create an account'];
     if(($navigationUser['role']??null)==='student') { $links['/requests.php']='My requests & loans'; }
     if(($navigationUser['role']??null)==='librarian' && $navigationUser['account_status']==='active') {
-        $links += ['/review_requests.php'=>'Review requests','/pickups.php'=>'Pickups','/manage_books.php'=>'Manage books','/students.php'=>'Students'];
+        $links += ['/review_requests.php'=>'Review requests','/pickups.php'=>'Pickups','/returns.php'=>'Returns','/manage_books.php'=>'Manage books','/students.php'=>'Students'];
     }
     $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
     $navigation = '';

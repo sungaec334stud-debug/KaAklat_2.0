@@ -60,13 +60,13 @@ try {
             $copies->execute([$id]); $rows = $copies->fetchAll();
             foreach (array_slice($rows, 0, 50) as $copy) {
                 $content .= '<article class="student-card"><p>Copy ' . h($copy['copy_code']) . ($copy['archived_at'] ? ' · Archived' : '') . '</p>';
-                if (!$copy['archived_at']) { $content .= '<form method="post">' . $token . $bookField . '<input type="hidden" name="action" value="archive_copy"><input type="hidden" name="copy_id" value="' . h($copy['copy_id']) . '"><button>Archive this copy</button></form>'; }
+                if (!$copy['archived_at']) { $content .= '<form method="post">' . $token . $bookField . '<input type="hidden" name="action" value="archive_copy"><input type="hidden" name="copy_id" value="' . h($copy['copy_id']) . '"><p>Archiving removes this copy from circulation while preserving history.</p><button class="button-danger" aria-label="' . h('Archive copy ' . $copy['copy_code'] . ' of ' . $book['title']) . '">Archive this copy</button></form>'; }
                 $content .= '</article>';
             }
             if ($copyPage > 1) { $content .= '<a href="?id=' . h($id) . '&amp;copies_page=' . ($copyPage - 1) . '">Previous copies</a> '; }
             if (count($rows) > 50) { $content .= '<a href="?id=' . h($id) . '&amp;copies_page=' . ($copyPage + 1) . '">Next copies</a>'; }
             $content .= '</section><section class="management-section"><h2>Replace cover</h2>' . catalog_cover_html($book) . '<form method="post" enctype="multipart/form-data">' . $token . $bookField . '<input type="hidden" name="action" value="cover"><label for="replacement">New JPEG or PNG cover</label><input id="replacement" type="file" name="cover" accept="image/jpeg,image/png" required><p>Maximum 2 MB and 4000 × 4000 pixels. Your existing cover stays until the replacement saves successfully.</p><button>Replace cover</button></form></section>'
-                . '<section class="management-section"><h2>Archive book</h2><p>Remove this title from browsing while preserving its copies and history. Resolve pending requests and outstanding allocations first.</p><form method="post">' . $token . $bookField . '<input type="hidden" name="action" value="archive_book"><button>Archive this book</button></form></section>';
+                . '<section class="management-section"><h2>Archive book</h2><p>Remove this title from browsing while preserving its copies and history. Resolve pending requests and outstanding allocations first.</p><form method="post">' . $token . $bookField . '<input type="hidden" name="action" value="archive_book"><button class="button-danger" aria-label="' . h('Archive book ' . $book['title']) . '">Archive this book</button></form></section>';
         }
     } else {
         [$query, $page] = catalog_parameters($_GET);

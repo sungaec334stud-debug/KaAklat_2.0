@@ -337,3 +337,30 @@ Prompt: implement all proposed role-specific navigation, dashboard counts, reque
 Outcome: implemented all eight areas in current borrowing workflow; trusted role navigation and derived private dashboard counts, request cards/progress/status, action panels and linked errors. Shared optional JS uses native constraints and focuses errors; older server form field mapping remains limited as documented. 16 regression scripts, 49 PHP lints and JS syntax check PASS; browser visual/focus/phone/keyboard acceptance pending. No schema/data changes, commit or push. Start 35%/72%, finish 18%/69% remaining (five-hour/weekly). Precise next checks in PROGRESS/TEST_PLAN.
 
 Commit request 2026-11-01: "commit and push on the repository". Fresh regression/syntax/whitespace checks passed; prepare interface/theme/logo changes with output/ excluded. Final remote result reported after push.
+
+## Acceptance request — 2026-11-02
+User requested acceptance only: read current instructions/SRS/schema/test history; preserve data and hosting deferral; verify nav/counts/ownership, approved→pickup→active, Manila due dates, unchanged availability, retries/audit/expiry and role denial, UI cards/progress/empty states, retained invalid values/errors/focus and responsive/400% views; use isolated fixtures; run regression/lint/HTTP/browser where permitted, report blockers and unverified results, fix confirmed defects only, update documents and usage, no returns/new features/commit/push.
+Outcome: 16 regression scripts, 22 HTTP assertions, 51 PHP lints and JS syntax PASS; isolated HTTP runner/router and evidence report added. Login browser desktop/360/768 form inspection and summary/Tab/Enter focus verified. Authenticated visual/full keyboard and 400% checks remain unverified; precise manual checklist in verification/ACCEPTANCE_2026-11-02.md. Test harness GET/POST order fixed, no product defect found. Demo data/config preserved, server stopped/browser reset. No commit/push. Next increment returns after remaining acceptance.
+
+## User checklist results — 2026-11-02
+Prompt/result: user supplied PASS for student dashboard/cards, librarian dashboard/forms, summary count links, status/progress/empty states, 360px, 768px, 400% zoom, keyboard navigation, JS-enabled summary/field-link focus, JS-disabled invalid student/librarian inputs and values preserved. Problem fields left blank.
+Outcome: recorded user-reported acceptance in TEST_PLAN.md, CHANGELOG.md and latest PROGRESS.md handoff; no product changes or test rerun. Separate coverage limitations retained. Next implementation: librarian-recorded returns; hosting deferred.
+
+## Returns increment — 2026-11-02
+User requested librarian-recorded returns: read latest policies/handoff; preserve stack/design/data and deferred hosting; list outstanding loans with pagination/book/student/copy search, due/overdue/pickup details and clear receipt confirmation; current librarian/session/CSRF/validated POST; allow inactive/overdue borrowers and archived books/copies; preserve original and loan history; UTC actor/time; atomic audit/release with documented locks and safe repeats/races; student return history/counts; isolated tests/regression/lint/HTTP/browser evidence; docs/usage handoff; no other features or commit/push.
+Outcome: implemented return service/page/navigation/history without migration. 17 regression scripts, expanded pagination/count/ownership tests, two independent-process return races, extended HTTP suite (34 assertions), 55 PHP lints and JS syntax PASS. New-screen browser/phone/keyboard and deterministic contention remain unverified. Usage tool unavailable. Existing demo data and prior acceptance/research work preserved. Next return acceptance then approved-uncollected cancellation; no commit/push.
+
+Prompt 2026-11-02: "can you add a separate tab for returned in students"
+Outcome: Returned tab added to student borrowing history using existing derived lifecycle filtering/pagination/theme; targeted return/ownership tests and changed app lint PASS. No migration or commit/push; browser visual acceptance pending.
+
+Prompt 2026-11-02: "execute the plan" (Impeccable critique).
+Outcome: circulation priority, historical deadline disclosure, contextual return message, archive caution, autocomplete/UTF-8 guidance and empty reset links; regression17/lint PASS. Remaining refinements explicitly listed in CHANGELOG.md. No commit/push or behavioral policy change; browser check pending.
+
+## Remaining critique request — 2026-11-02
+User requested contextual pickup/return/archive accessible names, row-linked return errors with receipt/input/search/page preservation, honest librarian recovery guidance, unavailable-book CTA clarity, consistent archive caution and safe optional receipt context failure fallback. Preserve behavior/design/data/uncommitted work; isolated tests/regression/lint/HTTP/browser evidence; docs/usage, no commit/push, hosting deferred.
+Outcome: all scoped refinements implemented in presentation helpers/pages; 18 regressions, 36 HTTP assertions, 57-file lint PASS. Optional context exception fallback/escaping/error association/state covered. Browser actual visual/focus/screen-reader unverified. No business rule or permission changes. Scratch DBs retained; next manual checks then approved-uncollected cancellation.
+
+## User refinement results — 2026-11-02
+User reported PASS for regression/HTTP, return error link/search retention, successful return/history, accessible names, archive appearance, unavailable message and recovery help; problem field blank. Recorded user-reported acceptance in test plan/changelog/latest handoff. No code change, automated rerun, commit or push. Next: approved-uncollected cancellation.
+
+Prompt 2026-11-02: "push and commit all changes". Preparing verified application/tests/docs commit, output/ excluded consistent with earlier scope. 18 regressions, two return races and final36 HTTP checks PASS; readiness polling fixes slow test startup. Final push result verified separately.

@@ -14,7 +14,9 @@ if ($user !== null) {
     $message = $user['account_status'] === 'pending'
         ? 'Your account is waiting for librarian activation. You can explore the catalog while you wait.'
         : ($student ? 'Find a book, send a request, and follow its progress here.' : 'Keep your library moving. Choose a task below to get started.');
-    $content = '<section class="panel dashboard-hero"><div class="dashboard-kicker">Your library, connected</div><h1>Welcome back, ' . h($user['display_name']) . '</h1><p>' . h($message) . '</p><a class="button" href="/catalog.php">Explore the catalog</a></section>';
+    $primaryUrl=$user['role']==='librarian'?'/review_requests.php':'/catalog.php';
+    $primaryLabel=$user['role']==='librarian'?'Review borrowing requests':'Explore the catalog';
+    $content = '<section class="panel dashboard-hero"><div class="dashboard-kicker">Your library, connected</div><h1>Welcome back, ' . h($user['display_name']) . '</h1><p>' . h($message) . '</p><a class="button" href="' . h($primaryUrl) . '">' . h($primaryLabel) . '</a></section>';
     if(in_array($user['role'],['student','librarian'],true)) {
         try {
             $counts=dashboard_counts(database_connection(application_config()['database']));
@@ -35,7 +37,12 @@ if ($user !== null) {
         $cards[] = ['Accounts', 'Student access', 'Review new student accounts and manage borrowing access.', '/students.php', 'Manage students'];
         $cards[] = ['Catalog', 'Books & copies', 'Add titles, update covers and manage physical library copies.', '/manage_books.php', 'Manage books'];
         $cards[] = ['Requests', 'Review borrowing', 'Read borrowing reasons, choose approved days or explain a rejection.', '/review_requests.php', 'Review requests'];
+        $cards[] = ['Receive', 'Book returns', 'Find an outstanding loan and confirm receipt of its physical copy.', '/returns.php', 'Record a return'];
         $cards[] = ['Handover', 'Physical pickup', 'Check the allocated copy and record handover when the student collects it.', '/pickups.php', 'Record pickup'];
+    }
+    if ($user['role']==='librarian') {
+        $order=['/review_requests.php'=>0,'/pickups.php'=>1,'/returns.php'=>2,'/catalog.php'=>3,'/manage_books.php'=>4,'/students.php'=>5];
+        usort($cards,static fn(array $a,array $b):int => $order[$a[3]] <=> $order[$b[3]]);
     }
     $content .= '<div class="dashboard-grid">';
     foreach ($cards as [$step, $heading, $description, $url, $label]) {

@@ -28,7 +28,8 @@ try {
             $content .= '<div class="book-detail">' . catalog_cover_html($book) . '<div><h2>' . h($book['title']) . '</h2><p>' . h($book['authors'] ?: 'Author not listed') . '</p><p class="book-description">' . nl2br(h($book['description'])) . '</p><p><strong>' . h($book['available_copies']) . ' available</strong> of ' . h($book['total_copies']) . ' active copies</p>' . ((int) $book['available_copies'] === 0 ? '<p>No copies available right now.</p>' : '') . '</div></div>';
         }
         $content .= '<p><a href="/catalog.php">Back to catalog</a></p>';
-        if ($book !== null && $user['role'] === 'student' && $user['account_status'] === 'active') {
+        if ($book !== null && (int)$book['available_copies'] === 0) { $content .= '<p class="flash flash-info">Requests are unavailable while all copies are in use. Please check back later.</p>'; }
+        if ($book !== null && (int)$book['available_copies'] > 0 && $user['role'] === 'student' && $user['account_status'] === 'active') {
             $content .= '<p><a class="button" href="/requests.php?book=' . h($book['book_id']) . '">Request this book</a></p>';
         }
     } else {
@@ -48,7 +49,7 @@ try {
             $content .= '<article class="book-card">' . catalog_cover_html($book) . '<h2><a href="?id=' . h($book['book_id']) . '">' . h($book['title']) . '</a></h2><p>' . h($book['authors'] ?: 'Author not listed') . '</p>' . catalog_metadata_html($book) . '<p>' . h(mb_strimwidth($book['description'], 0, 150, '…', 'UTF-8')) . '</p><p class="availability">' . h($book['available_copies']) . ' copies available</p></article>';
         }
         $content .= '</div>';
-        if ($result['books'] === []) { $content .= '<p>No books found. Try another search or return to the first page.</p>'; }
+        if ($result['books'] === []) { $content .= '<p>No books found. Try another search or return to the first page.</p><a href="/catalog.php">Clear filters / first page</a>'; }
         $content .= '<nav class="catalog-pagination" aria-label="Catalog pages">';
         if ($page > 1) { $content .= '<a href="?' . h(http_build_query($filters + ['q' => $query, 'page' => $page - 1])) . '">Previous</a> '; }
         $content .= '<span>Page ' . h($page) . '</span> ';

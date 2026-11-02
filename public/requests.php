@@ -51,7 +51,7 @@ try {
     }
     $page=filter_var($_GET['page'] ?? '1',FILTER_VALIDATE_INT,['options'=>['min_range'=>1,'max_range'=>10000]]);
     if ($page === false) { throw new InvalidArgumentException('Choose a valid page.'); }
-    $tabs=['all'=>'All requests','pending'=>'Pending','rejected'=>'Rejected','awaiting_pickup'=>'Awaiting pickup','active'=>'Active'];
+    $tabs=['all'=>'All requests','pending'=>'Pending','rejected'=>'Rejected','awaiting_pickup'=>'Awaiting pickup','active'=>'Active','returned'=>'Returned'];
     $content.='<nav class="account-tabs" aria-label="Borrowing request status"><ul>';
     foreach($tabs as $key=>$label) {
         $content.='<li><a href="?status='.h($key).'"'.($filter===$key?' aria-current="page"':'').'>'.h($label).'</a></li>';
@@ -65,13 +65,17 @@ try {
         if ($row['decision'] === 'approved') {
             $deadline = (new DateTimeImmutable($row['decided_at'], new DateTimeZone('UTC')))
                 ->modify('+48 hours')->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a');
-            $content .= '<p>Approved duration: <strong>' . h($row['approved_days']) . ' days</strong><br>Pickup deadline: ' . h($deadline) . ' (Manila)</p>';
+            $content .= ($row['checked_out_at'] !== null ? '<details class="request-details"><summary>Original approval and collection terms</summary>' : '') . '<p>Approved duration: <strong>' . h($row['approved_days']) . ' days</strong><br>Pickup deadline: ' . h($deadline) . ' (Manila)</p>' . ($row['checked_out_at'] !== null ? '</details>' : '');
             if ($row['lifecycle'] === 'awaiting pickup') { $content .= '<p>Your copy is held until the pickup deadline. Your borrowing period has not started.</p>'; }
         }
         if ($row['checked_out_at'] !== null) {
             $pickup=(new DateTimeImmutable($row['checked_out_at'],new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a');
             $due=(new DateTimeImmutable($row['due_date'],new DateTimeZone('Asia/Manila')))->format('M j, Y');
             $content.='<p>Picked up: '.h($pickup).' (Manila)<br>Due date: <strong>'.h($due).'</strong> (Manila; the entire due date is allowed)</p>';
+        }
+        if($row['returned_at'] !== null) {
+            $returned=(new DateTimeImmutable($row['returned_at'],new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a');
+            $content.='<p><strong>Returned:</strong> '.h($returned).' (Manila). This loan is complete.</p>';
         }
         $content.='<details class="request-details"><summary>Original borrowing reason</summary><p>'.nl2br(h($row['request_reason'])).'</p></details>';
         if (in_array($row['decision'], ['approved', 'rejected'], true) && $row['decision_note'] !== null && $row['decision_note'] !== '') {

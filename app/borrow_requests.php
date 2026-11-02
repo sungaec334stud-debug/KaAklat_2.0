@@ -107,7 +107,7 @@ function cancel_borrow_request(PDO $db, int $requestId, mixed $token): void
 
 function request_history_filter(mixed $filter): string
 {
-    if (!is_string($filter) || !in_array($filter, ['all', 'pending', 'rejected', 'awaiting_pickup', 'active'], true)) {
+    if (!is_string($filter) || !in_array($filter, ['all', 'pending', 'rejected', 'awaiting_pickup', 'active', 'returned'], true)) {
         throw new InvalidArgumentException('Choose a valid request tab.');
     }
     return $filter;
@@ -125,10 +125,11 @@ function own_borrow_requests(PDO $db, int $page, string $filter = 'all'): array
         'pending' => " WHERE lifecycle='pending'",
         'rejected' => " WHERE lifecycle='rejected'",
         'awaiting_pickup' => " WHERE lifecycle='awaiting pickup'",
+        'returned' => " WHERE lifecycle='returned'",
         'active' => " WHERE lifecycle IN ('active','overdue')",
         default => ''
     };
-    $s=$db->prepare("SELECT * FROM (SELECT r.*,b.title,IF(b.archived_at IS NULL,b.cover_path,NULL) AS cover_path,l.checked_out_at,l.due_date,CASE WHEN r.decision <> 'approved' THEN r.decision
+    $s=$db->prepare("SELECT * FROM (SELECT r.*,b.title,IF(b.archived_at IS NULL,b.cover_path,NULL) AS cover_path,l.checked_out_at,l.due_date,l.returned_at,CASE WHEN r.decision <> 'approved' THEN r.decision
         WHEN l.returned_at IS NOT NULL THEN 'returned' WHEN l.cancelled_at IS NOT NULL THEN COALESCE(l.cancellation_kind,'cancelled')
         WHEN l.checked_out_at IS NOT NULL THEN IF(l.due_date < DATE(UTC_TIMESTAMP()+INTERVAL 8 HOUR),'overdue','active')
         WHEN r.decided_at <= UTC_TIMESTAMP()-INTERVAL 48 HOUR THEN 'expired' ELSE 'awaiting pickup' END AS lifecycle

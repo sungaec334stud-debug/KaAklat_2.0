@@ -172,3 +172,5 @@ Implementation status 2026-10-31: FR-06 librarian review/approval/rejection and 
 
 ## Pickup implementation — 2026-11-01
 FR-07 now has a librarian pickup service/page and student checkout/due-date display. Pickup transitions the existing allocation; it does not create another loan or consume another allowance slot. Actor/student, book, copy, request and loan are locked in documented order; event time is read after locks. Exact/late deadline releases the expired allocation and expiry audit together before reporting refusal. Repeated successful pickup preserves checkout and due date. Hosting remains deferred. Verification results are recorded in TEST_PLAN.md; implementation alone is not browser acceptance. Returns remain pending.
+
+Return implementation 2026-11-02: FR-08 implemented using existing loans returned_at/by; FR-09 gains searchable outstanding returns queue and student return time. Local regression/HTTP/concurrency evidence is in TEST_PLAN.md; new-screen visual acceptance pending. No schema migration. Remaining FR-05 approved-uncollected cancellation, staff administration/recovery and operational acceptance remain separate. Hosting deferred.

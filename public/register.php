@@ -47,12 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $errorList = $errors === [] ? '' : '<div class="flash flash-error" role="alert"><ul><li>' . implode('</li><li>', array_map('h', $errors)) . '</li></ul></div>';
 $content = $errorList
-    . '<section class="panel auth-panel"><div class="page-eyebrow">Start your next chapter</div><h1>Create student account</h1><p>Use a username with 3-32 lowercase letters, numbers, or underscores. Passwords need 12-72 characters.</p>'
+    . '<section class="panel auth-panel"><div class="page-eyebrow">Start your next chapter</div><h1>Create student account</h1><p>Use a username with 3-32 lowercase letters, numbers, or underscores. Passwords require 12–72 UTF-8 bytes. Accented characters and emoji can use more than one byte; a plain-text passphrase is easier to size.</p>'
     . '<form method="post" action="/register.php" novalidate>'
     . '<input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '">'
-    . '<label for="display_name">Display name</label><input id="display_name" name="display_name" maxlength="100" required value="' . h($values['display_name']) . '">'
-    . '<label for="username">Username</label><input id="username" name="username" maxlength="32" pattern="[a-zA-Z0-9_]{3,32}" required value="' . h($values['username']) . '">'
-    . '<label for="password">Password</label><input id="password" name="password" type="password" minlength="12" maxlength="72" required>'
+    . '<label for="display_name">Display name</label><input id="display_name" name="display_name" autocomplete="name" maxlength="100" required value="' . h($values['display_name']) . '">'
+    . '<label for="username">Username</label><input id="username" name="username" autocomplete="username" maxlength="32" pattern="[a-zA-Z0-9_]{3,32}" required value="' . h($values['username']) . '">'
+    . '<label for="password">Password</label><input id="password" name="password" autocomplete="new-password" type="password" minlength="12" maxlength="72" required>'
     . '<button type="submit">Create account</button></form><p><a href="/login.php">Already have an account? Log in</a></p></section>';
 
 render_page('Create account', $content);

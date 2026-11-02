@@ -36,8 +36,8 @@ $errorList = $errors === [] ? '' : '<div class="flash flash-error" role="alert">
 $content = $errorList
     . '<section class="panel auth-panel"><div class="page-eyebrow">Welcome back</div><h1>Your library awaits.</h1><p>Sign in to your KaAklat account.</p><form method="post" action="/login.php" novalidate>'
     . '<input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '">'
-    . '<label for="username">Username</label><input id="username" name="username" maxlength="32" required value="' . h($username) . '">'
-    . '<label for="password">Password</label><input id="password" name="password" type="password" required>'
-    . '<button type="submit">Log in</button></form><p><a href="/register.php">Need an account? Register as a student</a></p></section>';
+    . '<label for="username">Username</label><input id="username" name="username" autocomplete="username" maxlength="32" required value="' . h($username) . '">'
+    . '<label for="password">Password</label><input id="password" name="password" autocomplete="current-password" type="password" required>'
+    . '<button type="submit">Log in</button></form><p><a href="/register.php">Need an account? Register as a student</a></p><p>Forgot your password? Contact your librarian for help. Online password recovery is not available yet.</p></section>';
 
 render_page('Log in', $content);
