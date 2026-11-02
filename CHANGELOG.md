@@ -229,3 +229,21 @@ Added atomic, audited student-own/librarian cancellation using existing loan can
 2026-11-03: reran 19 regression scripts, three cancellation race scenarios, 45 HTTP assertions, 60 PHP lints, JS syntax and whitespace checks; all PASS. No application changes. Manual cancellation acceptance remains pending; hosting deferred.
 
 2026-11-03: recorded user-reported visual and keyboard acceptance PASS for approved-uncollected cancellation controls. No code changes or new automated checks; no full accessibility/hosting certification. Next: administrator staff-account management.
+
+## 2026-11-03 — Administrator staff accounts
+Added admin-only staff list/create/role/status management, last usable administrator concurrency protection, atomic audits/session/reset revocation, safe self-change and disabled-password guidance. Added CLI-only initial-admin bootstrap and private interactive Windows password input; legacy password tool callers retained. No schema/demo data changes; no bootstrap against demo. Unit/integration/concurrency/HTTP evidence and UI/terminal limitations in TEST_PLAN.md. Hosting deferred; no commit/push. Next staff-assisted recovery.
+
+2026-11-03: recorded user-reported PASS for supplied administration checklist, including private password assignment, access/session controls and responsive/keyboard checks. No code changes or automated rerun; next staff-assisted recovery.
+
+2026-11-03 audit: rejected embedded NUL in new passwords before PHP hashing; added regression and broader HTTP registration/student-account/catalog/upload/logout coverage. 20 scripts/15 races/81 HTTP assertions/71 PHP lints PASS. Recorded admin student-permission SRS gap and unverified areas in verification/AUDIT_2026-11-03.md.
+
+## 2026-11-03 — Account access and audit completion
+Closed admin student-management permission gap without broadening circulation/catalog guards. Added staff-assisted 30-minute single-use recovery, atomic reset/session/audit handling and one-time private delivery; password choice preserves account status. Added read-only admin audit metadata browser with filters/pagination, no sensitive free-text payload. New navigation/dashboard/login guidance. No schema migration or demo mutations. 21 regression scripts, 101 HTTP assertions and two recovery races PASS. New UI/browser acceptance pending; hosting deferred. No commit/push.
+
+2026-11-03: full local verification rerun PASS (21 regression scripts, 17 races, 101 HTTP assertions, 79 PHP lints, JS syntax/whitespace). Health ready; five read-only demo integrity checks zero. No new app changes. Limitations/evidence in verification/FULL_LOCAL_CHECK_2026-11-03.md.
+
+2026-11-03: modernized shared interface in existing school palette; desktop sidebar, responsive navigation, clearer forms/task hierarchy and consistent status/focus/caution styles. DESIGN.md and verification/DESIGN_REFINEMENT_2026-11-03.md record scope and evidence. 21 regressions/101 HTTP assertions PASS; final92 headless width captures without horizontal overflow. No business/data/schema changes. Manual acceptance remains scoped.
+
+2026-11-03: added signed-out library imagery and bounded reduced-motion-aware animation, dedicated landing view/CSS and four-step guide. Local optimized generated images, no runtime external dependency.21 regressions/104 HTTP assertions PASS; actual headless responsive/motion/JS-off/skip-link checks recorded in verification/LANDING_2026-11-03.md. Authenticated dashboards/data preserved.
+
+2026-11-03: removed unused temporary design-review folder at user request; no runtime dependency or public assets removed.

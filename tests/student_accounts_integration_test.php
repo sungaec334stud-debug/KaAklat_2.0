@@ -12,7 +12,7 @@ $pdo->exec("INSERT INTO users (user_id, username, display_name, role, account_st
     (1, 'fixture_librarian', 'Fictional librarian', 'librarian', 'active'),
     (2, 'fixture_student', 'Fictional student', 'student', 'pending'),
     (3, 'fixture_admin', 'Fictional admin', 'administrator', 'active')");
-$_SESSION = ['user_id' => 1, 'session_version' => 1, 'csrf_token' => str_repeat('a', 64)];
+$_SESSION = ['last_activity' => time(), 'user_id' => 1, 'session_version' => 1, 'csrf_token' => str_repeat('a', 64)];
 $token = $_SESSION['csrf_token'];
 function expect_failure(callable $operation): void {
     try { $operation(); } catch (InvalidArgumentException|DomainException|PDOException) { return; }
@@ -32,9 +32,10 @@ change_student_status($pdo, 2, 'suspend', $token);
 $_SESSION['user_id'] = 2;
 $_SESSION['session_version'] = 2;
 assert_value(null, current_user($pdo));
-$_SESSION = ['user_id' => 1, 'session_version' => 1, 'csrf_token' => $token];
+$_SESSION = ['last_activity' => time(), 'user_id' => 1, 'session_version' => 1, 'csrf_token' => $token];
 change_student_status($pdo, 2, 'reactivate', $token);
 assert_value(3, (int) $pdo->query('SELECT COUNT(*) FROM audit_events')->fetchColumn());
+// Admin is permitted; fixture audit uniqueness deliberately causes rollback.
 $_SESSION['user_id'] = 3;
 expect_failure(fn () => change_student_status($pdo, 2, 'suspend', $token));
 $_SESSION['user_id'] = 2;

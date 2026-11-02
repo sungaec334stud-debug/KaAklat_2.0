@@ -11,6 +11,12 @@ function require_active_librarian(?array $user): void
     }
 }
 
+function require_student_manager(?array $user): void
+{
+    if (!$user || !in_array($user['role'],['librarian','administrator'],true) || $user['account_status']!=='active') {
+        throw new DomainException('Only active librarians and administrators can manage students.');
+    }
+}
 function student_status_transition(string $status, string $action): string
 {
     return match ($status . ':' . $action) {
@@ -29,8 +35,8 @@ function change_student_status(PDO $connection, int $studentId, mixed $action, m
         throw new InvalidArgumentException('Choose a valid student and action.');
     }
     $actorId = $_SESSION['user_id'] ?? null;
-    if (!is_int($actorId)) {
-        throw new DomainException('Please sign in as a librarian.');
+    if (!is_int($actorId) || !is_int($_SESSION['last_activity']??null) || time()-$_SESSION['last_activity']>=1800) {
+        throw new DomainException('Please sign in as an authorized staff member.');
     }
     $connection->beginTransaction();
     try {
@@ -43,7 +49,7 @@ function change_student_status(PDO $connection, int $studentId, mixed $action, m
             $users[$id] = $statement->fetch() ?: null;
         }
         $actor = $users[$actorId];
-        require_active_librarian($actor);
+        require_student_manager($actor);
         if ((int) $actor['session_version'] !== ($_SESSION['session_version'] ?? null)) {
             throw new DomainException('Your session expired. Please sign in again.');
         }

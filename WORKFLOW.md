@@ -344,3 +344,33 @@ Read `AGENTS.md`, the relevant requirements and the most recent checkpoint. Choo
 **Sample agent prompt:** “Read AGENTS.md, PROGRESS.md and the relevant requirements. Inspect current Git/files without discarding changes. Continue the next unfinished checkpoint only, verify it, and leave precise resume notes. Keep credentials and backups private.”
 
 **Checkpoint/recovery:** keep source history, release notes and off-host database/cover backups together by release/date, with secrets stored separately. After data loss or an uncertain release, stop new writes, preserve current evidence and follow `DEPLOYMENT.md` recovery steps before restoring anything.
+
+## Staff account management — 2026-11-03
+Administrator > Staff accounts creates active librarian/admin records with NULL password_hash (sign-in disabled), searches/paginates and changes permitted staff role/status. Student conversion and physical deletion are excluded. Administrator circulation/catalog permissions remain denied. A staff member with no password is not counted as a usable administrator. Initial administrator bootstrap is CLI-only, only when no usable admin exists; duplicate usernames are refused without elevation.
+
+Local operator commands (PowerShell from project root):
+```powershell
+# Only when provisioning is explicitly authorized and no usable admin exists:
+& 'C:\php-8.4.14\php.exe' bin/bootstrap_admin.php 'chosen_admin_username' 'Administrator Display Name'
+# Existing staff account, after creation through the administrator page:
+& 'C:\php-8.4.14\php.exe' bin/set_user_password.php 'chosen_staff_username'
+```
+Enter a private 12–72-byte password when prompted, then press Enter. No password argument is needed. The Windows console helper fails closed when input is redirected; use a normal interactive PowerShell terminal. Never paste passwords into chat or commands. Legacy password arguments remain accepted for existing callers but are not the recommended workflow. Real-console private-entry behavior remains manually unverified; do not deploy the bin folder. Password assignment preserves account status and revokes sessions/outstanding reset secrets. Do not bootstrap or overwrite existing demo accounts without explicit operator intent.
+
+Local acceptance: sign in as administrator > Staff accounts; create a fictional librarian, verify Password not set; assign its password locally, then sign in as that librarian. As admin suspend/reactivate it and verify old sessions fail. Try removing the last password-enabled active admin (must refuse). With a second password-enabled active admin, test self-change only when you retain another usable administrator; successful self-change signs you out. Check field errors/search/pagination, student/librarian direct URL denial, narrow/zoom/keyboard layouts. No public staff registration or recovery implemented.
+
+## Account recovery and audit — 2026-11-03
+Administrators and librarians can manage student activation/suspension/reactivation. This uses a separate student-manager guard; catalog/circulation remain librarian-only.
+
+Recovery flow:
+1. Verify the fictional account holder in person against the demonstration roster.
+2. As librarian or administrator open Account recovery. Librarians may assist students only; administrators may assist student/staff accounts. Enter username and confirm identity.
+3. Issue the secret and deliver it privately. It is shown once after redirect; refresh will not show it again. A new issuance invalidates the previous secret. Never put it in a URL, log, chat or screenshot.
+4. Account holder opens /reset_password.php (also linked from login), enters the secret and chooses/confirms a 12–72-byte password. It expires after 30 minutes. The flow does not sign them in automatically, activate them or lift suspension.
+5. Sign in with the new password. Existing sessions were revoked. For a suspended account, staff must separately reactivate it after the normal checks.
+
+New staff setup can now use administrator-issued recovery instead of local password assignment; existing local operator tools remain available. No email, public token issuance or automatic notifications added.
+
+Audit: administrator > Audit records; optional exact event code and actor username filters; bounded pagination, Manila timestamps, read-only actor/action/affected-record metadata. No borrowing reason, decision/cancellation note, recovery secret, hash or free-text event summary displayed. Staff/student direct audit access denied. No export/delete controls.
+
+Manual acceptance: admin activate/suspend/reactivate a fictional student; librarian denied staff recovery; issue a student secret, refresh delivery (must disappear), redeem in Incognito, retry (must fail), reissue before redeeming old secret (old fails), confirm old session rejected and suspended account remains suspended. Check audit filters/pagination/read-only behavior and access denial. Test new pages at 360/768px, 400% zoom, keyboard/error-summary links and with JS disabled. Use only fictional accounts; never send a recovery secret to the agent.

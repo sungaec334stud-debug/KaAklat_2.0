@@ -7,13 +7,14 @@ require_once dirname(__DIR__) . '/app/student_accounts.php';
 require_once dirname(__DIR__) . '/views/layout.php';
 
 start_application_session();
+header('Cache-Control: no-store');
 try {
     $connection = database_connection(application_config()['database']);
     $user = current_user($connection);
     if ($user === null) {
         redirect('/login.php');
     }
-    require_active_librarian($user);
+    require_student_manager($user);
     $sections = ['pending' => 'Activate pending students', 'active' => 'Suspend active students', 'suspended' => 'Reactivate suspended students'];
     $statusInput = $_GET['status'] ?? 'pending';
     $status = is_string($statusInput) && isset($sections[$statusInput]) ? $statusInput : 'pending';
@@ -25,6 +26,7 @@ try {
     }
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
+            if (array_diff(array_keys($_POST), ['student_id','action','csrf_token'])) { throw new InvalidArgumentException('Unexpected form fields. Refresh the page.'); }
             $id = filter_var($_POST['student_id'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
             change_student_status($connection, $id === false ? 0 : $id, $_POST['action'] ?? null, $_POST['csrf_token'] ?? null);
             flash_set('success', 'Student account updated. The student must sign in again.');

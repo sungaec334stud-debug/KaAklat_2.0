@@ -11,7 +11,9 @@ if (PHP_SAPI !== 'cli') {
 require_once dirname(__DIR__) . '/app/bootstrap.php';
 
 $username = $argv[1] ?? null;
+require_once __DIR__.'/operator_password.php';
 $password = $argv[2] ?? null;
+if ($username !== null && $password === null) { $password=operator_password(); }
 
 if ($username === null || $password === null) {
     echo "Usage: php bin/set_user_password.php <username> <new-password>\n";

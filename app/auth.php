@@ -21,6 +21,7 @@ function validate_new_password(mixed $password): string
 {
     if (!is_string($password)) { throw new InvalidArgumentException('Enter a valid password.'); }
     $password = (string) $password;
+    if (str_contains($password, chr(0))) { throw new InvalidArgumentException('Password cannot contain a NUL character.'); }
     $length = strlen($password);
 
     if ($length < 12 || $length > 72) {
@@ -108,6 +109,8 @@ function set_user_password(
             'password_hash' => $passwordHash,
             'user_id' => $userId,
         ]);
+
+        $connection->prepare('DELETE FROM password_resets WHERE user_id=?')->execute([$userId]);
 
         $connection->prepare('DELETE FROM login_failures WHERE username_key = :username')
             ->execute(['username' => $username]);

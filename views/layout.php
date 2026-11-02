@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-function render_page(string $title, string $content): void
+function render_page(string $title, string $content, bool $landing = false): void
 {
     $safeTitle = h($title);
     $appName = h((string) application_config()['app_name']);
@@ -18,6 +18,8 @@ function render_page(string $title, string $content): void
     if(($navigationUser['role']??null)==='librarian' && $navigationUser['account_status']==='active') {
         $links += ['/review_requests.php'=>'Review requests','/pickups.php'=>'Pickups','/returns.php'=>'Returns','/manage_books.php'=>'Manage books','/students.php'=>'Students'];
     }
+    if (($navigationUser['role']??null)==='administrator' && $navigationUser['account_status']==='active') { $links += ['/staff.php'=>'Staff accounts','/students.php'=>'Students','/audit.php'=>'Audit records']; }
+    if (in_array($navigationUser['role']??null,['librarian','administrator'],true) && $navigationUser['account_status']==='active') { $links['/recover_account.php']='Account recovery'; }
     $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
     $navigation = '';
     foreach ($links as $url => $label) {
@@ -33,6 +35,9 @@ function render_page(string $title, string $content): void
         }
     }
 
+    $bodyClass=$navigationUser!==null?'is-authenticated':'is-guest';
+    $landingStyles=$landing && $navigationUser===null?'<link rel="stylesheet" href="/assets/landing.css?v=20261103">':'';
+    if ($landingStyles!=='') { $bodyClass.=' landing-page'; }
     echo <<<HTML
 <!doctype html>
 <html lang="en">
@@ -41,10 +46,11 @@ function render_page(string $title, string $content): void
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{$safeTitle} | {$appName}</title>
     <link rel="icon" href="/assets/kaaklat-logo.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/assets/app.css?v=20261101-journey">
+    <link rel="stylesheet" href="/assets/app.css?v=20261103-workspace">
+    {$landingStyles}
     <script src="/assets/forms.js" defer></script>
 </head>
-<body>
+<body class="{$bodyClass}">
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
         <div class="header-inner">
@@ -53,7 +59,6 @@ function render_page(string $title, string $content): void
         </div>
     </header>
     <main class="container" id="main-content" tabindex="-1">
-        <div class="page-eyebrow">Library / {$safeTitle}</div>
         {$flashes}
         {$content}
     </main>

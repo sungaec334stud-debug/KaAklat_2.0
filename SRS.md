@@ -169,15 +169,15 @@ Use nonpublic backups. Restore into a separate empty database, check expected co
 | Requirement | Current state |
 | --- | --- |
 | FR-01 | Login/logout, student registration and librarian activation/suspension implemented locally. |
-| FR-02 | Existing role/ownership controls implemented; administrator staff management and last-admin workflow pending. |
+| FR-02 | Role/ownership and administrator staff management/last usable admin safeguards implemented locally; new staff UI acceptance pending. |
 | FR-03 / FR-04 | Protected catalog, filters, covers, catalog/copy management and archive controls implemented. |
 | FR-05 | Submission, own history tabs, pending cancellation and approved-uncollected cancellation implemented; new cancellation browser acceptance pending. |
 | FR-06 | Librarian decisions and atomic copy allocation implemented; queue automatically selects lowest eligible copy. |
 | FR-07 / FR-08 | Physical pickup, Manila-based due date and atomic, repeat-safe returns implemented. |
 | FR-09 | Own history and searchable outstanding returns queue with derived overdue state implemented; broader operational acceptance pending. |
-| FR-10 | Audit implemented for existing mutations; future staff/recovery events pending with those features. |
+| FR-10 | Audit implemented including recovery events; administrator read-only metadata browsing implemented locally. |
 | FR-11 | Backup/recovery procedures documented; actual restore rehearsal and measurements pending. |
-| FR-12 | Staff-assisted recovery pending; current login guidance does not imply a working reset page. |
+| FR-12 | Staff-assisted issuance/redemption implemented locally; new UI acceptance pending. |
 
 Latest recorded pre-commit evidence: 18 regression scripts, 36 HTTP assertions, 57 PHP lints and two independent-process return races PASS. Named interface/refinement checklists user-reported PASS. Full accessibility/device, deterministic contention, performance, hosted acceptance and participant evaluation remain unverified. See TEST_PLAN.md for evidence boundaries.
 
@@ -200,3 +200,9 @@ Return implementation 2026-11-02: FR-08 implemented using existing loans returne
 
 ## Approved cancellation implementation — 2026-11-02
 FR-05 approved-uncollected cancellation now implemented: pending/active students may cancel their own allocation, active librarians require a 1–500-character explanation, administrators excluded. Suspended sign-in remains blocked; librarians may cancel suspended borrowers' allocations. Original approval remains historical. Cancel/expiry atomically release derived availability and allowance with audit, no counter updates. Expired holds remain expired; collected loans cannot be cancelled; repeats preserve original cancellation details. Existing schema fields used, no migration/policy change. Earlier pending statements are historical. New browser acceptance remains pending; see TEST_PLAN.md for automated/HTTP/race evidence. Next functional increment: administrator staff-account management, subject to SRS and current-role/last-admin safeguards. Hosting deferred.
+
+## Staff management implementation — 2026-11-03
+FR-02 administrator-only staff create/search/list/role/status management and last usable administrator protection implemented locally. FR-10 includes staff creation/update audits. Initial bootstrap is CLI-only and never overwrites accounts; fresh staff logins disabled until local password assignment, as user approved. Sessions/reset secrets revoked after security-sensitive changes; self-change signs out. No student conversion or expanded administrator circulation powers. No migration. FR-12 recovery and admin audit browsing remain pending. New UI/private console acceptance pending; actual evidence in TEST_PLAN.md. Hosting deferred.
+
+## Account-access implementation — 2026-11-03
+FR-02 administrator student activation/suspension/reactivation now implemented; circulation/catalog remain librarian-only. FR-12 staff-assisted recovery now implemented with 30-minute single-use secret, hash-only database storage, reissue/replay/expiry protections, role/session/identity checks, password choice/session revocation and atomic audit. Recovery does not activate or unsuspend accounts. FR-10 administrator audit browsing implemented as read-only actor/action/time/affected-record metadata; no borrower details/reasons or sensitive free-text summaries. New staff password setup may use administrator-issued recovery; local tools retained. No schema or approved policy changes. Automated/HTTP/race evidence in TEST_PLAN.md; new-page manual acceptance pending. Earlier pending statements superseded for implementation only. Hosting/restore/performance/participant evaluation remain unfinished.

@@ -35,3 +35,5 @@ auth_expect_throws(static fn (): string => validate_new_password(str_repeat('a',
 
 echo "auth_unit_test.php: PASS\n";
 
+
+auth_expect_throws(static fn (): string => validate_new_password('fictional' . chr(0) . 'password'), 'Embedded NUL must be rejected before hashing');

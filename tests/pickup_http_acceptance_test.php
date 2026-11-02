@@ -30,7 +30,7 @@ try {
  $clients=[];
  foreach(['student','other','librarian','admin'] as $role){$c=curl_init();curl_setopt_array($c,[CURLOPT_RETURNTRANSFER=>true,CURLOPT_COOKIEFILE=>'',CURLOPT_TIMEOUT=>10]);[$code,$html]=accept_http($c,'/login.php');[$code]=accept_http($c,'/login.php',['username'=>'accept_'.$role,'password'=>$password,'csrf_token'=>accept_token($html)]);accept_check($code===303,"$role login");$clients[$role]=$c;}
  $student=$clients['student'];$staff=$clients['librarian'];
- [$code,$html]=accept_http($student,'/');accept_check($code===200 && str_contains($html,'status=pending') && !str_contains($html,'href="/pickups.php"'),'Student navigation/count links');
+ [$code,$html]=accept_http($student,'/');accept_check($code===200 && str_contains($html,'status=pending') && !str_contains($html,'landing-hero') && !str_contains($html,'href="/pickups.php"'),'Student navigation/count links');
  foreach(['student','admin'] as $role){[$code]=accept_http($clients[$role],'/pickups.php');accept_check($code===403,"$role pickup access denied");}
  [$code,$html]=accept_http($student,'/requests.php?book=1');$token=accept_token($html);
  [$code,$html]=accept_http($student,'/requests.php?book=1',['action'=>'create','book_id'=>1,'days'=>31,'reason'=>'short','csrf_token'=>$token]);accept_check($code===400 && str_contains($html,'days-error') && str_contains($html,'>short</textarea>'),'Invalid request field errors and retained reason');
@@ -78,5 +78,19 @@ try {
  [$code]=accept_http($staff,'/pickups.php',['action'=>'pickup','request_id'=>101,'csrf_token'=>$staffToken]); accept_check($code===400,'Cancelled pickup HTTP refused');
  $db->exec("INSERT INTO borrow_requests(request_id,student_id,book_id,requested_days,request_reason,decision,approved_days,decided_at,decided_by) VALUES(102,1,3,7,'Fictional own cancellation','approved',7,UTC_TIMESTAMP(),3)"); $db->exec('INSERT INTO loans(request_id,copy_id) VALUES(102,3)');
  [$code]=accept_http($student,'/requests.php?status=awaiting_pickup&page=1',['action'=>'cancel_approved','request_id'=>102,'csrf_token'=>$token]); accept_check($code===303 && $db->query('SELECT cancellation_kind FROM loans WHERE request_id=102')->fetchColumn()==='student','Student cancellation HTTP');
+ $adminClient=$clients['admin'];
+ foreach(['student','librarian'] as $deniedRole) { [$code]=accept_http($clients[$deniedRole],'/staff.php'); accept_check($code===403,"$deniedRole staff access denied"); }
+ [$code,$html]=accept_http($adminClient,'/staff.php'); $adminToken=accept_token($html); accept_check($code===200 && str_contains($html,'Create staff account'),'Admin staff page');
+ [$code,$html]=accept_http($adminClient,'/staff.php',['action'=>'create','username'=>'new_http_staff','display_name'=>'<Fictional Staff>','role'=>'librarian','csrf_token'=>'forged']); accept_check($code===400 && str_contains($html,'&lt;Fictional Staff&gt;'),'Staff CSRF and escaped retained input');
+ [$code]=accept_http($adminClient,'/staff.php',['action'=>'create','username'=>'new_http_staff','display_name'=>'<Fictional Staff>','role'=>'librarian','csrf_token'=>$adminToken]); accept_check($code===303,'Staff creation HTTP');
+ $staffId=(int)$db->query("SELECT user_id FROM users WHERE username='new_http_staff'")->fetchColumn();
+ accept_check($db->query('SELECT password_hash FROM users WHERE user_id='.$staffId)->fetchColumn()===null,'New staff password disabled');
+ [$code,$html]=accept_http($adminClient,'/staff.php?q=new_http_staff'); accept_check(str_contains($html,'Password not set') && str_contains($html,'&lt;Fictional Staff&gt;'),'Staff search and escaped display');
+ [$code]=accept_http($adminClient,'/staff.php',['action'=>'update','user_id'=>$staffId,'version'=>1,'role'=>'librarian','status'=>'suspended','csrf_token'=>$adminToken]); accept_check($code===303,'Staff suspension HTTP');
+ [$code]=accept_http($adminClient,'/staff.php',['action'=>'update','user_id'=>4,'version'=>1,'role'=>'librarian','status'=>'active','csrf_token'=>$adminToken]); accept_check($code===400,'Last usable admin HTTP protected');
+ [$code]=accept_http($adminClient,'/manage_books.php'); accept_check($code===403,'Admin catalog mutation denied');
+ [$code]=accept_http($clients['librarian'],'/staff.php',['action'=>'create','username'=>'forged_staff','display_name'=>'Forged','role'=>'administrator','csrf_token'=>$staffToken]); accept_check($code===403,'Librarian forged staff POST denied');
+ require __DIR__.'/broad_http_checks.php';
+ require __DIR__.'/account_access_http_checks.php';
  echo "Scratch database retained: $name\n";
 } finally {proc_terminate($server);proc_close($server);}

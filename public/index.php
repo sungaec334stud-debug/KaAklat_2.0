@@ -16,7 +16,7 @@ if ($user !== null) {
         : ($student ? 'Find a book, send a request, and follow its progress here.' : 'Keep your library moving. Choose a task below to get started.');
     $primaryUrl=$user['role']==='librarian'?'/review_requests.php':'/catalog.php';
     $primaryLabel=$user['role']==='librarian'?'Review borrowing requests':'Explore the catalog';
-    $content = '<section class="panel dashboard-hero"><div class="dashboard-kicker">Your library, connected</div><h1>Welcome back, ' . h($user['display_name']) . '</h1><p>' . h($message) . '</p><a class="button" href="' . h($primaryUrl) . '">' . h($primaryLabel) . '</a></section>';
+    $content = '<section class="panel dashboard-hero"><h1>Welcome back, ' . h($user['display_name']) . '</h1><p>' . h($message) . '</p><a class="button" href="' . h($primaryUrl) . '">' . h($primaryLabel) . '</a></section>';
     if(in_array($user['role'],['student','librarian'],true)) {
         try {
             $counts=dashboard_counts(database_connection(application_config()['database']));
@@ -29,6 +29,8 @@ if ($user !== null) {
             if($student && $counts['overdue']>0) { $content.='<p class="flash flash-error" role="status">You have '.h((string)$counts['overdue']).' overdue loan(s), included in your active loans. Please speak with your librarian.</p>'; }
         } catch(Throwable) { $content.='<p class="flash flash-info" role="status">Your borrowing summary is temporarily unavailable. You can still open your tasks below.</p>'; }
     }
+    if ($user['role']==='administrator') { $content.='<section class="panel action-card"><h2>Staff access</h2><p>Create and manage librarian and administrator accounts.</p><a class="button" href="/staff.php">Manage staff accounts</a></section>'; }
+    if ($user['role']==='administrator') { $content.='<section class="panel action-card"><h2>Account access and audit</h2><p><a href="/students.php">Manage students</a> · <a href="/recover_account.php">Help recover an account</a> · <a href="/audit.php">Read audit records</a></p></section>'; }
     $cards = [['Discover', 'Book catalog', 'Search by title, author or category and check available copies.', '/catalog.php', 'Browse books']];
     if ($student) {
         $cards[] = ['Your borrowing', 'My requests & loans', 'See pending requests, librarian decisions, collection deadlines and active loans.', '/requests.php', 'View my requests'];
@@ -46,10 +48,11 @@ if ($user !== null) {
     }
     $content .= '<div class="dashboard-grid">';
     foreach ($cards as [$step, $heading, $description, $url, $label]) {
-        $content .= '<section class="panel action-card"><div class="action-step">' . h($step) . '</div><h2>' . h($heading) . '</h2><p>' . h($description) . '</p><a href="' . h($url) . '">' . h($label) . ' <span aria-hidden="true">→</span></a></section>';
+        $content .= '<section class="panel action-card"><h2>' . h($heading) . '</h2><p>' . h($description) . '</p><a href="' . h($url) . '">' . h($label) . ' <span aria-hidden="true">→</span></a></section>';
     }
     $content .= '</div><div class="session-actions"><span>Signed in as ' . h(ucfirst($user['role'])) . ' · ' . h(ucfirst($user['account_status'])) . '</span><form method="post" action="/logout.php"><input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '"><button class="button-secondary" type="submit">Log out</button></form></div>';
     render_page('Dashboard', $content);
     exit;
 }
-render_page('Welcome', '<section class="panel dashboard-hero"><div class="dashboard-kicker">Welcome to your school library</div><h1>A good book is just the beginning.</h1><p>Explore the collection, request the books you need, and keep track of your borrowing in one place.</p><a class="button" href="/login.php">Log in to the library</a></section><div class="dashboard-grid"><section class="panel action-card"><div class="action-step">New here?</div><h2>Create your student account</h2><p>Register, browse the collection, and ask your librarian to activate borrowing access.</p><a href="/register.php">Create an account →</a></section><section class="panel action-card"><div class="action-step">How borrowing works</div><h2>Request. Collect. Read.</h2><p>Choose an available book and explain how long you need it. Once approved, collect it from the librarian within 48 hours. Your borrowing period starts at pickup.</p></section></div>');
+require_once dirname(__DIR__).'/views/landing.php';
+render_page('Welcome', landing_html(), true);

@@ -376,3 +376,105 @@ Outcome: implemented in new cancellation service and existing student-history/pi
 2026-11-03 prompt: 'can you peform a regression testing'. Outcome: 19 regression scripts, three independent-process cancellation races, 45 HTTP assertions, 60 PHP lints, JS syntax and whitespace checks PASS. Evidence/scratch names recorded in TEST_PLAN.md. Demo data and preexisting edits preserved; no commit/push. Visual/keyboard/hosting not tested.
 
 2026-11-03 user report: 'visual and keyboard acceptance all passed'. Outcome: recorded user-reported cancellation visual/keyboard acceptance in progress, test plan and changelog; no code change, test rerun, commit or push.
+
+## Administrator staff management request — 2026-11-03
+
+Implement the next small increment: administrator staff-account management.
+
+For this increment, I approve creating staff accounts with login disabled until their password is assigned through the existing local operator tool. Staff-assisted password setup/recovery will be a separate increment.
+
+Read AGENTS.md, the latest PROGRESS.md handoff, SRS.md, SCHEMA.md, TEST_PLAN.md, WORKFLOW.md and the existing authentication, student-account, audit, dashboard and layout code. Inspect Git status and preserve existing work, design, sample books and database data. Use the existing plain PHP/PDO stack. Keep hosting deferred.
+
+Build an administrator-only staff page that:
+- Lists librarian and administrator accounts with bounded pagination and useful search.
+- Creates librarian or administrator accounts using documented username/display-name limits.
+- Creates accounts with NULL password_hash, clearly labeled “Password not set—sign-in unavailable.”
+- Allows permitted staff role changes, suspension and reactivation.
+- Clearly identifies the affected account before submission.
+- Provides useful field errors, retained nonsensitive inputs, empty, success and stale states.
+- Adds administrator dashboard/navigation links.
+- Preserves the existing blue/white/gray responsive design.
+
+Keep this increment limited to staff accounts. Do not convert student accounts into staff or expand student administration.
+
+Enforce:
+- Only a currently active, authenticated administrator may manage staff.
+- Students and librarians cannot access or forge staff-management actions.
+- Administrators do not gain circulation or catalog-management permissions.
+- Preserve at least one active administrator with a usable password hash.
+- Prevent concurrent changes from removing the last usable administrator.
+- Handle self-demotion/suspension safely; revoke the actor’s session immediately after a successful self-change.
+- Increment session_version after role/status changes.
+- Revoke outstanding recovery secrets when required by existing rules.
+- Preserve accounts and history; do not physically delete accounts.
+- Repeated unchanged submissions must not create duplicate state-change audits.
+
+Add a CLI-only initial-administrator provisioning tool:
+- No public installer, registration route or shared seeded password.
+- Use private interactive password entry, never a command-line password argument.
+- Validate and hash passwords using existing policy.
+- Refuse to overwrite an existing account or silently elevate its role.
+- Restrict bootstrap to the absence of a usable administrator, with concurrency protection.
+- Save account creation and its audit atomically.
+- Document the real command after the tool exists.
+- Do not run it against the demo database without my explicit request.
+
+Inspect the existing password-setting tool. Ensure documented password assignment does not place passwords in command arguments or logs. If necessary, add a secure interactive input mode while preserving existing callers.
+
+Use current session/account checks, POST, CSRF, allowlisted inputs, parameterized queries, server validation, output escaping and redirect-after-success. Never expose password hashes, secrets, database errors or sensitive audit payloads.
+
+Use transactions and a documented consistent lock strategy:
+- Recheck the acting administrator under lock.
+- Serialize last-administrator and bootstrap decisions.
+- Avoid deadlocks with existing user-row lock ordering.
+- Save mutations, session revocation and audit events atomically.
+- Roll back all changes if a required write fails.
+- Do not treat an account with NULL password_hash as a usable administrator.
+
+Prefer existing schema fields. If a schema change is genuinely necessary, explain why and follow additive migration and backup requirements.
+
+Write meaningful tests for:
+- Roles, stale sessions, suspended actors, CSRF and forged inputs.
+- Username/display-name validation and canonical duplicate usernames.
+- Staff creation with disabled login.
+- Role/status changes and session revocation.
+- Last usable administrator protection, including concurrent changes.
+- Safe self-changes.
+- Audit-failure rollback.
+- Repeated submissions and preserved account/history records.
+- Search, pagination and output escaping.
+- CLI-only bootstrap, duplicate-account refusal and concurrent bootstrap.
+- Password validation and secret-free output.
+- Continued denial of administrator circulation/catalog actions.
+
+Use isolated fictional fixtures. Never reset, reimport or delete demo data. Do not claim concurrency passed without executing independent-process tests.
+
+Run relevant regression tests, PHP lint and available HTTP/browser checks. Report actual results and limitations. Do not claim visual or keyboard acceptance without observing it.
+
+Update PROGRESS.md, TEST_PLAN.md, CHANGELOG.md, WORKFLOW.md and prompt.md. Update SRS.md/SCHEMA.md where affected. Keep current summaries consistent and preserve historical evidence.
+
+Check usage at the start and finish if available; otherwise say it is unavailable. If usage becomes low, finish a safe reviewable checkpoint and document exact remaining steps.
+
+Do not implement password recovery, audit browsing, circulation features or hosting. Do not commit or push.
+
+Finish with beginner-friendly administrator testing and local password-assignment instructions. Identify the next increment: secure staff-assisted account recovery.
+
+Outcome: staff service/page, disabled-login creation, concurrency-protected last usable admin and CLI bootstrap, private Windows password mode and atomic session/reset revocation implemented. No demo bootstrap or reset. Tests/evidence and manual UI/terminal limitations recorded in TEST_PLAN.md/WORKFLOW.md. No commit/push; hosting deferred. Next secure staff-assisted recovery.
+
+2026-11-03 user report: 'The administration testing all passed'. Outcome: recorded scoped user-operated administration acceptance in progress/test plan/changelog. No application changes, rerun, commit or push.
+
+2026-11-03 prompt: 'check if the system has bugs or errors that we’ve missed. Test every feature if it works'. Outcome: audited implemented features with isolated tests and source review, fixed NUL-password error, expanded HTTP coverage; actual results and remaining admin-student/recovery/audit/deployment gaps documented in verification/AUDIT_2026-11-03.md. No demo data changes, commit or push. No exhaustive/visual-certification claim.
+
+## Account-access request — 2026-11-03
+User: "fix and implement this: Remaining SRS gap: administrators should be able to activate/suspend students, but that page currently permits only librarians. Recovery and administrator audit browsing also remain unimplemented."
+Outcome: implemented separate student-manager authorization, staff-assisted recovery issuance/redemption and admin metadata-only audit browsing with existing schema, scoped navigation and login guidance. Isolated fixtures only; 21 regressions, 101 HTTP assertions and two independent-process recovery races PASS. Documentation/manual checklist updated. No visual/keyboard pass claimed, no demo account changes, hosting deferred, no commit/push. Next account-access manual acceptance then remaining operational SRS evidence.
+
+2026-11-03 user request: 'perform a check and test for the entire system. Make sure there are no bugs and errors'. Outcome: all available isolated automated suites rerun; 21 regressions/17 races/101 HTTP assertions/79 PHP lints PASS; local health ready and five integrity counts zero. No newly detected defect; no zero-bug guarantee or new visual/hosting claim. Evidence/limits recorded; no demo data changes, commit or push.
+
+2026-11-03 user: '[@Impeccable] make the design modern and improve the design of every page while still keeping the color scheme. Make sure you dont add errors or bugs'. Outcome: shared CSS/layout/dashboard/auth refinement preserving blue/white/gray and all workflows. Context engine unavailable, references used directly. 21 regressions/101 HTTP assertions PASS; two bounded headless capture rounds with final92 width captures, error-summary keyboard path and token contrast checks. No zero-bug/complete accessibility claim. Existing data/work preserved; no commit/push. Evidence in verification/DESIGN_REFINEMENT_2026-11-03.md.
+
+2026-11-03 user: 'can you improve the landing page by adding images and animations'. Outcome: generated two illustrative library images, optimized/added local assets, scoped signed-out landing markup/styles with700ms nonlooping/reduced-motion-aware opening sequence and real login/register/guide links.21 regressions/104 HTTP assertions PASS; headless widths/motion/JS-off/keyboard skip checks PASS. No demo data changes, commit or push. Evidence verification/LANDING_2026-11-03.md.
+
+2026-11-03 user asked whether design review was needed and requested deletion if unused. Outcome: confirmed tmp/design-review had no runtime references; removed only temporary review artifacts, retained actual website assets and historical reports. No database changes, commit or push.
+
+2026-11-03 prompt: 'commit and push all the implementation for today'. Outcome: reviewed scope, fresh21 regressions/104 HTTP assertions/80 lints/17 races/JS syntax PASS; preparing commit/push on main with private runtime data and separate output/ excluded. Final commit/push verification reported in chat.

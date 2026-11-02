@@ -34,10 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $errorList = $errors === [] ? '' : '<div class="flash flash-error" role="alert"><ul><li>' . implode('</li><li>', array_map('h', $errors)) . '</li></ul></div>';
 $content = $errorList
-    . '<section class="panel auth-panel"><div class="page-eyebrow">Welcome back</div><h1>Your library awaits.</h1><p>Sign in to your KaAklat account.</p><form method="post" action="/login.php" novalidate>'
+    . '<section class="panel auth-panel"><h1>Your library awaits.</h1><p>Sign in to your KaAklat account.</p><form method="post" action="/login.php" novalidate>'
     . '<input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '">'
     . '<label for="username">Username</label><input id="username" name="username" autocomplete="username" maxlength="32" required value="' . h($username) . '">'
     . '<label for="password">Password</label><input id="password" name="password" autocomplete="current-password" type="password" required>'
-    . '<button type="submit">Log in</button></form><p><a href="/register.php">Need an account? Register as a student</a></p><p>Forgot your password? Contact your librarian for help. Online password recovery is not available yet.</p></section>';
+    . '<button type="submit">Log in</button></form><p><a href="/register.php">Need an account? Register as a student</a></p><p>Forgot your password? Ask your librarian or administrator to verify your identity in person and issue a recovery secret. <a href="/reset_password.php">Use a recovery secret</a></p></section>';
 
 render_page('Log in', $content);
