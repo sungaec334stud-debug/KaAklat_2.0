@@ -1,5 +1,7 @@
 # KaAklat deployment and recovery guide
 
+Current local recovery update (2026-11-04): follow [docs/local-backup-restore.md](docs/local-backup-restore.md) for the new CLI bundle helper, write pause, protected copies and restore authentication quarantine. A complete **fictional local** rehearsal passed; see verification/BACKUP_RESTORE_2026-11-03.md. This does not establish real-demo/hosted recovery, off-device protection or deployment. Hosting is deferred. The prepared-date statements below describe their historical handoff.
+
 Prepared 2026-10-29 (Asia/Manila). This is a deployment plan for the selected plain-PHP option. Official hosting documentation was reviewed on this date; **no account, live PHP/database connection, upload, HTTPS behavior or full application deployment was tested during this handoff**. Record real results in `PROGRESS.md` as they are obtained.
 
 Requirements covered: FR-01–FR-12 as hosted smoke checks; particularly FR-04 covers and FR-11 backup/restore, plus NFR-01 security, NFR-02 privacy, NFR-03 integrity, NFR-06 performance, NFR-07 recovery and NFR-08 maintainability.
@@ -133,6 +135,8 @@ Do not use a passing HTTP status alone as evidence because the host's browser ch
 
 ## Manual off-host backup
 
+For this Windows local project, prefer the complete bundle workflow linked above. The raw mysqldump example below exports only the database; matching files/config/code must also be retained. Do not mix the two workflows or treat a non-empty SQL file as a verified restore.
+
 **Proposed target:** daily during active use, immediately before changes and before the presentation; RPO at most 24 hours and same-day local restoration within 30 minutes. RPO is the maximum tolerable loss since the latest successful backup; RTO is the restoration-time target. These are goals to measure, not guarantees.
 
 During a backup, prevent writes briefly so SQL and cover files describe the same point in time. In the hosting panel's phpMyAdmin, select the intended database, choose Export → Custom, include all tables with structure and data, and download the SQL. Do not save it into File Manager. Record whether the export contains `CREATE DATABASE`, `USE`, `DROP` or foreign-key-check changes; inspect these before any restore. Download the matching cover directory and preserve the exact source release. Keep config secrets separately in protected storage.
@@ -153,6 +157,8 @@ Get-FileHash -LiteralPath $backupFile -Algorithm SHA256
 This local command does not bypass hosting's remote-database restrictions. Avoid DDL during a dump; for database/file consistency, retain the short write pause. Store the export time, source release, schema changes, checksum and cover backup reference in a private backup manifest. A non-empty file/checksum proves that a file exists, not that restoration succeeds.
 
 ## Restore rehearsal into a new local database
+
+Before allowing restored users access, apply the session/reset/password precautions in docs/local-backup-restore.md: new cookie name and empty session directory, invalidate restored reset secrets, increment restored versions, and reconcile post-backup credential/status changes. Do this only on the separate restored target. Never enable the backed-up source configuration blindly.
 
 1. Choose a specific backup with matching covers/source release. Keep the live database untouched. Inspect the SQL for embedded database selection or destructive statements. A copied export must not redirect import into `kaaklat_dev` or a live database.
 2. Start the local XAMPP database service. Create a new, uniquely named empty restore database. The example name is for one rehearsal; if it exists, choose a new name rather than dropping it.

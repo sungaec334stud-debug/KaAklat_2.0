@@ -13,6 +13,14 @@ All dates use Asia/Manila. This records completed document changes, not applicat
 
 ## [Unreleased]
 
+- 2026-11-04: recorded successful user installation of Python3.15.2 and strict checker execution with zero findings. Corrected audit interpretation: default scan covered zero eligible source files, and the checker excludes PHP. No PHP UI/security certification inferred. Application work/data preserved; documentation-only update, no application test rerun, commit or push.
+
+- 2026-11-04: recorded user-operated My Profile information/count links/360px/768px/400% zoom/keyboard acceptance: all PASS, no problems reported. Named checks only; Python static audit and broader coverage not inferred. No application changes, test rerun, commit or push.
+
+- 2026-11-04: added read-only own student profile with safe basic fields, Manila registration display, pending/active explanation, shared own borrowing counts/history links, student navigation and scoped responsive definition-list styling. Fixed confirmed SYSTEM/+08 default timestamp mismatch by setting new application connections to UTC; existing timestamps not modified and legacy registration provenance needs review.25 profile checks/23 regressions/133 HTTP assertions/90 lints/17 race scenarios and52-check restore PASS. Browser/keyboard/zoom blocked by Computer Use URL-confidence policy; premium static audit blocked by inaccessible Python. Existing backup/research/demo work preserved; hosting deferred, no commit/push. Favorites next feature; performance remains pending.
+
+- 2026-11-04 (work begun 2026-11-03): added CLI-only local backup bundles (SQL, matching covers/config/working source, checksums), private credential transport/cleanup, new-only path guards and beginner operator/restore-quarantine guidance. Actual fictional source/restore rehearsal52 checks PASS,3.30s on MariaDB10.4.32;22 regressions/104 HTTP assertions/84 PHP lints PASS. No demo-data mutation, route/schema change, deployment, off-device/real-demo recoverability claim, commit or push. Exact retained scratch resources and failed harness checkpoints documented in verification/BACKUP_RESTORE_2026-11-03.md; hosting deferred.
+
 - 2026-10-31: recorded explicit user approval of six borrowing defaults in SRS/progress/design/implementation-plan notes, preserving identifiers and limiting approval to stated clauses. No circulation implementation or test results inferred. Usage: 2% five-hour / 3% weekly used.
 
 - 2026-10-31: recorded user-operated Chrome simulated 360px/768px, keyboard, login/register, catalog navigation, librarian forms and 400% zoom acceptance: all Pass, no problems. Actual-phone/contrast/concurrency/hosting verification remains pending. Corrected stale TEST_PLAN header that claimed all application scenarios were unrun. Usage: 1% five-hour and 2% weekly used.

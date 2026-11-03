@@ -1,5 +1,27 @@
 # KaAklat test plan
 
+2026-11-04 commit readiness: after user restarted MySQL, fresh tests/run_regression.php23 scripts and HTTP133 assertions PASS in kaaklat_acceptance_221527b78cf5; tmp/backup-unit-5bd20340eee7 retained. The earlier connection-refused attempt was an environment blocker, not counted as a pass. Latest90 PHP lints/whitespace PASS. Only fictional fixtures; no demo mutation. User authorized commit/push; private/runtime/research-output exclusions reviewed. Final Git result reported separately.
+
+## Python static-checker execution and coverage — 2026-11-04
+
+User-run strict audit output, confirmed in tmp/profile-premium-audit.json: findings/errors/warnings/violations/unresolved all zero. Python installation now works per user terminal output. Source inspection found no PHP support in the checker's extension list and zero eligible files under default src/app/pages roots (app exists; no premium-ui.json). Therefore classify this as successful tool execution with **zero default source coverage**, not a PHP design-audit pass. Prior inaccessible-Python status is superseded for tool setup only. Existing profile automated/HTTP/manual evidence remains scoped as recorded. No application changes or fresh application test run.
+
+## User-reported profile acceptance — 2026-11-04
+
+All six supplied checklist items user-reported PASS: profile information, count links,360px,768px,400% zoom and keyboard navigation. No problems reported. Classification: user-operated acceptance, not agent-observed browser evidence or full accessibility/security certification. Supersedes earlier pending statements for these named checks only. Python static audit remains unrun; separate role/status/JS-disabled manual scenarios, legacy registration timestamps, real-device/screen-reader coverage, performance and hosting not inferred. No code/data changes or automated rerun for this report.
+
+## Latest profile evidence — 2026-11-04
+
+FR-13/T-37:25 isolated temporary-table profile checks PASS;23 regression scripts,133 HTTP assertions (kaaklat_acceptance_a06c7aa833f0) and90 PHP lints PASS. Roles/status/version/idle, safe own-field projection, shared count scope/closed expiry exclusions, escaped output, Manila registration rollover, tab links/zero state, no-store, forged query selectors, POST refusal and safe503/retry fault injection covered. UTC initialization assertion failed before correction; new HTTP registration timestamp now verified against UTC. All7 concurrency suites/17 scenarios and existing52-check restore rerun PASS because shared connection setup changed. Existing demo records untouched. Full evidence/retained scratch names: verification/STUDENT_PROFILE_2026-11-04.md.
+
+NOT VERIFIED: new profile visual/desktop/360/768/400%/keyboard checks (Computer Use URL-confidence policy stopped access), premium static audit (Python alias inaccessible), older registration-time provenance, performance or hosting. Do not infer these from HTTP/markup or earlier UI passes. Manual: student → My Profile → compare own fields/counts/date → follow3 tab links; pending profile/catalog remain readable; staff denied; signed-out requires login; inspect long names/navigation at360/768/400%, Tab/Shift+Tab/Enter and JS off. Report exact page/role/width/steps/expected/actual. Next feature favorites; performance verification remains outstanding.
+
+## Latest local backup/restore evidence — 2026-11-04
+
+FR-11/T-33 partial acceptance: CLI bundle helper implemented,15 safety checks PASS and actual52-check fictional restore PASS. Latest targeted rerun: `kaaklat_backup_src_4167dc3a3d6a` → new empty `kaaklat_restore_4167dc3a3d6a`,3.90s import-through-validation/workflow on MariaDB10.4.32. Exact12-table definitions/counts/all rows, binary digest, CHECK/FK/generated unique/rollback, original history, availability, code/cover checksums, actual protected cover HTTP, password/status/session/reset quarantine and full restored request/approval/pickup/return passed. Backup source remains unchanged; import diagnostics use a separate private directory; test server stopped. Exact resources/earlier runs in verification/BACKUP_RESTORE_2026-11-03.md. Added unit fixture tmp/backup-unit-84837f1ca9db retained.
+
+Fresh existing regressions22 scripts, HTTP104 assertions (kaaklat_acceptance_dbcd8ae97f2a) and84 PHP lints PASS during this increment. No demo database reset/import/mutation; no schema/UI/business change, commit/push or hosting work. Local backup instructions in docs/local-backup-restore.md. Not verified: real-demo/off-device restore, Windows ACL enforcement, OS-link fixture execution, crash/power-loss recovery, actual backup schedule/RPO, full-volume RTO, T-35 production rollback/reconciliation, performance, hosted acceptance and new visual/manual account-access acceptance. New safety tests initially failed before implementation; final targeted rerun passed after path-containment hardening.
+
 Version 0.1; evidence updated 2026-10-31. Application checks have mixed implementation/verification status. Use the dated evidence below for executed automated and user-operated checks; unchecked portions of scenarios remain pending.
 
 ## Test environments and evidence
@@ -56,14 +78,15 @@ Use independent database connections or processes with a barrier so operations t
 | T-30 | NFR-04, NFR-05        | Complete core forms using keyboard at widths 360/768/1280 and 400% zoom; inspect labels, focus, error association, status contrast, alt text. No inaccessible controls or clipped essential content.                                     | Not run       |
 | T-31 | NFR-04                | Observe actual planned participants completing tasks. Record failures/help/time without inventing responses; interview notes and questionnaire scores kept distinct.                                                                     | Not run       |
 | T-32 | NFR-06                | Use 100 titles/300 copies/30 student accounts/3 staff and 5 concurrent users. Record >=30 local warm response samples and >=20 hosted navigations. Compare p95 local <=2s and hosted target <=5s, with network/device/failures recorded. | Not run       |
-| T-33 | FR-11, NFR-07         | Export SQL/files/private config, restore into separate empty local DB, validate counts, FK links, history, cover files and sign-in. Record completion <=30min and backup age <=24h or explain failure.                                   | Not run       |
+| T-33 | FR-11, NFR-07         | Export SQL/files/private config, restore into separate empty local DB, validate counts, FK links, history, cover files and sign-in. Record completion <=30min and backup age <=24h or explain failure.                                   | Fictional local rehearsal PASS (52 checks, latest3.90s, 2026-11-04); real-demo/off-device/RPO routine still unverified. |
 | T-34 | NFR-08                | Hosted smoke test: direct HTTPS address, redirect, PHP/PDO/GD, assigned DB version, InnoDB/FK/CHECK/UNIQUE/rollback and safe private paths. All needed capabilities work; diagnostics removed.                                           | Not run       |
 | T-35 | FR-11, NFR-07, NFR-08 | Rehearse maintenance deployment and rollback with a transaction created after initial backup. Preserve it or reconcile explicitly; no blind overwrite of current loans.                                                                  | Not run       |
 | T-36 | NFR-08                | Real desktop and phone browser with host JS/cookie check. Login, catalog, request, staff circulation work; blocked clients and outages documented rather than counted as passes.                                                         | Not run       |
+| T-37 | FR-13, NFR-01/02/04/05 | Student-only view profile: fresh identity/status/session, safe own fields/counts, Manila date, selectors/method rejection, no-store, escaping, zero/error states, narrow/zoom/keyboard. | Automated/HTTP PASS; six supplied profile manual checks user-reported PASS (2026-11-04). Broader coverage/static audit not inferred. |
 
 ## Requirement coverage
 
-FR-01: T01/02/05; FR-02: T01/03/04/05; FR-03: T06; FR-04: T07/08/09/25; FR-05: T10/12/17; FR-06: T11/12/13/17/21/22/23; FR-07: T13/14/15/17/22/23; FR-08: T16/24; FR-09: T14/16/18; FR-10: T19/25; FR-11: T33/35; FR-12: T20.
+FR-01: T01/02/05; FR-02: T01/03/04/05; FR-03: T06; FR-04: T07/08/09/25; FR-05: T10/12/17; FR-06: T11/12/13/17/21/22/23; FR-07: T13/14/15/17/22/23; FR-08: T16/24; FR-09: T14/16/18; FR-10: T19/25; FR-11: T33/35; FR-12: T20; FR-13: T37.
 
 NFR-01: T01/02/08/20/26/27/28/29; NFR-02: T03/18/26/28/29; NFR-03: T07/09/21/22/23/24/25; NFR-04: T06/30/31; NFR-05: T30; NFR-06: T32; NFR-07: T33/35; NFR-08: T29/34/35/36.
 

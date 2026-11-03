@@ -478,3 +478,132 @@ Outcome: implemented separate student-manager authorization, staff-assisted reco
 2026-11-03 user asked whether design review was needed and requested deletion if unused. Outcome: confirmed tmp/design-review had no runtime references; removed only temporary review artifacts, retained actual website assets and historical reports. No database changes, commit or push.
 
 2026-11-03 prompt: 'commit and push all the implementation for today'. Outcome: reviewed scope, fresh21 regressions/104 HTTP assertions/80 lints/17 races/JS syntax PASS; preparing commit/push on main with private runtime data and separate output/ excluded. Final commit/push verification reported in chat.
+
+## 2026-11-03–04 — Safe local backup and restore
+
+Actual user prompt:
+
+> Implement the next small increment: a safe local backup and restore workflow.
+>
+> Read AGENTS.md, the latest PROGRESS.md handoff, SRS.md, SCHEMA.md, TEST_PLAN.md, WORKFLOW.md and DEPLOYMENT.md. Inspect Git status and existing backup tools before changing anything. Preserve all existing work, accounts, books, covers and database data. Keep hosting deferred.
+>
+> First identify the backup and recovery requirements already documented. Reuse existing tools where possible. Do not introduce new application features, paid services, dependencies or scheduled tasks.
+>
+> Build or document a beginner-friendly manual workflow that:
+> - Backs up the application database and private cover files.
+> - Keeps credentials, database exports and private files outside public/ and Git.
+> - Uses explicit source and destination names.
+> - Explains how to stop local writes while creating a consistent backup.
+> - Reports failures clearly without exposing credentials or personal data.
+> - Documents where backups are stored and how to protect them.
+>
+> Perform an actual restore rehearsal:
+> - Create isolated fictional source fixtures and a separately named scratch restoration database.
+> - Restore only into that scratch database and a separate private directory.
+> - Never overwrite, reset, reimport, drop or truncate kaaklat_dev or any existing database.
+> - Verify table structure, required constraints, record counts, representative request/loan history and cover-file integrity.
+> - Verify restored availability and authentication/session behavior using isolated accounts.
+> - Check that restored private files cannot be served publicly.
+> - Explain how restoring an older backup affects passwords, sessions and recovery secrets, and document necessary session revocation.
+>
+> Do not claim the real demo database is recoverable solely from a fictional-fixture rehearsal. Clearly distinguish what was tested from what still requires a controlled real-data backup/restore exercise.
+>
+> Use existing schema and test-isolation conventions. Do not delete existing scratch databases or backups. Record the exact scratch resources created and leave cleanup instructions.
+>
+> Run relevant regression tests, PHP lint if PHP changes, and the actual restore checks. Report executed results and limitations. No deployment or production-restore claim.
+>
+> Update WORKFLOW.md, DEPLOYMENT.md, TEST_PLAN.md, PROGRESS.md, CHANGELOG.md and prompt.md. Keep the current progress summary consistent with the latest handoff.
+>
+> Check usage at the start and finish if available. If usage becomes low, stop at a safe checkpoint and document exact remaining steps.
+>
+> Do not commit or push.
+>
+> Finish with:
+> 1. What was implemented and verified.
+> 2. Simple instructions for creating a local backup.
+> 3. Clear restore precautions.
+> 4. The next small increment: performance verification against the SRS.
+
+Outcome: implemented CLI-only complete private bundles and documented manual write pause/off-device handling/authentication quarantine. Test-first helper checks,15 safety checks and actual52-check restore of a new fictional source to a new empty target passed (latest4167dc3a3d6a,3.90s). Exact tables/rows/constraints/history, source code, covers, login/session/reset safeguards and complete restored circulation verified. Existing22 regressions/104 HTTP assertions/84 PHP lints passed. Initial harness session/fallback expectations corrected and source-code backup added after its failing assertion. No demo data/config change or deployment/real-demo/off-device/RPO claim. Resources retained and cleanup guidance recorded; no commit/push; hosting deferred. Next: SRS performance verification, with controlled real-demo restore and outstanding manual/host/evaluation work separate.
+
+Final review caught a relative-path guard defect; failing test added, parent canonicalization corrected and15 safety/22 regressions/52 actual restore checks rerun PASS. Original local health ready HTTP200. Usage start2% primary/65% weekly used; finish15%/67% used. Exact retained resources and safe next steps documented; no commit/push.
+
+## 2026-11-04 — View-only student profile
+
+Actual user prompt:
+
+> Implement the next small increment: a view-only student profile.
+>
+> Read AGENTS.md, the latest PROGRESS.md handoff, SRS.md, SCHEMA.md, TEST_PLAN.md, DESIGN.md and existing authentication, student dashboard, navigation and request-history code. Inspect Git status and preserve existing work, including the uncommitted backup/restore increment, demo data and research files. Keep hosting deferred.
+>
+> Build a student-only My Profile page displaying:
+> - Display name.
+> - Username.
+> - Current account status with a clear explanation.
+> - Registration date formatted in Asia/Manila.
+> - Their own pending-request, ready-for-pickup and active-loan counts, linked to the corresponding existing history tabs.
+>
+> Use existing fields and shared count calculations. Do not add schema fields or duplicate dashboard queries unnecessarily. Keep pending students’ existing browsing permissions unchanged.
+>
+> Add My Profile to student navigation. Keep the current blue/white/gray theme and responsive layouts. Provide useful empty and error states, semantic headings and accessible links.
+>
+> Secure the page:
+> - Require authentication and recheck current account status/session version.
+> - Show only the signed-in student’s information.
+> - Do not accept a user ID or username to select another profile.
+> - Deny librarians and administrators access to this student-only page.
+> - Escape displayed values and prevent caching of private content.
+> - Never expose password hashes, recovery data, session identifiers or private configuration.
+>
+> Keep this increment view-only. Do not implement profile editing, email, student ID, avatars, password changes, favorites, recommendations or new borrowing rules.
+>
+> Write meaningful isolated tests for:
+> - Signed-out and wrong-role access.
+> - Pending and active student access.
+> - Suspended, archived and stale-session denial.
+> - Ownership and forged profile-selection parameters.
+> - Output escaping and exclusion of sensitive fields.
+> - Correct own-only counts and history-tab links.
+> - Zero-count states.
+>
+> Use fictional fixtures. Never reset, reimport or delete existing demo data.
+>
+> Run relevant regression tests, PHP lint and available HTTP/browser checks. Verify desktop, 360px, 768px, keyboard navigation and zoom when tools permit. Report unverified checks honestly; do not claim visual acceptance from HTTP tests alone.
+>
+> Update PROGRESS.md, TEST_PLAN.md, CHANGELOG.md and append this prompt/outcome to prompt.md. Update SRS.md if needed to record this approved addition. Keep current summaries consistent.
+>
+> Check usage at the start and finish if available. If usage becomes low, stop at a safe checkpoint and document exact remaining work.
+>
+> Do not commit or push.
+>
+> Finish with actual results and beginner-friendly local testing instructions.
+>
+> Next feature increment: student saved books/favorites. Performance verification remains outstanding and must stay documented.
+
+Outcome: safe read-only student profile with existing fields/shared own counts, navigation, status/empty/error states and scoped styling implemented. Missing-profile test failed before implementation; final25 profile checks,23 regressions,133 HTTP assertions,90 PHP lints,17 concurrency scenarios and preserved52-check restore passed. Confirmed existing SYSTEM/+08 connection mismatch fixed with session-only UTC initialization after a failing test; no historical timestamps changed, legacy registration dates need provenance review. No demo reset/import/update or new schema/borrowing rules. Computer Use stopped on current-URL confidence/access-policy enforcement; no further browser automation/workaround, so all new visual/narrow/zoom/keyboard acceptance remains unverified. Premium static audit blocked by inaccessible Python alias. Existing backup/research work preserved, scratch resources retained/documented, hosting deferred, no commit/push. Manual checklist in verification/STUDENT_PROFILE_2026-11-04.md. Favorites next feature; operational performance/controlled real-demo recovery/manual account-access/deployment/evaluation remain pending.
+
+Final profile usage:17% primary/67% weekly used at start;32%/69% used at finish. Original system ready HTTP200 and UTC session initialization independently confirmed; final25 profile checks/90 lints/whitespace PASS. No commit/push.
+
+## 2026-11-04 — User-reported profile acceptance
+
+Actual user report:
+
+```text
+Profile information: Pass
+Count links: PAss
+360px: Pass
+768px: Pass
+400% zoom: PAss
+Keyboard navigation: Pass
+Problems:
+```
+
+Outcome: recorded all six supplied checks as user-operated PASS, with no problems reported. Updated current progress, T-37/SRS summary and evidence without treating this as agent-observed or full accessibility/security acceptance. Python static audit and broader checks remain unverified. No code/data changes, automated rerun, commit or push; hosting deferred. Favorites next feature on separate request; performance remains pending.
+
+## 2026-11-04 — User-run Python checker
+
+User reported Python3.15.2 with executable C:/Users/63961/AppData/Local/Python/pythoncore-3.15-64/python.exe, then pasted strict audit_project.py output with findings[] and errors/total/unresolved/violations/warnings all0.
+
+Outcome: read matching tmp/profile-premium-audit.json and inspected checker coverage. Python setup works for the user, but the checker excludes PHP and its default src/app/pages roots contain zero eligible source files here. Recorded successful execution with no meaningful PHP-screen static-audit coverage; corrected earlier blocked/current summaries without claiming a UI/security pass. Existing user-reported profile acceptance preserved. No application changes/test rerun/commit/push; unrelated public/index.php edits left untouched. Hosting deferred; next feature favorites on request, performance remains pending.
+
+2026-11-04 user: "commit and push". Outcome: reviewed/staged the authorized backup/restore, student profile, UTC connection fix, tests and documentation, excluding private/runtime files and separate research output/. Fresh readiness23 regressions/133 HTTP assertions PASS after MySQL restarted; latest90 lints/whitespace PASS. No demo reset/import/update. Final commit/push result checked separately through Git and reported in chat. Hosting deferred; performance/controlled real-demo recovery and documented legacy-timestamp/remaining acceptance limitations retained.

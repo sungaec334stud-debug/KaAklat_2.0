@@ -14,7 +14,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
         catch(Throwable) { /* Fail closed if identity cannot be verified. */ }
     }
     $links = $navigationUser!==null ? ['/' => 'Dashboard', '/catalog.php' => 'Book catalog'] : ['/login.php' => 'Log in', '/register.php' => 'Create an account'];
-    if(($navigationUser['role']??null)==='student') { $links['/requests.php']='My requests & loans'; }
+    if(($navigationUser['role']??null)==='student') { $links['/requests.php']='My requests & loans'; $links['/profile.php']='My Profile'; }
     if(($navigationUser['role']??null)==='librarian' && $navigationUser['account_status']==='active') {
         $links += ['/review_requests.php'=>'Review requests','/pickups.php'=>'Pickups','/returns.php'=>'Returns','/manage_books.php'=>'Manage books','/students.php'=>'Students'];
     }
@@ -46,7 +46,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{$safeTitle} | {$appName}</title>
     <link rel="icon" href="/assets/kaaklat-logo.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/assets/app.css?v=20261103-workspace">
+    <link rel="stylesheet" href="/assets/app.css?v=20261104-profile">
     {$landingStyles}
     <script src="/assets/forms.js" defer></script>
 </head>

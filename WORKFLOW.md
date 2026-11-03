@@ -1,5 +1,7 @@
 # KaAklat beginner development workflow
 
+Current local backup procedure (2026-11-04): [operator instructions](docs/local-backup-restore.md). Use CLI-only `bin/local_backup.php UNIQUE_NAME --writes-paused` after stopping all writers. It bundles database, covers, sensitive config and current working source into ignored private storage; make a separate protected off-device copy. Actual fictional restore evidence is in verification/BACKUP_RESTORE_2026-11-03.md. Real-demo restore, daily backup/RPO routine and hosted recovery remain unverified. Earlier phases below retain their original planning language.
+
 Prepared 2026-10-29. Option A: plain PHP 8.4, PDO MySQL, a MySQL-compatible database, semantic HTML, custom responsive CSS and minimal JavaScript. This is a future work guide. Preparing these documents does not implement the application, start a database, create a hosting account or prove that deployment works.
 
 Start with `DESIGN_BRIEF.md`, `SRS.md`, `SCHEMA.md`, `TEST_PLAN.md` and `AGENTS.md`. Follow the confirmed requirements; proposed defaults in the brief remain proposals until accepted by the school. Keep the original research paper unchanged. `schema.sql` and fictional `seed.sql` belong at the project root. `DEPLOYMENT.md` gives the detailed hosting and recovery procedure.

@@ -23,7 +23,7 @@ function database_dsn(array $database): string
 
 function database_connection(array $database): PDO
 {
-    return new PDO(
+    $connection = new PDO(
         database_dsn($database),
         (string) $database['username'],
         (string) $database['password'],
@@ -33,6 +33,9 @@ function database_connection(array $database): PDO
             PDO::ATTR_EMULATE_PREPARES => false,
         ]
     );
+    // SCHEMA.md stores DATETIME defaults in UTC; the server's SYSTEM zone may differ.
+    $connection->exec("SET SESSION time_zone = '+00:00'");
+    return $connection;
 }
 
 function database_is_available(array $database): bool

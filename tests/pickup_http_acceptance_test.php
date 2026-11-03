@@ -92,5 +92,6 @@ try {
  [$code]=accept_http($clients['librarian'],'/staff.php',['action'=>'create','username'=>'forged_staff','display_name'=>'Forged','role'=>'administrator','csrf_token'=>$staffToken]); accept_check($code===403,'Librarian forged staff POST denied');
  require __DIR__.'/broad_http_checks.php';
  require __DIR__.'/account_access_http_checks.php';
+ require __DIR__.'/student_profile_http_checks.php';
  echo "Scratch database retained: $name\n";
 } finally {proc_terminate($server);proc_close($server);}

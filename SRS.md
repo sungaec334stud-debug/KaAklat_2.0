@@ -60,6 +60,7 @@ An administrator is not automatically a librarian. Permission checks run on the 
 | Browse catalog, cover and availability | No | Yes | Yes | Yes | Yes |
 | Request a book | No | No | Own, if eligible | No | No |
 | View student request/loan details | No | Own | Own | Operational records | No, except minimum audit metadata |
+| View My Profile and own borrowing totals | No | Own | Own | No | No |
 | Cancel pending/uncollected request | No | Own if existing | Own | Any with reason | No |
 | Approve/reject, record pickup/return | No | No | No | Yes | No |
 | Add/edit/archive catalog and physical copies, upload cover | No | No | No | Yes | No |
@@ -90,6 +91,7 @@ Pending users can browse but cannot request. Suspended users cannot sign in; sus
 | FR-10 | Record essential audit events. | Persist actor, action, affected identifiers, timestamp and outcome for account/role changes, catalog changes, decisions, pickup, return and reset issuance/redemption. Successful mutations and their audit record commit together. Logs contain no passwords, reset secrets, session IDs or borrowing reasons. |
 | FR-11 | Document and perform backup/recovery. | Operator exports database plus code/config/cover dependencies to private off-host storage and restores to a separate empty local database. Compare record counts, foreign-key integrity, sample history and cover retrieval; record elapsed time and result. |
 | FR-12 | Recover accounts without email. | Authorized staff verify identity in person, issue a random single-use secret, store only its hash, and allow a password change within 30 minutes. Successful reset invalidates existing sessions and other outstanding secrets. Expired/replayed secret cannot change a password. Staff cannot view current passwords. |
+| FR-13 | View own student profile (user-approved addition, 2026-11-04). | Pending/active students see only their current display name, username, status/explanation, registration time in Asia/Manila and linked own pending/ready-for-pickup/active totals. No editing or profile selector; staff denied; private responses not cached. Uses existing fields/count rules, without changing borrowing eligibility. |
 
 ## 6. Business rules
 
@@ -176,8 +178,9 @@ Use nonpublic backups. Restore into a separate empty database, check expected co
 | FR-07 / FR-08 | Physical pickup, Manila-based due date and atomic, repeat-safe returns implemented. |
 | FR-09 | Own history and searchable outstanding returns queue with derived overdue state implemented; broader operational acceptance pending. |
 | FR-10 | Audit implemented including recovery events; administrator read-only metadata browsing implemented locally. |
-| FR-11 | Backup/recovery procedures documented; actual restore rehearsal and measurements pending. |
+| FR-11 | Local CLI bundle and operator workflow implemented. Actual fictional local restore rehearsal passed (52 checks, latest3.90s, 2026-11-04); real-demo/off-device restore and daily RPO evidence remain pending. See verification/BACKUP_RESTORE_2026-11-03.md. |
 | FR-12 | Staff-assisted issuance/redemption implemented locally; new UI acceptance pending. |
+| FR-13 | View-only own student profile implemented with existing fields/shared counts; local automated/HTTP verification recorded in TEST_PLAN.md. Profile information/count links/360px/768px/400% zoom/keyboard user-reported PASS (2026-11-04). Broader acceptance/static audit remain separate. |
 
 Latest recorded pre-commit evidence: 18 regression scripts, 36 HTTP assertions, 57 PHP lints and two independent-process return races PASS. Named interface/refinement checklists user-reported PASS. Full accessibility/device, deterministic contention, performance, hosted acceptance and participant evaluation remain unverified. See TEST_PLAN.md for evidence boundaries.
 
