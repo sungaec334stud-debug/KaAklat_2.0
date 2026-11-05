@@ -6,6 +6,7 @@ require_once dirname(__DIR__) . '/app/bootstrap.php';
 require_once dirname(__DIR__) . '/views/layout.php';
 
 start_application_session();
+header('Cache-Control: no-store');
 $config = application_config();
 $errors = [];
 $values = ['display_name' => '', 'username' => ''];
@@ -22,25 +23,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 database_connection($config['database']),
                 $values['username'],
                 $values['display_name'],
-                is_string($_POST['password'] ?? null) ? $_POST['password'] : ''
+                is_string($_POST['password'] ?? null) ? $_POST['password'] : '',
+                $_POST['school_student_id'] ?? null
             );
             flash_set('success', 'Your account was created. A librarian must activate borrowing before you can request books.');
             redirect('/login.php');
         } catch (InvalidArgumentException $exception) {
             $errors[] = $exception->getMessage();
-        } catch (Throwable $exception) {
+        } catch (Throwable) {
             $reference = bin2hex(random_bytes(8));
-            error_log(sprintf(
-                'KaAklat registration failed [%s]: %s: %s',
-                $reference,
-                $exception::class,
-                $exception->getMessage()
-            ));
-            if ($config['app_env'] === 'local') {
-                $errors[] = 'Local diagnostic. Reference: ' . $reference . '. Error: ' . $exception->getMessage();
-            } else {
-                $errors[] = 'We could not create the account. Please try again later. Reference: ' . $reference;
-            }
+            error_log('KaAklat registration failed. Reference: ' . $reference);
+            $errors[] = 'We could not create the account. Please try again later. Reference: ' . $reference;
         }
     }
 }
@@ -50,6 +43,7 @@ $content = $errorList
     . '<section class="panel auth-panel"><h1>Create student account</h1><p>Use a username with 3-32 lowercase letters, numbers, or underscores. Passwords require 12–72 UTF-8 bytes. Accented characters and emoji can use more than one byte; a plain-text passphrase is easier to size.</p>'
     . '<form method="post" action="/register.php" novalidate>'
     . '<input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '">'
+    . '<label for="school_student_id">School student ID (YY-####-###)</label><input id="school_student_id" name="school_student_id" autocomplete="off" maxlength="11" pattern="[0-9]{2}-[0-9]{4}-[0-9]{3}" required>'
     . '<label for="display_name">Display name</label><input id="display_name" name="display_name" autocomplete="name" maxlength="100" required value="' . h($values['display_name']) . '">'
     . '<label for="username">Username</label><input id="username" name="username" autocomplete="username" maxlength="32" pattern="[a-zA-Z0-9_]{3,32}" required value="' . h($values['username']) . '">'
     . '<label for="password">Password</label><input id="password" name="password" autocomplete="new-password" type="password" minlength="12" maxlength="72" required>'

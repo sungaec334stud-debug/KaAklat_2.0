@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-05 — Student ID registration and librarian approval
+
+Added school ID validation and an additive uniqueness constraint. Librarians now confirm an in-person check before activating and can correct or release pending claims. The audit records the operator and time without exposing the ID. Existing accounts retain their status and borrowing history.
+
 ## 2026-11-04 — Approved campus portal design
 
 Applied approved blue/white/gray campus mockup through shared CSS/layout: navy directory sidebar, crisp system typography, decorative route icons, contextual topbar, shared linked count strip, task cards and coordinated catalog/forms/history/profile/landing. Preserved all backend services, queries, form fields, permissions, routes and data. Fixed browser-observed narrow checkbox-error compression with normal-flow labels. Added shared presentation helper,28 focused checks and semantic role-navigation HTTP coverage. Updated DESIGN and shared UX owner map.

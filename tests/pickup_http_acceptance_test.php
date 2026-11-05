@@ -5,6 +5,7 @@ require dirname(__DIR__).'/app/bootstrap.php';
 $config=application_config()['database']; $name='kaaklat_acceptance_'.bin2hex(random_bytes(6));
 $db=database_connection($config);$db->exec('CREATE DATABASE `'.$name.'` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');$config['database']=$name;$db=database_connection($config);
 $sql=preg_replace('/^--.*$/m','',file_get_contents(dirname(__DIR__).'/schema.sql'));foreach(explode(';',$sql) as $part)if(trim($part)!=='')$db->exec($part);
+$db->exec(preg_replace('/^--.*$/m', '', file_get_contents(dirname(__DIR__) . '/migrations/002_student_school_id.sql')));
 $db->exec('CREATE TABLE categories(category_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,category_name VARCHAR(60) UNIQUE) ENGINE=InnoDB');$db->exec('ALTER TABLE books ADD category_id BIGINT UNSIGNED NULL, ADD publication_year SMALLINT UNSIGNED NULL');
 $password=bin2hex(random_bytes(12));$hash=password_hash($password,PASSWORD_DEFAULT);
 $s=$db->prepare('INSERT INTO users(user_id,username,display_name,password_hash,role,account_status) VALUES(?,?,?,?,?,?)');

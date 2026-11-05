@@ -1,5 +1,7 @@
 # KaAklat research revision plan
 
+School pilot registration revision: map `users.school_student_id` from migration 002 and the librarian’s in-person confirmation to FR-01. Describe the unique ID claim, pending approval, and staff-assisted recovery. Local fictional tests are implementation evidence. School participant evaluation remains separate.
+
 Scope addition, 2026-10-30: include primary category and first-publication year in catalog descriptions/ERD and title/author/category/year/initial filters in FR-03 evaluation. Migration 001 adds a category lookup and optional fields. This is an implemented demo feature subject to test evidence, not a completed participant evaluation or verified school policy.
 
 Date: 2026-10-29 (Asia/Manila)

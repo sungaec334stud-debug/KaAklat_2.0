@@ -14,7 +14,12 @@ $hash=password_hash('Fictional original password',PASSWORD_DEFAULT);
 $s=$db->prepare('INSERT INTO users(user_id,username,display_name,role,account_status,password_hash) VALUES(?,?,?,?,?,?)');
 foreach([[1,'access_admin','Admin','administrator','active'],[2,'access_lib','Lib','librarian','active'],[3,'access_student','Student','student','pending'],[4,'access_suspended','Suspended','student','suspended']] as [$id,$name,$display,$role,$status]) $s->execute([$id,$name,$display,$role,$status,$hash]);
 $_SESSION=['user_id'=>1,'session_version'=>1,'last_activity'=>time()]; $token=csrf_token();
-change_student_status($db,3,'activate',$token); access_check($db->query('SELECT account_status FROM users WHERE user_id=3')->fetchColumn()==='active','Admin student activation');
+$db->exec(preg_replace('/^--.*$/m', '', file_get_contents(dirname(__DIR__) . '/migrations/002_student_school_id.sql')));
+try { change_student_status($db,3,'activate',$token,'on',1); throw new RuntimeException('Admin activation accepted'); } catch (DomainException) {}
+$db->exec("UPDATE users SET school_student_id='26-0001-006' WHERE user_id=3");
+$_SESSION['user_id']=2;
+change_student_status($db,3,'activate',$token,'on',1);
+$_SESSION['user_id']=1;
 access_denied(fn()=>issue_recovery($db,'access_student','bad',true));
 access_denied(fn()=>issue_recovery($db,'access_student',$token,false));
 $secret=issue_recovery($db,'access_student',$token,true);

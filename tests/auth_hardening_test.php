@@ -4,14 +4,19 @@ require_once dirname(__DIR__) . '/app/bootstrap.php';
 $pdo = database_connection(application_config()['database']);
 $ddl = $pdo->query('SHOW CREATE TABLE users')->fetch(PDO::FETCH_NUM)[1];
 $pdo->exec(str_replace('CREATE TABLE','CREATE TEMPORARY TABLE',$ddl));
+if ($pdo->query("SHOW COLUMNS FROM users LIKE 'school_student_id'")->fetch() === false) {
+    $pdo->exec(preg_replace('/^--.*$/m', '', file_get_contents(dirname(__DIR__) . '/migrations/002_student_school_id.sql')));
+}
 $pdo->exec('CREATE TEMPORARY TABLE audit_events (actor_user_id INT NULL, event_code VARCHAR(64) UNIQUE, entity_type VARCHAR(32), entity_id INT, event_summary VARCHAR(255)) ENGINE=InnoDB');
 $pdo->exec('CREATE TEMPORARY TABLE login_throttle (username_key VARCHAR(32) PRIMARY KEY) ENGINE=InnoDB');
 $pdo->exec('CREATE TEMPORARY TABLE login_failures (attempt_id INT AUTO_INCREMENT PRIMARY KEY, username_key VARCHAR(32), attempted_at DATETIME DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB');
 $password = bin2hex(random_bytes(16));
-register_student($pdo,'fixture_new','Fictional learner',$password);
-try { register_student($pdo,'fixture_new','Duplicate',$password); throw new RuntimeException('Duplicate accepted'); }
+register_student($pdo,'fixture_new','Fictional learner',$password,'26-0001-001');
+try { register_student($pdo,'fixture_new','Duplicate',$password,'26-0001-002'); throw new RuntimeException('Duplicate accepted'); }
 catch (InvalidArgumentException $e) { if ($e->getMessage() !== 'That username is already in use.') { throw $e; } }
-try { register_student($pdo,'fixture_other','Audit failure',$password); throw new RuntimeException('Audit failure accepted'); }
+try { register_student($pdo,'fixture_duplicate','Duplicate claim',$password,'26-0001-001'); throw new RuntimeException('Duplicate ID accepted'); }
+catch (InvalidArgumentException $e) { if (!str_contains($e->getMessage(), 'visit the library')) { throw $e; } }
+try { register_student($pdo,'fixture_other','Audit failure',$password,'26-0001-002'); throw new RuntimeException('Audit failure accepted'); }
 catch (PDOException) {}
 if ((int) $pdo->query('SELECT COUNT(*) FROM users')->fetchColumn() !== 1) { throw new RuntimeException('Registration rollback failed'); }
 if (authenticate_user($pdo,'unknown_fixture',$password) !== null) { throw new RuntimeException('Unknown authenticated'); }

@@ -75,7 +75,7 @@ try {
         $operator->exec('CREATE DATABASE `' . $name . '` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
     }
     $source = database_connection($sourceConfig);
-    foreach ([$root . '/schema.sql', $root . '/migrations/001_book_categories_year.sql'] as $file) {
+    foreach ([$root . '/schema.sql', $root . '/migrations/001_book_categories_year.sql', $root . '/migrations/002_student_school_id.sql'] as $file) {
         $sql = preg_replace('/^--.*$/m', '', (string)file_get_contents($file));
         foreach (explode(';', $sql) as $statement) {
             if (trim($statement) !== '') { $source->exec($statement); }

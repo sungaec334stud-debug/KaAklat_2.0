@@ -7,11 +7,15 @@ $pdo = database_connection(application_config()['database']);
 // Temporary tables shadow real names on this connection only and disappear on disconnect.
 $definition = $pdo->query('SHOW CREATE TABLE users')->fetch(PDO::FETCH_NUM)[1];
 $pdo->exec(str_replace('CREATE TABLE', 'CREATE TEMPORARY TABLE', $definition));
+if ($pdo->query("SHOW COLUMNS FROM users LIKE 'school_student_id'")->fetch() === false) {
+    $pdo->exec(preg_replace('/^--.*$/m', '', file_get_contents(dirname(__DIR__) . '/migrations/002_student_school_id.sql')));
+}
 $pdo->exec('CREATE TEMPORARY TABLE audit_events (audit_id INT AUTO_INCREMENT PRIMARY KEY, actor_user_id BIGINT, event_code VARCHAR(64) UNIQUE, entity_type VARCHAR(32), entity_id BIGINT, event_summary VARCHAR(255)) ENGINE=InnoDB');
 $pdo->exec("INSERT INTO users (user_id, username, display_name, role, account_status) VALUES
     (1, 'fixture_librarian', 'Fictional librarian', 'librarian', 'active'),
     (2, 'fixture_student', 'Fictional student', 'student', 'pending'),
     (3, 'fixture_admin', 'Fictional admin', 'administrator', 'active')");
+$pdo->exec("UPDATE users SET school_student_id='26-0001-003' WHERE user_id=2");
 $_SESSION = ['last_activity' => time(), 'user_id' => 1, 'session_version' => 1, 'csrf_token' => str_repeat('a', 64)];
 $token = $_SESSION['csrf_token'];
 function expect_failure(callable $operation): void {
@@ -24,7 +28,8 @@ function assert_value(mixed $expected, mixed $actual): void {
 expect_failure(fn () => change_student_status($pdo, 2, 'activate', 'forged'));
 expect_failure(fn () => change_student_status($pdo, 3, 'suspend', $token));
 expect_failure(fn () => change_student_status($pdo, 2, 'administrator', $token));
-change_student_status($pdo, 2, 'activate', $token);
+expect_failure(fn () => change_student_status($pdo, 2, 'activate', $token, null, 1));
+change_student_status($pdo, 2, 'activate', $token, 'on', 1);
 assert_value('active', $pdo->query('SELECT account_status FROM users WHERE user_id=2')->fetchColumn());
 assert_value(2, (int) $pdo->query('SELECT session_version FROM users WHERE user_id=2')->fetchColumn());
 expect_failure(fn () => change_student_status($pdo, 2, 'activate', $token));

@@ -1,10 +1,18 @@
 # KaAklat database design
 
+## School student IDs (migration 002)
+
+Apply `migrations/002_student_school_id.sql` after migration 001 before running this version. It adds nullable `users.school_student_id`, an ASCII string that preserves leading zeros, with a unique index and a format and student-role constraint. Existing rows start with NULL. The application requires an ID for new registrations and for initial activation. Existing active accounts retain their status and borrowing history. Legacy pending accounts can receive an ID during librarian review.
+
+The librarian review uses the account’s session version to reject stale confirmations. Pending claim correction or release and activation are audited in the same transaction as the change. The audit stores the actor, account reference and event time without the school ID.
+
+Pause writes and take a private backup before applying the migration to a populated database. Apply the additive ALTER once and verify the column, index and check constraint before resuming. If it fails, inspect the actual schema before retrying. For an application rollback, restore compatible code and retain the additive column and records.
+
 ## Category/publication-year extension (migration 001)
 
 2026-11-04 runtime correction: app/database.php now explicitly sets each application connection's session timezone to +00:00, enforcing the existing UTC DATETIME convention even when the local server uses SYSTEM/+08:00. No schema migration/global-server change or historical timestamp backfill. Earlier default-generated registration times may have followed the server zone; their provenance needs operator review before correction. Do not subtract eight hours from all accounts: seeded/explicit-UTC records may already be correct. My Profile converts stored UTC to Asia/Manila.
 
-Current schema is initial `schema.sql` plus `migrations/001_book_categories_year.sql`. Existing databases apply only the migration once. It adds `categories(category_id BIGINT UNSIGNED PK, category_name VARCHAR(60) UNIQUE)` and nullable `books.category_id` (FK RESTRICT, indexed) and `books.publication_year SMALLINT UNSIGNED` (indexed, CHECK 1–9999 or NULL). Existing rows remain valid with unknown metadata. Each book has one optional primary category; names share a case-insensitive normalized lookup under the database collation. Category insertion and book updates share the catalog mutation transaction. No student/loan relationships change.
+Migration 001 adds `categories(category_id BIGINT UNSIGNED PK, category_name VARCHAR(60) UNIQUE)` and nullable `books.category_id` (FK RESTRICT, indexed) and `books.publication_year SMALLINT UNSIGNED` (indexed, CHECK 1–9999 or NULL). Existing rows remain valid with unknown metadata. Each book has one optional primary category. Names share a case-insensitive normalized lookup under the database collation. Category insertion and book updates share the catalog mutation transaction. The current schema starts with `schema.sql` and applies migrations 001 and 002 in order.
 
 The website accepts year 1 through current Manila calendar year, or unknown. It means first book-publication year, not the pictured edition/reprint year; the earliest book volume is used for multi-volume works. Categories are editorial browsing labels. Filters combine category ID, literal title substring, literal author substring, A–Z displayed-title prefix and exact year. A/The are included in prefix matching. Blank means no filter; unknown metadata is displayed explicitly.
 

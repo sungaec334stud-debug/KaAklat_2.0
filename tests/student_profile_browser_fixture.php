@@ -10,7 +10,7 @@ $db = database_connection($config);
 $db->exec('CREATE DATABASE `' . $name . '` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
 $config['database'] = $name;
 $db = database_connection($config);
-foreach ([dirname(__DIR__) . '/schema.sql', dirname(__DIR__) . '/migrations/001_book_categories_year.sql'] as $file) {
+foreach ([dirname(__DIR__) . '/schema.sql', dirname(__DIR__) . '/migrations/001_book_categories_year.sql', dirname(__DIR__) . '/migrations/002_student_school_id.sql'] as $file) {
     $sql = preg_replace('/^--.*$/m', '', (string)file_get_contents($file));
     foreach (explode(';', $sql) as $statement) { if (trim($statement) !== '') { $db->exec($statement); } }
 }

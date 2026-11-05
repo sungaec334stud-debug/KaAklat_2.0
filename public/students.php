@@ -26,9 +26,12 @@ try {
     }
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
-            if (array_diff(array_keys($_POST), ['student_id','action','csrf_token'])) { throw new InvalidArgumentException('Unexpected form fields. Refresh the page.'); }
+            if (array_diff(array_keys($_POST), ['student_id','action','csrf_token','identity_confirmation','review_version','replacement_id'])) { throw new InvalidArgumentException('Unexpected form fields. Refresh the page.'); }
             $id = filter_var($_POST['student_id'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
-            change_student_status($connection, $id === false ? 0 : $id, $_POST['action'] ?? null, $_POST['csrf_token'] ?? null);
+            $reviewVersion = filter_var($_POST['review_version'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+            change_student_status($connection, $id === false ? 0 : $id, $_POST['action'] ?? null,
+                $_POST['csrf_token'] ?? null, $_POST['identity_confirmation'] ?? null,
+                $reviewVersion === false ? null : $reviewVersion, $_POST['replacement_id'] ?? null);
             flash_set('success', 'Student account updated. The student must sign in again.');
             redirect($sectionUrl);
         } catch (InvalidArgumentException $exception) {
@@ -37,7 +40,9 @@ try {
         }
     }
     $page = filter_var($_GET['page'] ?? 1, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 100000]]) ?: 1;
-    $statement = $connection->prepare("SELECT user_id, username, display_name, account_status FROM users WHERE role = 'student' AND account_status = :status ORDER BY user_id LIMIT 25 OFFSET " . (($page - 1) * 25));
+    $canReview = $user['role'] === 'librarian' && $status === 'pending';
+    $reviewColumns = $canReview ? ', school_student_id, session_version' : '';
+    $statement = $connection->prepare("SELECT user_id, username, display_name, account_status{$reviewColumns} FROM users WHERE role = 'student' AND account_status = :status ORDER BY user_id LIMIT 25 OFFSET " . (($page - 1) * 25));
     $statement->execute(['status' => $status]);
     $students = $statement->fetchAll();
     $content = '<section class="panel"><h1>Student accounts</h1><p>Activate students after checking their school identity. Suspended students cannot sign in. Account changes require the student to sign in again.</p><p><a href="/">Dashboard</a></p>';
@@ -48,9 +53,31 @@ try {
     $content .= '</ul></nav><h2>' . h($sections[$status]) . '</h2>';
     foreach ($students as $student) {
         $action = match ($student['account_status']) { 'pending' => 'activate', 'active' => 'suspend', 'suspended' => 'reactivate' };
-        $content .= '<article class="student-card"><div class="student-info"><h3>' . h($student['display_name']) . '</h3><p>' . h($student['username']) . ' <span class="badge badge-' . h($student['account_status']) . '">' . h(ucfirst($student['account_status'])) . '</span></p></div>'
-            . '<form method="post" action="' . h($sectionUrl) . '"><input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '">'
-            . '<input type="hidden" name="student_id" value="' . h($student['user_id']) . '"><button name="action" value="' . h($action) . '" aria-label="' . h(ucfirst($action) . ' ' . $student['display_name']) . '">' . h(ucfirst($action)) . '</button></form></article>';
+        $content .= '<article class="student-card"><div class="student-info"><h3>' . h($student['display_name']) . '</h3><p>' . h($student['username']) . ' <span class="badge badge-' . h($student['account_status']) . '">' . h(ucfirst($student['account_status'])) . '</span></p></div>';
+        $form = '<form method="post" action="' . h($sectionUrl) . '"><input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '">'
+            . '<input type="hidden" name="student_id" value="' . h($student['user_id']) . '">';
+        if ($canReview) {
+            $hasClaim = $student['school_student_id'] !== null;
+            $reviewForm = $form . '<input type="hidden" name="review_version" value="' . h($student['session_version']) . '">'
+                . '<label><input type="checkbox" name="identity_confirmation" required> I checked the physical school ID in person.</label>';
+            $content .= '<div><p>School student ID: ' . h($student['school_student_id'] ?? 'No ID assigned') . '</p>';
+            if ($hasClaim) {
+                $content .= $reviewForm . '<button name="action" value="activate">Activate account</button></form>';
+            }
+            $content .= '<details><summary>Resolve a student ID claim</summary>'
+                . '<p>Correct the ID after verifying the account holder, or release a mistaken claim after verifying the rightful student. A released account stays pending.</p>'
+                . $reviewForm . '<label>Correct school student ID (YY-####-###)<input name="replacement_id" maxlength="11" autocomplete="off" pattern="[0-9]{2}-[0-9]{4}-[0-9]{3}"></label>'
+                . '<button name="action" value="correct_id">Save corrected ID</button></form>';
+            if ($hasClaim) {
+                $content .= $reviewForm . '<button class="button-caution" name="action" value="release_id">Release mistaken claim</button></form>';
+            }
+            $content .= '</details></div>';
+        } elseif ($status !== 'pending') {
+            $content .= $form . '<button name="action" value="' . h($action) . '" aria-label="' . h(ucfirst($action) . ' ' . $student['display_name']) . '">' . h(ucfirst($action)) . '</button></form>';
+        } else {
+            $content .= '<p>A librarian must verify the ID and activate this account.</p>';
+        }
+        $content .= '</article>';
     }
     if ($students === []) { $content .= '<p>No student accounts on this page.</p>'; }
     if ($page > 1) { $content .= '<a href="' . h($sectionUrl . '&page=' . ($page - 1)) . '">Previous page</a> '; }

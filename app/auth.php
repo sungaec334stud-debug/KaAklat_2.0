@@ -31,8 +31,25 @@ function validate_new_password(mixed $password): string
     return $password;
 }
 
-function register_student(PDO $connection, string $username, string $displayName, string $password): int
+function validate_school_student_id(mixed $value): string
 {
+    if (!is_string($value) || preg_match('/\A[0-9]{2}-[0-9]{4}-[0-9]{3}\z/', trim($value)) !== 1) {
+        throw new InvalidArgumentException('Enter your school student ID in YY-####-### format.');
+    }
+    return trim($value);
+}
+
+function is_duplicate_user_key(PDOException $exception, string $key): bool
+{
+    return $exception->getCode() === '23000'
+        && (int) ($exception->errorInfo[1] ?? 0) === 1062
+        && preg_match('/[\x27`"](?:[^\x27`"]+\.)?' . preg_quote($key, '/') . '[\x27`"]/i',
+            (string) ($exception->errorInfo[2] ?? '')) === 1;
+}
+
+function register_student(PDO $connection, string $username, string $displayName, string $password, mixed $schoolStudentId): int
+{
+    $schoolStudentId = validate_school_student_id($schoolStudentId);
     $username = normalize_username($username);
     $displayName = required_text($displayName, 1, 100, 'Display name');
     $passwordHash = password_hash(validate_new_password($password), PASSWORD_DEFAULT);
@@ -42,13 +59,14 @@ function register_student(PDO $connection, string $username, string $displayName
 
     try {
         $statement = $connection->prepare(
-            'INSERT INTO users (username, display_name, password_hash, role, account_status) '
-            . "VALUES (:username, :display_name, :password_hash, 'student', 'pending')"
+            'INSERT INTO users (username, display_name, password_hash, school_student_id, role, account_status) '
+            . "VALUES (:username, :display_name, :password_hash, :school_student_id, 'student', 'pending')"
         );
         $statement->execute([
             'username' => $username,
             'display_name' => $displayName,
             'password_hash' => $passwordHash,
+            'school_student_id' => $schoolStudentId,
         ]);
         $userId = (int) $connection->lastInsertId();
         $insertingUser = false;
@@ -62,9 +80,11 @@ function register_student(PDO $connection, string $username, string $displayName
             $connection->rollBack();
         }
 
-        if ($insertingUser && $exception->getCode() === '23000' && (int) ($exception->errorInfo[1] ?? 0) === 1062
-            && preg_match('/[\x27`"](?:[^\x27`"]+\.)?uq_users_username[\x27`"]/i', (string) ($exception->errorInfo[2] ?? ''))) {
+        if ($insertingUser && is_duplicate_user_key($exception, 'uq_users_username')) {
             throw new InvalidArgumentException('That username is already in use.');
+        }
+        if ($insertingUser && is_duplicate_user_key($exception, 'uq_users_school_student_id')) {
+            throw new InvalidArgumentException('That student ID is already claimed. Please visit the library for help.');
         }
 
         throw $exception;

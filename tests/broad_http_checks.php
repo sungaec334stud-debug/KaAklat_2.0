@@ -5,9 +5,9 @@ $anonymous=curl_init(); curl_setopt_array($anonymous,[CURLOPT_RETURNTRANSFER=>tr
 accept_check($code===200 && str_contains($landingHtml,'landing-hero') && str_contains($landingHtml,'href="/login.php"') && str_contains($landingHtml,'href="/register.php"'),'Signed-out landing images and entry routes');
 foreach(['/assets/library-reading.jpg','/assets/library-study.jpg'] as $asset) {[$code,$bytes]=accept_http($anonymous,$asset); accept_check($code===200 && str_starts_with($bytes,"\xff\xd8"),'Public illustrative landing image loads');}
 [$code,$html]=accept_http($anonymous,'/register.php'); $registerToken=accept_token($html);
-[$code,$html]=accept_http($anonymous,'/register.php',['username'=>'new_http_student','display_name'=>'Fictional new student','password'=>'fictional'.chr(0).'password','csrf_token'=>$registerToken]);
+[$code,$html]=accept_http($anonymous,'/register.php',['school_student_id'=>'26-0001-004','username'=>'new_http_student','display_name'=>'Fictional new student','password'=>'fictional'.chr(0).'password','csrf_token'=>$registerToken]);
 accept_check($code===200 && str_contains($html,'NUL character') && !str_contains($html,'ValueError'),'NUL password validation without exception');
-[$code]=accept_http($anonymous,'/register.php',['username'=>'new_http_student','display_name'=>'Fictional new student','password'=>$password,'role'=>'administrator','account_status'=>'active','csrf_token'=>$registerToken]);
+[$code]=accept_http($anonymous,'/register.php',['school_student_id'=>'26-0001-004','username'=>'new_http_student','display_name'=>'Fictional new student','password'=>$password,'role'=>'administrator','account_status'=>'active','csrf_token'=>$registerToken]);
 accept_check($code===303,'Registration HTTP');
 $newStudent=$db->query("SELECT * FROM users WHERE username='new_http_student'")->fetch();
 accept_check($newStudent['role']==='student' && $newStudent['account_status']==='pending','Forged registration role/status cannot escalate');
@@ -16,7 +16,33 @@ accept_check($newStudent['role']==='student' && $newStudent['account_status']===
 [$code]=accept_http($anonymous,'/catalog.php'); accept_check($code===200,'Pending student catalog access');
 [$code,$html]=accept_http($anonymous,'/'); $newToken=accept_token($html);
 [$code]=accept_http($anonymous,'/requests.php',['action'=>'create','book_id'=>1,'days'=>7,'reason'=>'Fictional study reason','csrf_token'=>$newToken]); accept_check($code===403,'Pending borrowing blocked');
-[$code]=accept_http($staff,'/students.php',['student_id'=>$newStudent['user_id'],'action'=>'activate','csrf_token'=>$staffToken]); accept_check($code===303,'Librarian activation HTTP');
+$review = ['student_id'=>$newStudent['user_id'],'review_version'=>1,'csrf_token'=>$staffToken];
+accept_check($newStudent['school_student_id']==='26-0001-004','School ID preserves leading zeros');
+foreach (['26-1-004','26-0001-004'] as $claim) {
+    [$code,$body]=accept_http($anonymous,'/register.php',['school_student_id'=>$claim,'username'=>'second_claim','display_name'=>'Fictional duplicate','password'=>$password,'csrf_token'=>$newToken]);
+    $message=$claim==='26-1-004' ? 'YY-####-### format' : 'visit the library';
+    accept_check($code===200 && str_contains($body,$message) && !str_contains($body,'26-0001-004') && !str_contains($body,'new_http_student'),'Invalid or duplicate claim rejected without exposing owner or ID');
+}
+[$code,$body]=accept_http($student,'/students.php'); accept_check($code===403 && !str_contains($body,'26-0001-004'),'Student cannot see other ID');
+[$code,$body]=accept_http($clients['admin'],'/students.php'); accept_check($code===200 && !str_contains($body,'26-0001-004'),'Administrator cannot see school ID');
+[$code,$body]=accept_http($staff,'/students.php'); accept_check($code===200 && str_contains($body,'26-0001-004'),'Librarian sees pending claim');
+[$code,$body]=accept_http($clients['admin'],'/staff.php');
+[$code]=accept_http($clients['admin'],'/students.php',array_replace($review,['action'=>'activate','identity_confirmation'=>'on','csrf_token'=>accept_token($body)]));
+accept_check($code===403,'Administrator activation denied');
+[$code]=accept_http($staff,'/students.php',$review+['action'=>'activate']);
+accept_check($code===303 && $db->query('SELECT account_status FROM users WHERE user_id='.(int)$newStudent['user_id'])->fetchColumn()==='pending','Confirmation required before activation');
+[$code]=accept_http($staff,'/students.php',$review+['action'=>'release_id','identity_confirmation'=>'on']);
+accept_check($code===303 && $db->query('SELECT school_student_id FROM users WHERE user_id='.(int)$newStudent['user_id'])->fetchColumn()===null,'Mistaken pending claim released');
+[$code]=accept_http($staff,'/students.php',array_replace($review,['action'=>'correct_id','identity_confirmation'=>'on','replacement_id'=>'26-0001-005','review_version'=>2]));
+accept_check($code===303 && $db->query('SELECT school_student_id FROM users WHERE user_id='.(int)$newStudent['user_id'])->fetchColumn()==='26-0001-005','Librarian corrects pending claim');
+[$code]=accept_http($staff,'/students.php',$review+['action'=>'activate','identity_confirmation'=>'on']);
+accept_check($code===303 && $db->query('SELECT account_status FROM users WHERE user_id='.(int)$newStudent['user_id'])->fetchColumn()==='pending','Stale activation review refused');
+// Sign in again while pending so activation still tests session revocation.
+[$code,$html]=accept_http($anonymous,'/login.php');
+accept_http($anonymous,'/login.php',['username'=>'new_http_student','password'=>$password,'csrf_token'=>accept_token($html)]);
+[$code]=accept_http($staff,'/students.php',array_replace($review,['action'=>'activate','identity_confirmation'=>'on','review_version'=>3]));
+accept_check($code===303 && $db->query('SELECT account_status FROM users WHERE user_id='.(int)$newStudent['user_id'])->fetchColumn()==='active','Librarian activation HTTP');
+accept_check((int)$db->query("SELECT COUNT(*) FROM audit_events WHERE event_code='student.activate' AND actor_user_id=3")->fetchColumn()===1,'Librarian activation audited');
 [$code]=accept_http($anonymous,'/requests.php'); accept_check($code===303,'Activation invalidates previous student session');
 [$code,$html]=accept_http($anonymous,'/login.php'); accept_http($anonymous,'/login.php',['username'=>'new_http_student','password'=>$password,'csrf_token'=>accept_token($html)]);
 [$code]=accept_http($staff,'/students.php?status=active',['student_id'=>$newStudent['user_id'],'action'=>'suspend','csrf_token'=>$staffToken]); accept_check($code===303,'Student suspension HTTP');

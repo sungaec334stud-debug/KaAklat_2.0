@@ -617,3 +617,19 @@ Outcome: read matching tmp/profile-premium-audit.json and inspected checker cove
 User prompt: "I like this design apply it to the real website and make sure there are no bugs and errors with the core functionalities and logics"
 
 Outcome: applied approved campus design through shared presentation only; preserved services, rules, schema, routes, POST/CSRF fields and demo data. New helper and semantic HTTP tests; fixed observed narrow checkbox-error compression.24 regression scripts/181 HTTP assertions/93 PHP lints/seven concurrency suites17 scenarios PASS. Actual fictional in-app browser checks covered representative student/librarian/admin/guest screens at desktop/768/360 and error-link focus. Real400% zoom/JS-disabled/full-state checks remain manual; no zero-bug guarantee or PHP static-audit claim. Updated design/owner map, progress/test/changelog and detailed verification/CAMPUS_PORTAL_ACCEPTANCE.md. Usage tool unavailable. Research and preexisting work preserved. Hosting deferred; no commit/push.
+
+## 2026-11-05 — Student ID registration and librarian approval
+
+User request:
+
+> Implement student ID registration and librarian approval in KaAklat. Follow `AGENTS.md` and the school pilot requirements in `SRS.md`. Keep this work local.
+>
+> - Require a school-issued student ID, display name, username, and password for new student registrations. Validate the ID on the server as `YY-####-###` and preserve leading zeros. Keep username and password for sign-in and use the existing staff-assisted password recovery.
+> - Enforce one account per student ID in the database, including pending accounts. If an ID is already claimed, direct the applicant to the library without revealing the other account.
+> - Require an active librarian to confirm the in-person school ID check before activating a pending account. Enforce this on the server and audit who approved the account and when. Keep student IDs out of public pages and logs.
+> - Give librarians a way to resolve a mistaken pending claim after checking the physical ID. Preserve existing accounts and loan history with an additive migration. Leave IDs unset for existing accounts until verified.
+> - Use fictional IDs to test valid and invalid formats, duplicate claims, activation without confirmation, unauthorized activation, and successful librarian approval. Verify that pending students cannot borrow and cannot view another student’s ID. Run the relevant regression and browser checks and report what passed.
+>
+> Keep email and hosting out of scope for this increment. Stop after local verification so I can review the changes before we commit.
+
+Outcome: Implemented migration 002, school ID registration and pending claim review. Local evidence includes 24 regression scripts, 193 HTTP assertions, 52 fictional restore checks, PHP lint and browser registration and activation. The ordinary local database still needs migration 002 after review.

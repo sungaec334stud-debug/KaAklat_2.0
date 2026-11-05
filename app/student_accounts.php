@@ -26,7 +26,15 @@ function student_status_transition(string $status, string $action): string
     };
 }
 
-function change_student_status(PDO $connection, int $studentId, mixed $action, mixed $token): void
+function change_student_status(
+    PDO $connection,
+    int $studentId,
+    mixed $action,
+    mixed $token,
+    mixed $identityConfirmation = null,
+    ?int $reviewVersion = null,
+    mixed $replacementId = null
+): void
 {
     if (!csrf_is_valid($token)) {
         throw new InvalidArgumentException('Your form expired. Refresh and try again.');
@@ -44,7 +52,7 @@ function change_student_status(PDO $connection, int $studentId, mixed $action, m
         sort($ids, SORT_NUMERIC);
         $users = [];
         foreach ($ids as $id) {
-            $statement = $connection->prepare('SELECT user_id, role, account_status, session_version FROM users WHERE user_id = :id FOR UPDATE');
+            $statement = $connection->prepare('SELECT user_id, role, account_status, session_version, school_student_id FROM users WHERE user_id = :id FOR UPDATE');
             $statement->execute(['id' => $id]);
             $users[$id] = $statement->fetch() ?: null;
         }
@@ -57,11 +65,42 @@ function change_student_status(PDO $connection, int $studentId, mixed $action, m
         if ($student === null || $student['role'] !== 'student') {
             throw new InvalidArgumentException('Choose an existing student account.');
         }
-        $next = student_status_transition($student['account_status'], $action);
-        $connection->prepare('UPDATE users SET account_status = :status, session_version = session_version + 1 WHERE user_id = :id')
-            ->execute(['status' => $next, 'id' => $studentId]);
-        record_audit_event($connection, $actorId, 'student.' . $action, 'users', $studentId,
-            'Student status changed from ' . $student['account_status'] . ' to ' . $next . '.');
+        if (in_array($action, ['activate', 'correct_id', 'release_id'], true)) {
+            require_active_librarian($actor);
+            if ($student['account_status'] !== 'pending' || $reviewVersion !== (int) $student['session_version']) {
+                throw new InvalidArgumentException('The pending account changed. Refresh and check the student ID again.');
+            }
+            if ($identityConfirmation !== 'on') {
+                throw new InvalidArgumentException('Confirm that you checked the physical school ID in person.');
+            }
+        }
+
+        if ($action === 'correct_id' || $action === 'release_id') {
+            $newId = $action === 'release_id' ? null : validate_school_student_id($replacementId);
+            if ($newId === $student['school_student_id']) {
+                throw new InvalidArgumentException('The student ID claim is already in that state.');
+            }
+            try {
+                $connection->prepare('UPDATE users SET school_student_id = :school_id, session_version = session_version + 1 WHERE user_id = :id')
+                    ->execute(['school_id' => $newId, 'id' => $studentId]);
+            } catch (PDOException $exception) {
+                if (is_duplicate_user_key($exception, 'uq_users_school_student_id')) {
+                    throw new InvalidArgumentException('That student ID is already claimed.');
+                }
+                throw $exception;
+            }
+            $summary = 'Pending student ID claim ' . ($newId === null ? 'released' : 'corrected') . ' after an in-person check.';
+        } else {
+            $next = student_status_transition($student['account_status'], $action);
+            if ($action === 'activate' && $student['school_student_id'] === null) {
+                throw new InvalidArgumentException('Assign the verified school student ID before activation.');
+            }
+            $connection->prepare('UPDATE users SET account_status = :status, session_version = session_version + 1 WHERE user_id = :id')
+                ->execute(['status' => $next, 'id' => $studentId]);
+            $summary = $action === 'activate' ? 'Student activated after an in-person school ID check.'
+                : 'Student status changed from ' . $student['account_status'] . ' to ' . $next . '.';
+        }
+        record_audit_event($connection, $actorId, 'student.' . $action, 'users', $studentId, $summary);
         $connection->commit();
     } catch (Throwable $exception) {
         if ($connection->inTransaction()) {

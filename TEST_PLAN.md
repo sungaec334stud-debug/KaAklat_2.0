@@ -1,5 +1,13 @@
 # KaAklat test plan
 
+## Student ID registration and librarian approval — 2026-11-05
+
+User-reported browser acceptance with fictional accounts passed all six checks: malformed ID rejection, valid registration with pending borrowing restrictions, duplicate claim rejection without revealing the owner, approval blocked without confirmation, successful confirmed activation, and release of a mistaken claim followed by successful reuse of the released ID.
+
+The migrated schema passed the 52-check fictional backup and restore rehearsal. The source and restore databases were isolated under run `6423c67c6615`.
+
+24 regression scripts and 193 HTTP assertions passed. The HTTP suite used migration 002 and fictional students to verify format rejection, leading zeros, duplicate claims, student and administrator ID visibility restrictions, administrator activation denial, required librarian confirmation, correction and release, stale review rejection, audited activation, pending borrowing denial and staff-assisted recovery. Changed PHP files passed lint. The in-app browser verified a fictional registration, the librarian’s pending review, the unchecked confirmation error and successful activation after checking the box. Tests used isolated databases or connection-local temporary tables.
+
 ## Campus portal overhaul — 2026-11-04 (current)
 
 User-approved visual mockup applied to actual shared UI, preserving core logic.24 regression scripts/181 HTTP assertions/93 PHP lints and all seven independent-process concurrency suites17 scenarios PASS. New helper checks28 PASS; semantic HTTP checks preserve exact role routes, visible names, decorative icons, current route and own linked counts. Actual in-app browser fictional-site checks: student desktop/360 dashboard,360 history/profile,768 catalog; librarian1440 dashboard,360 review/error links,768 pickup,360 return/error links and books; admin1440 staff; guest desktop/360 landing. Confirmed checkbox-error compression reproduced64px then corrected284px full width, keyboard links still focus correct fields. No important final review findings. Full evidence, exact resources and limits: verification/CAMPUS_PORTAL_ACCEPTANCE.md.

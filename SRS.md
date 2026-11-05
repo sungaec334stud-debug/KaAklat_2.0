@@ -64,7 +64,8 @@ An administrator is not automatically a librarian. Permission checks run on the 
 | Cancel pending/uncollected request | No | Own if existing | Own | Any with reason | No |
 | Approve/reject, record pickup/return | No | No | No | Yes | No |
 | Add/edit/archive catalog and physical copies, upload cover | No | No | No | Yes | No |
-| Activate/suspend student borrowing account | No | No | No | Yes | Yes |
+| Verify ID, resolve pending claim and activate student | No | No | No | Yes, after in-person check | No |
+| Suspend or reactivate existing student account | No | No | No | Yes | Yes |
 | Create/manage librarian/admin accounts | No | No | No | No | Yes |
 | Issue recovery secret | No | No | No | Student accounts | Student or staff accounts |
 | Read audit records | No | No | No | Own circulation event confirmation | Yes |
@@ -92,6 +93,14 @@ Pending users can browse but cannot request. Suspended users cannot sign in; sus
 | FR-11 | Document and perform backup/recovery. | Operator exports database plus code/config/cover dependencies to private off-host storage and restores to a separate empty local database. Compare record counts, foreign-key integrity, sample history and cover retrieval; record elapsed time and result. |
 | FR-12 | Recover accounts without email. | Authorized staff verify identity in person, issue a random single-use secret, store only its hash, and allow a password change within 30 minutes. Successful reset invalidates existing sessions and other outstanding secrets. Expired/replayed secret cannot change a password. Staff cannot view current passwords. |
 | FR-13 | View own student profile (user-approved addition, 2026-11-04). | Pending/active students see only their current display name, username, status/explanation, registration time in Asia/Manila and linked own pending/ready-for-pickup/active totals. No editing or profile selector; staff denied; private responses not cached. Uses existing fields/count rules, without changing borrowing eligibility. |
+
+### Student ID registration for the school pilot
+
+The pilot registration form requires a school-issued student ID, display name, username and password. The ID format is `YY-####-###`, with two ASCII digits, four ASCII digits and three ASCII digits separated by hyphens. `YY` represents the first enrollment year. Preserve leading zeros and do not infer a student’s identity or eligibility from the digits. Use fictional IDs in local tests. Username remains the sign-in identifier. Email is outside this pilot flow.
+
+Each student ID can belong to only one account, including pending accounts. Enforce uniqueness in the database so concurrent registrations cannot claim the same ID. A duplicate submission directs the applicant to the library without revealing who claimed it. A librarian checks the physical school ID against the pending registration before activating the account. Pending accounts cannot borrow. Restrict access to student IDs to staff who need them for verification. Keep staff-assisted password recovery.
+
+After an in-person check, a librarian can correct or release a pending claim. A released account stays pending and must receive a verified ID before activation. Existing accounts retain their borrowing history and initially have no school ID. A librarian can assign an ID to a legacy pending account during review. A separate process is needed if the school later chooses to enroll existing active accounts in ID verification.
 
 ## 6. Business rules
 

@@ -46,6 +46,14 @@ The six defaults enumerated above are approved for the demonstration; the follow
 
 ## Resume here
 
+### Student registration for the school pilot — 2026-11-05
+
+The user reported passing all six manual browser scenarios on the isolated fixture site, including release and reuse of a mistaken claim. See TEST_PLAN.md for the scenarios. The next checkpoint is review and commit.
+
+Student ID registration and librarian approval are implemented for local review. Migration 002 enforces a unique school ID and preserves existing accounts and loans. Librarians can correct or release pending claims and activate after an in-person check. Review versions reject stale forms. IDs are visible on the pending librarian review page and excluded from audit summaries and registration errors. Existing active accounts start with no ID and retain access. The ordinary local database still needs migration 002 before running the updated workflow. Hosting remains deferred.
+
+Local verification passed with fictional data: 24 regression scripts, 193 HTTP assertions, lint of changed PHP files and browser registration and approval. Scratch HTTP database `kaaklat_acceptance_541e1d5c3b82` and browser database `kaaklat_acceptance_b7f4c69254b0` were used.
+
 ### Campus portal handoff — 2026-11-04 (current)
 
 User approved mockup and requested real-site application. Shared palette/type/nav/icons/topbar, summaries/tasks, catalog/forms/history/profile and landing refinements implemented; no backend query/service/handler/schema changes or demo-data writes. Added shared presentation helper and semantic HTTP tests. Current evidence:24 regressions/181 HTTP assertions/93 lints/seven concurrency suites17 scenarios PASS; actual fixture-browser layout/error-focus checks completed as enumerated in verification/CAMPUS_PORTAL_ACCEPTANCE.md. Browser found checkbox-error compression; normal-flow CSS correction verified64px→284px. Final fresh review found no important defects. Static checker explicitly scanned three CSS/JS assets; one unchanged dynamic-fragment false positive reviewed, PHP unsupported. The user completed the 400% Chrome zoom and JavaScript-disabled librarian review checks on 2026-11-05. Both passed.
