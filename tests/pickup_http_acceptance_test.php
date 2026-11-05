@@ -93,5 +93,6 @@ try {
  require __DIR__.'/broad_http_checks.php';
  require __DIR__.'/account_access_http_checks.php';
  require __DIR__.'/student_profile_http_checks.php';
+ require __DIR__.'/campus_ui_http_checks.php';
  echo "Scratch database retained: $name\n";
 } finally {proc_terminate($server);proc_close($server);}

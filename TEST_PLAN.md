@@ -1,5 +1,11 @@
 # KaAklat test plan
 
+## Campus portal overhaul — 2026-11-04 (current)
+
+User-approved visual mockup applied to actual shared UI, preserving core logic.24 regression scripts/181 HTTP assertions/93 PHP lints and all seven independent-process concurrency suites17 scenarios PASS. New helper checks28 PASS; semantic HTTP checks preserve exact role routes, visible names, decorative icons, current route and own linked counts. Actual in-app browser fictional-site checks: student desktop/360 dashboard,360 history/profile,768 catalog; librarian1440 dashboard,360 review/error links,768 pickup,360 return/error links and books; admin1440 staff; guest desktop/360 landing. Confirmed checkbox-error compression reproduced64px then corrected284px full width, keyboard links still focus correct fields. No important final review findings. Full evidence, exact resources and limits: verification/CAMPUS_PORTAL_ACCEPTANCE.md.
+
+On 2026-11-05, the user reported both manual checks passed in Chrome. At 400% zoom, the student dashboard, catalog filters, and librarian review and return forms remained readable and usable. With JavaScript disabled, the librarian review form rejected a changed approval duration without an explanation, displayed the error, and retained the entered duration. See verification/CAMPUS_PORTAL_ACCEPTANCE.md for other coverage and limitations.
+
 2026-11-04 commit readiness: after user restarted MySQL, fresh tests/run_regression.php23 scripts and HTTP133 assertions PASS in kaaklat_acceptance_221527b78cf5; tmp/backup-unit-5bd20340eee7 retained. The earlier connection-refused attempt was an environment blocker, not counted as a pass. Latest90 PHP lints/whitespace PASS. Only fictional fixtures; no demo mutation. User authorized commit/push; private/runtime/research-output exclusions reviewed. Final Git result reported separately.
 
 ## Python static-checker execution and coverage — 2026-11-04

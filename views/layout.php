@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/portal_ui.php';
+
 function render_page(string $title, string $content, bool $landing = false): void
 {
     $safeTitle = h($title);
@@ -24,7 +26,8 @@ function render_page(string $title, string $content, bool $landing = false): voi
     $navigation = '';
     foreach ($links as $url => $label) {
         $current = $path === $url || ($url === '/' && $path === '/index.php');
-        $navigation .= '<a href="' . h($url) . '"' . ($current ? ' aria-current="page"' : '') . '>' . h($label) . '</a>';
+        $navigation .= '<a href="' . h($url) . '"' . ($current ? ' aria-current="page"' : '') . '>'
+            . ($navigationUser !== null ? portal_icon($url) : '') . '<span>' . h($label) . '</span></a>';
     }
 
     foreach (['success', 'error', 'info'] as $type) {
@@ -36,7 +39,17 @@ function render_page(string $title, string $content, bool $landing = false): voi
     }
 
     $bodyClass=$navigationUser!==null?'is-authenticated':'is-guest';
-    $landingStyles=$landing && $navigationUser===null?'<link rel="stylesheet" href="/assets/landing.css?v=20261103">':'';
+    $workspaceLabel = '';
+    $identity = '';
+    $portalBar = '';
+    if ($navigationUser !== null) {
+        $role = match ($navigationUser['role']) { 'student'=>'Student', 'librarian'=>'Librarian', 'administrator'=>'Administrator', default=>'Account' };
+        $status = $navigationUser['account_status'] === 'pending' ? 'Pending activation' : ucfirst($navigationUser['account_status']);
+        $workspaceLabel = '<p class="workspace-label">' . h($role) . ' workspace</p>';
+        $identity = '<div class="sidebar-identity"><strong>' . h($navigationUser['display_name']) . '</strong><span>' . h($role) . ' · ' . h($status) . '</span></div>';
+        $portalBar = '<div class="portal-topbar"><div class="portal-location"><span>' . h($role) . ' portal</span><span aria-hidden="true">/</span><strong>' . $safeTitle . '</strong></div><span class="portal-account-status">' . h($status) . '</span></div>';
+    }
+    $landingStyles=$landing && $navigationUser===null?'<link rel="stylesheet" href="/assets/landing.css?v=20261104-campus">':'';
     if ($landingStyles!=='') { $bodyClass.=' landing-page'; }
     echo <<<HTML
 <!doctype html>
@@ -46,7 +59,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{$safeTitle} | {$appName}</title>
     <link rel="icon" href="/assets/kaaklat-logo.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/assets/app.css?v=20261104-profile">
+    <link rel="stylesheet" href="/assets/app.css?v=20261104-campus">
     {$landingStyles}
     <script src="/assets/forms.js" defer></script>
 </head>
@@ -55,10 +68,13 @@ function render_page(string $title, string $content, bool $landing = false): voi
     <header class="site-header">
         <div class="header-inner">
         <a class="brand" href="/"><img class="brand-mark" src="/assets/kaaklat-logo.svg" width="48" height="48" alt=""><span>{$appName}<small>Your school library</small></span></a>
+        {$workspaceLabel}
         <nav class="header-nav" aria-label="Main navigation">{$navigation}</nav>
+        {$identity}
         </div>
     </header>
     <main class="container" id="main-content" tabindex="-1">
+        {$portalBar}
         {$flashes}
         {$content}
     </main>

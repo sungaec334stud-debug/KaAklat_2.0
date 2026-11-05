@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-04 — Approved campus portal design
+
+Applied approved blue/white/gray campus mockup through shared CSS/layout: navy directory sidebar, crisp system typography, decorative route icons, contextual topbar, shared linked count strip, task cards and coordinated catalog/forms/history/profile/landing. Preserved all backend services, queries, form fields, permissions, routes and data. Fixed browser-observed narrow checkbox-error compression with normal-flow labels. Added shared presentation helper,28 focused checks and semantic role-navigation HTTP coverage. Updated DESIGN and shared UX owner map.
+
+24 regressions,181 HTTP assertions,93 PHP lints and seven concurrency suites17 scenarios PASS. Actual representative fixture-browser screens and keyboard error links observed; fresh review found no important defects. Scoped static checker has one reviewed dynamic-fragment false positive, PHP unsupported. Actual400% zoom/JS-disabled/full-state acceptance remains manual. Exact evidence/resources: verification/CAMPUS_PORTAL_ACCEPTANCE.md. No demo reset, dependencies, schema changes, commit or push. Hosting deferred.
+
 ## 2026-10-31 — Student borrowing requests
 
 Added transactional student create/list/pending-cancel service and page, catalog/detail/dashboard links, current-role/session/CSRF/ownership checks, bounded validation and pagination. Five-pending/live allowance, duplicate title, overdue, archive and available-copy guards; expired holds excluded logically. Original terms/history preserved; safe audit atomic; no copies reserved. P-06 explicitly approved in chat. No schema migration.

@@ -28,7 +28,11 @@ $originalProfile = $db->query('SELECT display_name,created_at FROM users WHERE u
 $db->prepare('UPDATE users SET display_name=?,created_at=? WHERE user_id=1')->execute(['<script>Fictional & Profile</script>','2026-11-03 17:30:00']);
 $profileHeaders = [];
 [$code,$html] = accept_http($profileHttp, '/profile.php');
-accept_check($code === 200 && str_contains($html, '<h1>My Profile</h1>') && str_contains($html, 'aria-current="page">My Profile'), 'Authenticated profile and current navigation');
+$profileDom = new DOMDocument();
+@$profileDom->loadHTML($html);
+$profileCurrent = (new DOMXPath($profileDom))->query('//nav[@aria-label="Main navigation"]/a[@href="/profile.php" and @aria-current="page"]');
+accept_check($code === 200 && str_contains($html, '<h1>My Profile</h1>') && $profileCurrent->length === 1
+    && trim($profileCurrent->item(0)->textContent) === 'My Profile', 'Authenticated profile and current navigation');
 accept_check(in_array('Cache-Control: private, no-store', $profileHeaders, true), 'Private profile no-store header');
 accept_check(str_contains($html, '&lt;script&gt;Fictional &amp; Profile&lt;/script&gt;') && !str_contains($html, '<script>Fictional'), 'HTTP profile escapes display name');
 accept_check(str_contains($html, '4 November 2026, 1:30 AM'), 'HTTP profile registration shown in Manila');

@@ -23,9 +23,7 @@ if ($user !== null) {
             $summaries=$student
                 ? [['Pending requests',$counts['pending'],'/requests.php?status=pending'],['Ready to collect',$counts['awaiting'],'/requests.php?status=awaiting_pickup'],['Active loans',$counts['active'],'/requests.php?status=active']]
                 : [['Requests to review',$counts['pending'],'/review_requests.php'],['Awaiting collection',$counts['awaiting'],'/pickups.php']];
-            $content.='<div class="summary-grid" aria-label="Borrowing summary">';
-            foreach($summaries as [$label,$count,$url]) { $content.='<section class="panel action-card count-card"><h2>'.h($label).'</h2><p><strong>'.h((string)$count).'</strong></p><a href="'.h($url).'">View '.h(strtolower($label)).' →</a></section>'; }
-            $content.='</div>';
+            $content .= portal_summary_html($summaries, $student ? 'Your borrowing at a glance' : 'Circulation at a glance', $student ? 'Only your records' : 'Library overview');
             if($student && $counts['overdue']>0) { $content.='<p class="flash flash-error" role="status">You have '.h((string)$counts['overdue']).' overdue loan(s), included in your active loans. Please speak with your librarian.</p>'; }
         } catch(Throwable) { $content.='<p class="flash flash-info" role="status">Your borrowing summary is temporarily unavailable. You can still open your tasks below.</p>'; }
     }
@@ -46,9 +44,9 @@ if ($user !== null) {
         $order=['/review_requests.php'=>0,'/pickups.php'=>1,'/returns.php'=>2,'/catalog.php'=>3,'/manage_books.php'=>4,'/students.php'=>5];
         usort($cards,static fn(array $a,array $b):int => $order[$a[3]] <=> $order[$b[3]]);
     }
-    $content .= '<div class="dashboard-grid">';
+    $content .= '<div class="dashboard-section-heading"><h2>Choose your next task</h2><p>' . ($student ? 'Your student services' : 'Your library workspace') . '</p></div><div class="dashboard-grid">';
     foreach ($cards as [$step, $heading, $description, $url, $label]) {
-        $content .= '<section class="panel action-card"><h2>' . h($heading) . '</h2><p>' . h($description) . '</p><a href="' . h($url) . '">' . h($label) . ' <span aria-hidden="true">→</span></a></section>';
+        $content .= '<section class="panel action-card"><span class="task-icon">' . portal_icon($url) . '</span><div class="task-copy"><h2>' . h($heading) . '</h2><p>' . h($description) . '</p><a href="' . h($url) . '">' . h($label) . ' <span aria-hidden="true">→</span></a></div></section>';
     }
     $content .= '</div><div class="session-actions"><span>Signed in as ' . h(ucfirst($user['role'])) . ' · ' . h(ucfirst($user['account_status'])) . '</span><form method="post" action="/logout.php"><input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '"><button class="button-secondary" type="submit">Log out</button></form></div>';
     render_page('Dashboard', $content);

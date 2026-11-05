@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/portal_ui.php';
+
 function student_profile_html(array $profile): string
 {
     $pending = $profile['account_status'] === 'pending';
@@ -19,12 +21,11 @@ function student_profile_html(array $profile): string
         . h($registered->format('j F Y, g:i A')) . '</time></dd></div></dl>'
         . '<p>These details are view-only. Contact your librarian if something needs correcting.</p></section>';
     $counts = $profile['counts'];
-    $html .= '<div class="summary-grid" role="group" aria-label="Your borrowing summary">';
-    foreach ([['Pending requests','pending','pending'], ['Ready for pickup','awaiting','awaiting_pickup'], ['Active loans','active','active']] as [$heading,$key,$filter]) {
-        $html .= '<section class="panel action-card count-card"><h2>' . h($heading) . '</h2><p><strong>' . h((string)$counts[$key])
-            . '</strong></p><a href="/requests.php?status=' . h($filter) . '">View ' . h(strtolower($heading)) . '</a></section>';
-    }
-    $html .= '</div>';
+    $html .= portal_summary_html([
+        ['Pending requests',$counts['pending'],'/requests.php?status=pending'],
+        ['Ready for pickup',$counts['awaiting'],'/requests.php?status=awaiting_pickup'],
+        ['Active loans',$counts['active'],'/requests.php?status=active'],
+    ], 'Your borrowing at a glance', 'Only your records');
     if ($counts['overdue'] > 0) {
         $html .= '<p class="flash flash-error" role="status">Your active loans include ' . h((string)$counts['overdue']) . ' overdue loan(s). Please speak with your librarian.</p>';
     }
