@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-05 — Login and registration refresh
+
+Updated the two account pages with short field hints, clearer headings and dedicated guidance for librarian approval and account recovery.
+
 ## 2026-11-05 — Student ID registration and librarian approval
 
 Added school ID validation and an additive uniqueness constraint. Librarians now confirm an in-person check before activating and can correct or release pending claims. The audit records the operator and time without exposing the ID. Existing accounts retain their status and borrowing history.
@@ -265,3 +269,25 @@ Closed admin student-management permission gap without broadening circulation/ca
 2026-11-03: added signed-out library imagery and bounded reduced-motion-aware animation, dedicated landing view/CSS and four-step guide. Local optimized generated images, no runtime external dependency.21 regressions/104 HTTP assertions PASS; actual headless responsive/motion/JS-off/skip-link checks recorded in verification/LANDING_2026-11-03.md. Authenticated dashboards/data preserved.
 
 2026-11-03: removed unused temporary design-review folder at user request; no runtime dependency or public assets removed.
+
+## Local college textbook collection
+
+- Added nine course categories, 27 verified textbook records, 81 demo copy records and 27 private cover images to the local database. Added a bibliographic source manifest with separate course evidence where confirmed.
+
+## School ID on My Profile
+
+- Display the signed-in student's school ID in the private, view-only profile. Show an explicit message when the ID is missing.
+
+## Dashboard task directory
+
+- Grouped existing student, librarian, and administrator dashboard actions into role-specific task lists with responsive layouts.
+
+- Simplified the role dashboards by removing task lists that duplicated main navigation. Kept linked borrowing totals, brought student notices forward, and highlighted Staff accounts for administrators.
+
+- Applied the approved dashboard mockup with personalized banners and role-specific previews from existing records.
+
+- Added compact expandable student request rows and a separate Overdue filter. Updated student dashboard and profile links to match the two loan views.
+
+- Added the supplied Universidad de Dagupan seal and name to the shared site header.
+
+- Restored the KaAklat header logo and placed the university seal beside the university name below it.

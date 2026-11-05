@@ -33,11 +33,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $errorList = $errors === [] ? '' : '<div class="flash flash-error" role="alert"><ul><li>' . implode('</li><li>', array_map('h', $errors)) . '</li></ul></div>';
-$content = $errorList
-    . '<section class="panel auth-panel"><h1>Your library awaits.</h1><p>Sign in to your KaAklat account.</p><form method="post" action="/login.php" novalidate>'
+$content = '<section class="panel auth-panel auth-entry" aria-labelledby="auth-title"><div class="auth-entry-main">'
+    . '<h1 id="auth-title">Log in to KaAklat</h1><p>Enter your username and password.</p>' . $errorList
+    . '<form method="post" action="/login.php" novalidate>'
     . '<input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '">'
     . '<label for="username">Username</label><input id="username" name="username" autocomplete="username" maxlength="32" required value="' . h($username) . '">'
     . '<label for="password">Password</label><input id="password" name="password" autocomplete="current-password" type="password" required>'
-    . '<button type="submit">Log in</button></form><p><a href="/register.php">Need an account? Register as a student</a></p><p>Forgot your password? Ask your librarian or administrator to verify your identity in person and issue a recovery secret. <a href="/reset_password.php">Use a recovery secret</a></p></section>';
+    . '<button type="submit">Log in</button></form>'
+    . '<p class="auth-entry-switch">New student? <a href="/register.php">Create an account</a></p></div>'
+    . '<aside class="auth-entry-guide" aria-labelledby="auth-guide-title"><p class="auth-entry-guide-label">Library help desk</p>'
+    . '<h2 id="auth-guide-title">Forgot your password?</h2>'
+    . '<p>Ask your librarian or administrator in person for a recovery secret.</p>'
+    . '<a href="/reset_password.php">Use a recovery secret</a></aside></section>';
 
 render_page('Log in', $content);

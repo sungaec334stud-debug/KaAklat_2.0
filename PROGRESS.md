@@ -46,7 +46,19 @@ The six defaults enumerated above are approved for the demonstration; the follow
 
 ## Resume here
 
+The shared header now shows the KaAklat logo above a secondary line with the Universidad de Dagupan seal and name. Responsive Chrome checks passed for all roles.
+
+Student request history now uses compact expandable rows and separates Active from Overdue. Regression, HTTP, and Chrome checks passed. See TEST_PLAN.md for verification.
+
+The approved dashboard mockup is implemented with personalized banners and role-specific previews from existing records. Regression, HTTP, and Chrome checks passed. See TEST_PLAN.md for the tested widths and fixtures.
+
+My Profile displays the signed-in student's school ID under Account details. Legacy accounts without an ID see “No school ID on file.” Local profile and HTTP acceptance checks passed with fictional IDs.
+
+Login and student registration UI refresh implemented locally. Registration guidance now sits beside the fields and the two pages share a responsive form and guidance layout. See TEST_PLAN.md for verification.
+
 ### Student registration for the school pilot — 2026-11-05
+
+Regular local upgrade completed on 2026-11-05. The private backup was verified before applying migration 002 to `kaaklat_dev`. All 36 existing accounts, 29 requests and 22 loans matched their pre-migration rows. Port 8000 returned ready. User screenshots confirm the fictional registration appears in the librarian’s pending list and an existing student can sign in and view a pre-migration active loan. The earlier migration-pending statement below describes the isolated test checkpoint.
 
 The user reported passing all six manual browser scenarios on the isolated fixture site, including release and reuse of a mistaken claim. See TEST_PLAN.md for the scenarios. The next checkpoint is review and commit.
 
@@ -240,3 +252,7 @@ Signed-out welcome redesigned with two optimized local generated photographs (il
 2026-11-03 cleanup: user authorized removal of tmp/design-review. Confirmed no application/test runtime references, then deleted only that temporary folder (screenshots, rendering helpers, isolated browser profiles and fictional fixture credentials). Historical review reports retained; their temporary image/JSON artifacts are no longer available. Public landing JPEGs/CSS, application code and database data preserved. No regression needed for unused temporary files; website health checked separately.
 
 2026-11-03 commit handoff: user authorized committing/pushing today's implementation. Fresh21 regressions/104 HTTP assertions/80 PHP lints/17 race scenarios and JS syntax PASS. Scope: staff administration, admin student access, recovery/audit, interface/landing assets/tests/docs. Private runtime files and output/ excluded. Final Git result verified separately; prior no-commit statements historical.
+
+## Local college textbook collection
+
+Added 27 textbooks across nine requested course categories in local `kaaklat_dev`, with three demo copy records per title and private KaAklat cover artwork. The [collection manifest](college-textbooks.json) links publisher or open-textbook records and identifies separately confirmed course use where available. Local catalog and cover verification passed. Browser rendering and adoption at the pilot school remain unverified.

@@ -107,7 +107,7 @@ function cancel_borrow_request(PDO $db, int $requestId, mixed $token): void
 
 function request_history_filter(mixed $filter): string
 {
-    if (!is_string($filter) || !in_array($filter, ['all', 'pending', 'rejected', 'awaiting_pickup', 'active', 'returned'], true)) {
+    if (!is_string($filter) || !in_array($filter, ['all', 'pending', 'rejected', 'awaiting_pickup', 'active', 'overdue', 'returned'], true)) {
         throw new InvalidArgumentException('Choose a valid request tab.');
     }
     return $filter;
@@ -126,7 +126,8 @@ function own_borrow_requests(PDO $db, int $page, string $filter = 'all'): array
         'rejected' => " WHERE lifecycle='rejected'",
         'awaiting_pickup' => " WHERE lifecycle='awaiting pickup'",
         'returned' => " WHERE lifecycle='returned'",
-        'active' => " WHERE lifecycle IN ('active','overdue')",
+        'active' => " WHERE lifecycle='active'",
+        'overdue' => " WHERE lifecycle='overdue'",
         default => ''
     };
     $s=$db->prepare("SELECT * FROM (SELECT r.*,b.title,IF(b.archived_at IS NULL,b.cover_path,NULL) AS cover_path,l.checked_out_at,l.due_date,l.returned_at,l.cancelled_at,l.cancelled_by,l.cancellation_kind,l.cancellation_note,CASE WHEN r.decision <> 'approved' THEN r.decision

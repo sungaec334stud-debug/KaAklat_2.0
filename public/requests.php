@@ -41,7 +41,7 @@ try {
             redirect('/requests.php?'.http_build_query(['status'=>$action==='create'?'pending':$filter,'page'=>$_GET['page']??1]));
         } catch (InvalidArgumentException $e) { http_response_code(400); $errors=form_error_summary($fieldErrors ?: [''=>$e->getMessage()]); }
     }
-    $content='<section class="panel"><h1>My borrowing requests</h1>'.$errors.'<p><a href="/catalog.php">Find a book</a></p>';
+    $content='<section class="panel request-history"><h1>My requests &amp; loans</h1>'.$errors.'<p><a href="/catalog.php">Find a book</a></p>';
     $bookId=$_GET['book'] ?? ($method === 'POST' && ($_POST['action'] ?? null) === 'create' ? ($_POST['book_id'] ?? null) : null);
     if ($bookId !== null && $user['account_status'] === 'active') {
         $id=filter_var($bookId,FILTER_VALIDATE_INT,['options'=>['min_range'=>1]]);
@@ -55,46 +55,20 @@ try {
     }
     $page=filter_var($_GET['page'] ?? '1',FILTER_VALIDATE_INT,['options'=>['min_range'=>1,'max_range'=>10000]]);
     if ($page === false) { throw new InvalidArgumentException('Choose a valid page.'); }
-    $tabs=['all'=>'All requests','pending'=>'Pending','rejected'=>'Rejected','awaiting_pickup'=>'Awaiting pickup','active'=>'Active','returned'=>'Returned'];
+    $tabs=['all'=>'All requests','pending'=>'Pending','awaiting_pickup'=>'Awaiting pickup','active'=>'Active','overdue'=>'Overdue','returned'=>'Returned','rejected'=>'Rejected'];
     $content.='<nav class="account-tabs" aria-label="Borrowing request status"><ul>';
     foreach($tabs as $key=>$label) {
         $content.='<li><a href="?status='.h($key).'"'.($filter===$key?' aria-current="page"':'').'>'.h($label).'</a></li>';
     }
     $content.='</ul></nav>';
-    if($filter==='active') { $content.='<p>Active loans include overdue books. Check each due date below.</p>'; }
     $rows=own_borrow_requests($db,$page,$filter);
     if (!$rows) { $content.='<div class="empty-state"><h2>No '.h($filter==='all'?'requests':str_replace('_',' ',$filter)).' on this page</h2><p>Choose another status or find an available book to get started.</p><a class="button" href="/catalog.php">Browse available books</a> <a href="?status='.h($filter).'">Back to first page</a></div>'; }
-    foreach(array_slice($rows,0,20) as $row) {
-        $content.='<article class="panel request-card"><div class="request-heading"><div class="request-cover">'.catalog_cover_html($row).'</div><div><span class="status-badge status-'.h(str_replace(' ','-',$row['lifecycle'])).'">'.h(request_status_label($row['lifecycle'])).'</span><h2>'.h($row['title']).'</h2><p>Requested '.h($row['requested_days']).' days · Submitted '.h((new DateTimeImmutable($row['requested_at'],new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a')).' (Manila)</p></div></div>'.request_progress_html($row['lifecycle']);
-        if ($row['decision'] === 'approved') {
-            $deadline = (new DateTimeImmutable($row['decided_at'], new DateTimeZone('UTC')))
-                ->modify('+48 hours')->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a');
-            $content .= ($row['checked_out_at'] !== null ? '<details class="request-details"><summary>Original approval and collection terms</summary>' : '') . '<p>Approved duration: <strong>' . h($row['approved_days']) . ' days</strong><br>Pickup deadline: ' . h($deadline) . ' (Manila)</p>' . ($row['checked_out_at'] !== null ? '</details>' : '');
-            if ($row['lifecycle'] === 'awaiting pickup') { $content .= '<p>Your copy is held until the pickup deadline. Your borrowing period has not started.</p>'; }
+    if ($rows) {
+        $content .= '<div class="request-list">';
+        foreach (array_slice($rows, 0, 20) as $row) {
+            $content .= request_history_row_html($row, $user['account_status'] === 'active');
         }
-        if ($row['checked_out_at'] !== null) {
-            $pickup=(new DateTimeImmutable($row['checked_out_at'],new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a');
-            $due=(new DateTimeImmutable($row['due_date'],new DateTimeZone('Asia/Manila')))->format('M j, Y');
-            $content.='<p>Picked up: '.h($pickup).' (Manila)<br>Due date: <strong>'.h($due).'</strong> (Manila; the entire due date is allowed)</p>';
-        }
-        if($row['returned_at'] !== null) {
-            $returned=(new DateTimeImmutable($row['returned_at'],new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a');
-            $content.='<p><strong>Returned:</strong> '.h($returned).' (Manila). This loan is complete.</p>';
-        }
-        $content.='<details class="request-details"><summary>Original borrowing reason</summary><p>'.nl2br(h($row['request_reason'])).'</p></details>';
-        if (in_array($row['decision'], ['approved', 'rejected'], true) && $row['decision_note'] !== null && $row['decision_note'] !== '') {
-            $content .= '<p class="book-description"><strong>Librarian’s explanation:</strong><br>' . nl2br(h($row['decision_note'])) . '</p>';
-        }
-        if ($row['decision'] === 'pending' && $user['account_status'] === 'active') { $content.='<form method="post"><input type="hidden" name="action" value="cancel"><input type="hidden" name="request_id" value="'.h($row['request_id']).'"><input type="hidden" name="csrf_token" value="'.h(csrf_token()).'"><button>Cancel pending request</button></form>'; }
-        if ($row['cancelled_at'] !== null) {
-            $cancelTime=(new DateTimeImmutable($row['cancelled_at'],new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a');
-            $content.='<p>'.h($row['cancellation_kind']==='expired'?'Expiry recorded':'Cancelled by '.($row['cancellation_kind']==='student'?'you':'a librarian')).': '.h($cancelTime).' (Manila)</p>';
-            if($row['cancellation_note']!==null) { $content.='<p><strong>Cancellation explanation:</strong> '.nl2br(h($row['cancellation_note'])).'</p>'; }
-        }
-        if ($row['lifecycle']==='awaiting pickup') {
-            $content.='<form method="post"><p>Cancel only if you no longer need this allocation. Its copy will be released; a new request is needed if you change your mind.</p><input type="hidden" name="action" value="cancel_approved"><input type="hidden" name="request_id" value="'.h($row['request_id']).'"><input type="hidden" name="csrf_token" value="'.h(csrf_token()).'"><button class="button-caution" aria-label="'.h('Cancel uncollected allocation for '.$row['title']).'">Cancel allocation</button></form>';
-        }
-        $content.='</article>';
+        $content .= '</div>';
     }
     $content.='<nav aria-label="Request pages">';
     if ($page>1) { $content.='<a href="?status='.h($filter).'&amp;page='.($page-1).'">Previous</a> '; }

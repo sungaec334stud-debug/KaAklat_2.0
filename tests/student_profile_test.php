@@ -20,6 +20,7 @@ $schema = preg_replace('/,\s*\)/', "\n)", $schema);
 $schema = str_replace('CREATE TABLE ', 'CREATE TEMPORARY TABLE ', $schema);
 foreach (explode(';', $schema) as $sql) { if (trim($sql) !== '') { $db->exec($sql); } }
 $db->exec("SET time_zone = '+00:00'");
+$db->exec('ALTER TABLE users ADD school_student_id CHAR(11) NULL');
 $insert = $db->prepare('INSERT INTO users(user_id,username,display_name,role,account_status,created_at,password_hash) VALUES(?,?,?,?,?,?,?)');
 foreach ([[1,'profile_one','<script>Fictional & Student</script>','student','active'], [2,'profile_two','Other private profile','student','active'],
     [3,'profile_pending','Fictional Pending','student','pending'], [4,'profile_staff','Fictional Staff','librarian','active'],
@@ -27,6 +28,8 @@ foreach ([[1,'profile_one','<script>Fictional & Student</script>','student','act
     [7,'profile_archived','Fictional Archived','student','archived']] as [$id,$name,$display,$role,$status]) {
     $insert->execute([$id,$name,$display,$role,$status,'2026-11-03 17:30:00','NEVER-SELECT-OR-DISPLAY-THIS-HASH']);
 }
+$db->exec("UPDATE users SET school_student_id='06-0001-001' WHERE user_id=1");
+$db->exec("UPDATE users SET school_student_id='06-0001-002' WHERE user_id=2");
 $db->exec("INSERT INTO books(book_id,title,description) VALUES(1,'Fictional Profile Title','Fictional profile counts')");
 for ($id = 1; $id <= 5; $id++) {
     $db->exec("INSERT INTO book_copies(copy_id,book_id,copy_code) VALUES($id,1,'PROFILE-$id')");
@@ -55,10 +58,11 @@ function profile_denied(PDO $db, string $label): void
 }
 profile_session(1);
 $profile = student_profile($db);
-profile_check(array_keys($profile) === ['display_name','username','account_status','created_at','counts'], 'Only allowlisted profile fields returned');
+profile_check(array_keys($profile) === ['display_name','username','school_student_id','account_status','created_at','counts'], 'Only allowlisted profile fields returned');
 profile_check($profile['counts'] === ['pending'=>1,'awaiting'=>1,'active'=>1,'overdue'=>1], 'Own counts exclude expired/closed and other student');
 profile_check($profile['username'] === 'profile_one' && $profile['account_status'] === 'active', 'Fresh identity ignores session role hint');
 $html = student_profile_html($profile);
+profile_check(str_contains($html, '06-0001-001') && !str_contains($html, '06-0001-002'), 'Only own school ID is shown with leading zeros');
 profile_check(str_contains($html, '&lt;script&gt;Fictional &amp; Student&lt;/script&gt;') && !str_contains($html, '<script>'), 'Profile values escaped');
 profile_check(str_contains($html, '4 November 2026, 1:30 AM') && str_contains($html, '2026-11-04T01:30:00+08:00'), 'UTC registration rolls into correct Manila date');
 foreach (['pending','awaiting_pickup','active'] as $filter) {
@@ -71,6 +75,7 @@ profile_session(3);
 $pending = student_profile($db);
 profile_check($pending['counts'] === ['pending'=>0,'awaiting'=>0,'active'=>0,'overdue'=>0], 'Pending student zero counts');
 $html = student_profile_html($pending);
+profile_check(str_contains($html, 'No school ID on file'), 'Legacy account with no school ID shows clear guidance');
 profile_check(str_contains($html, 'Waiting for librarian activation') && str_contains($html, 'No current borrowing activity') && str_contains($html, 'href="/catalog.php"'), 'Pending explanation and useful empty state');
 foreach ([null,4,5,6,7,99999] as $denied) { profile_session($denied); profile_denied($db, 'Guest/wrong role/inactive/missing account denied'); }
 profile_session(1, 99);

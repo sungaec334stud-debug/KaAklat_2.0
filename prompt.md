@@ -633,3 +633,43 @@ User request:
 > Keep email and hosting out of scope for this increment. Stop after local verification so I can review the changes before we commit.
 
 Outcome: Implemented migration 002, school ID registration and pending claim review. Local evidence includes 24 regression scripts, 193 HTTP assertions, 52 fictional restore checks, PHP lint and browser registration and activation. The ordinary local database still needs migration 002 after review.
+
+## 2026-11-05 — Registration and login presentation
+
+User request: “cab you improve this registration and login page page by the look and feel of it: and the registration page instruction has so many complex instruction. Make it simple to understand and straigh to the point. make sure there are no bug and error. Only improve the UI/UX”
+
+Outcome: Used Frontend Design Premium to simplify field guidance and refresh both pages with shared responsive styling. PHP lint, 193 isolated HTTP assertions and targeted desktop, mobile, keyboard and recovery navigation checks passed.
+
+## College textbook collection
+
+> is it also possible to add books and categories for these courses: find actual books that are used in college for Engineering, Nursing, Education, Information Technology/Computer Science, Criminology, Psychology, Hospitality Management, Accountancy/Business, Arts. Recommend categories I may have missed. Add 3–4 real books per category with authors, publication dates, descriptions, three copies and covers.
+
+Added three titles per requested category in the local catalog. Verified 27 titles, 81 available demo copies and 27 private JPEGs. Publisher or open-textbook sources are recorded for each title, with direct course evidence where confirmed. Covers use original KaAklat catalog artwork. The source list distinguishes evidence of classroom use from publisher evidence.
+
+> can you fix the my profile for students. It should contain the student ID
+
+My Profile now shows the signed-in student's school ID or a message when no ID is on file. The local profile and HTTP acceptance checks passed.
+
+> [@Frontend Design Premium] improve the UI/UX for the dashboard of all roles. Make it unique and not AI looking. Make sure you only change the look and not produce a new bug or error
+
+Redesigned the role dashboards as task directories with a shared campus portal style. Regression, HTTP, lint, design audit, and responsive Chrome checks passed.
+
+> do what you think needs to be done
+
+Removed duplicated dashboard directories. Students and librarians retain linked summaries, and administrators have a Staff accounts shortcut. Isolated HTTP and responsive browser checks passed.
+
+> I like this design now. Implement it
+
+Applied the approved welcome banner and role-specific panels to the live dashboard code. Regression, HTTP, lint, design audit, and responsive browser checks passed.
+
+> I like this design. Implement it without making any bugs or error.
+
+Implemented the compact student request history and separate Overdue filter. Regression, HTTP, lint, strict design audit, and headless Chrome layout and disclosure checks passed.
+
+> can you add my University's name: Universidad de Dagupan and it's logo
+
+Added the supplied seal beside the KaAklat wordmark with the full university name underneath. Lint, design audit, and responsive Chrome checks passed.
+
+> I still want the kaaklat logo to be used
+
+Restored KaAklat as the main header logo and kept the smaller university seal beside the university name. Lint and responsive Chrome checks passed.

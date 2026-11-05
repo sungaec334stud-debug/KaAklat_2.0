@@ -102,8 +102,9 @@ request_assert(own_borrow_requests($pdo,1,'active')===[]);
 request_assert(own_borrow_requests($pdo,1,'pending')===[]);
 
 $pdo->exec("UPDATE loans SET checked_out_at=UTC_TIMESTAMP()-INTERVAL 8 DAY,checked_out_by=3,due_date=DATE(UTC_TIMESTAMP()+INTERVAL 8 HOUR)-INTERVAL 1 DAY WHERE request_id=301");
-$activeRows=own_borrow_requests($pdo,1,'active');
-request_assert(count($activeRows)===1 && $activeRows[0]['lifecycle']==='overdue');
+$overdueRows=own_borrow_requests($pdo,1,'overdue');
+request_assert(count($overdueRows)===1 && $overdueRows[0]['lifecycle']==='overdue');
+request_assert(own_borrow_requests($pdo,1,'active')===[]);
 $pdo->exec("INSERT INTO borrow_requests(student_id,book_id,requested_days,request_reason) VALUES(2,8,7,'Fictional pending tab fixture')");
 request_assert(count(own_borrow_requests($pdo,1,'pending'))===1);
 foreach(own_borrow_requests($pdo,1,'all') as $row) { request_assert((int)$row['student_id']===2); }

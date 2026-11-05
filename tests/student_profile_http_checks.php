@@ -26,6 +26,8 @@ foreach (['librarian','admin'] as $role) {
 accept_check($code === 303, 'Profile fixture student login');
 $originalProfile = $db->query('SELECT display_name,created_at FROM users WHERE user_id=1')->fetch();
 $db->prepare('UPDATE users SET display_name=?,created_at=? WHERE user_id=1')->execute(['<script>Fictional & Profile</script>','2026-11-03 17:30:00']);
+$db->exec("UPDATE users SET school_student_id='06-0001-001' WHERE user_id=1");
+$db->exec("UPDATE users SET school_student_id='06-0001-002' WHERE user_id=2");
 $profileHeaders = [];
 [$code,$html] = accept_http($profileHttp, '/profile.php');
 $profileDom = new DOMDocument();
@@ -34,6 +36,7 @@ $profileCurrent = (new DOMXPath($profileDom))->query('//nav[@aria-label="Main na
 accept_check($code === 200 && str_contains($html, '<h1>My Profile</h1>') && $profileCurrent->length === 1
     && trim($profileCurrent->item(0)->textContent) === 'My Profile', 'Authenticated profile and current navigation');
 accept_check(in_array('Cache-Control: private, no-store', $profileHeaders, true), 'Private profile no-store header');
+accept_check(str_contains($html, '06-0001-001') && !str_contains($html, '06-0001-002'), 'HTTP profile shows only the signed-in student’s school ID');
 accept_check(str_contains($html, '&lt;script&gt;Fictional &amp; Profile&lt;/script&gt;') && !str_contains($html, '<script>Fictional'), 'HTTP profile escapes display name');
 accept_check(str_contains($html, '4 November 2026, 1:30 AM'), 'HTTP profile registration shown in Manila');
 foreach (['password_hash','session_version','token_hash','accept_other'] as $privateValue) {

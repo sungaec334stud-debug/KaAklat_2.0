@@ -39,14 +39,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $errorList = $errors === [] ? '' : '<div class="flash flash-error" role="alert"><ul><li>' . implode('</li><li>', array_map('h', $errors)) . '</li></ul></div>';
-$content = $errorList
-    . '<section class="panel auth-panel"><h1>Create student account</h1><p>Use a username with 3-32 lowercase letters, numbers, or underscores. Passwords require 12–72 UTF-8 bytes. Accented characters and emoji can use more than one byte; a plain-text passphrase is easier to size.</p>'
+$content = '<section class="panel auth-panel auth-entry" aria-labelledby="auth-title"><div class="auth-entry-main">'
+    . '<h1 id="auth-title">Create a student account</h1><p>Have your school ID handy.</p>' . $errorList
     . '<form method="post" action="/register.php" novalidate>'
     . '<input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '">'
-    . '<label for="school_student_id">School student ID (YY-####-###)</label><input id="school_student_id" name="school_student_id" autocomplete="off" maxlength="11" pattern="[0-9]{2}-[0-9]{4}-[0-9]{3}" required>'
+    . '<label for="school_student_id">School student ID</label><input id="school_student_id" name="school_student_id" autocomplete="off" maxlength="11" pattern="[0-9]{2}-[0-9]{4}-[0-9]{3}" aria-describedby="school-id-hint" required>'
+    . '<p id="school-id-hint" class="auth-entry-hint">Include the dashes, as in 26-0123-456.</p>'
     . '<label for="display_name">Display name</label><input id="display_name" name="display_name" autocomplete="name" maxlength="100" required value="' . h($values['display_name']) . '">'
-    . '<label for="username">Username</label><input id="username" name="username" autocomplete="username" maxlength="32" pattern="[a-zA-Z0-9_]{3,32}" required value="' . h($values['username']) . '">'
-    . '<label for="password">Password</label><input id="password" name="password" autocomplete="new-password" type="password" minlength="12" maxlength="72" required>'
-    . '<button type="submit">Create account</button></form><p><a href="/login.php">Already have an account? Log in</a></p></section>';
+    . '<label for="username">Username</label><input id="username" name="username" autocomplete="username" maxlength="32" pattern="[a-zA-Z0-9_]{3,32}" aria-describedby="username-hint" required value="' . h($values['username']) . '">'
+    . '<p id="username-hint" class="auth-entry-hint">3–32 letters, numbers or underscores.</p>'
+    . '<label for="password">Password</label><input id="password" name="password" autocomplete="new-password" type="password" minlength="12" maxlength="72" aria-describedby="password-hint" required>'
+    . '<p id="password-hint" class="auth-entry-hint">Use a short phrase with 12–72 basic letters, numbers, spaces or symbols.</p>'
+    . '<button type="submit">Create account</button></form>'
+    . '<p class="auth-entry-switch">Already have an account? <a href="/login.php">Log in</a></p></div>'
+    . '<aside class="auth-entry-guide" aria-labelledby="auth-guide-title"><p class="auth-entry-guide-label">Library access</p>'
+    . '<h2 id="auth-guide-title">What happens next?</h2><ol>'
+    . '<li>Show your physical school ID to a librarian.</li>'
+    . '<li>Once the librarian activates your account, you can request books.</li>'
+    . '</ol></aside></section>';
 
 render_page('Create account', $content);

@@ -59,7 +59,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{$safeTitle} | {$appName}</title>
     <link rel="icon" href="/assets/kaaklat-logo.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/assets/app.css?v=20261104-campus">
+    <link rel="stylesheet" href="/assets/app.css?v=20261106-brand-spacing">
     {$landingStyles}
     <script src="/assets/forms.js" defer></script>
 </head>
@@ -67,7 +67,16 @@ function render_page(string $title, string $content, bool $landing = false): voi
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
         <div class="header-inner">
-        <a class="brand" href="/"><img class="brand-mark" src="/assets/kaaklat-logo.svg" width="48" height="48" alt=""><span>{$appName}<small>Your school library</small></span></a>
+        <div class="site-branding">
+            <a class="brand" href="/">
+                <img class="brand-mark" src="/assets/kaaklat-logo.svg" width="48" height="48" alt="">
+                <span class="brand-wordmark">{$appName}</span>
+            </a>
+            <div class="brand-university">
+                <img class="university-seal" src="/assets/universidad-de-dagupan-seal.png" width="22" height="22" alt="">
+                <span>Universidad de Dagupan</span>
+            </div>
+        </div>
         {$workspaceLabel}
         <nav class="header-nav" aria-label="Main navigation">{$navigation}</nav>
         {$identity}

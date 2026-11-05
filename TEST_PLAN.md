@@ -1,6 +1,14 @@
 # KaAklat test plan
 
+Catalog row layout: the browser rendered a full 12-card fixture in balanced rows at 1920, 1280, 768, 480 and 360 pixels without horizontal overflow. Catalog pagination and filter tests passed.
+
+## Login and registration presentation — 2026-11-05
+
+PHP lint passed for the three edited templates and entry pages. All 193 isolated HTTP assertions passed, including registration, duplicate and malformed ID rejection, sign-in and staff-assisted recovery. Browser checks covered desktop registration, both pages at 360px without horizontal overflow, keyboard submission focus on the validation summary and the recovery link. The scoped premium audit repeated the known false positive for the dynamic field fragment in forms.js. PHP templates were exercised through HTTP and the browser.
+
 ## Student ID registration and librarian approval — 2026-11-05
+
+Regular local migration acceptance passed. Before registering a fictional student, the migration check verified that all 36 existing account rows, 29 request rows and 22 loan rows retained their values. The upgraded site accepted the fictional registration and sign-in. User screenshots show the fictional account on the librarian’s pending list and an existing student's pre-migration active loan and due date on My requests.
 
 User-reported browser acceptance with fictional accounts passed all six checks: malformed ID rejection, valid registration with pending borrowing restrictions, duplicate claim rejection without revealing the owner, approval blocked without confirmation, successful confirmed activation, and release of a mistaken claim followed by successful reuse of the released ID.
 
@@ -348,3 +356,31 @@ Signed-out welcome redesigned with two optimized local generated photographs (il
 
 ## Commit preparation — 2026-11-03
 User authorized commit/push of all today's implementation. Fresh21-script regression,104 HTTP assertions,80 PHP lints, JS syntax and all seven concurrency suites/17 scenarios PASS. Scratch names: request_2d69cb8e1fdd, decision_407db3aef9fe, pickup_986ac7bd3cf3, return_6133309bf66d, cancel_871d488ba947, staff_4c3a21d13c1b, recovery_54d0d2682b23 (each with existing kaaklat_*_test_ prefix); HTTP kaaklat_acceptance_ff72fd321a80. No demo reset/import. Scope includes staff/admin student access, recovery/audit, UI/landing imagery, tests/docs and confirmed NUL validation fix. Private runtime files and separate output/ research artifacts excluded. Earlier no-commit notes are historical; final commit/push result verified through Git separately.
+
+## Local college textbook collection evidence
+
+The one-time local import and a separate read-only verification passed. The existing catalog lookup returned all 27 titles with the expected credits, category, year and three available copies each. All 27 private JPEG covers decoded. Book and copy counts went from 102 to 129 and 308 to 389. User, request and loan counts stayed at 37, 29 and 22. Browser rendering was not checked.
+
+## My Profile school ID evidence
+
+27 profile checks, the isolated HTTP acceptance suite, and lint of the four touched PHP files passed. Fictional tests covered leading zeros, missing IDs, owner isolation, and private no-store responses. Scratch database: kaaklat_acceptance_5f4b93cc803a.
+
+## Dashboard task directory verification
+
+Passed 24 regression scripts, 200 isolated HTTP assertions, PHP lint, and the strict design audit. Headless Chrome verified task counts, horizontal fit, 44 px task links, and keyboard focus for active and pending students, librarians, and administrators at 1440, 768, 360, and 320 px. Desktop screenshots were reviewed for all three roles. HTTP fixture: kaaklat_acceptance_1de24314afb2. Browser fixture: kaaklat_acceptance_ab64f470b861. The first browser run retained kaaklat_acceptance_ba1bf71f9531.
+
+## Simplified dashboards
+
+PHP lint, 200 isolated HTTP assertions, and the strict design audit passed. Headless Chrome verified layout and keyboard focus for active and pending students, librarians, and administrators at 1440, 768, 360, and 320 px. The administrator desktop screenshot was reviewed. HTTP fixture kaaklat_acceptance_61597d09163f and browser fixture kaaklat_acceptance_017d1b79d870 were retained.
+
+## Personalized dashboard verification
+
+Passed 24 regression scripts, 203 isolated HTTP assertions, PHP lint, and the strict design audit. The HTTP checks verify role links, owner-only student pickup details, librarian pickup ordering, and the administrator audit allowlist. Headless Chrome checked focus and horizontal fit at 320, 360, 768, and 1440 px for all roles, including a pending student. Browser fixtures exercised empty panels. The active student desktop screenshot was reviewed. HTTP fixture kaaklat_acceptance_bc31d8325e9d and browser fixture kaaklat_acceptance_7e1aee7e3ab4 were retained.
+
+## Compact student request verification
+
+Passed 24 regression scripts, 203 isolated HTTP checks, lint of all touched PHP files, and the strict design audit. The request regression verifies that overdue records are excluded from Active. The HTTP suite exercises request creation, history, and cancellation. Headless Chrome verified horizontal fit at 320, 360, 768, and 1440 px, Space to open and close the native disclosure, and the Overdue empty state. HTTP fixture kaaklat_acceptance_8dc70d33465a and browser fixtures kaaklat_acceptance_f88168584e38 and kaaklat_acceptance_75d4875bf849 were retained.
+
+The university header passed PHP lint and the strict design audit. Chrome loaded the seal and checked horizontal fit at 320, 360, 768, and 1440 px using fictional student, librarian, and administrator accounts in kaaklat_acceptance_ddf6d2b2d66e.
+
+PHP lint passed for the shared header. Chrome verified that both logos loaded and the layout fit at 320, 360, 768, and 1440 px for all roles using fictional fixture kaaklat_acceptance_fa8a60610e1b.
