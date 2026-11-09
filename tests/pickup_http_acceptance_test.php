@@ -30,6 +30,19 @@ try {
  if(!$started) { throw new RuntimeException('Acceptance server did not become ready within 45 seconds.'); }
  $clients=[];
  foreach(['student','other','librarian','admin'] as $role){$c=curl_init();curl_setopt_array($c,[CURLOPT_RETURNTRANSFER=>true,CURLOPT_COOKIEFILE=>'',CURLOPT_TIMEOUT=>10]);[$code,$html]=accept_http($c,'/login.php');[$code]=accept_http($c,'/login.php',['username'=>'accept_'.$role,'password'=>$password,'csrf_token'=>accept_token($html)]);accept_check($code===303,"$role login");$clients[$role]=$c;}
+ $guest = curl_init();
+ curl_setopt_array($guest, [CURLOPT_RETURNTRANSFER=>true, CURLOPT_COOKIEFILE=>'', CURLOPT_TIMEOUT=>10]);
+ foreach (['guest'=>$guest] + $clients as $role=>$client) {
+     [$code,$html] = accept_http($client, '/about.php');
+     accept_check($code===200 && str_contains($html, '<h1>About KaAklat</h1>'), "$role About page access");
+     accept_check(str_contains($html, 'href="/about.php" aria-current="page"'), "$role About navigation current state");
+     accept_check(str_contains($html, 'student-developed school demonstration') && str_contains($html, 'Mission and vision — summary') && str_contains($html, 'href="https://udd.edu.ph/"'), "$role About truthful sourced content");
+ }
+ [$code] = accept_http($guest, '/catalog.php');
+ accept_check($code===303, 'Public About does not expose protected catalog');
+ [$code] = accept_http($guest, '/about.php', ['action'=>'approve','role'=>'administrator']);
+ accept_check($code===405, 'About rejects state-changing methods');
+ curl_close($guest);
  $student=$clients['student'];$staff=$clients['librarian'];
  [$code,$html]=accept_http($student,'/');accept_check($code===200 && str_contains($html,'status=pending') && !str_contains($html,'landing-hero') && !str_contains($html,'href="/pickups.php"'),'Student navigation/count links');
  foreach(['student','admin'] as $role){[$code]=accept_http($clients[$role],'/pickups.php');accept_check($code===403,"$role pickup access denied");}

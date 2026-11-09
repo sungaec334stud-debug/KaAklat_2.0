@@ -22,6 +22,8 @@ function render_page(string $title, string $content, bool $landing = false): voi
     }
     if (($navigationUser['role']??null)==='administrator' && $navigationUser['account_status']==='active') { $links += ['/staff.php'=>'Staff accounts','/students.php'=>'Students','/audit.php'=>'Audit records']; }
     if (in_array($navigationUser['role']??null,['librarian','administrator'],true) && $navigationUser['account_status']==='active') { $links['/recover_account.php']='Account recovery'; }
+    $links['/about.php'] = 'About';
+    if ($navigationUser !== null) { $links['/logout.php'] = 'Log out'; }
     $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
     $navigation = '';
     foreach ($links as $url => $label) {
@@ -59,7 +61,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{$safeTitle} | {$appName}</title>
     <link rel="icon" href="/assets/kaaklat-logo.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/assets/app.css?v=20261106-brand-spacing">
+    <link rel="stylesheet" href="/assets/app.css?v=20261109-logout">
     {$landingStyles}
     <script src="/assets/forms.js" defer></script>
 </head>

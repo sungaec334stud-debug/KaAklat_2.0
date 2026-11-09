@@ -1,5 +1,9 @@
 # KaAklat interface system
 
+## Public About page — 2026-11-09
+
+`public/about.php` and `views/about.php` provide read-only guest/role information using the existing layout, identity assets and canonical app.css tokens. The cobalt introduction rule anchors a readable single column; the school summary uses the existing panel; an ordered six-step guide encodes actual borrowing order. Shared layout owns navigation/current state and portal_ui owns its decorative icon. No new fonts, palette, dependencies or JS. No developer placeholders are rendered. School source: https://udd.edu.ph/, verified 2026-11-09; mission/vision labeled summary. Forms/loading/CRUD contracts do not apply. Authentication and policy remain owned by existing services.
+
 The login and student registration pages use the shared `auth-entry` variant in `app.css`. The form comes first in the reading order. A navy side panel explains librarian approval or account recovery and moves below the form on narrow screens. Registration places short, accessible hints beside the fields they describe.
 
 2026-11-04. User-approved campus-portal overhaul of the existing school blue/white/gray Operate interface. Shared application behavior remains authoritative. No new business features or invented school claims.
@@ -39,3 +43,7 @@ Each role has a navy welcome banner with its display name, initials, and a decor
 Each request starts as a compact row with its cover, title, status, and relevant Manila date. A native disclosure reveals the progress tracker, original terms, explanations, and any available cancellation action. Status filters wrap on narrow screens. Active and Overdue are separate views, and All requests retains the full history.
 
 The shared header gives KaAklat and Universidad de Dagupan separate brand groups. In the desktop sidebar, the university seal and name occupy their own row below a divider. In the horizontal header, the groups can wrap as space narrows.
+
+Developer panel: user-provided portrait and credits sit side by side above 600px and stack below; email wraps within the existing About page. Existing surface/radius/type tokens retained.
+
+Shared logout (2026-11-09): layout owns one signed-in navigation link for every role; logout.php owns a server-rendered confirmation using auth-panel and native POST/CSRF with confirm=yes. Stay signed in returns to dashboard; no JS or modal/focus-trap dependency. Existing tokens and responsive navigation retained.

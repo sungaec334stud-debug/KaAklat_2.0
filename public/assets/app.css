@@ -1,4 +1,23 @@
 /* KaAklat campus portal. No remote fonts or UI dependencies. */
+.about-page { max-width: 920px; margin-inline: auto; overflow-wrap: anywhere; }
+.about-intro { border-left: 4px solid var(--blue); padding-left: 24px; margin-bottom: 32px; }
+.about-intro p { max-width: 70ch; }
+.about-lead { font-size: 1.25rem; color: var(--navy); }
+.about-school h3 { margin-top: 24px; }
+.about-borrowing { margin-top: 36px; }
+.about-steps { padding-left: 1.75rem; }
+.about-steps li { padding-left: 12px; margin-block: 22px; }
+.about-steps li::marker { color: var(--blue); font-weight: 700; }
+.about-steps h3 { margin-bottom: 4px; }
+.about-steps p { margin-top: 0; max-width: 70ch; }
+.logout-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 24px; }
+.logout-actions button, .logout-actions .button { margin: 0; }
+.about-developer { display: flex; align-items: center; gap: 28px; margin-top: 36px; }
+.about-developer > div { min-width: 0; }
+.developer-photo { width: 180px; height: 180px; object-fit: cover; border-radius: var(--radius); flex-shrink: 0; }
+@media (max-width: 600px) {
+    .about-developer { flex-direction: column; align-items: flex-start; gap: 20px; }
+}
 :root {
     --font-body: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
     --font-display: Bahnschrift, 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;

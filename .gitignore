@@ -7,6 +7,9 @@ private/
 backups/
 storage/
 tmp/
+# Generated local reports and research artifacts (preserved on disk)
+/premium-audit.json
+/output/
 *.log
 # OS/editor local state
 Thumbs.db

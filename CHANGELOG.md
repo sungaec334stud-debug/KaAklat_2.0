@@ -291,3 +291,20 @@ Closed admin student-management permission gap without broadening circulation/ca
 - Added the supplied Universidad de Dagupan seal and name to the shared site header.
 
 - Restored the KaAklat header logo and placed the university seal beside the university name below it.
+# 2026-11-09 — Public About KaAklat page
+
+Added public read-only About page and shared guest/role navigation entry with existing branding/styles. Includes demonstration purpose, officially sourced UdD introduction with labeled mission/vision summary and borrowing guide. Unprovided developer credits omitted. No schema or business-rule changes. 24 regression scripts, expanded HTTP suite, 88 PHP lints and whitespace checks PASS; guest 360/1440px layout and keyboard skip link verified. Remaining visual/accessibility limits and failed checkpoints recorded in TEST_PLAN.md. No deployment/commit/push.
+
+### Developer information — 2026-11-09
+
+Added user-supplied Emmanuel C. Sunga name, third-year Computer Science/Universidad de Dagupan description, developer role, email mailto link and original supplied photo (102980 bytes) to About. Original download preserved; public asset is public by explicit user request. No unprovided adviser/team/portfolio credits invented. Changed views/about.php and scoped app.css only plus the local JPEG asset. PHP view lint and existing 28 portal presentation checks PASS; guest browser 360x800 and 1440x900 inspected, photo loaded at intrinsic 1080px and correct mailto destination confirmed, mobile horizontal overflow false. Temporary viewport reset. Full regression/HTTP suite not rerun for this static content addition; prior About results are historical. Screen-reader/real-device/zoom checks not run. No schema, authentication or borrowing changes; no commit/push/deployment.
+
+### Shared logout confirmation — 2026-11-09
+
+Moved Log out from the dashboard-only form into shared signed-in navigation (all roles, including pending students). GET /logout.php displays a no-store confirmation page; Stay signed in returns to the dashboard without ending the session. Yes, log out requires POST, valid CSRF and confirm=yes before clearing the session and redirecting to login. No JavaScript dependency, external dialog, schema or circulation change.
+
+Verification: preimplementation HTTP test failed on Logout GET requests confirmation. First implementation run found the pending-student test depended on the removed dashboard form token; changed fixture token retrieval to the confirmation form. Final full HTTP suite PASS, retained scratch kaaklat_acceptance_4c5d6e3ed15a. Existing campus assertions now require shared logout links. 24 regression scripts PASS; 88 PHP lints PASS; forms.js syntax and whitespace PASS. IAB fictional active-student fixture kaaklat_acceptance_028db9acd4a3: About navigation opens confirmation, Stay signed in returns to authenticated dashboard, keyboard Return confirms logout and shows login success message. Mobile 360x800 and desktop 1440x900 inspected; mobile overflow false. Browser viewport reset and temporary port8033 server stopped. No real account signout/data mutation. Real devices, screen readers, 400% zoom and other-role visual checks not run. JS-disabled behavior is supported by native links/forms, but browser JS-disabled mode was not separately exercised. No commit/push/deployment.
+
+### Full local review — 2026-11-09
+
+24 regressions, complete HTTP suite, seven concurrency suites/17 scenarios, 52 fictional restore checks, 96 PHP lints, JS syntax and whitespace PASS. Browser 34 page/role combinations at each of 360/1440px (68 views), no overflow/visible runtime errors; five demo inconsistency counts zero, health ready. No blocking application defect found. Added ignore rules for generated audit and research outputs, preserving files. Full commands, scratch resources, failed read-only helper checkpoints and limits: verification/FULL_LOCAL_CHECK_2026-11-09.md. Ready for scoped commit/normal push; none executed. Hosted/performance/real-device/screen-reader/400%-zoom/real-demo recovery checks remain separate.

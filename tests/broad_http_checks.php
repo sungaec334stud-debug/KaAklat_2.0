@@ -14,7 +14,7 @@ accept_check($newStudent['role']==='student' && $newStudent['account_status']===
 [$code,$html]=accept_http($anonymous,'/login.php');
 [$code]=accept_http($anonymous,'/login.php',['username'=>'new_http_student','password'=>$password,'csrf_token'=>accept_token($html)]); accept_check($code===303,'Pending student can sign in');
 [$code]=accept_http($anonymous,'/catalog.php'); accept_check($code===200,'Pending student catalog access');
-[$code,$html]=accept_http($anonymous,'/'); $newToken=accept_token($html);
+[$code,$html]=accept_http($anonymous,'/logout.php'); $newToken=accept_token($html);
 [$code]=accept_http($anonymous,'/requests.php',['action'=>'create','book_id'=>1,'days'=>7,'reason'=>'Fictional study reason','csrf_token'=>$newToken]); accept_check($code===403,'Pending borrowing blocked');
 $review = ['student_id'=>$newStudent['user_id'],'review_version'=>1,'csrf_token'=>$staffToken];
 accept_check($newStudent['school_student_id']==='26-0001-004','School ID preserves leading zeros');
@@ -72,8 +72,15 @@ try {
     accept_check($code===303 && $newCover!==$book['cover_path'],'Cover replacement HTTP');
     [$code]=accept_http($staff,'/manage_books.php',['action'=>'archive_book','book_id'=>$bookId,'csrf_token'=>$staffToken]); accept_check($code===303 && catalog_book($db,$bookId)===null,'Archive title HTTP');
     [$code]=accept_http($student,'/cover.php?id='.$bookId); accept_check($code===404,'Archived title cover unavailable');
-    [$code,$html]=accept_http($student,'/');
-    [$code]=accept_http($student,'/logout.php',['csrf_token'=>accept_token($html)]); accept_check($code===303,'Logout HTTP');
+    [$code,$html]=accept_http($student,'/logout.php');
+    accept_check($code===200 && str_contains($html, 'Yes, log out') && str_contains($html, 'Stay signed in'), 'Logout GET requests confirmation');
+    $logoutToken = accept_token($html);
+    [$code]=accept_http($student,'/requests.php'); accept_check($code===200,'Opening logout confirmation preserves session');
+    [$code]=accept_http($student,'/'); accept_check($code===200,'Cancel destination preserves session');
+    [$code]=accept_http($student,'/logout.php',['csrf_token'=>$logoutToken]); accept_check($code===400,'Unconfirmed logout rejected');
+    [$code]=accept_http($student,'/logout.php',['csrf_token'=>'forged','confirm'=>'yes']); accept_check($code===400,'Logout CSRF rejected');
+    [$code]=accept_http($student,'/requests.php'); accept_check($code===200,'Rejected logout preserves session');
+    [$code]=accept_http($student,'/logout.php',['csrf_token'=>$logoutToken,'confirm'=>'yes']); accept_check($code===303,'Confirmed logout HTTP');
     [$code]=accept_http($student,'/requests.php'); accept_check($code===303,'Logged-out history protected');
 } finally {
     if(is_file($imagePath)) unlink($imagePath);

@@ -44,7 +44,7 @@ if ($user !== null) {
     } catch (Throwable) {
         $content .= '<p class="flash flash-info" role="status">The dashboard preview is temporarily unavailable.</p>';
     }
-    $content .= '<div class="session-actions"><span>Signed in as ' . h(ucfirst($user['role'])) . ' · ' . h(ucfirst($user['account_status'])) . '</span><form method="post" action="/logout.php"><input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '"><button class="button-secondary" type="submit">Log out</button></form></div></div>';
+    $content .= '<div class="session-actions"><span>Signed in as ' . h(ucfirst($user['role'])) . ' · ' . h(ucfirst($user['account_status'])) . '</span></div></div>';
     render_page('Dashboard', $content);
     exit;
 }

@@ -13,6 +13,8 @@ $portalCases = [
     [$clients['admin'], '/staff.php', ['/', '/catalog.php', '/staff.php', '/students.php', '/audit.php', '/recover_account.php'], 'Administrator portal'],
 ];
 foreach ($portalCases as [$client,$path,$expectedLinks,$roleText]) {
+    $expectedLinks[] = '/about.php';
+    $expectedLinks[] = '/logout.php';
     [$code,$html] = accept_http($client, $path);
     $dom = new DOMDocument();
     @$dom->loadHTML($html);
@@ -49,8 +51,8 @@ foreach ($dashboardCases as [$client, $displayName, $expectedLinks]) {
     }
     accept_check($code === 200 && $links === $expectedLinks && str_contains($html, 'Welcome back, ' . $displayName),
         'Dashboard shows the role’s links and personalized greeting');
-    accept_check($xpath->query('//form[@method="post" and @action="/logout.php"]/input[@name="csrf_token"]')->length > 0,
-        'Dashboard retains the protected logout form');
+    accept_check($xpath->query('//nav[@aria-label="Main navigation"]/a[@href="/logout.php"]')->length === 1,
+        'Dashboard provides one shared logout confirmation link');
 }
 $db->exec("INSERT INTO books (title, description) VALUES ('Fictional own pickup', 'Dashboard fixture'), ('Fictional other pickup', 'Dashboard fixture')");
 $dashboardBooks = $db->query("SELECT book_id FROM books WHERE description = 'Dashboard fixture' ORDER BY book_id")->fetchAll(PDO::FETCH_COLUMN);

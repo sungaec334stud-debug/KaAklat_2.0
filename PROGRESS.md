@@ -1,11 +1,13 @@
 # KaAklat progress
 
-Updated: 2026-11-04 (Asia/Manila)
+Updated: 2026-11-09 (Asia/Manila)
 
 Status vocabulary: Planned; In progress; Implemented but unverified; Verified; Blocked.
 Verified applies only to the named evidence, not to the entire application.
 
 ## Current status
+
+Latest verification (2026-11-09): current About/developer/shared logout work passed 24 regression scripts, full HTTP suite, seven concurrency suites/17 scenarios, 52 fictional restore checks and 96 PHP lints. Browser checked 34 page/role combinations at both 360px and 1440px with no overflow or visible runtime errors. Five read-only demo inconsistency counts zero, local health ready. Generated research/audit outputs now ignored and preserved. Suitable for a scoped commit/normal push; none executed. See verification/FULL_LOCAL_CHECK_2026-11-09.md for scope, retained scratch resources, helper failures and remaining deployment/accessibility/performance limits. Dated summaries below are historical evidence.
 
 Current evidence summary (2026-11-04): approved campus-portal design applied across the actual shared interface; core services/schema/data remain unchanged. Latest24 regression scripts,181 HTTP assertions,93 PHP lints and seven concurrency suites/17 scenarios PASS. Actual in-app browser fixture checks observed student, librarian, administrator and guest screens at representative desktop/768px/360px sizes, plus linked error focus. Fixed narrow checkbox-error compression. The user reported passing the 400% Chrome zoom and JavaScript-disabled librarian review checks on 2026-11-05. Broader accessibility and state coverage remain open. Scoped CSS/JS audit has one reviewed false positive, not a PHP audit pass. See verification/CAMPUS_PORTAL_ACCEPTANCE.md. Backup/profile work and research preserved; performance, controlled recovery, legacy timestamp review, hosting and evaluation remain outstanding. Hosting deferred; this overhaul is not committed/pushed.
 
@@ -45,6 +47,12 @@ The six defaults enumerated above are approved for the demonstration; the follow
 - Fictional student accounts and simulated loan records; book metadata may use well-known titles.
 
 ## Resume here
+
+Full local review completed 2026-11-09; no blocking application defect found in executed checks. About now includes supplied developer photo/details. Shared signed-in navigation includes logout with native confirmation/secure POST. Review commit scope in verification/FULL_LOCAL_CHECK_2026-11-09.md. No commit/push/deployment performed; hosting and outstanding operational checks remain deferred.
+
+### Public About page — 2026-11-09
+
+Implemented `/about.php` with project demonstration status, sourced school introduction, explicitly summarized mission/vision, core values and six borrowing steps. About is in guest and all role navigation, reusing existing KaAklat/university branding. Developer credits omitted because no names/program/adviser were supplied. No schema/authentication/circulation change or demo-data mutation. Latest checks: 24 regression scripts PASS; expanded HTTP suite PASS (retained fictional scratch `kaaklat_acceptance_85a6e9eb3546`); 88 PHP lints and whitespace checks PASS. IAB guest screenshots at 360/1440px, no horizontal overflow and keyboard skip-to-main focus verified. Signed-in visual, real-device, screen-reader and 400% zoom checks not run for this page. Hosting remains deferred; no commit/push. See TEST_PLAN.md for failed checkpoints and commands. Next: user content review and supplied developer credits if desired; outstanding operational checks remain separate.
 
 The shared header now shows the KaAklat logo above a secondary line with the Universidad de Dagupan seal and name. Responsive Chrome checks passed for all roles.
 
@@ -256,3 +264,15 @@ Signed-out welcome redesigned with two optimized local generated photographs (il
 ## Local college textbook collection
 
 Added 27 textbooks across nine requested course categories in local `kaaklat_dev`, with three demo copy records per title and private KaAklat cover artwork. The [collection manifest](college-textbooks.json) links publisher or open-textbook records and identifies separately confirmed course use where available. Local catalog and cover verification passed. Browser rendering and adoption at the pilot school remain unverified.
+
+### Developer information — 2026-11-09
+
+Added user-supplied Emmanuel C. Sunga name, third-year Computer Science/Universidad de Dagupan description, developer role, email mailto link and original supplied photo (102980 bytes) to About. Original download preserved; public asset is public by explicit user request. No unprovided adviser/team/portfolio credits invented. Changed views/about.php and scoped app.css only plus the local JPEG asset. PHP view lint and existing 28 portal presentation checks PASS; guest browser 360x800 and 1440x900 inspected, photo loaded at intrinsic 1080px and correct mailto destination confirmed, mobile horizontal overflow false. Temporary viewport reset. Full regression/HTTP suite not rerun for this static content addition; prior About results are historical. Screen-reader/real-device/zoom checks not run. No schema, authentication or borrowing changes; no commit/push/deployment.
+
+### Shared logout confirmation — 2026-11-09
+
+Moved Log out from the dashboard-only form into shared signed-in navigation (all roles, including pending students). GET /logout.php displays a no-store confirmation page; Stay signed in returns to the dashboard without ending the session. Yes, log out requires POST, valid CSRF and confirm=yes before clearing the session and redirecting to login. No JavaScript dependency, external dialog, schema or circulation change.
+
+Verification: preimplementation HTTP test failed on Logout GET requests confirmation. First implementation run found the pending-student test depended on the removed dashboard form token; changed fixture token retrieval to the confirmation form. Final full HTTP suite PASS, retained scratch kaaklat_acceptance_4c5d6e3ed15a. Existing campus assertions now require shared logout links. 24 regression scripts PASS; 88 PHP lints PASS; forms.js syntax and whitespace PASS. IAB fictional active-student fixture kaaklat_acceptance_028db9acd4a3: About navigation opens confirmation, Stay signed in returns to authenticated dashboard, keyboard Return confirms logout and shows login success message. Mobile 360x800 and desktop 1440x900 inspected; mobile overflow false. Browser viewport reset and temporary port8033 server stopped. No real account signout/data mutation. Real devices, screen readers, 400% zoom and other-role visual checks not run. JS-disabled behavior is supported by native links/forms, but browser JS-disabled mode was not separately exercised. No commit/push/deployment.
+
+2026-11-09 commit preparation: user authorized commit/push of reviewed website changes and verification evidence. Unrelated collection manifest and ignored private/research/runtime files excluded; final Git result verified separately.

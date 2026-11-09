@@ -673,3 +673,48 @@ Added the supplied seal beside the KaAklat wordmark with the full university nam
 > I still want the kaaklat logo to be used
 
 Restored KaAklat as the main header logo and kept the smaller university seal beside the university name. Lint and responsive Chrome checks passed.
+
+## 2026-11-09 — About KaAklat implementation
+
+User prompt:
+
+Implement a small, reviewable About KaAklat page using the existing PHP structure and website design.
+
+Read AGENTS.md and the required project documents first. Preserve existing work and borrowing rules.
+
+Include:
+
+- **About KaAklat:** Explain its purpose and current status as a student-developed school demonstration.
+- **About Universidad de Dagupan:** Use the school introduction we drafted, verify it against https://udd.edu.ph/, and link to the official website. Identify summarized mission and vision content as a summary.
+- **How borrowing works:** Explain registration, account approval, book requests, librarian approval, physical pickup, and return in simple language consistent with the implemented system.
+- **Development team:** [Your name/team names], [course/program], and [optional adviser acknowledgment]. Omit details I have not supplied; do not invent credits.
+
+Make the page accessible before login and add an About link to the existing navigation. Reuse the current KaAklat logo and university seal. Keep the layout readable on desktop and mobile, with keyboard-accessible navigation.
+
+Do not change the database, authentication, or circulation behavior. Add appropriate checks for public access and navigation, run relevant tests and PHP lint, inspect the page in the browser, and update the required project records. Report what passed and any checks that remain unverified.
+
+Outcome: Implemented public /about.php with shared branding/navigation and sourced school summary, demonstration status and borrowing guide. Unprovided developer credits omitted. 24 regression scripts, full expanded HTTP suite, 88 PHP lints PASS. Guest browser 360/1440px no overflow and keyboard skip-to-main focus PASS. Initial restricted socket attempt blocked; approved preimplementation HTTP run failed as expected; old exact navigation assertion updated before final PASS. See TEST_PLAN.md for evidence and unverified signed-in visual/screen-reader/400%-zoom checks. No schema/authentication/circulation changes, demo reset, commit, push or deployment.
+
+## 2026-11-09 — Developer information
+
+User request: can you also add my information as the developer? This is my info: Emmanuel C. Sunga, 3rd Year Computer Science Student in Universidad de Dagupan. Email: emmanuelsunga200527@gmail.com, and this is my photo. what information did I miss that needs to be there?
+
+Outcome: Added supplied name, academic description, developer credit, clickable email and original photo to the public About page. No required information missing; optional project-role description, portfolio/GitHub and adviser acknowledgment suggested. PHP lint and 28 portal checks PASS; mobile/desktop browser verified. See TEST_PLAN.md for limits. No schema/business-rule changes or deployment.
+
+## 2026-11-09 — Shared logout confirmation
+
+User prompt: can you improve the log out button so it can be accessible in any page? and prompt the user if they really want to log out
+
+Outcome: Shared signed-in navigation now includes Log out on every rendered page. Confirmation page offers Stay signed in and Yes, log out; POST/CSRF/explicit confirmation required. Removed duplicate dashboard-only form. 24 regressions, full HTTP suite, 88 PHP lints, JS syntax/whitespace checks PASS. Actual fictional browser cancel and keyboard confirm PASS at inspected mobile/desktop sizes. TEST_PLAN.md records failed checkpoints and remaining coverage. No database/schema/circulation change or deployment.
+
+## 2026-11-09 — Full website and commit-readiness check
+
+User prompt: can you run a full check of the entire website. Check if there's missed errors or bugs. And conform if its safe to commit and push
+
+Outcome: Ran 24 regression scripts, full HTTP suite, all seven concurrency suites/17 scenarios, 52-check fictional restore, 96 PHP lints and JS/whitespace checks; all PASS. Actual browser sweep: 34 page/role combinations at each of phone/desktop widths, no overflow/visible runtime errors. Demo read-only integrity counts zero and health ready. No blocking app defect found. Ignored local generated audit/research outputs without deleting them. Documented limited secret scan, two failed helper queries corrected to verified schema column, excluded legacy real-account test and remaining accessibility/performance/hosting limits. Current app changes ready for scoped commit/normal push; no commit/push performed. Evidence: verification/FULL_LOCAL_CHECK_2026-11-09.md.
+
+## 2026-11-09 — Commit and push authorization
+
+User prompt: commit and push
+
+Outcome: Preparing the reviewed About/developer/shared logout changes, generated-output ignore rules and full verification report for commit and normal push to origin/main. Fresh full-suite results are recorded in verification/FULL_LOCAL_CHECK_2026-11-09.md. Unrelated untracked college-textbooks.json and ignored research/private/runtime outputs excluded. Final commit/push result is verified separately from this preparation record.
