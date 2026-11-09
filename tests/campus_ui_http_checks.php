@@ -13,6 +13,7 @@ $portalCases = [
     [$clients['admin'], '/staff.php', ['/', '/catalog.php', '/staff.php', '/students.php', '/audit.php', '/recover_account.php'], 'Administrator portal'],
 ];
 foreach ($portalCases as [$client,$path,$expectedLinks,$roleText]) {
+    $expectedLinks[] = '/settings.php';
     $expectedLinks[] = '/about.php';
     $expectedLinks[] = '/logout.php';
     [$code,$html] = accept_http($client, $path);
@@ -28,7 +29,7 @@ foreach ($portalCases as [$client,$path,$expectedLinks,$roleText]) {
         accept_check($icons->length === 1 && $icons->item(0)->getAttribute('aria-hidden') === 'true'
             && $icons->item(0)->getAttribute('focusable') === 'false', 'Campus navigation icon stays decorative');
     }
-    accept_check($code === 200 && $urls === $expectedLinks, 'Campus role navigation destinations unchanged');
+    accept_check($code === 200 && $urls === $expectedLinks, 'Campus role navigation retains workflows plus Settings');
     accept_check($xpath->query('//nav[@aria-label="Main navigation"]/a[@aria-current="page"]')->length === 1, 'Campus current route remains unique');
     accept_check(str_contains($html, $roleText) && str_contains($html, 'href="#main-content"') && str_contains($html, 'id="main-content" tabindex="-1"'), 'Campus context and skip-to-main target retained');
 }

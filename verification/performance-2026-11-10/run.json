@@ -1,0 +1,229 @@
+{
+  "database": "kaaklat_perf_284bb29d6fad",
+  "directory": "C:\\Users\\63961\\Desktop\\Emman\\KaAklat2.0/tmp/performance-284bb29d6fad",
+  "status": "completed",
+  "created_at_utc": "2026-11-10T00:09:36+08:00",
+  "dataset": {
+    "books": 100,
+    "book_copies": 300,
+    "users": 33,
+    "borrow_requests": 183,
+    "loans": 123,
+    "students": 30,
+    "staff": {
+      "librarians": 2,
+      "administrators": 1
+    },
+    "account_roles": [
+      {
+        "role": "student",
+        "records": 30
+      },
+      {
+        "role": "librarian",
+        "records": 2
+      },
+      {
+        "role": "administrator",
+        "records": 1
+      }
+    ],
+    "request_decisions": [
+      {
+        "decision": "pending",
+        "records": 30
+      },
+      {
+        "decision": "approved",
+        "records": 123
+      },
+      {
+        "decision": "rejected",
+        "records": 30
+      }
+    ]
+  },
+  "environment": {
+    "php_version": "8.4.14",
+    "php_binary": "C:\\php-8.4.14\\php.exe",
+    "database_version": "10.4.32-MariaDB",
+    "os": "Windows",
+    "server": "PHP built-in development server, one process",
+    "transport": "HTTP on IPv4 loopback",
+    "opcache_enabled_cli": false,
+    "memory_limit": "128M",
+    "curl": "8.12.1",
+    "php_extensions": [
+      "Core",
+      "bcmath",
+      "calendar",
+      "ctype",
+      "date",
+      "hash",
+      "iconv",
+      "json",
+      "pcre",
+      "random",
+      "readline",
+      "Reflection",
+      "SPL",
+      "session",
+      "tokenizer",
+      "zlib",
+      "libxml",
+      "dom",
+      "filter",
+      "standard",
+      "PDO",
+      "openssl",
+      "mysqlnd",
+      "SimpleXML",
+      "xml",
+      "xmlreader",
+      "xmlwriter",
+      "curl",
+      "fileinfo",
+      "gd",
+      "mbstring",
+      "Phar",
+      "pdo_mysql",
+      "pdo_sqlite",
+      "zip"
+    ],
+    "hardware": {
+      "cpu": "12th Gen Intel(R) Core(TM) i5-1235U",
+      "logical_processors": 12,
+      "ram_gib": 7.71,
+      "os": "Microsoft Windows 11 Home Single Language",
+      "os_version": "10.0.26300",
+      "os_build": "26300"
+    }
+  },
+  "address": "http://127.0.0.1:61687",
+  "completed_at_utc": "2026-11-10T00:10:25+08:00",
+  "results": {
+    "sequential": {
+      "normal": {
+        "samples": 30,
+        "failures": 0,
+        "average_ms": 48.985,
+        "p95_ms": 64.364,
+        "maximum_ms": 91.778,
+        "p95_ttfb_ms": 63.055,
+        "passes_target": true,
+        "warmups": 3
+      },
+      "search": {
+        "samples": 30,
+        "failures": 0,
+        "average_ms": 47.219,
+        "p95_ms": 63.687,
+        "maximum_ms": 64.373,
+        "p95_ttfb_ms": 62.931,
+        "passes_target": true,
+        "warmups": 3
+      },
+      "combined_filters": {
+        "samples": 30,
+        "failures": 0,
+        "average_ms": 57.872,
+        "p95_ms": 78.244,
+        "maximum_ms": 79.423,
+        "p95_ttfb_ms": 77.468,
+        "passes_target": true,
+        "warmups": 3
+      },
+      "available_only": {
+        "samples": 30,
+        "failures": 0,
+        "average_ms": 41.17,
+        "p95_ms": 62.904,
+        "maximum_ms": 65.625,
+        "p95_ttfb_ms": 62.125,
+        "passes_target": true,
+        "warmups": 3
+      },
+      "pagination": {
+        "samples": 30,
+        "failures": 0,
+        "average_ms": 44.191,
+        "p95_ms": 62.71,
+        "maximum_ms": 68.777,
+        "p95_ttfb_ms": 62.022,
+        "passes_target": true,
+        "warmups": 3
+      }
+    },
+    "concurrent_5": {
+      "normal": {
+        "samples": 150,
+        "failures": 0,
+        "average_ms": 112.632,
+        "p95_ms": 230.858,
+        "maximum_ms": 277.571,
+        "p95_ttfb_ms": 230.009,
+        "passes_target": true,
+        "warmups": 15
+      },
+      "search": {
+        "samples": 150,
+        "failures": 0,
+        "average_ms": 158.046,
+        "p95_ms": 284.106,
+        "maximum_ms": 346.661,
+        "p95_ttfb_ms": 282.885,
+        "passes_target": true,
+        "warmups": 15
+      },
+      "combined_filters": {
+        "samples": 150,
+        "failures": 0,
+        "average_ms": 136.969,
+        "p95_ms": 248.502,
+        "maximum_ms": 276.568,
+        "p95_ttfb_ms": 247.779,
+        "passes_target": true,
+        "warmups": 15
+      },
+      "available_only": {
+        "samples": 150,
+        "failures": 0,
+        "average_ms": 123.772,
+        "p95_ms": 232.963,
+        "maximum_ms": 275.838,
+        "p95_ttfb_ms": 232.224,
+        "passes_target": true,
+        "warmups": 15
+      },
+      "pagination": {
+        "samples": 150,
+        "failures": 0,
+        "average_ms": 125.856,
+        "p95_ms": 232.014,
+        "maximum_ms": 304.453,
+        "p95_ttfb_ms": 231.254,
+        "passes_target": true,
+        "warmups": 15
+      }
+    }
+  },
+  "passes_target": true,
+  "limitations": [
+    "HTML response TTFB and total transfer over loopback, not browser rendering or asset loading.",
+    "Five independent HTTP cookie sessions with simultaneously scheduled requests, not five interactive browsers.",
+    "Windows PHP built-in server uses one process; concurrent response times include its request queue.",
+    "Localhost measurements do not establish production capacity or hosted visible-page performance.",
+    "All covers use the existing missing-cover placeholder; no upload or image-processing benchmark.",
+    "Dataset is fixed and scenarios run in the documented order, not an endurance or arrival-rate load test."
+  ],
+  "server_stopped": true,
+  "source_commit": "099667c7da4a2d4df30351e8498f02b4a01a3cda",
+  "source_sha256": {
+    "tests/catalog_performance.php": "82e3a19e0d5d75f9fa8144166192950dcb17a987fa67bd2b538c3a25269bd0ad",
+    "tests/performance_router.php": "b99fd7685d1cbc3d6dadce55c0e0a123c0911b0f90603895f9b0daad6aced079",
+    "app/catalog.php": "ccb83d05f4e72da0ef3c5e05eeaca4c6eee8a039583fe6ac67cff983629f4fda",
+    "public/catalog.php": "794081c0712841d1e445eb800f5e5d7f03d65fe558b1ef5aea16f6e639324852",
+    "views/catalog_pagination.php": "967e41b9df14012cf204d25d914fe3a97bb9ca605d8e07eab0192383d7e009e8",
+    "views/catalog_status.php": "4a8197751bac161cfbe613bc97cf5a76d06b64bbbccee874fb83e2b6e1dc2588"
+  }
+}

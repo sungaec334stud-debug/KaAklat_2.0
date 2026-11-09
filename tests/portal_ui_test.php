@@ -14,7 +14,7 @@ function portal_check(bool $ok, string $label): void
     if (!$ok) { throw new RuntimeException($label); }
     $checks++;
 }
-foreach (['/','/catalog.php','/requests.php','/profile.php','/review_requests.php','/pickups.php','/returns.php','/manage_books.php','/students.php','/staff.php','/audit.php','/recover_account.php'] as $route) {
+foreach (['/','/catalog.php','/requests.php','/profile.php','/review_requests.php','/pickups.php','/returns.php','/manage_books.php','/students.php','/staff.php','/audit.php','/recover_account.php','/settings.php'] as $route) {
     $icon = portal_icon($route);
     $dom = new DOMDocument();
     $dom->loadXML($icon);

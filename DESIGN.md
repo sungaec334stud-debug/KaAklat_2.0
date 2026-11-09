@@ -1,5 +1,15 @@
 # KaAklat interface system
 
+## Shared navigation and appearance — 2026-11-10
+
+User approved the separate theme mockup, then requested its navigation and dark appearance on the actual application. views/layout.php remains the only role-navigation owner: unchanged workflow destinations, Settings before About/Log out, a utility divider, compact 232px navy sidebar at 1100px+, and a visible single scrollable row below that width. Native links and visible scrollbars stay keyboard reachable; no hamburger, modal, role selector or fictional preview handlers. KaAklat remains primary; university identity remains secondary.
+
+public/assets/app.css owns semantic light/dark tokens, including form, error, status, scrollbar and focus colors. Light retains the school palette. Dark uses canvas #101927, surface #182538, soft #1E2E44, text #E6EDF7, muted #B0BFD4, line #364962, links/focus #96C0FF, solid primary #2865CD and navy sidebar #0B1422. --navy is heading ink; --strong-surface is the dark artwork/selected background, so dark headings never turn navy surfaces white. Buttons use --button independently of --blue link/accent colors. Fixed white text on dark artwork and theme thumbnails are deliberate variants, not unthemed reading surfaces. landing.css consumes the same palette.
+
+public/assets/theme.js loads before CSS, resolves only system/light/dark and sets the effective data-theme. localStorage key kaaklat.appearance stores no account information. Default follows prefers-color-scheme; device changes update System automatically. Selection is browser-wide, persists across logins and signed-out pages, and does not sync to a user account. Blocked storage leaves current-page selection usable with an honest unsaved message. Without JavaScript, the CSS media fallback uses the device theme; Settings explains disabled preference controls. Settings uses native fieldset/radios (keyboard arrows/Space) and a polite status region. No new server mutation, cookie, dependency or schema field.
+
+Actual evidence and remaining zoom/assistive-technology limits: verification/THEME_NAVIGATION_2026-11-10.md. Earlier wrapping-topnav/light-only descriptions below are historical, superseded only for these shared capabilities.
+
 ## Own borrowing state on catalog cards — 2026-11-09
 
 app/catalog.php owns a single page-bounded request-state query for at most12 visible book IDs; current_user provides fresh identity, and no owner ID is taken from request input. Pending and live approved allocations/loans derive their states from existing timestamps/decision/return/cancel fields. views/catalog_status.php allowlists four readable personal labels and reuses canonical status-badge colors with text, not color alone. public/catalog.php places the small label immediately below the title. No tooltip, popup, JS, new action or role permission. No badge for absent/closed records or staff users. Catalog count/filter/paging behavior retained. Pending/awaiting/active/overdue matching request-history rules; due today stays active, exact48-hour holds are expired. Normal page refresh observes state changes; no live polling.

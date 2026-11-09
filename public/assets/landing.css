@@ -16,15 +16,15 @@
 .landing-process h2 { margin: 0 0 18px; font-size: 2rem; line-height: 1.2; letter-spacing: -.025em; }
 .landing-process > div > p { color: var(--muted); max-width: 58ch; }
 .landing-steps { display: grid; grid-template-columns: 1fr 1fr; list-style: none; counter-reset: borrowing; gap: 28px; padding: 0; margin: 30px 0 0; }
-.landing-steps li { counter-increment: borrowing; border-top: 1px solid #b9cbe6; padding-top: 16px; }
+.landing-steps li { counter-increment: borrowing; border-top: 1px solid var(--line); padding-top: 16px; }
 .landing-steps li::before { content: counter(borrowing,decimal-leading-zero); font-size: .8125rem; font-weight: 700; color: var(--blue); font-variant-numeric: tabular-nums; }
 .landing-steps h3 { font-size: 1rem; margin: 8px 0; }
 .landing-steps p { font-size: .875rem; color: var(--muted); margin: 0; }
-.landing-close { display: flex; align-items: center; justify-content: space-between; gap: 28px; padding: 36px; border-radius: 6px; color: white; background: var(--navy); }
+.landing-close { display: flex; align-items: center; justify-content: space-between; gap: 28px; padding: 36px; border-radius: 6px; color: white; background: var(--strong-surface); }
 .landing-close h2 { margin: 0 0 10px; font-size: 1.6rem; color: white; }
 .landing-close p { margin: 0; color: #d8e3f4; }
-.landing-close .button { flex-shrink: 0; margin: 0; color: #124da3; background: white; }
-.landing-close .button:hover { background: #e9f1ff; }
+.landing-close .button { flex-shrink: 0; margin: 0; color: var(--link); background: var(--surface); }
+.landing-close .button:hover { background: var(--soft); }
 .landing-close .button:focus-visible { outline-color: #b7d3ff; }
 @media (max-width: 950px) {
     .landing-hero { gap: 32px; }

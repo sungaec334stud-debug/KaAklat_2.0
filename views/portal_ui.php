@@ -6,6 +6,7 @@ declare(strict_types=1);
 function portal_icon(string $route): string
 {
     $paths = [
+        '/settings.php' => '<path d="m9 3-1 3-3 1v4l2 1-1 3 3 3 3-1 1 2h4l1-3 3-1v-4l-2-1 1-3-3-3-3 1-1-2z"/><circle cx="12" cy="11" r="3"/>',
         '/logout.php' => '<path d="M9 4H4v16h5m5-12 4 4-4 4m-6-4h12"/>',
         '/about.php' => '<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/>',
         '/' => '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',

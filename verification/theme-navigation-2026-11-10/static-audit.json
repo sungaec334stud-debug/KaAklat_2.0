@@ -1,0 +1,23 @@
+{
+  "findings": [
+    {
+      "category": "violation",
+      "file": "public/assets/forms.js",
+      "line": 58,
+      "message": "Empty hash links look actionable but have no destination.",
+      "remediation": "Use a real route/action or render non-interactive text.",
+      "ruleId": "affordance.empty-href",
+      "severity": "error"
+    }
+  ],
+  "mode": "strict",
+  "projectRoot": "C:\\Users\\63961\\Desktop\\Emman\\KaAklat2.0",
+  "schemaVersion": 1,
+  "summary": {
+    "errors": 1,
+    "total": 1,
+    "unresolved": 0,
+    "violations": 1,
+    "warnings": 0
+  }
+}

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-10 — Shared navigation and appearance
+
+Applied approved preview navigation: compact navy sidebar, utility separation and visible scrollable navigation at narrow widths. Added read-only authenticated Settings with native System default/Light/Dark cards; shared early theme initialization, browser-local persistence, device-change handling, blocked-storage feedback and JavaScript-free system fallback. Extended canonical CSS tokens across shared controls, statuses, forms, catalog/history and signed-out screens. Preserved role workflow routes, server checks, schema and regular data. Verification and remaining manual limits: verification/THEME_NAVIGATION_2026-11-10.md. Hosting deferred; no commit/push.
+
 ## 2026-11-05 — Login and registration refresh
 
 Updated the two account pages with short field hints, clearer headings and dedicated guidance for librarian approval and account recovery.
@@ -330,3 +334,13 @@ Requirement: small personal request/loan labels on individual catalog cards, vis
 Tests first: catalog_status_test.php failed before implementation because label view was absent. Final tests/run_regression.php PASS26 scripts. New temporary-table tests cover four states, due today, exact pickup expiry, returned/cancelled/rejected exclusion, visible IDs, ownership between students, forged session role, pending status, suspended and stale sessions, and unknown label exclusion. Full tests/pickup_http_acceptance_test.php PASS including new catalog_status_http_checks.php: correct label attached to each of four cards, no label for returned/other-owner book, other student sees only own label and staff see none. Retained fictional scratch kaaklat_acceptance_184555770a66. PHP8.4.14 lint app/public/views/tests/bin102 files and git diff --check PASS (line-ending warnings only).
 
 Actual IAB student fixture at1440px and360px: all four labels, no horizontal overflow/clipping; desktop/mobile screenshots inspected. Pending fixture with no requests and librarian/admin showed zero labels at360px. Temporary viewport reset; port8036 preview stopped. No real-device/screen-reader/400%-zoom/explicit JS-disabled browser, load benchmark, concurrency or hosting rerun for this read-only increment. Prior pagination checks remain in suite. No commit/push; unrelated manifest and prior uncommitted pagination work preserved.
+
+### Separate Chapters 1 and 2 document — 2026-11-09
+Created output/documents/KaAklat_Chapters_1_2.docx from the user-supplied SE1 System/KaAklat_Chapters_1_2_3_Methodology_Revised.docx. Preserved title page, school header, chapter text and figure; excluded Chapter 3 and later material. Added a real Word TOC restricted to Chapters 1–2 and refreshed it in Microsoft Word. Verified all internal TOC links resolve, chapter text matches the source, header appears on all 12 pages, and all 12 rendered pages were visually inspected. Removed a trailing blank page. Packaged renderer failed because LibreOffice is absent; used Word PDF export and bundled Poppler for visual QA instead. Original file untouched; no application tests needed or run. Next: user/adviser review of the separate copy.
+
+### Synthesis and contextual research gap — 2026-11-09
+Applied the user-approved shorter synthesis and explicit contextual research gap to output/documents/KaAklat_Chapters_1_2.docx. Exactly three synthesis paragraphs replaced; preceding text verified unchanged. Word refreshed TOC page numbers and exported 12 pages; bundled Poppler rendered all pages. Pixel comparison found changes only on pages 2, 11 and 12, which were visually reviewed; remaining pages matched prior reviewed renders. Internal TOC anchors resolve and all pages retain the school header. Original three-chapter document unchanged; pre-edit extract retained at tmp/chapters12/before_synthesis.docx. No application tests run for this document-only edit. Next: adviser review of gap wording.
+
+## 2026-11-10 — Local catalog performance
+
+Added an operator-run isolated benchmark and loopback-only router. Final fixture has 100 fictional titles, 300 copies, 30 students, three staff, 183 requests and 123 loans. All 900 HTML samples validated with zero failures across normal browsing, search, combined filters, availability and pagination. Highest final five-session scenario p95 was 284.106 ms against the 2,000 ms target. Saved raw timings, environment details and EXPLAIN plans. No query, schema or index change was warranted. PHP lint and all 26 regression scripts passed. Five interactive browser users, hosted page timing and production capacity remain unverified.

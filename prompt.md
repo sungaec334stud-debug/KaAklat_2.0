@@ -742,3 +742,37 @@ Outcome: Added student-only own-record pending/awaiting-pickup/active/overdue la
 User prompt: commit and push
 
 Outcome: Preparing the reviewed numbered/centered catalog pagination, personal student request labels, tests and project records for normal commit/push to origin/main. Latest full verification:26 regressions/full HTTP suite/102 PHP lints and representative browser checks PASS as recorded in TEST_PLAN.md. Unrelated college-textbooks.json and ignored private/research/runtime files excluded. Final Git result verified separately.
+
+### 2026-11-09 — Separate chapter extract
+User prompt: "make a separate file for this file that contains only chapter 1 and 2 make sure that the school header and the table of content that works is there"
+Outcome: Created output/documents/KaAklat_Chapters_1_2.docx, 12 pages with original title page and school header, unchanged chapter text and figure, and Word-refreshed clickable TOC. Chapter 3 and later sections excluded. Original preserved. Word export/Poppler visual QA passed; packaged LibreOffice rendering unavailable. No application changes or tests.
+
+### 2026-11-09 — Apply approved synthesis
+User prompt: "apply it" (following the shortened synthesis and proposed contextual-gap wording).
+Outcome: Updated the separate Chapters 1 and 2 DOCX with the shorter synthesis and explicit local-fit research gap. Preserved school header and working TOC, refreshed page numbers in Word, verified unchanged preceding content and all internal links, and visually reviewed changed pages. File remains 12 pages. Original three-chapter source preserved.
+
+## 2026-11-10 — Local performance verification
+
+User prompt:
+
+> Implement and run local performance verification for KaAklat against SRS NFR-06 and TEST_PLAN T-32. Inspect the current code and Git status first.
+>
+> Create a separately named test database with 100 fictional titles, 300 copies, 30 student accounts, three staff accounts and representative borrowing records. Preserve the regular database and all existing work.
+>
+> Measure authenticated catalog responses across normal browsing, search, combined filters, availability filtering and pagination. Collect at least 30 warmed samples per scenario, then test five independent authenticated sessions concurrently. Validate the expected page content and record errors, redirects and timeouts.
+>
+> Report p95, average, maximum, sample counts and failures, with environment and server details. Compare local catalog p95 with the two-second SRS target. Clearly identify development-server limitations.
+>
+> Inspect query plans and fix confirmed performance defects if needed. Rerun affected checks and relevant regressions. Save reproducible commands, raw timings, results and retained test-resource names. Update the progress and test evidence with actual results. Keep hosted testing deferred. Do not commit or push.
+
+Outcome: implemented the isolated CLI benchmark and loopback router, executed two successful 900-sample runs, reviewed EXPLAIN plans and saved final raw evidence. Highest final p95 284.106 ms, zero failures. PHP lint and all 26 regression scripts passed. Retained two explicit scratch databases, stopped their test servers, and preserved existing work and application data. Local HTTP target passed. Five interactive browsers, hosted rendering and production capacity remain unverified. No commit or push.
+
+## 2026-11-10 — Apply approved navigation and dark appearance
+
+User requests:
+
+> I like the design and layout of the navigation bar can you do that now to the actual project? Make sure you dont produce bugs and error
+>
+> Apply the dark mode as well
+
+Outcome: applied the approved compact role navigation with utility separation and a visible narrow-screen scroll row. Added authenticated read-only Settings → System default/Light/Dark, browser-local preference, device changes, storage-error feedback and JS-free system fallback. Shared theme tokens cover actual pages and preserve core services, schema, permissions and regular data.26 regressions,313 HTTP passes,12 theme-controller checks,99 PHP lints and248 actual Chrome authenticated page/theme/viewport combinations passed, with representative screenshot and keyboard/error-focus checks. No sampled opaque-text contrast or runtime errors; broader accessibility and actual400% zoom remain manual. Strict static CSS/JS audit retains one reviewed existing dynamic-field-anchor false positive; PHP unsupported. Exact evidence/resources/failed checkpoints in verification/THEME_NAVIGATION_2026-11-10.md. Existing performance work preserved. No commit/push; hosting deferred. Usage tool unavailable.

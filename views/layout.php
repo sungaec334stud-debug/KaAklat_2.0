@@ -22,13 +22,15 @@ function render_page(string $title, string $content, bool $landing = false): voi
     }
     if (($navigationUser['role']??null)==='administrator' && $navigationUser['account_status']==='active') { $links += ['/staff.php'=>'Staff accounts','/students.php'=>'Students','/audit.php'=>'Audit records']; }
     if (in_array($navigationUser['role']??null,['librarian','administrator'],true) && $navigationUser['account_status']==='active') { $links['/recover_account.php']='Account recovery'; }
+    if ($navigationUser !== null) { $links['/settings.php'] = 'Settings'; }
     $links['/about.php'] = 'About';
     if ($navigationUser !== null) { $links['/logout.php'] = 'Log out'; }
     $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
     $navigation = '';
     foreach ($links as $url => $label) {
         $current = $path === $url || ($url === '/' && $path === '/index.php');
-        $navigation .= '<a href="' . h($url) . '"' . ($current ? ' aria-current="page"' : '') . '>'
+        $utilityClass = $navigationUser !== null && $url === '/settings.php' ? ' class="nav-utility-start"' : '';
+        $navigation .= '<a href="' . h($url) . '"' . ($current ? ' aria-current="page"' : '') . $utilityClass . '>'
             . ($navigationUser !== null ? portal_icon($url) : '') . '<span>' . h($label) . '</span></a>';
     }
 
@@ -51,7 +53,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
         $identity = '<div class="sidebar-identity"><strong>' . h($navigationUser['display_name']) . '</strong><span>' . h($role) . ' · ' . h($status) . '</span></div>';
         $portalBar = '<div class="portal-topbar"><div class="portal-location"><span>' . h($role) . ' portal</span><span aria-hidden="true">/</span><strong>' . $safeTitle . '</strong></div><span class="portal-account-status">' . h($status) . '</span></div>';
     }
-    $landingStyles=$landing && $navigationUser===null?'<link rel="stylesheet" href="/assets/landing.css?v=20261104-campus">':'';
+    $landingStyles=$landing && $navigationUser===null?'<link rel="stylesheet" href="/assets/landing.css?v=20261110-appearance">':'';
     if ($landingStyles!=='') { $bodyClass.=' landing-page'; }
     echo <<<HTML
 <!doctype html>
@@ -61,7 +63,8 @@ function render_page(string $title, string $content, bool $landing = false): voi
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{$safeTitle} | {$appName}</title>
     <link rel="icon" href="/assets/kaaklat-logo.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/assets/app.css?v=20261109-catalog-status">
+    <script src="/assets/theme.js?v=20261110-appearance"></script>
+    <link rel="stylesheet" href="/assets/app.css?v=20261110-appearance">
     {$landingStyles}
     <script src="/assets/forms.js" defer></script>
 </head>

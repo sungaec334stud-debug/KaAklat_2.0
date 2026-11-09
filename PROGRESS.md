@@ -1,11 +1,15 @@
 # KaAklat progress
 
-Updated: 2026-11-09 (Asia/Manila)
+Updated: 2026-11-10 (Asia/Manila)
 
 Status vocabulary: Planned; In progress; Implemented but unverified; Verified; Blocked.
 Verified applies only to the named evidence, not to the entire application.
 
 ## Current status
+
+Shared navigation/appearance (2026-11-10): approved compact role navigation and Settings → System default/Light/Dark implemented locally. Browser-only preference, system fallback and shared semantic palette; existing permissions, workflow handlers, schema and regular data preserved. 26 regressions, full HTTP checks, 12 theme-controller checks and 248 authenticated page/theme/viewport combinations passed. No JavaScript runtime errors, page overflow or sampled opaque-text contrast failures in the browser matrix. Actual 400% zoom, real devices, screen readers and broader interactive-state contrast remain manual. See verification/THEME_NAVIGATION_2026-11-10.md. No commit/push; hosting deferred. Earlier light-only/wrapping-navigation statements are historical.
+
+Local performance verification (2026-11-10) passed the HTTP portion of NFR-06/T-32. The isolated fixture contains 100 titles, 300 copies, 30 students and three staff. All 900 measured catalog responses validated across five scenarios and sequential/five-session runs. Highest final scenario p95 was 284.106 ms against the 2,000 ms target, with zero failures. EXPLAIN review found no defect requiring a query or index change. All 26 regression scripts passed after measurement. Browser rendering, five interactive browsers and hosted visible-page timing remain outstanding. See verification/PERFORMANCE_2026-11-10.md.
 
 Latest verification (2026-11-09): current About/developer/shared logout work passed 24 regression scripts, full HTTP suite, seven concurrency suites/17 scenarios, 52 fictional restore checks and 96 PHP lints. Browser checked 34 page/role combinations at both 360px and 1440px with no overflow or visible runtime errors. Five read-only demo inconsistency counts zero, local health ready. Generated research/audit outputs now ignored and preserved. Suitable for a scoped commit/normal push; none executed. See verification/FULL_LOCAL_CHECK_2026-11-09.md for scope, retained scratch resources, helper failures and remaining deployment/accessibility/performance limits. Dated summaries below are historical evidence.
 
@@ -20,9 +24,9 @@ Current evidence summary (2026-11-04): approved campus-portal design applied acr
 | Approve stack and workflow | Verified | User approved implementation, plain PHP/PDO/custom CSS and six borrowing demonstration defaults. | Other proposed details must not be described as institutional policy. | Preserve approved rules; finish operational verification. |
 | SRS and normalized schema | Verified for named local evidence | Baseline + migration001 and all12 tables restored with exact schema/data in fictional rehearsal; CHECK/FK/generated uniqueness/rollback exercised. No new migration. | Real-demo and host restoration remain unverified. | Preserve data; perform controlled target-specific checks before deployment. |
 | Development documentation | In progress | SRS, schema, test plan, changelog, prompt history and latest Resume here handoff record implemented scope and limitations. Top status table synchronized with current handoff. | Older dated notes are historical and may contain superseded statuses. | Use the latest handoff and dated test evidence; update documents after each increment. |
-| Application implementation | In progress | Core workflows/profile and approved campus theme;24 regressions/181 HTTP assertions/93 PHP lints/17 races PASS. Representative new browser checks and28 presentation checks PASS. | Remaining400%/JS-disabled/full-state manual acceptance, performance and legacy registration-time review pending. | Favorites next feature only when requested. Performance remains outstanding. |
+| Application implementation | In progress | Core workflows/profile and shared appearance Settings; latest26 regressions/full HTTP suite and248 authenticated page/theme/viewport checks PASS. Local HTTP performance target passed separately. | New appearance actual400% zoom/real-device/screen-reader/full-state acceptance and legacy registration-time review pending; five-browser/hosted timing still open. | Review new navigation/themes locally; favorites only when requested. Preserve remaining operational checks. |
 | Local backup and restore | Verified for fictional rehearsal | Prior bundle work preserved;52 restore checks rerun after UTC fix, latest4.61s in new scratch source/target256d034b9fde. | No real-demo backup/restore, off-device protection, crash test or daily RPO evidence. Manual write pause required. | Follow docs/local-backup-restore.md; controlled real-demo rehearsal before release. |
-| Deployment and evaluation | Planned | Partial host probes and local fictional restore recorded. | Not deployed; hosted acceptance, real-demo recovery, performance and participant evaluation pending. | Performance verification next; later deployment gate and evaluation. |
+| Deployment and evaluation | Planned | Partial host probes and local fictional restore recorded. | Not deployed; hosted acceptance, real-demo recovery, performance and participant evaluation pending. | Complete browser and target-host verification, then deployment gate and evaluation. |
 
 ## Confirmed workflow decisions
 
@@ -47,6 +51,18 @@ The six defaults enumerated above are approved for the demonstration; the follow
 - Fictional student accounts and simulated loan records; book metadata may use well-known titles.
 
 ## Resume here
+
+### Navigation and dark appearance — 2026-11-10
+
+User approved the theme mockup navigation and added dark mode to the authorized scope. Open /settings.php while signed in to choose System default, Light or Dark. Selection persists in this browser, applies to signed-out screens, and follows device changes in System mode. No account preference/schema/circulation mutation. Native narrow navigation scrolls horizontally, desktop retains the compact sidebar and Settings utility divider. See docs/theme-navigation-plan.md and verification/THEME_NAVIGATION_2026-11-10.md for implementation, commands, exact scratch resources, failed checkpoints and current verification limits. Existing performance increment and college-textbooks.json preserved. No commit/push; hosting deferred. Usage tool unavailable; no remaining percentage inferred.
+
+Next: user review at actual 400% Chrome zoom and on a real phone; inspect all preferred theme states. Remaining operational work (controlled real-data restore, five interactive browsers, hosted checks and evaluation) remains outstanding.
+
+### Local catalog performance — 2026-11-10
+
+Run `C:\php-8.4.14\php.exe tests/catalog_performance.php` from the project directory with local MySQL running. The command creates a new explicitly named scratch database and retains its evidence under tmp/performance-<suffix>. Final verified resources are kaaklat_perf_284bb29d6fad and tmp/performance-284bb29d6fad; initial successful resources are kaaklat_perf_84c0ff040d6a and tmp/performance-84c0ff040d6a. No regular application data or configuration was written by the benchmark. The benchmark servers are stopped.
+
+Reviewable timings, manifest and query plans are under verification/performance-2026-11-10/. Local HTTP p95 targets passed with zero failures, and all 26 regression scripts passed. T-32 remains partial for five interactive browser users and hosted page rendering. Keep hosting deferred. Existing documentation edits and college-textbooks.json were preserved. No commit or push performed.
 
 ### Student catalog status labels — 2026-11-09
 
@@ -292,3 +308,9 @@ User screenshot identified off-center controls. Root cause reproduced at1920px: 
 Verified actual browser at1920/1440/360px: controls midpoint error below0.01px, summary on a separate line, no horizontal overflow. Corrected administrator desktop screenshot inspected; keyboard focus visible. Pagination presentation test, layout PHP lint and git diff --check PASS. Full regression/HTTP suite not rerun for this CSS-only correction; previous functional evidence retained. Earlier browser sweep checked overflow and missed this visual alignment defect. Temporary viewport reset, fictional preview server stopped. No commit/push.
 
 2026-11-09 catalog commit preparation: user authorized commit/push of numbered/centered pagination and personal student labels with tests/docs. Latest26 regressions/full HTTP suite/102 lints PASS. Unrelated manifest/private/research artifacts excluded; final Git result verified separately.
+
+### Separate Chapters 1 and 2 document — 2026-11-09
+Created output/documents/KaAklat_Chapters_1_2.docx from the user-supplied SE1 System/KaAklat_Chapters_1_2_3_Methodology_Revised.docx. Preserved title page, school header, chapter text and figure; excluded Chapter 3 and later material. Added a real Word TOC restricted to Chapters 1–2 and refreshed it in Microsoft Word. Verified all internal TOC links resolve, chapter text matches the source, header appears on all 12 pages, and all 12 rendered pages were visually inspected. Removed a trailing blank page. Packaged renderer failed because LibreOffice is absent; used Word PDF export and bundled Poppler for visual QA instead. Original file untouched; no application tests needed or run. Next: user/adviser review of the separate copy.
+
+### Synthesis and contextual research gap — 2026-11-09
+Applied the user-approved shorter synthesis and explicit contextual research gap to output/documents/KaAklat_Chapters_1_2.docx. Exactly three synthesis paragraphs replaced; preceding text verified unchanged. Word refreshed TOC page numbers and exported 12 pages; bundled Poppler rendered all pages. Pixel comparison found changes only on pages 2, 11 and 12, which were visually reviewed; remaining pages matched prior reviewed renders. Internal TOC anchors resolve and all pages retain the school header. Original three-chapter document unchanged; pre-edit extract retained at tmp/chapters12/before_synthesis.docx. No application tests run for this document-only edit. Next: adviser review of gap wording.
