@@ -800,3 +800,9 @@ Outcome: moved verified pilot listener8010 to8000 and updated its startup script
 User: “remove it” (Test category and Acceptance Test Book — Edited, previously inspected as unreferenced).
 
 Outcome: paused pilot, verified full pilot backup, transactionally removed exact category22/book102/3 copies/2 author links. Unrelated rows/accounts/passwords/history and all cover files unchanged by fingerprint; original demo untouched. Pilot8000 restarted and login200. No application changes, commit or push. Private backup/report retained.
+
+## 2026-11-10 — GitHub README
+
+User: “can you add a readme file to the github repository for the entire system and the things the users must know”
+
+Outcome: added README.md covering role workflows/permissions, registration and physical-ID verification, borrowing defaults, appearance keyboard behavior, existing-pilot startup versus fresh-clone setup, admin/staff tools, recovery, private data/cover backups, test commands/evidence limits, troubleshooting and document map. Compared instructions with current tools and checked local links/anchors/code fences/whitespace. No app/schema/pilot data changes or database test rerun. Published as a scoped documentation commit; private files and college-textbooks.json excluded.

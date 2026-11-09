@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-10 — Repository README
+
+Added README.md as the GitHub entry guide: role permissions/workflows, registration/ID approval, borrowing defaults, native appearance keyboard controls, existing private-pilot versus fresh-clone setup, account tools, private data/backups, verification scope, troubleshooting and linked project documents. No credentials, pilot files, schema or application behavior changes. Documentation links/anchors/code fences and whitespace checked; no database tests rerun for documentation-only work.
+
 ## 2026-11-10 — Catalog-only pilot prepared
 
 Prepared separate local kaaklat_pilot database/application with preserved catalog, copies, authors, categories and referenced covers; empty accounts/circulation/security/audit tables. Full original demo backup verified, original data/config unchanged. Isolated cookie/session directory, restricted new pilot/backup permissions, loopback8010 smoke checks passed. User handles actual tester accounts. No source feature changes, demo deletion, hosting, commit or push. See verification/PILOT_PREPARATION_2026-11-10.md.

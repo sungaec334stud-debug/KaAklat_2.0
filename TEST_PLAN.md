@@ -1,5 +1,9 @@
 # KaAklat test plan
 
+## README verification — 2026-11-10
+
+README documentation-only review: commands compared with existing bootstrap/password/start/backup tools; relative document links and internal contents anchors checked for existing targets; Markdown code fences balanced and git diff --check passed. No application/database behavior changed, so regression suites were not rerun. Pilot/config/backups remain excluded from Git; no actual participant identities or credentials included. Existing keyboard follow-up and recovery/hosting limits explicitly retained.
+
 ## Catalog-only pilot preparation — 2026-11-10
 
 Operational user-authorized preparation PASS: full demo backup checksums verified; new kaaklat_pilot exact five-table catalog comparison (129 books/389 copies/111 authors/20 categories/180 links);49 referenced covers hash/decode PASS; seven other tables empty; original full-table row fingerprints/config/cover inventory unchanged; new cookie and separate session path; new-folder ACL restrictions inspected. Separate loopback pilot8010 health/login/register200, protected pages redirect and cover403. Private URL200 responses confirmed byte-identical public landing fallback only, not private file access. No tester accounts created, so authenticated pilot acceptance awaits user. No full SQL restore/off-device/release claim; no application changes or full regression rerun required for this operational copy. See verification/PILOT_PREPARATION_2026-11-10.md.
