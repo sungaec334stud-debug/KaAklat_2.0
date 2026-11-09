@@ -48,6 +48,14 @@ The six defaults enumerated above are approved for the demonstration; the follow
 
 ## Resume here
 
+### Student catalog status labels — 2026-11-09
+
+Student catalog cards now show small own-record labels beneath titles: Your request: Pending; Your book: Awaiting pickup; Your loan: Active; Your loan: Overdue. Closed/expired/returned records do not get live badges; other borrowers’ records and staff catalogs remain private. State is derived for visible page IDs only, using current database-backed student identity, Manila due-day and strict48-hour hold boundary. No schema/data/borrowing mutation.26 regression scripts, full HTTP suite and102 PHP lints PASS; desktop1440/mobile360 browser labels/privacy/wrapping verified. New evidence in TEST_PLAN.md. This and prior pagination changes remain uncommitted/unpushed.
+
+### Numbered catalog pagination — 2026-11-09
+
+Catalog now shows filtered book count, Page X of Y, direct numbered links, current-page indication and bounded first/last/nearby numbers for large catalogs. All searches/filters retained; 12 books per page unchanged. Valid out-of-range pages clamp to the last available page; empty matches show Page1of1. Shared for active/pending students, librarians and administrators; login remains required. No schema/demo-data/borrowing-rule changes. 25 regressions, expanded HTTP suite and 99 PHP lints PASS. Actual browser checks at360/1440px for all four account states had no overflow; keyboard page3 retained title filter. Details and remaining limits in TEST_PLAN.md. No commit/push for this increment.
+
 Full local review completed 2026-11-09; no blocking application defect found in executed checks. About now includes supplied developer photo/details. Shared signed-in navigation includes logout with native confirmation/secure POST. Review commit scope in verification/FULL_LOCAL_CHECK_2026-11-09.md. No commit/push/deployment performed; hosting and outstanding operational checks remain deferred.
 
 ### Public About page — 2026-11-09
@@ -276,3 +284,11 @@ Moved Log out from the dashboard-only form into shared signed-in navigation (all
 Verification: preimplementation HTTP test failed on Logout GET requests confirmation. First implementation run found the pending-student test depended on the removed dashboard form token; changed fixture token retrieval to the confirmation form. Final full HTTP suite PASS, retained scratch kaaklat_acceptance_4c5d6e3ed15a. Existing campus assertions now require shared logout links. 24 regression scripts PASS; 88 PHP lints PASS; forms.js syntax and whitespace PASS. IAB fictional active-student fixture kaaklat_acceptance_028db9acd4a3: About navigation opens confirmation, Stay signed in returns to authenticated dashboard, keyboard Return confirms logout and shows login success message. Mobile 360x800 and desktop 1440x900 inspected; mobile overflow false. Browser viewport reset and temporary port8033 server stopped. No real account signout/data mutation. Real devices, screen readers, 400% zoom and other-role visual checks not run. JS-disabled behavior is supported by native links/forms, but browser JS-disabled mode was not separately exercised. No commit/push/deployment.
 
 2026-11-09 commit preparation: user authorized commit/push of reviewed website changes and verification evidence. Unrelated collection manifest and ignored private/research/runtime files excluded; final Git result verified separately.
+
+### Catalog pagination centering correction — 2026-11-09
+
+User screenshot identified off-center controls. Root cause reproduced at1920px: inherited p max-width74ch constrained the summary despite flex-basis100%, and later generic nav[aria-label$=pages] set justify-content:flex-start. Initial controls midpoint was129.24px right of navigation midpoint. Removed summary width cap/centered text and placed nav.catalog-pagination center/gap rule after generic pagination styles. Added stylesheet cache version. No query/markup/access/policy change.
+
+Verified actual browser at1920/1440/360px: controls midpoint error below0.01px, summary on a separate line, no horizontal overflow. Corrected administrator desktop screenshot inspected; keyboard focus visible. Pagination presentation test, layout PHP lint and git diff --check PASS. Full regression/HTTP suite not rerun for this CSS-only correction; previous functional evidence retained. Earlier browser sweep checked overflow and missed this visual alignment defect. Temporary viewport reset, fictional preview server stopped. No commit/push.
+
+2026-11-09 catalog commit preparation: user authorized commit/push of numbered/centered pagination and personal student labels with tests/docs. Latest26 regressions/full HTTP suite/102 lints PASS. Unrelated manifest/private/research artifacts excluded; final Git result verified separately.

@@ -1,5 +1,13 @@
 # KaAklat interface system
 
+## Own borrowing state on catalog cards — 2026-11-09
+
+app/catalog.php owns a single page-bounded request-state query for at most12 visible book IDs; current_user provides fresh identity, and no owner ID is taken from request input. Pending and live approved allocations/loans derive their states from existing timestamps/decision/return/cancel fields. views/catalog_status.php allowlists four readable personal labels and reuses canonical status-badge colors with text, not color alone. public/catalog.php places the small label immediately below the title. No tooltip, popup, JS, new action or role permission. No badge for absent/closed records or staff users. Catalog count/filter/paging behavior retained. Pending/awaiting/active/overdue matching request-history rules; due today stays active, exact48-hour holds are expired. Normal page refresh observes state changes; no live polling.
+
+## Catalog page navigation — 2026-11-09
+
+views/catalog_pagination.php owns numbered read-only navigation for public/catalog.php. Reuses app.css palette, focus and 44px controls with wrapping. Count and total pages use the same SQL filter selection as results, including derived availability. Twelve books per page; out-of-range valid pages clamp to final page and no matches use page1of1. At most first/last and current±2 numbered pages for large catalogs, with noninteractive ellipses; all seven or fewer pages shown. Native links keep every filter/search and work without JavaScript. aria-current identifies current page, names distinguish number/previous/next links. Existing catalog access and sorted query semantics retained. No schema, role or borrowing changes. Counts can change between normal reads as catalog records change; this is navigation information, not allocation authority.
+
 ## Public About page — 2026-11-09
 
 `public/about.php` and `views/about.php` provide read-only guest/role information using the existing layout, identity assets and canonical app.css tokens. The cobalt introduction rule anchors a readable single column; the school summary uses the existing panel; an ordered six-step guide encodes actual borrowing order. Shared layout owns navigation/current state and portal_ui owns its decorative icon. No new fonts, palette, dependencies or JS. No developer placeholders are rendered. School source: https://udd.edu.ph/, verified 2026-11-09; mission/vision labeled summary. Forms/loading/CRUD contracts do not apply. Authentication and policy remain owned by existing services.
@@ -47,3 +55,5 @@ The shared header gives KaAklat and Universidad de Dagupan separate brand groups
 Developer panel: user-provided portrait and credits sit side by side above 600px and stack below; email wraps within the existing About page. Existing surface/radius/type tokens retained.
 
 Shared logout (2026-11-09): layout owns one signed-in navigation link for every role; logout.php owns a server-rendered confirmation using auth-panel and native POST/CSRF with confirm=yes. Stay signed in returns to dashboard; no JS or modal/focus-trap dependency. Existing tokens and responsive navigation retained.
+
+Pagination correction: center the number group beneath a full-width centered summary. Override paragraph reading-width cap for .pagination-summary and declare nav.catalog-pagination after generic paging rules. Verified midpoint at1920/1440/360px.

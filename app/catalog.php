@@ -65,15 +65,53 @@ function catalog_books(PDO $connection, string $query, int $page, array $filters
         $parameters += ['title' => $pattern, 'author' => $pattern];
     }
     if ($filters['available'] === '1') { $sql = 'SELECT * FROM (' . $sql . ') catalog_results WHERE available_copies > 0'; }
-    $statement = $connection->prepare($sql . ' ORDER BY ' . ($filters['available'] === '1' ? 'title, book_id' : 'b.title, b.book_id') . ' LIMIT 13 OFFSET ' . (($page - 1) * 12));
+    // Count the same filtered selection, including derived copy availability.
+    $count = $connection->prepare('SELECT COUNT(*) FROM (' . $sql . ') catalog_matches');
+    $count->execute($parameters);
+    $total = (int) $count->fetchColumn();
+    $totalPages = max(1, min(10000, (int) ceil($total / 12)));
+    $page = min($page, $totalPages);
+    $statement = $connection->prepare($sql . ' ORDER BY ' . ($filters['available'] === '1' ? 'title, book_id' : 'b.title, b.book_id') . ' LIMIT 12 OFFSET ' . (($page - 1) * 12));
     $statement->execute($parameters);
     $rows = $statement->fetchAll();
-    return ['books' => array_slice($rows, 0, 12), 'has_next' => count($rows) > 12];
+    return ['books' => $rows, 'has_next' => $page < $totalPages, 'page' => $page,
+        'total' => $total, 'total_pages' => $totalPages];
 }
 
 function catalog_like(string $value): string
 {
     return strtr($value, ['!' => '!!', '%' => '!%', '_' => '!_']);
+}
+
+function catalog_own_request_states(PDO $connection, array $bookIds): array
+{
+    $user = current_user($connection);
+    if ($user === null || $user['role'] !== 'student'
+        || !in_array($user['account_status'], ['pending', 'active'], true) || $bookIds === []) {
+        return [];
+    }
+    if (count($bookIds) > 12) { throw new InvalidArgumentException('Choose one catalog page.'); }
+    foreach ($bookIds as $bookId) {
+        if (!is_int($bookId) || $bookId < 1) { throw new InvalidArgumentException('Choose valid catalog books.'); }
+    }
+    $placeholders = implode(',', array_fill(0, count($bookIds), '?'));
+    // Match the existing live-request/loan rules; ownership comes only from current identity.
+    $statement = $connection->prepare("SELECT r.book_id,
+        CASE WHEN r.decision='pending' THEN 'pending'
+            WHEN l.checked_out_at IS NOT NULL THEN IF(l.due_date<DATE(UTC_TIMESTAMP()+INTERVAL 8 HOUR),'overdue','active')
+            ELSE 'awaiting pickup' END AS lifecycle
+        FROM borrow_requests r LEFT JOIN loans l ON l.request_id=r.request_id
+        WHERE r.student_id=? AND r.book_id IN ($placeholders)
+            AND (r.decision='pending' OR (r.decision='approved'
+                AND l.request_id IS NOT NULL AND l.returned_at IS NULL AND l.cancelled_at IS NULL
+                AND (l.checked_out_at IS NOT NULL OR r.decided_at>UTC_TIMESTAMP()-INTERVAL 48 HOUR)))
+        ORDER BY r.book_id,r.request_id DESC");
+    $statement->execute([(int)$user['user_id'], ...$bookIds]);
+    $states = [];
+    foreach ($statement->fetchAll() as $row) {
+        $states[(int)$row['book_id']] ??= $row['lifecycle'];
+    }
+    return $states;
 }
 
 function catalog_publication_year(mixed $value): ?int

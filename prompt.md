@@ -718,3 +718,27 @@ Outcome: Ran 24 regression scripts, full HTTP suite, all seven concurrency suite
 User prompt: commit and push
 
 Outcome: Preparing the reviewed About/developer/shared logout changes, generated-output ignore rules and full verification report for commit and normal push to origin/main. Fresh full-suite results are recorded in verification/FULL_LOCAL_CHECK_2026-11-09.md. Unrelated untracked college-textbooks.json and ignored research/private/runtime outputs excluded. Final commit/push result is verified separately from this preparation record.
+
+## 2026-11-09 — Numbered catalog pagination
+
+User prompt: can we improve the paging in the book catalog for all users, since all they can do now is move from one page to another, Iwas thinking what if they can see the available pages and click there? do you think that's a good quality oflife feature?
+
+Outcome: Implemented matching-book count/Page X of Y, direct numbered links/current highlight and bounded long ranges, retaining all filters/search, 12-book size and authorization. Out-of-range valid page clamps to final result page. Added failing-before/passing-after count tests, presentation tests and all-role HTTP pagination checks. 25 regressions, full HTTP suite and99 PHP lints PASS; all-role360/1440px browser and student keyboard page jump PASS. Full evidence/limits in TEST_PLAN.md. No schema/demo-data/borrowing changes, commit or push.
+
+## 2026-11-09 — Pagination alignment correction
+
+User prompt: why is it off centered? (attached catalog screenshot)
+
+Outcome: Reproduced129.24px horizontal displacement from inherited paragraph width cap and generic navigation alignment. Centered controls and summary on separate rows with proper style order/cache version. Browser midpoint error below0.01px at1920/1440/360px, no overflow; presentation test/layout lint/whitespace PASS. Earlier overflow checks missed alignment; corrected evidence recorded in TEST_PLAN.md. No commit/push.
+
+## 2026-11-09 — Personal catalog card labels
+
+User clarification: labels on the individual books when searching in book catalog. Just a smal label that a student can read so they know that a book is already in their request. They dont need to open the book to see the status, but its there already when browsing the book catalog.
+
+Outcome: Added student-only own-record pending/awaiting-pickup/active/overdue labels under catalog card titles. No badges for other students or staff, and closed/expired records omitted. Derived from existing state with fresh identity and visible-ID batch query.26 regressions/full HTTP suite/102 PHP lints PASS; desktop/mobile browser labels, wrapping and role privacy PASS. Evidence/limits in TEST_PLAN.md. No schema/demo-data/borrowing mutation, commit or push.
+
+## 2026-11-09 — Catalog commit and push authorization
+
+User prompt: commit and push
+
+Outcome: Preparing the reviewed numbered/centered catalog pagination, personal student request labels, tests and project records for normal commit/push to origin/main. Latest full verification:26 regressions/full HTTP suite/102 PHP lints and representative browser checks PASS as recorded in TEST_PLAN.md. Unrelated college-textbooks.json and ignored private/research/runtime files excluded. Final Git result verified separately.

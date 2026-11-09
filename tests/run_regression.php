@@ -16,6 +16,8 @@ $tests[] = 'account_access_test.php';
 $tests[] = 'local_backup_test.php';
 $tests[] = 'student_profile_test.php';
 $tests[] = 'portal_ui_test.php';
+$tests[] = 'catalog_pagination_test.php';
+$tests[] = 'catalog_status_test.php';
 foreach ($tests as $test) {
     $process = proc_open([PHP_BINARY, __DIR__ . '/' . $test], [0=>STDIN,1=>STDOUT,2=>STDERR], $pipes);
     if (!is_resource($process) || proc_close($process) !== 0) { fwrite(STDERR, "FAIL: $test\n"); exit(1); }

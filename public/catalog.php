@@ -5,6 +5,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/app/bootstrap.php';
 require_once dirname(__DIR__) . '/app/catalog.php';
 require_once dirname(__DIR__) . '/views/layout.php';
+require_once dirname(__DIR__) . '/views/catalog_pagination.php';
+require_once dirname(__DIR__) . '/views/catalog_status.php';
 start_application_session();
 header('Cache-Control: no-store');
 try {
@@ -36,6 +38,8 @@ try {
         [$query, $page] = catalog_parameters($_GET);
         $filters = catalog_filters($_GET);
         $result = catalog_books($connection, $query, $page, $filters);
+        $ownStates = $user['role'] === 'student'
+            ? catalog_own_request_states($connection, array_map('intval', array_column($result['books'], 'book_id'))) : [];
         $content .= '<form class="catalog-filters" method="get"><div><label for="title-filter">Book title</label><input id="title-filter" name="title" maxlength="100" value="' . h($filters['title']) . '"></div><div><label for="author-filter">Author name</label><input id="author-filter" name="author" maxlength="100" value="' . h($filters['author']) . '"></div><div><label for="category-filter">Genre / category</label><select id="category-filter" name="category"><option value="">All categories</option>';
         foreach ($connection->query('SELECT category_id, category_name FROM categories ORDER BY category_name')->fetchAll() as $category) {
             $content .= '<option value="' . h($category['category_id']) . '"' . ((int) $category['category_id'] === $filters['category'] ? ' selected' : '') . '>' . h($category['category_name']) . '</option>';
@@ -46,15 +50,12 @@ try {
         if ($query !== '') { $content .= '<input type="hidden" name="q" value="' . h($query) . '">'; }
         $content .= '<div><label for="available-filter">Availability</label><select id="available-filter" name="available"><option value="">All books</option><option value="1"' . ($filters['available'] === '1' ? ' selected' : '') . '>Available books only</option></select></div><div class="filter-actions"><button>Apply filters</button> <a href="/catalog.php">Clear filters</a></div></form><div class="book-grid">';
         foreach ($result['books'] as $book) {
-            $content .= '<article class="book-card">' . catalog_cover_html($book) . '<h2><a href="?id=' . h($book['book_id']) . '">' . h($book['title']) . '</a></h2><p>' . h($book['authors'] ?: 'Author not listed') . '</p>' . catalog_metadata_html($book) . '<p>' . h(mb_strimwidth($book['description'], 0, 150, '…', 'UTF-8')) . '</p><p class="availability">' . h($book['available_copies']) . ' copies available</p></article>';
+            $statusLabel = catalog_request_status_html($ownStates[(int)$book['book_id']] ?? null);
+            $content .= '<article class="book-card">' . catalog_cover_html($book) . '<h2><a href="?id=' . h($book['book_id']) . '">' . h($book['title']) . '</a></h2>' . $statusLabel . '<p>' . h($book['authors'] ?: 'Author not listed') . '</p>' . catalog_metadata_html($book) . '<p>' . h(mb_strimwidth($book['description'], 0, 150, '…', 'UTF-8')) . '</p><p class="availability">' . h($book['available_copies']) . ' copies available</p></article>';
         }
         $content .= '</div>';
         if ($result['books'] === []) { $content .= '<p>No books found. Try another search or return to the first page.</p><a href="/catalog.php">Clear filters / first page</a>'; }
-        $content .= '<nav class="catalog-pagination" aria-label="Catalog pages">';
-        if ($page > 1) { $content .= '<a href="?' . h(http_build_query($filters + ['q' => $query, 'page' => $page - 1])) . '">Previous</a> '; }
-        $content .= '<span>Page ' . h($page) . '</span> ';
-        if ($result['has_next']) { $content .= '<a href="?' . h(http_build_query($filters + ['q' => $query, 'page' => $page + 1])) . '">Next</a>'; }
-        $content .= '</nav>';
+        $content .= catalog_pagination_html($result, $query, $filters);
     }
     render_page('Book catalog', $content . '</section>');
 } catch (InvalidArgumentException $exception) {

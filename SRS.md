@@ -11,6 +11,10 @@ The project addresses the proposed need for coordinated catalog and circulation 
 
 ### Objectives and success criteria
 
+Student catalog context (2026-11-09): display a small own-request/loan status on each matching catalog card while browsing/searching. Live statuses: pending, awaiting pickup, active and overdue. Labels use only the current authenticated student’s records; staff catalogs show no personal borrowing badges. Closed/returned/expired requests remain in history without a live card badge. Labels are read-time information, not allocation or permission authority. Existing borrowing rules and login-required catalog remain unchanged.
+
+Catalog navigation refinement (2026-11-09): authenticated catalog users can select numbered pages, see current/total page and matching book count, and retain search/filter settings between pages. Long page ranges use nearby links plus first/last. Existing 12-book page size and login/role restrictions remain. Valid page numbers beyond matching results show the last page; zero results use page1of1. No borrowing-policy or schema change.
+
 1. Demonstrate the complete student-request -> librarian-decision -> pickup -> return workflow on a free HTTPS address using fictional student data.
 2. Reject unauthorized actions, a sixth allocation, duplicate checkout, and concurrent allocation of one copy; preserve loan history.
 3. Support catalog entry without ISBN or scanning hardware, including multiple authors and individually tracked physical copies.

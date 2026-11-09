@@ -61,7 +61,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{$safeTitle} | {$appName}</title>
     <link rel="icon" href="/assets/kaaklat-logo.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/assets/app.css?v=20261109-logout">
+    <link rel="stylesheet" href="/assets/app.css?v=20261109-catalog-status">
     {$landingStyles}
     <script src="/assets/forms.js" defer></script>
 </head>

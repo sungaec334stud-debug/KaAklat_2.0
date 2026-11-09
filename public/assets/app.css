@@ -1,4 +1,12 @@
 /* KaAklat campus portal. No remote fonts or UI dependencies. */
+.book-card .catalog-request-status { margin: 8px 0 12px; }
+.catalog-request-status .status-badge { max-width: 100%; white-space: normal; }
+.pagination-summary { flex-basis: 100%; max-width: none; text-align: center; margin: 0 0 8px; color: var(--muted); font-size: .875rem; }
+.catalog-pagination a, .pagination-current { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 5px; text-decoration: none; }
+.catalog-pagination a { background: var(--surface); }
+.catalog-pagination a:hover { background: var(--soft); border-color: var(--blue); }
+.pagination-current { background: var(--navy); color: var(--surface); border-color: var(--navy); font-weight: 700; }
+.pagination-gap { color: var(--muted); padding-inline: 4px; }
 .about-page { max-width: 920px; margin-inline: auto; overflow-wrap: anywhere; }
 .about-intro { border-left: 4px solid var(--blue); padding-left: 24px; margin-bottom: 32px; }
 .about-intro p { max-width: 70ch; }
@@ -182,6 +190,7 @@ form > input + p, form > textarea + p { margin-top: 8px; }
 .availability { color: #174b90; font-weight: 650; }
 nav[aria-label$='pages'] { display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: 12px; padding: 24px 0 0; margin-top: 24px; border-top: 1px solid var(--line); }
 nav[aria-label$='pages'] a { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 5px; text-decoration: none; background: white; }
+nav.catalog-pagination { justify-content: center; gap: 8px; }
 .account-tabs ul { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 6px; margin: 28px 0; background: #edf1f7; border-radius: 6px; }
 .account-tabs li { flex: 1 1 auto; min-width: 110px; }
 .account-tabs a { display: block; min-height: 44px; padding: 10px 13px; border-radius: 7px; text-align: center; text-decoration: none; font-size: .875rem; font-weight: 600; color: #4b5e78; }
