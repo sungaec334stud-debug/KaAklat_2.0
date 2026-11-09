@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-10 — Catalog-only pilot prepared
+
+Prepared separate local kaaklat_pilot database/application with preserved catalog, copies, authors, categories and referenced covers; empty accounts/circulation/security/audit tables. Full original demo backup verified, original data/config unchanged. Isolated cookie/session directory, restricted new pilot/backup permissions, loopback8010 smoke checks passed. User handles actual tester accounts. No source feature changes, demo deletion, hosting, commit or push. See verification/PILOT_PREPARATION_2026-11-10.md.
+
+## 2026-11-10 — User-operated local acceptance
+
+Recorded user-reported passes for five independent sessions, simultaneous catalog/search/filter/pagination, phone Light/Dark, staff themes,400% zoom and keyboard navigation. No problems reported; no new measured browser timings or full accessibility certification inferred. Hosting explicitly deferred to a later phase. Controlled regular-data backup/isolated restore is the next local checkpoint. Documentation only; code/data unchanged. Prior implementation/performance checkpoint pushed as2411253.
+
 ## 2026-11-10 — Shared navigation and appearance
 
 Applied approved preview navigation: compact navy sidebar, utility separation and visible scrollable navigation at narrow widths. Added read-only authenticated Settings with native System default/Light/Dark cards; shared early theme initialization, browser-local persistence, device-change handling, blocked-storage feedback and JavaScript-free system fallback. Extended canonical CSS tokens across shared controls, statuses, forms, catalog/history and signed-out screens. Preserved role workflow routes, server checks, schema and regular data. Verification and remaining manual limits: verification/THEME_NAVIGATION_2026-11-10.md. Hosting deferred; no commit/push.

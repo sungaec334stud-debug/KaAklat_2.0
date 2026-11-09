@@ -776,3 +776,27 @@ User requests:
 > Apply the dark mode as well
 
 Outcome: applied the approved compact role navigation with utility separation and a visible narrow-screen scroll row. Added authenticated read-only Settings → System default/Light/Dark, browser-local preference, device changes, storage-error feedback and JS-free system fallback. Shared theme tokens cover actual pages and preserve core services, schema, permissions and regular data.26 regressions,313 HTTP passes,12 theme-controller checks,99 PHP lints and248 actual Chrome authenticated page/theme/viewport combinations passed, with representative screenshot and keyboard/error-focus checks. No sampled opaque-text contrast or runtime errors; broader accessibility and actual400% zoom remain manual. Strict static CSS/JS audit retains one reviewed existing dynamic-field-anchor false positive; PHP unsupported. Exact evidence/resources/failed checkpoints in verification/THEME_NAVIGATION_2026-11-10.md. Existing performance work preserved. No commit/push; hosting deferred. Usage tool unavailable.
+
+## 2026-11-10 — User-reported local acceptance
+
+User: “it all passed” in response to the checklist covering five independent sessions, simultaneous catalog/search/combined filters/availability/pagination, phone Light/Dark, librarian/administrator themes,400% zoom and keyboard navigation.
+
+Outcome: recorded all named checks as user-operated PASS, no problems reported. No timing samples, exact device inventory, participant evaluation or full accessibility certification inferred. Updated progress/test/evidence records; next checkpoint is controlled regular-database backup and isolated restore. Hosting deferred to a later phase. No code/data changes, tests rerun, commit or push for this update. Existing college-textbooks.json preserved.
+
+## 2026-11-10 — Prepare catalog-only local pilot
+
+User authorized: pause the website and back up database/covers/configuration; create a new database such as kaaklat_pilot using schema/migrations without seed; copy categories/authors/books/book_authors/book_copies preserving IDs; copy/check covers into a separate application; use a new database config, session cookie and session directory. User takes over actual tester-account creation.
+
+Outcome: stopped verified demo PHP PID11496 on8000; verified full backup before-pilot-20261109-173552-e0fd90; created kaaklat_pilot and ignored private/pilots/kaaklat_pilot application; exact catalog129 books/389 copies/111 authors/20 categories/180 links;49 referenced cover hashes/decodes PASS; all seven noncatalog tables empty; original database row fingerprints/config/covers unchanged. New pilot/backup ACLs restricted; isolated pilot8010 PID4080 left running after HTTP health/access checks. No accounts or real personal records created. No demo deletion, full SQL restore/off-device claim, commit/push or hosting. User handoff/evidence in verification/PILOT_PREPARATION_2026-11-10.md. Existing work preserved; usage tool unavailable.
+
+## 2026-11-10 — Pilot port change
+
+User: “can you do that while maintaining the accounts I've already made in the pilot database?”
+
+Outcome: moved verified pilot listener8010 to8000 and updated its startup script. Same kaaklat_pilot config/cookie/session path; all3 existing account records/password hashes fingerprint-identical. health/login/protected-access smoke passed; no account writes. Current http://127.0.0.1:8000. No commit/push.
+
+## 2026-11-10 — Targeted pilot test-catalog removal
+
+User: “remove it” (Test category and Acceptance Test Book — Edited, previously inspected as unreferenced).
+
+Outcome: paused pilot, verified full pilot backup, transactionally removed exact category22/book102/3 copies/2 author links. Unrelated rows/accounts/passwords/history and all cover files unchanged by fingerprint; original demo untouched. Pilot8000 restarted and login200. No application changes, commit or push. Private backup/report retained.

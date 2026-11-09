@@ -1,5 +1,7 @@
 # Navigation and appearance verification — 2026-11-10
 
+Latest user-operated acceptance: user reported “it all passed” for five independent sessions, simultaneous catalog/search/filter/pagination, phone Light/Dark, librarian/administrator themes, actual400% zoom and keyboard navigation. No problems reported. Supersedes the corresponding pending manual checks below; other browser/assistive-technology/full-state limits remain. No new browser timing samples or exact device inventory supplied. Implementation/performance pushed as2411253; this subsequent documentation update is uncommitted. Hosting remains a later phase.
+
 Scope: user-approved preview navigation, then explicit addition of dark mode. Shared presentation and a read-only authenticated Settings page; no circulation service, SQL/schema, account mutation or regular-data replacement. Existing uncommitted performance work and college-textbooks.json preserved. No commit/push. Hosting deferred.
 
 ## Implementation
@@ -41,3 +43,5 @@ Strict premium audit ran with existing tmp/campus-audit-config.json (public/asse
 Actual400% Chrome zoom, real phone/touch, screen readers/forced colors, other browsers and full interactive-state contrast remain unverified for this increment.320CSSpx reflow is not actual400% zoom. Prior user acceptance applies only to its older scope. Review usual accounts at Settings, choose each mode, inspect workflows/keyboard and actual zoom. Browser preference survives logout and is shared on that browser, explicitly explained in Settings.
 
 Prior performance evidence remains historical for its measured scope; no hosted compatibility, deployment or production-capacity claim. Usage tool unavailable; no usage percentage invented.
+
+Follow-up2026-11-10: user reported apparent keyboard difficulty on Appearance after earlier acceptance. Explained native radio navigation; outcome awaits confirmation. No new code change or pass claimed.
