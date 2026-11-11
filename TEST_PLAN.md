@@ -1,5 +1,9 @@
 # KaAklat test plan
 
+## Maintained-source pilot consolidation — 2026-11-11
+
+Completed user-authorized operational consolidation without changing pilot/demo database rows or definitions. Verified full pilot backup, exact cover/session copies and config/cookie preservation; source code comparison found no pilot-only feature edits. Root startup guard5 isolated no-DB cases PASS; actual root launcher/PowerShell parser and changed PHP syntax PASS;52 read-only role/session/access/preservation checks PASS; existing313-check HTTP suite passed in new fictional kaaklat_acceptance_fa8fad86a990. Full original pilot/demo table fingerprints rechecked unchanged afterward. No password login/reset or real-account mutations performed; role checks use operator-only private temporary sessions. Full27-script runner not rerun after adding guard test; no aggregate27-pass claim. Exact resources, failure checkpoints, private-path fallback behavior and limits in verification/PILOT_CONSOLIDATION_2026-11-11.md. Source is now root; active DB kaaklat_pilot; session path private/pilot-sessions; old copy rollback-only. No commit/push; hosting deferred.
+
 ## README verification — 2026-11-10
 
 README documentation-only review: commands compared with existing bootstrap/password/start/backup tools; relative document links and internal contents anchors checked for existing targets; Markdown code fences balanced and git diff --check passed. No application/database behavior changed, so regression suites were not rerun. Pilot/config/backups remain excluded from Git; no actual participant identities or credentials included. Existing keyboard follow-up and recovery/hosting limits explicitly retained.
@@ -462,3 +466,11 @@ Verified exact fixture counts, independent authenticated identities, unique cook
 ## Follow-up keyboard report — 2026-11-10
 
 After prior user-reported passes, user reported difficulty browsing Appearance with a keyboard. Native radio-group behavior (Tab into group; arrow keys between choices) was explained. No new defect confirmed and no fix applied; user confirmation is pending. Earlier acceptance is historical and does not resolve this later report.
+
+### References for Chapters 1 and 2 — 2026-11-11
+Created output/documents/KaAklat_Chapters_1_2_With_References.docx because the existing extract was locked for writing. Added 19 cited bibliography entries copied from the supplied three-chapter original, excluding uncited ISO 2011 and WCAG entries. Preserved the shortened synthesis and school header. Word refreshed the TOC, now including References on numbered page 11; final length 14 physical pages. Word export and bundled Poppler rendering passed; original 12 pages pixel-identical except updated TOC; contents and two reference pages visually reviewed. Source bibliographic claims/URLs transferred, not independently researched. Initial in-place write failed due to lock; separate copy succeeded. No application changes/tests. Next: use the new copy for review.
+
+### Conceptual framework arrow visibility — 2026-11-11
+Created output/documents/KaAklat_Chapters_1_2_Clear_Arrows.docx and companion KaAklat_Conceptual_Framework_Clear_Arrows.png. Built-in image editing darkened the two forward arrows and output-to-input feedback loop; labels visually verified. Prompt requested exact existing wording/layout/pastel boxes with bold charcoal arrows only. DOCX ZIP comparison confirms only word/media/image2.png changed; original references copy preserved. Word export remained 14 pages; page text matches after excluding PDF extraction whitespace. Exact pixel comparison failed due to minor text rendering differences; this is not reported as pixel-identical. Conceptual framework rendered page inspected and arrow visibility confirmed. No application change/tests. Next: review the updated copy.
+
+Consolidation final syntax/docs:109 PHP lints,33 README links/anchors, root PowerShell parse, old-launcher resolution and whitespace PASS. No pilot database write occurred in these checks.

@@ -1,11 +1,13 @@
 # KaAklat progress
 
-Updated: 2026-11-10 (Asia/Manila)
+Updated: 2026-11-11 (Asia/Manila)
 
 Status vocabulary: Planned; In progress; Implemented but unverified; Verified; Blocked.
 Verified applies only to the named evidence, not to the entire application.
 
 ## Current status
+
+Latest2026-11-11: single-source consolidation completed with user permission. Main repository now runs the existing kaaklat_pilot at127.0.0.1:8000 through start-local.ps1 and bin/check_local_pilot.php, with preserved pilot cookie and copied private/pilot-sessions. All pilot table rows/definitions, three accounts/password hashes and original kaaklat_dev verified unchanged. Exact49 pilot cover files active; old main config/covers privately preserved. Old pilot folder is rollback-only; launcher forwards to maintained root. No seed/import/merge/account reset. Verified backup and read-only role/access checks recorded in verification/PILOT_CONSOLIDATION_2026-11-11.md. Earlier separate-code-copy startup instructions are historical. No commit/push; hosting deferred.
 
 Repository entry guide added2026-11-10: README.md covers user/operator setup and current local-pilot scope. It distinguishes tracked source from the ignored working pilot/database, documents private passwords/backups and retains unresolved acceptance/hosting limits. Documentation-only verification; no pilot/account/application changes. See README for startup and role workflows, then this handoff for detailed dated evidence.
 
@@ -57,6 +59,10 @@ The six defaults enumerated above are approved for the demonstration; the follow
 - Fictional student accounts and simulated loan records; book metadata may use well-known titles.
 
 ## Resume here
+
+### Single maintained source — 2026-11-11 (latest)
+
+Current startup: from main repository run `& .\start-local.ps1`; MySQL3306 must be running. Active source=root, database=kaaklat_pilot, private covers exact pilot inventory, session path=private/pilot-sessions, cookie name unchanged. Old pilot launcher delegates here. Main private-folder ACL restricted to owner/admin/SYSTEM. Verified backup before-main-consolidation-20261111-000828-de0cec remains in old pilot private/backups; rollback folder private/consolidation-20261111-000829-6c49d1 preserves old main config/covers and fingerprints. Never blindly reactivate old demo config. No DB imports or DML against pilot/demo. Read-only HTTP roles tested via private temporary sessions, no passwords reset/used; user should still sign in normally. All pilot and demo fingerprints unchanged. Existing uncommitted doc edits/college-textbooks.json preserved. No commit/push; hosting deferred. Full restore/off-device backup, evaluation and keyboard follow-up remain open. See consolidation evidence for commands/results/current process and limits.
 
 ### Current handoff clarification — 2026-11-10
 
@@ -341,3 +347,9 @@ Applied the user-approved shorter synthesis and explicit contextual research gap
 Pilot moved from8010 to8000 at user's request. Current address http://127.0.0.1:8000; start helper in private/pilots/kaaklat_pilot/start-pilot.ps1 updated. Same kaaklat_pilot database, session cookie/config and separate session directory. All3 existing user-created account rows/password hashes unchanged by private before/after fingerprint. health/login200 and protected catalog redirect verified. Current pilot PID6036 at handoff. Initial8010/zero-account statements are historical. No account mutation, commit or push.
 
 Latest pilot cleanup2026-11-10: user authorized deleting unreferenced Test category22/book102. Full pilot backup verified before transactional deletion of the book,3 copies,2 author links and empty category. All unrelated account/history/catalog row fingerprints and cover files unchanged.128 books/19 categories remain; authors retained. Pilot8000 restarted, login200. See verification/PILOT_PREPARATION_2026-11-10.md; no commit/push.
+
+### References for Chapters 1 and 2 — 2026-11-11
+Created output/documents/KaAklat_Chapters_1_2_With_References.docx because the existing extract was locked for writing. Added 19 cited bibliography entries copied from the supplied three-chapter original, excluding uncited ISO 2011 and WCAG entries. Preserved the shortened synthesis and school header. Word refreshed the TOC, now including References on numbered page 11; final length 14 physical pages. Word export and bundled Poppler rendering passed; original 12 pages pixel-identical except updated TOC; contents and two reference pages visually reviewed. Source bibliographic claims/URLs transferred, not independently researched. Initial in-place write failed due to lock; separate copy succeeded. No application changes/tests. Next: use the new copy for review.
+
+### Conceptual framework arrow visibility — 2026-11-11
+Created output/documents/KaAklat_Chapters_1_2_Clear_Arrows.docx and companion KaAklat_Conceptual_Framework_Clear_Arrows.png. Built-in image editing darkened the two forward arrows and output-to-input feedback loop; labels visually verified. Prompt requested exact existing wording/layout/pastel boxes with bold charcoal arrows only. DOCX ZIP comparison confirms only word/media/image2.png changed; original references copy preserved. Word export remained 14 pages; page text matches after excluding PDF extraction whitespace. Exact pixel comparison failed due to minor text rendering differences; this is not reported as pixel-identical. Conceptual framework rendered page inspected and arrow visibility confirmed. No application change/tests. Next: review the updated copy.

@@ -107,27 +107,29 @@ If browser storage is blocked, the page explains that a choice could not be save
 
 ## Run the existing local pilot
 
-**For the operator who already has the prepared pilot on this computer.** This folder/database is private and is **not included in a GitHub clone**.
+**For the operator who already has the configured pilot on this computer.** Since2026-11-11, the main Git repository is the single maintained application source and its private configuration connects to `kaaklat_pilot`. The database, accounts, covers and configuration are **not included in a GitHub clone**.
 
 1. Start **MySQL in XAMPP**.
-2. Open the pilot folder in VS Code, then its PowerShell terminal:
+2. Open the main project folder in VS Code, then its PowerShell terminal:
 
    ```powershell
-   cd 'C:\Users\63961\Desktop\Emman\KaAklat2.0\private\pilots\kaaklat_pilot'
-   & .\start-pilot.ps1
+   cd 'C:\Users\63961\Desktop\Emman\KaAklat2.0'
+   & .\start-local.ps1
    ```
 
 3. Open **http://127.0.0.1:8000**. Keep the terminal open; Ctrl+C stops the server.
 
-If script execution is blocked, run this from that same pilot folder:
+The launcher verifies the local database name before starting. If script execution is blocked, first confirm the same guard from the main folder, then start PHP:
 
 ```powershell
+& 'C:\php-8.4.14\php.exe' bin/check_local_pilot.php
+if ($LASTEXITCODE -ne 0) { throw 'Pilot configuration was not verified.' }
 & 'C:\php-8.4.14\php.exe' `
-  -d "session.save_path=$PWD/private/fresh-sessions" `
+  -d "session.save_path=$PWD/private/pilot-sessions" `
   -S 127.0.0.1:8000 -t public
 ```
 
-The pilot uses **`kaaklat_pilot`**, a separate private configuration, cookie name and session directory. The old demo database is retained separately. No shared demo credentials are supplied. Existing pilot accounts and records persist when PHP/MySQL restart.
+The active website uses **`kaaklat_pilot`**, its preserved pilot cookie name and `private/pilot-sessions`. The old demo database remains unused and separate. No demo records were imported or merged during consolidation. Existing pilot accounts and passwords persist when PHP/MySQL restart. The old `private/pilots/kaaklat_pilot` code copy is retained only as a rollback snapshot; its launcher forwards to the main source. Do not edit or serve that archived copy directly.
 
 Always confirm the working folder and private database configuration before running an account or data-management tool. Do not seed, reset or import over the pilot. Catalog quantities are carried-over test inventory until physically verified by the school.
 
@@ -236,7 +238,7 @@ Contact the librarian/administrator for the permitted identity-checked recovery 
 
 **A Git commit/push does not back up accounts or borrowing records.** Do not upload a database dump, private configuration or real participant records to GitHub. Public logos/illustrations are tracked; protected catalog cover files are separate.
 
-The existing pilot is an ignored working copy, **not a Git checkout**. Make source changes in the main repository, test using fictional fixtures, then deliberately synchronize reviewed application files to the pilot. Preserve the pilot’s configuration, covers, startup script, session directory and database. Database migrations require a separate reviewed backup procedure.
+The main repository now serves the pilot directly; source edits there affect the local website without copying code between folders. Keep the active private configuration, `private/covers`, `private/pilot-sessions` and `kaaklat_pilot` database protected. The old ignored pilot code copy is only a rollback snapshot. Test feature changes using isolated fictional fixtures before allowing tester traffic; do not run scripts that reset/import/write fixture records into the pilot. Database migrations require a separate reviewed backup procedure. A Git checkout/pull alone must never replace private operational data.
 
 ### Manual backup
 
@@ -257,7 +259,7 @@ Back up before data/schema changes and during active use. Never restore over the
 
 ## Testing and current limits
 
-Read [TEST_PLAN.md](TEST_PLAN.md) for the exact scope. Run developer tests from the **main repository with fictional fixtures**, not the private pilot. Some scripts create retained scratch databases and require local operator privileges. Do not paste private fixture manifests or logs into public issues.
+Read [TEST_PLAN.md](TEST_PLAN.md) for the exact scope. The main repository's default connection is now the pilot: inspect test isolation before running a script. Use only explicitly isolated temporary-table/new-scratch-database fixtures, never seed/reset the active pilot. Some scripts create retained scratch databases and require local operator privileges. Do not paste private fixture manifests or logs into public issues. The consolidation used the HTTP harness's new scratch database and read-only role checks; it did not rerun arbitrary mutation tools on tester accounts.
 
 ```powershell
 & 'C:\php-8.4.14\php.exe' tests/run_regression.php
@@ -279,7 +281,7 @@ User-reported local acceptance and the later appearance-keyboard follow-up are r
 | Address already in use | A server may already run on 8000. Identify its process/folder before stopping it; do not kill all PHP processes. |
 | Browser rejects `0.0.0.0` | That is a listening address. On the server computer open `http://127.0.0.1:8000`. |
 | Phone cannot connect | Use the same trusted Wi-Fi and `http://COMPUTER-IP:8000`, including the port. Loopback-only PHP cannot accept phone connections. Supervised LAN mode requires an intentional server bind change and narrowly scoped firewall permission. Do not disable the firewall, forward router ports or expose the development server publicly. |
-| Wrong/missing accounts | Verify the working folder and configured database. The source demo and private pilot are different installations. |
+| Wrong/missing accounts | The maintained main folder must use `kaaklat_pilot`. Run the startup guard; do not switch to `kaaklat_dev` or import demo records. The old private code copy is archived. |
 | “A usable administrator already exists” | Use the existing administrator or authorized recovery; do not bypass bootstrap protection. |
 | Student cannot borrow | Check pending/suspended state, librarian activation, overdue loans, pending/allowance limits, duplicate title and available copies. |
 | Appearance cannot be saved | Browser storage may be blocked. The page reports the limitation; System follows device appearance. |

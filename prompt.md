@@ -806,3 +806,17 @@ Outcome: paused pilot, verified full pilot backup, transactionally removed exact
 User: “can you add a readme file to the github repository for the entire system and the things the users must know”
 
 Outcome: added README.md covering role workflows/permissions, registration and physical-ID verification, borrowing defaults, appearance keyboard behavior, existing-pilot startup versus fresh-clone setup, admin/staff tools, recovery, private data/cover backups, test commands/evidence limits, troubleshooting and document map. Compared instructions with current tools and checked local links/anchors/code fences/whitespace. No app/schema/pilot data changes or database test rerun. Published as a scoped documentation commit; private files and college-textbooks.json excluded.
+
+### 2026-11-11 — Add chapter references
+User prompt: "can you also add the reference to the docs for the chapter 1 nd 2 file?"
+Outcome: Created KaAklat_Chapters_1_2_With_References.docx with 19 references from the supplied original, updated working TOC, preserved header and synthesis. 14 pages rendered; changed/new pages visually checked. Prior extract was locked, so delivered a new copy. Bibliography not independently source-verified.
+
+### 2026-11-11 — Framework arrows
+User prompt: "can you make the arrows in the conceptual framework image visible?"
+Outcome: Used built-in image editing to produce bold dark forward arrows and feedback loop; replaced only the embedded framework image in a new Chapters_1_2_Clear_Arrows.docx copy. Header, references and TOC preserved; 14-page Word render and changed-page visual QA completed. Exact pixel comparison had minor text-rendering differences; normalized page text unchanged.
+
+## 2026-11-11 — Consolidate maintained source onto existing pilot
+
+User: “Can you do all the necessary steps you need to do this? I give you permission” following the agreed plan to run one main application source against kaaklat_pilot, without importing/merging demo data. User restarted XAMPP when3306 was initially unavailable.
+
+Outcome: compared main/pilot application checksums; only docs differed. Paused verified pilot listener, created verified full pilot backup, preserved old main config/covers for rollback, installed exact pilot config/cookie and49 covers in root, copied20 sessions to private/pilot-sessions, restricted main private access, retained old code snapshot and forwarded its launcher. Root start-local.ps1 with CLI config guard now runs maintained public/ on8000. All table row/definition fingerprints in BOTH pilot/demo unchanged, including3 accounts/password hashes,128 books/386 copies/19 categories; no seed/import/SQL DML/account reset.5 fictional no-DB guard cases,52 read-only operator-session HTTP checks and313 existing HTTP checks in fresh scratch DB passed. No new password login performed. README/workflow/progress/evidence updated preserving prior edits. No demo records returned, deletion, commit/push or hosting. Details: verification/PILOT_CONSOLIDATION_2026-11-11.md. Usage tool unavailable.

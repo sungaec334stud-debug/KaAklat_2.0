@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-11 — One maintained source for the local pilot
+
+Consolidated runtime into the main repository while keeping existing kaaklat_pilot records/passwords unchanged. Added guarded start-local.ps1 and CLI config checker; active private config/cookie copied from pilot, covers synchronized exactly, sessions copied to private/pilot-sessions. Old main private config/covers preserved for rollback; old pilot code snapshot retained and launcher forwarded. Verified full pilot backup and source/data preservation; no seed/import/demo merge. Updated setup guidance. No commit/push; hosting deferred. Evidence: verification/PILOT_CONSOLIDATION_2026-11-11.md.
+
 ## 2026-11-10 — Repository README
 
 Added README.md as the GitHub entry guide: role permissions/workflows, registration/ID approval, borrowing defaults, native appearance keyboard controls, existing private-pilot versus fresh-clone setup, account tools, private data/backups, verification scope, troubleshooting and linked project documents. No credentials, pilot files, schema or application behavior changes. Documentation links/anchors/code fences and whitespace checked; no database tests rerun for documentation-only work.
@@ -356,3 +360,9 @@ Applied the user-approved shorter synthesis and explicit contextual research gap
 ## 2026-11-10 — Local catalog performance
 
 Added an operator-run isolated benchmark and loopback-only router. Final fixture has 100 fictional titles, 300 copies, 30 students, three staff, 183 requests and 123 loans. All 900 HTML samples validated with zero failures across normal browsing, search, combined filters, availability and pagination. Highest final five-session scenario p95 was 284.106 ms against the 2,000 ms target. Saved raw timings, environment details and EXPLAIN plans. No query, schema or index change was warranted. PHP lint and all 26 regression scripts passed. Five interactive browser users, hosted page timing and production capacity remain unverified.
+
+### References for Chapters 1 and 2 — 2026-11-11
+Created output/documents/KaAklat_Chapters_1_2_With_References.docx because the existing extract was locked for writing. Added 19 cited bibliography entries copied from the supplied three-chapter original, excluding uncited ISO 2011 and WCAG entries. Preserved the shortened synthesis and school header. Word refreshed the TOC, now including References on numbered page 11; final length 14 physical pages. Word export and bundled Poppler rendering passed; original 12 pages pixel-identical except updated TOC; contents and two reference pages visually reviewed. Source bibliographic claims/URLs transferred, not independently researched. Initial in-place write failed due to lock; separate copy succeeded. No application changes/tests. Next: use the new copy for review.
+
+### Conceptual framework arrow visibility — 2026-11-11
+Created output/documents/KaAklat_Chapters_1_2_Clear_Arrows.docx and companion KaAklat_Conceptual_Framework_Clear_Arrows.png. Built-in image editing darkened the two forward arrows and output-to-input feedback loop; labels visually verified. Prompt requested exact existing wording/layout/pastel boxes with bold charcoal arrows only. DOCX ZIP comparison confirms only word/media/image2.png changed; original references copy preserved. Word export remained 14 pages; page text matches after excluding PDF extraction whitespace. Exact pixel comparison failed due to minor text rendering differences; this is not reported as pixel-identical. Conceptual framework rendered page inspected and arrow visibility confirmed. No application change/tests. Next: review the updated copy.
