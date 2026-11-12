@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/portal_ui.php';
+require_once __DIR__ . '/pagination.php';
 
 function render_page(string $title, string $content, bool $landing = false): void
 {

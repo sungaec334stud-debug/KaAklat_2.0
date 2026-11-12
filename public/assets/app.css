@@ -559,3 +559,22 @@ code { display: inline-block; max-width: 100%; overflow-wrap: anywhere; white-sp
     .appearance-option:has(input:checked) { outline-color: Highlight; }
     .is-authenticated .header-nav a[aria-current=page] { border-color: Highlight; }
 }
+
+
+/* Catalog discovery extends native controls without changing the shared palette. */
+.catalog-filters.catalog-controls { display: block; }
+.catalog-filter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 18px 20px; }
+.catalog-filter-grid > div { min-width: 0; }
+.catalog-search-control { position: relative; }
+.catalog-clear-search { display: inline-flex; align-items: center; min-height: 44px; font-size: .875rem; }
+.catalog-more-filters { margin: 20px 0; border-top: 1px solid var(--line); }
+.catalog-more-filters > summary { padding: 14px 0; min-height: 44px; cursor: pointer; font-weight: 650; color: var(--ink); }
+.catalog-filter-hint { margin: 16px 0 0; font-size: .875rem; color: var(--muted); }
+.catalog-active-filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
+.catalog-active-filters a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; max-width: 100%; padding: 8px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--soft); overflow-wrap: anywhere; }
+.catalog-active-filters span { flex-shrink: 0; }
+.catalog-result-count { margin: 20px 0; font-weight: 650; }
+.catalog-unavailable { margin: 8px 0; }
+
+.catalog-year-range { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; border: 0; padding: 0; margin: 0; min-width: 0; }
+.catalog-year-range legend { font-weight: 650; margin-bottom: 10px; }

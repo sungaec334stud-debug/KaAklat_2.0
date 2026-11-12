@@ -38,7 +38,7 @@ try {
             redirect('/staff.php?'.http_build_query(['q'=>$q,'page'=>$page]));
         } catch(InvalidArgumentException $e) { http_response_code(400); if (!$errors) {$errors[$failed!==null?'staff-'.$failed:'']=$e->getMessage();} }
     }
-    $rows=staff_list($db,$page,$q);
+    $rows=staff_list($db,$page,$q,$pagination); $page=$pagination['page'];
     if ($failed!==null && !in_array($failed,array_map('intval',array_column(array_slice($rows,0,20),'user_id')),true) && isset($errors['staff-'.$failed])) {
         $errors=[''=>$errors['staff-'.$failed]];
     }
@@ -62,10 +62,8 @@ try {
         }
         $html.='</article>';
     }
-    $html.='<nav aria-label="Staff pages">';
-    if ($page>1) {$html.='<a href="?'.h(http_build_query(['q'=>$q,'page'=>$page-1])).'">Previous</a> ';}
-    if (count($rows)>20 && $page<10000) {$html.='<a href="?'.h(http_build_query(['q'=>$q,'page'=>$page+1])).'">Next</a>';}
-    render_page('Staff accounts',$html.'</nav></section>');
+    $html .= pagination_html($pagination, static fn(int $target): string => '?'.http_build_query(['q'=>$q,'page'=>$target]), 'Staff pages', 'accounts');
+    render_page('Staff accounts',$html.'</section>');
 } catch(DomainException $e) { http_response_code(403); render_page('Access denied','<p role="alert">'.h($e->getMessage()).'</p>'); }
 catch(InvalidArgumentException $e) { http_response_code(400); render_page('Check staff accounts','<p role="alert">'.h($e->getMessage()).'</p><a href="/staff.php">Staff accounts</a>'); }
 catch(Throwable $e) { $ref=bin2hex(random_bytes(8)); error_log('Staff failure ['.$ref.'] code='.$e->getCode()); http_response_code(500); render_page('Staff unavailable','<p role="alert">Unable to complete the action. Refresh before retrying. Reference: '.h($ref).'</p>'); }

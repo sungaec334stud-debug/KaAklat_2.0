@@ -3,6 +3,12 @@
 Version: 0.1 design draft, 2026-10-29 (Asia/Manila).
 Status: Stack A selected; core workflow confirmed; remaining defaults below are proposals for review. This is a specification, not proof of implemented functionality.
 
+## Approved catalog discovery extension — 2026-11-12
+
+Authenticated students (including pending browsing), librarians and administrators share title-or-author search, category, optional title/author contains and A–Z displayed-title initial, inclusive/open-ended publication-year bounds and All books/Available now/Currently unavailable. Zero available copies remain visible in All and Unavailable; archived titles remain excluded. Availability remains derived and student requests for unavailable titles stay forbidden.
+
+Default order is title A–Z, with Z–A and publication-year newest/oldest options. Year orders place unknown years last, then title ascending and book ID ascending; title orders tie-break by ID. A/The remain part of displayed-title matching. Legacy exact-year links map to equal bounds; contradictory exact/range values are invalid. Twelve titles per page, distinct totals and bounded navigation remain. Apply/remove resets to page1; page/details/back retain validated query/filter/sort context. Clear all clears search/filters/page and restores A–Z. All controls are native GET and core behavior works without JavaScript. This supersedes exact-year-only catalog wording below; no schema, circulation permission or policy change.
+
 ## 1. Purpose and problem
 
 Build a small hosted demonstration of a school library workflow that a beginner can understand and maintain. Students need to find physical books, request a borrowing period with a reason, and track decisions and loans. Librarians need reliable records for cataloging, approval, physical pickup and return. An administrator manages website accounts and access. The research paper must accurately distinguish planned work, implemented work and measured results.
@@ -38,7 +44,7 @@ Organize small HTTP entry pages under `public/`, shared security/database/busine
 
 ## 3. Confirmed MVP and exclusions
 
-User extension (2026-10-30): book records include an optional primary genre/category and year first published. Librarians can select/type category names and edit the year; blank year means unknown, valid years are 1 through the current year. The catalog displays both and combines category, A–Z displayed-title initial, title text, author text and exact-year filters with pagination retaining selections. Publication year refers to the original book publication rather than the displayed cover edition. These additions extend FR-03/FR-04; ISBN remains excluded.
+User extension (2026-10-30): book records include an optional primary genre/category and year first published. Librarians can select/type category names and edit the year; blank year means unknown, valid years are 1 through the current year. The catalog displays both and combines category, A–Z displayed-title initial, title text, author text and exact-year/year-range filters with pagination retaining selections. Publication year refers to the original book publication rather than the displayed cover edition. These additions extend FR-03/FR-04; ISBN remains excluded.
 
 Confirmed by the user:
 

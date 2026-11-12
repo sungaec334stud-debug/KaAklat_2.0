@@ -31,7 +31,7 @@ try {
             redirect('/returns.php?'.http_build_query(['q'=>$search,'page'=>$page]));
         } catch(InvalidArgumentException $e) { http_response_code(400); $message=$e->getMessage(); }
     }
-    $rows=list_returns($db,$page,$search);
+    $rows=list_returns($db,$page,$search,$pagination); $page=$pagination['page'];
     if($message!=='') {
         $visible=array_filter(array_slice($rows,0,20),fn(array $row):bool => (int)$row['request_id']===$failedId);
         $error=form_error_summary([($visible?($checked?'return-':'receipt-').$failedId:'')=>$message]);
@@ -43,10 +43,8 @@ try {
         $due=(new DateTimeImmutable($row['due_date'],new DateTimeZone('Asia/Manila')))->format('M j, Y');
         $content.=return_card_html($row,$failedId,$message,$checked);
     }
-    $content.='<nav class="catalog-pagination" aria-label="Return pages">';
-    if($page>1) { $content.='<a href="?'.h(http_build_query(['q'=>$search,'page'=>$page-1])).'">Previous</a>'; }
-    if(count($rows)>20 && $page<10000) { $content.='<a href="?'.h(http_build_query(['q'=>$search,'page'=>$page+1])).'">Next</a>'; }
-    render_page('Returns',$content.'</nav></section>');
+    $content .= pagination_html($pagination, static fn(int $target): string => '?'.http_build_query(['q'=>$search,'page'=>$target]), 'Return pages', 'loans');
+    render_page('Returns',$content.'</section>');
 } catch(DomainException $e) {
     http_response_code(403); render_page('Access denied','<section class="panel"><h1>Access denied</h1><p role="alert">'.h($e->getMessage()).'</p><a href="/">Dashboard</a></section>');
 } catch(InvalidArgumentException $e) {

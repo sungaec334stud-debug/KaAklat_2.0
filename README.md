@@ -129,7 +129,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Pilot configuration was not verified.' }
   -S 127.0.0.1:8000 -t public
 ```
 
-The active website uses **`kaaklat_pilot`**, its preserved pilot cookie name and `private/pilot-sessions`. The old demo database remains unused and separate. No demo records were imported or merged during consolidation. Existing pilot accounts and passwords persist when PHP/MySQL restart. The old `private/pilots/kaaklat_pilot` code copy is retained only as a rollback snapshot; its launcher forwards to the main source. Do not edit or serve that archived copy directly.
+The active website uses **`kaaklat_pilot`**, its preserved pilot cookie name and `private/pilot-sessions`. The old demo database remains unused and separate. No demo records were imported or merged during consolidation. Existing pilot accounts and passwords persist when PHP/MySQL restart. The old pilot code snapshot has been archived outside this project. Use only the maintained root startup helper; do not run an archived launcher.
 
 Always confirm the working folder and private database configuration before running an account or data-management tool. Do not seed, reset or import over the pilot. Catalog quantities are carried-over test inventory until physically verified by the school.
 
@@ -234,11 +234,11 @@ Contact the librarian/administrator for the permitted identity-checked recovery 
 | --- | --- |
 | PHP/CSS/JS/templates, public branding assets | Database accounts, password hashes, requests/loans and audit records |
 | Schema/migrations and clearly fictional seed | Configuration credentials, database exports and backups |
-| Tests and sanitized verification evidence | Uploaded covers, runtime sessions, private logs and pilot copy |
+| Tests and sanitized verification evidence | Uploaded covers, runtime sessions, private logs and archived snapshots |
 
 **A Git commit/push does not back up accounts or borrowing records.** Do not upload a database dump, private configuration or real participant records to GitHub. Public logos/illustrations are tracked; protected catalog cover files are separate.
 
-The main repository now serves the pilot directly; source edits there affect the local website without copying code between folders. Keep the active private configuration, `private/covers`, `private/pilot-sessions` and `kaaklat_pilot` database protected. The old ignored pilot code copy is only a rollback snapshot. Test feature changes using isolated fictional fixtures before allowing tester traffic; do not run scripts that reset/import/write fixture records into the pilot. Database migrations require a separate reviewed backup procedure. A Git checkout/pull alone must never replace private operational data.
+The main repository now serves the pilot directly; source edits there affect the local website without copying code between folders. Keep the active private configuration, `private/covers`, `private/pilot-sessions` and `kaaklat_pilot` database protected. The old pilot code snapshot is now in the protected external cleanup archive. Test feature changes using isolated fictional fixtures before allowing tester traffic; do not run scripts that reset/import/write fixture records into the pilot. Database migrations require a separate reviewed backup procedure. A Git checkout/pull alone must never replace private operational data.
 
 ### Manual backup
 
@@ -256,6 +256,10 @@ Follow the full [backup and restore operator guide](docs/local-backup-restore.md
 3. Confirm verification succeeds, then protect the completed bundle under `private/backups`. Make a protected copy outside the project and on a separate device. The flag acknowledges a manual write pause; it does not enforce maintenance mode.
 
 Back up before data/schema changes and during active use. Never restore over the active database to “test” a backup. Use a separately named empty database, separate application/configuration, new cookie and session directory; revoke restored sessions/recovery secrets as documented. Restoring an older backup also restores older password/account state. A checksum-verified backup is not proof of a successful full restoration or an off-device backup.
+
+### Archived local material
+
+Old temporary artifacts, research outputs, import material, code snapshots and earlier backups were relocated to `C:\Users\63961\Documents\KaAklat-Archives\cleanup-20261111`. They remain protected and outside Git. Current runtime files and the latest pilot backup remain in this project. See [cleanup inventory and verification](verification/PROJECT_CLEANUP_2026-11-11.md). Archived launchers/configurations are historical; continue using `& .\start-local.ps1` from the main folder. This archive is on the same disk; keep an off-device protected backup too.
 
 ## Testing and current limits
 
@@ -302,7 +306,7 @@ migrations/     Numbered additive schema changes
 tests/          Fictional unit/integration/HTTP/concurrency/browser checks
 verification/   Sanitized, dated verification evidence
 docs/           Operator guides and design/implementation notes
-private/        Ignored configuration, covers, backups, sessions and local pilot
+private/        Ignored current configuration, covers, backups and pilot sessions
 tmp/            Ignored temporary fixture resources and diagnostics
 schema.sql      Baseline schema; apply migrations afterward
 seed.sql        Optional fictional development seed, not clean-pilot data

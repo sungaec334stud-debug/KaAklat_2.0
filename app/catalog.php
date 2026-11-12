@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+require_once __DIR__ . '/pagination.php';
 
 require_once __DIR__ . '/auth.php';
 
@@ -43,8 +44,11 @@ function catalog_books(PDO $connection, string $query, int $page, array $filters
     $sql = catalog_select_sql();
     $parameters = [];
     $filters = catalog_filters($filters);
-    foreach (['category' => 'b.category_id', 'year' => 'b.publication_year'] as $key => $column) {
+    foreach (['category' => 'b.category_id'] as $key => $column) {
         if ($filters[$key] !== null) { $sql .= ' AND ' . $column . ' = :' . $key; $parameters[$key] = $filters[$key]; }
+    }
+    foreach (['year_from' => '>=', 'year_to' => '<='] as $key => $operator) {
+        if ($filters[$key] !== null) { $sql .= ' AND b.publication_year ' . $operator . ' :' . $key; $parameters[$key] = $filters[$key]; }
     }
     foreach (['title' => 'b.title', 'letter' => 'b.title'] as $key => $column) {
         if ($filters[$key] !== '') {
@@ -64,14 +68,21 @@ function catalog_books(PDO $connection, string $query, int $page, array $filters
             WHERE sx.book_id = b.book_id AND ax.author_name LIKE :author ESCAPE '!'))";
         $parameters += ['title' => $pattern, 'author' => $pattern];
     }
-    if ($filters['available'] === '1') { $sql = 'SELECT * FROM (' . $sql . ') catalog_results WHERE available_copies > 0'; }
+    $sql = 'SELECT * FROM (' . $sql . ') catalog_results';
+    if ($filters['available'] !== '') { $sql .= $filters['available'] === '1' ? ' WHERE available_copies > 0' : ' WHERE available_copies = 0'; }
     // Count the same filtered selection, including derived copy availability.
     $count = $connection->prepare('SELECT COUNT(*) FROM (' . $sql . ') catalog_matches');
     $count->execute($parameters);
     $total = (int) $count->fetchColumn();
     $totalPages = max(1, min(10000, (int) ceil($total / 12)));
     $page = min($page, $totalPages);
-    $statement = $connection->prepare($sql . ' ORDER BY ' . ($filters['available'] === '1' ? 'title, book_id' : 'b.title, b.book_id') . ' LIMIT 12 OFFSET ' . (($page - 1) * 12));
+    $orders = [
+        'title_asc' => 'title ASC, book_id ASC',
+        'title_desc' => 'title DESC, book_id ASC',
+        'year_desc' => 'publication_year IS NULL ASC, publication_year DESC, title ASC, book_id ASC',
+        'year_asc' => 'publication_year IS NULL ASC, publication_year ASC, title ASC, book_id ASC',
+    ];
+    $statement = $connection->prepare($sql . ' ORDER BY ' . $orders[$filters['sort']] . ' LIMIT 12 OFFSET ' . (($page - 1) * 12));
     $statement->execute($parameters);
     $rows = $statement->fetchAll();
     return ['books' => $rows, 'has_next' => $page < $totalPages, 'page' => $page,
@@ -117,7 +128,7 @@ function catalog_own_request_states(PDO $connection, array $bookIds): array
 function catalog_publication_year(mixed $value): ?int
 {
     if ($value === '' || $value === null) { return null; }
-    $year = is_scalar($value) ? filter_var($value, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => (int) date('Y')]]) : false;
+    $year = is_scalar($value) && !is_bool($value) ? filter_var($value, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => (int) date('Y')]]) : false;
     if ($year === false) { throw new InvalidArgumentException('Enter a publication year from 1 through the current year, or leave it unknown.'); }
     return $year;
 }
@@ -126,19 +137,32 @@ function catalog_filters(array $input): array
 {
     $result = ['letter' => '', 'year' => null, 'author' => '', 'category' => null, 'title' => '', 'available' => ''];
     $available = $input['available'] ?? '';
-    if (!is_string($available) || !in_array($available, ['', '1'], true)) { throw new InvalidArgumentException('Choose a valid availability filter.'); }
+    if (!is_string($available) || !in_array($available, ['', '1', '0'], true)) { throw new InvalidArgumentException('Choose a valid availability filter.'); }
     $result['available'] = $available;
     foreach (['letter', 'author', 'title'] as $key) {
         $value = $input[$key] ?? '';
-        if (!is_string($value) || mb_strlen($value) > 100) { throw new InvalidArgumentException('Use valid title, author and letter filters.'); }
+        if (!is_string($value) || mb_strlen($value) > 100) { throw new InvalidArgumentException(ucfirst($key) . ' filter must be text of at most 100 characters.'); }
         $result[$key] = trim($value);
     }
     $result['letter'] = strtoupper($result['letter']);
     if ($result['letter'] !== '' && !preg_match('/^[A-Z]$/D', $result['letter'])) { throw new InvalidArgumentException('Choose a title initial from A to Z.'); }
     $result['year'] = catalog_publication_year($input['year'] ?? null);
+    foreach (['year_from' => 'From year', 'year_to' => 'To year'] as $key => $label) {
+        try { $result[$key] = catalog_publication_year($input[$key] ?? null); }
+        catch (InvalidArgumentException) { throw new InvalidArgumentException($label . ' must be a whole publication year from 1 through the current year.'); }
+    }
+    if ($result['year'] !== null) {
+        foreach (['year_from', 'year_to'] as $key) {
+            if ($result[$key] !== null && $result[$key] !== $result['year']) { throw new InvalidArgumentException('Use the exact publication year or a matching year range.'); }
+            $result[$key] = $result['year'];
+        }
+    }
+    if ($result['year_from'] !== null && $result['year_to'] !== null && $result['year_from'] > $result['year_to']) { throw new InvalidArgumentException('From year must be earlier than or equal to To year.'); }
+    $result['sort'] = $input['sort'] ?? 'title_asc';
+    if (!is_string($result['sort']) || !array_key_exists($result['sort'], catalog_sort_options())) { throw new InvalidArgumentException('Choose a valid sort order.'); }
     $category = $input['category'] ?? '';
     if ($category !== '' && $category !== null) {
-        $value = is_scalar($category) ? filter_var($category, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]) : false;
+        $value = is_scalar($category) && !is_bool($category) ? filter_var($category, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]) : false;
         if ($value === false) { throw new InvalidArgumentException('Choose a valid category.'); }
         $result['category'] = $value;
     }
@@ -163,4 +187,39 @@ function catalog_cover_html(array $book): string
         return '<img class="book-cover" src="/cover.php?id=' . h($book['book_id']) . '" alt="Cover of ' . h($book['title']) . '" loading="lazy" width="240" height="340">';
     }
     return '<div class="book-placeholder" role="img" aria-label="No cover available">KaAklat<span>No cover available</span></div>';
+}
+
+
+function catalog_sort_options(): array
+{
+    return ['title_asc' => 'Title: A–Z', 'title_desc' => 'Title: Z–A',
+        'year_desc' => 'Publication year: Newest first', 'year_asc' => 'Publication year: Oldest first'];
+}
+
+// Build local catalog destinations from validated state; no arbitrary return URL.
+function catalog_url(string $query, int $page, array $filters, ?int $bookId = null): string
+{
+    [$query, $page] = catalog_parameters(['q' => $query, 'page' => $page]);
+    $values = catalog_filters($filters);
+    if ($values['year'] !== null) { unset($values['year_from'], $values['year_to']); }
+    $values = array_filter($values, static fn ($v) => $v !== '' && $v !== null);
+    if (($values['sort'] ?? '') === 'title_asc') { unset($values['sort']); }
+    if ($query !== '') { $values['q'] = $query; }
+    $values['page'] = $page;
+    if ($bookId !== null) {
+        if ($bookId < 1) { throw new InvalidArgumentException('Choose a valid book.'); }
+        $values['id'] = $bookId;
+    }
+    return '/catalog.php?' . http_build_query($values, '', '&', PHP_QUERY_RFC3986);
+}
+
+function catalog_remove_filter_url(string $query, int $page, array $filters, string $key): string
+{
+    $values = catalog_filters($filters);
+    if ($key === 'q') { $query = ''; }
+    elseif ($key === 'years') { $values['year'] = $values['year_from'] = $values['year_to'] = null; }
+    elseif (in_array($key, ['year_from', 'year_to'], true)) { $values['year'] = null; $values[$key] = null; }
+    elseif (in_array($key, ['category', 'author', 'title', 'letter', 'available', 'sort'], true)) { $values[$key] = match ($key) { 'category' => null, 'sort' => 'title_asc', default => '' }; }
+    else { throw new InvalidArgumentException('Choose a valid filter to remove.'); }
+    return catalog_url($query, 1, $values);
 }

@@ -113,7 +113,7 @@ function request_history_filter(mixed $filter): string
     return $filter;
 }
 
-function own_borrow_requests(PDO $db, int $page, string $filter = 'all'): array
+function own_borrow_requests(PDO $db, int $page, string $filter = 'all', ?array &$pagination = null): array
 {
     $user=current_user($db);
     if ($user===null || $user['role']!=='student' || !in_array($user['account_status'],['pending','active'],true)) {
@@ -130,11 +130,11 @@ function own_borrow_requests(PDO $db, int $page, string $filter = 'all'): array
         'overdue' => " WHERE lifecycle='overdue'",
         default => ''
     };
-    $s=$db->prepare("SELECT * FROM (SELECT r.*,b.title,IF(b.archived_at IS NULL,b.cover_path,NULL) AS cover_path,l.checked_out_at,l.due_date,l.returned_at,l.cancelled_at,l.cancelled_by,l.cancellation_kind,l.cancellation_note,CASE WHEN r.decision <> 'approved' THEN r.decision
+    $sql="SELECT * FROM (SELECT r.*,b.title,IF(b.archived_at IS NULL,b.cover_path,NULL) AS cover_path,l.checked_out_at,l.due_date,l.returned_at,l.cancelled_at,l.cancelled_by,l.cancellation_kind,l.cancellation_note,CASE WHEN r.decision <> 'approved' THEN r.decision
         WHEN l.returned_at IS NOT NULL THEN 'returned' WHEN l.cancelled_at IS NOT NULL THEN COALESCE(l.cancellation_kind,'cancelled')
         WHEN l.checked_out_at IS NOT NULL THEN IF(l.due_date < DATE(UTC_TIMESTAMP()+INTERVAL 8 HOUR),'overdue','active')
         WHEN r.decided_at <= UTC_TIMESTAMP()-INTERVAL 48 HOUR THEN 'expired' ELSE 'awaiting pickup' END AS lifecycle
         FROM borrow_requests r JOIN books b ON b.book_id=r.book_id LEFT JOIN loans l ON l.request_id=r.request_id
-        WHERE r.student_id=?) AS own_history" . $condition . " ORDER BY requested_at DESC,request_id DESC LIMIT 21 OFFSET " . (($page-1)*20));
-    $s->execute([$_SESSION['user_id']]); return $s->fetchAll();
+        WHERE r.student_id=?) AS own_history" . $condition;
+    return pagination_rows($db, $sql, [$_SESSION['user_id']], 'requested_at DESC,request_id DESC', $page, 20, $pagination, 10000, func_num_args() >= 4);
 }

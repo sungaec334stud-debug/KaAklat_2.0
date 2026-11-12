@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/app/bootstrap.php';
 require_once dirname(__DIR__) . '/app/student_accounts.php';
 require_once dirname(__DIR__) . '/views/layout.php';
+require_once dirname(__DIR__) . '/app/pagination.php';
 
 start_application_session();
 header('Cache-Control: no-store');
@@ -42,9 +43,8 @@ try {
     $page = filter_var($_GET['page'] ?? 1, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 100000]]) ?: 1;
     $canReview = $user['role'] === 'librarian' && $status === 'pending';
     $reviewColumns = $canReview ? ', school_student_id, session_version' : '';
-    $statement = $connection->prepare("SELECT user_id, username, display_name, account_status{$reviewColumns} FROM users WHERE role = 'student' AND account_status = :status ORDER BY user_id LIMIT 25 OFFSET " . (($page - 1) * 25));
-    $statement->execute(['status' => $status]);
-    $students = $statement->fetchAll();
+    $students = array_slice(pagination_rows($connection, "SELECT user_id, username, display_name, account_status{$reviewColumns} FROM users WHERE role = 'student' AND account_status = :status", ['status'=>$status], 'user_id', $page, 25, $pagination, 100000), 0, 25);
+    $page = $pagination['page'];
     $content = '<section class="panel"><h1>Student accounts</h1><p>Activate students after checking their school identity. Suspended students cannot sign in. Account changes require the student to sign in again.</p><p><a href="/">Dashboard</a></p>';
     $content .= '<nav class="account-tabs" aria-label="Student account actions"><ul>';
     foreach ($sections as $key => $label) {
@@ -80,8 +80,7 @@ try {
         $content .= '</article>';
     }
     if ($students === []) { $content .= '<p>No student accounts on this page.</p>'; }
-    if ($page > 1) { $content .= '<a href="' . h($sectionUrl . '&page=' . ($page - 1)) . '">Previous page</a> '; }
-    if (count($students) === 25) { $content .= '<a href="' . h($sectionUrl . '&page=' . ($page + 1)) . '">Next page</a>'; }
+    $content .= pagination_html($pagination, static fn(int $target): string => '?'.http_build_query(['status'=>$status,'page'=>$target]), 'Student account pages', 'students');
     render_page('Student accounts', $content . '</section>');
 } catch (DomainException $exception) {
     http_response_code(403);

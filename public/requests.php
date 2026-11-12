@@ -61,7 +61,7 @@ try {
         $content.='<li><a href="?status='.h($key).'"'.($filter===$key?' aria-current="page"':'').'>'.h($label).'</a></li>';
     }
     $content.='</ul></nav>';
-    $rows=own_borrow_requests($db,$page,$filter);
+    $rows=own_borrow_requests($db,$page,$filter,$pagination); $page=$pagination['page'];
     if (!$rows) { $content.='<div class="empty-state"><h2>No '.h($filter==='all'?'requests':str_replace('_',' ',$filter)).' on this page</h2><p>Choose another status or find an available book to get started.</p><a class="button" href="/catalog.php">Browse available books</a> <a href="?status='.h($filter).'">Back to first page</a></div>'; }
     if ($rows) {
         $content .= '<div class="request-list">';
@@ -70,10 +70,8 @@ try {
         }
         $content .= '</div>';
     }
-    $content.='<nav aria-label="Request pages">';
-    if ($page>1) { $content.='<a href="?status='.h($filter).'&amp;page='.($page-1).'">Previous</a> '; }
-    if (count($rows)>20 && $page<10000) { $content.='<a href="?status='.h($filter).'&amp;page='.($page+1).'">Next</a>'; }
-    render_page('My requests',$content.'</nav></section>');
+    $content .= pagination_html($pagination, static fn(int $target): string => '?'.http_build_query(['status'=>$filter,'page'=>$target]), 'Request pages', 'requests');
+    render_page('My requests',$content.'</section>');
 } catch (DomainException $e) {
     http_response_code(403); render_page('Borrowing unavailable','<section class="panel"><h1>Borrowing unavailable</h1><p role="alert">'.h($e->getMessage()).'</p><a href="/">Dashboard</a></section>');
 } catch (InvalidArgumentException $e) {

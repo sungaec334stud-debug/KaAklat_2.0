@@ -1,3 +1,27 @@
+# Shared numbered pagination verification — 2026-11-12
+
+Shared numbered pagination now covers student request history, student accounts, staff accounts, audit records, request reviews, pickups, returns, managed books and physical copies, using the catalog's existing renderer/style. Each list has accurate filtered totals, a current-page marker, bounded first/last/nearby numbers, Previous/Next and preserved search/status/book context. Out-of-range page links clamp to the last valid page; empty lists show0 and page1of1. Existing page sizes, role/ownership restrictions and mutation handlers remain unchanged. Verified31 regression scripts,390 existing HTTP checks,373 additional pagination HTTP checks and90 Chrome role/theme/viewport combinations, including28 native keyboard navigations with JavaScript disabled and zero runtime exceptions. Pilot rows/schema/covers/config match the pre-change baseline. Actual400% zoom, real phones, screen readers and new query performance remain unverified. Usage tool unavailable. No commit/push; hosting deferred. See verification/SHARED_PAGINATION_2026-11-12.md.
+
+Tests: tests/shared_pagination_test.php, tests/shared_pagination_http_test.php and tests/shared_pagination_browser_check.cjs; detailed retained resources/reproduction in verification/SHARED_PAGINATION_2026-11-12.md. Manual follow-up: browse footer page numbers under each permitted role, check search/status remains selected, Tab/Enter through links, then actual400% zoom and real phone in Light/Dark. Lists smaller than their existing page size correctly show only page1. No fake pilot data required.
+
+# Catalog discovery verification — 2026-11-12
+
+Implemented catalog discovery: four deterministic sort orders, title-or-author search, inclusive/open year ranges with legacy exact-year compatibility, three availability choices for every authenticated role, distinct result totals, removable filters and preserved results/detail/back context. Native GET controls work without JavaScript; existing availability and request authorization remain authoritative. No schema or pilot data migration. Verified30 regression scripts,390 HTTP checks,115 PHP lints and96 authenticated Chrome role/theme/viewport combinations with zero runtime exceptions; keyboard/error focus and JS-disabled apply/removal/clear checked. Fifteen final read-only pilot catalog requests passed. Original accounts/rows,86 books/273 copies,87 cover files and configuration preserved; one independently registered/activated student during work was retained, bringing accounts to4. Actual400% zoom, real-device/screen-reader acceptance and updated performance timings remain unverified. Usage tool unavailable. No commit/push; hosting deferred. See verification/CATALOG_DISCOVERY_2026-11-12.md.
+
+Manual review: sign in separately as student/librarian/administrator; change each sort; combine search/category/year bounds; compare All/Available/Unavailable; open a result then Back to results; remove a filter and check page1; Clear all restores A–Z. Try reversed years and use the error-summary link. Repeat at actual400% zoom and on a real phone, in both themes. An empty unavailable list is legitimate when all pilot books have free copies; do not fabricate allocations in the pilot.
+
+# Real-title catalog expansion verification — 2026-11-12
+
+Added38 source-verified books across all19 categories and127 randomized simulated copies. Final pilot totals86 books/273 copies. Scratch import rehearsals exercised actual database audit-failure rollback and duplicate refusal. Final306 role/catalog HTTP checks and276 browser geometry/image combinations passed after correcting the new cover filename prefix to the existing upload allowlist. All prior records/accounts/history, old cover bytes and prior availability preserved. Sources, backup and exact retained scratch resources: verification/CATALOG_EXPANSION_2026-11-12.md and docs/catalog-additions-2026-11-12.md. Data-only work: full circulation regression/concurrency suites and new participant-password/real-phone/keyboard/screen-reader/400%-zoom acceptance not rerun or claimed. Hosting deferred; no commit/push.
+
+# Lantern Valley catalog cleanup verification — 2026-11-12
+
+2026-11-12: user-authorized Lantern Valley demo cleanup completed. Removed80 archived, unreferenced fictional titles,240 DEMO copies and80 author links in one audited transaction after a verified full pilot backup. Remaining48 books/146 copies; accounts/passwords/history/authors/categories/covers and visible catalog availability unchanged.38 post-removal HTTP/preservation checks passed. Earlier128/386 totals are historical. See verification/LANTERN_DEMO_REMOVAL_2026-11-12.md. No code/schema change or commit/push; hosting deferred. Full regression/concurrency/browser suites were not rerun: application source unchanged. Actual tester-password login and new visual/keyboard acceptance were not claimed.
+
+# Protected cleanup verification — 2026-11-11
+
+27 regression scripts,313 HTTP checks,seven independent-process concurrency suites,52 fictional restore checks,12 theme-controller checks and248 headless Chrome role/page/theme/viewport combinations PASS in protected isolated scratch resources. PHP lint109 files and root PowerShell parse PASS. Current pilot/demo all-row/schema fingerprints, private configuration, active cover files and existing sessions checked unchanged before final HTTP checks. No actual pilot writes or password resets. Final52 read-only pilot checks passed after root restart on8000; all pilot records remained unchanged. See verification/PROJECT_CLEANUP_2026-11-11.md for exact retained resources, commands and limitations. Main project artifacts were relocated to the protected external archive, preserving current source/private data. Actual participant-password login, real-device/400%-zoom/screen-reader acceptance and controlled real-pilot SQL restore are not claimed by these checks.
+
 # KaAklat test plan
 
 ## Maintained-source pilot consolidation — 2026-11-11
@@ -254,10 +278,6 @@ Evidence path (no secrets/private borrower data):
 Issue and next action:
 ```
 
-## Research PDF checks — 2026-10-31
-
-PASS: revised PDF has 16 pages; original cover and TOC render identically; contents text/page numbers/bookmark hierarchy preserved; all original university headers and centered page numbers preserved. All 23 internal TOC annotations and 22 bookmark destinations verified against actual heading text. All pages rendered and visually reviewed, with no body overflow. Evidence: output/pdf/verification.json and REVISION_NOTES.md. Not run: manual clicks in every PDF viewer, formal participant evaluation. No application tests rerun because application code/data were unchanged.
-
 ## Librarian decisions verification — 2026-10-31
 
 Command: C:\php-8.4.14\php.exe tests/run_regression.php — PASS, 13 scripts, connection-local temporary fixtures.
@@ -451,11 +471,6 @@ Tests first: catalog_status_test.php failed before implementation because label 
 
 Actual IAB student fixture at1440px and360px: all four labels, no horizontal overflow/clipping; desktop/mobile screenshots inspected. Pending fixture with no requests and librarian/admin showed zero labels at360px. Temporary viewport reset; port8036 preview stopped. No real-device/screen-reader/400%-zoom/explicit JS-disabled browser, load benchmark, concurrency or hosting rerun for this read-only increment. Prior pagination checks remain in suite. No commit/push; unrelated manifest and prior uncommitted pagination work preserved.
 
-### Separate Chapters 1 and 2 document — 2026-11-09
-Created output/documents/KaAklat_Chapters_1_2.docx from the user-supplied SE1 System/KaAklat_Chapters_1_2_3_Methodology_Revised.docx. Preserved title page, school header, chapter text and figure; excluded Chapter 3 and later material. Added a real Word TOC restricted to Chapters 1–2 and refreshed it in Microsoft Word. Verified all internal TOC links resolve, chapter text matches the source, header appears on all 12 pages, and all 12 rendered pages were visually inspected. Removed a trailing blank page. Packaged renderer failed because LibreOffice is absent; used Word PDF export and bundled Poppler for visual QA instead. Original file untouched; no application tests needed or run. Next: user/adviser review of the separate copy.
-
-### Synthesis and contextual research gap — 2026-11-09
-Applied the user-approved shorter synthesis and explicit contextual research gap to output/documents/KaAklat_Chapters_1_2.docx. Exactly three synthesis paragraphs replaced; preceding text verified unchanged. Word refreshed TOC page numbers and exported 12 pages; bundled Poppler rendered all pages. Pixel comparison found changes only on pages 2, 11 and 12, which were visually reviewed; remaining pages matched prior reviewed renders. Internal TOC anchors resolve and all pages retain the school header. Original three-chapter document unchanged; pre-edit extract retained at tmp/chapters12/before_synthesis.docx. No application tests run for this document-only edit. Next: adviser review of gap wording.
 
 ## Local catalog performance — 2026-11-10
 
@@ -466,11 +481,3 @@ Verified exact fixture counts, independent authenticated identities, unique cook
 ## Follow-up keyboard report — 2026-11-10
 
 After prior user-reported passes, user reported difficulty browsing Appearance with a keyboard. Native radio-group behavior (Tab into group; arrow keys between choices) was explained. No new defect confirmed and no fix applied; user confirmation is pending. Earlier acceptance is historical and does not resolve this later report.
-
-### References for Chapters 1 and 2 — 2026-11-11
-Created output/documents/KaAklat_Chapters_1_2_With_References.docx because the existing extract was locked for writing. Added 19 cited bibliography entries copied from the supplied three-chapter original, excluding uncited ISO 2011 and WCAG entries. Preserved the shortened synthesis and school header. Word refreshed the TOC, now including References on numbered page 11; final length 14 physical pages. Word export and bundled Poppler rendering passed; original 12 pages pixel-identical except updated TOC; contents and two reference pages visually reviewed. Source bibliographic claims/URLs transferred, not independently researched. Initial in-place write failed due to lock; separate copy succeeded. No application changes/tests. Next: use the new copy for review.
-
-### Conceptual framework arrow visibility — 2026-11-11
-Created output/documents/KaAklat_Chapters_1_2_Clear_Arrows.docx and companion KaAklat_Conceptual_Framework_Clear_Arrows.png. Built-in image editing darkened the two forward arrows and output-to-input feedback loop; labels visually verified. Prompt requested exact existing wording/layout/pastel boxes with bold charcoal arrows only. DOCX ZIP comparison confirms only word/media/image2.png changed; original references copy preserved. Word export remained 14 pages; page text matches after excluding PDF extraction whitespace. Exact pixel comparison failed due to minor text rendering differences; this is not reported as pixel-identical. Conceptual framework rendered page inspected and arrow visibility confirmed. No application change/tests. Next: review the updated copy.
-
-Consolidation final syntax/docs:109 PHP lints,33 README links/anchors, root PowerShell parse, old-launcher resolution and whitespace PASS. No pilot database write occurred in these checks.

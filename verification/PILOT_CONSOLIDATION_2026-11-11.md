@@ -1,5 +1,7 @@
 # Single-source pilot consolidation — 2026-11-11 (Asia/Manila)
 
+> Current location update: subsequent authorized cleanup relocated the old pilot/rollback snapshots and earlier backups into the protected external archive. Source consolidation is saved in local commit412e40a. Historical paths and no-commit statements below describe the earlier checkpoint. Use the root launcher and see [cleanup evidence](PROJECT_CLEANUP_2026-11-11.md) for current paths.
+
 ## Authorization and resulting runtime
 
 User authorized all steps to consolidate into the maintained main repository while retaining only the existing pilot data as active data. No demo import/merge, account reset, database deletion, commit/push or hosting requested/executed.

@@ -56,15 +56,14 @@ try {
         if ($book) {
             $content .= '<section class="management-section"><h2>Copies</h2><p>' . h($book['available_copies']) . ' available of ' . h($book['total_copies']) . ' active copies.</p><form method="post">' . $token . $bookField . '<input type="hidden" name="action" value="add_copies"><label for="extra">Add copies (1–100)</label><input id="extra" type="number" name="quantity" min="1" max="100" value="1" required><button>Add copies</button></form>';
             $copyPage = filter_var($_GET['copies_page'] ?? 1, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 10000]]) ?: 1;
-            $copies = $pdo->prepare('SELECT copy_id, copy_code, archived_at FROM book_copies WHERE book_id = ? ORDER BY copy_id LIMIT 51 OFFSET ' . (($copyPage - 1) * 50));
-            $copies->execute([$id]); $rows = $copies->fetchAll();
+            $rows = pagination_rows($pdo, 'SELECT copy_id, copy_code, archived_at FROM book_copies WHERE book_id = ?', [$id], 'copy_id', $copyPage, 50, $copyPagination);
+            $copyPage = $copyPagination['page'];
             foreach (array_slice($rows, 0, 50) as $copy) {
                 $content .= '<article class="student-card"><p>Copy ' . h($copy['copy_code']) . ($copy['archived_at'] ? ' · Archived' : '') . '</p>';
                 if (!$copy['archived_at']) { $content .= '<form method="post">' . $token . $bookField . '<input type="hidden" name="action" value="archive_copy"><input type="hidden" name="copy_id" value="' . h($copy['copy_id']) . '"><p>Archiving removes this copy from circulation while preserving history.</p><button class="button-danger" aria-label="' . h('Archive copy ' . $copy['copy_code'] . ' of ' . $book['title']) . '">Archive this copy</button></form>'; }
                 $content .= '</article>';
             }
-            if ($copyPage > 1) { $content .= '<a href="?id=' . h($id) . '&amp;copies_page=' . ($copyPage - 1) . '">Previous copies</a> '; }
-            if (count($rows) > 50) { $content .= '<a href="?id=' . h($id) . '&amp;copies_page=' . ($copyPage + 1) . '">Next copies</a>'; }
+            $content .= pagination_html($copyPagination, static fn(int $target): string => '?'.http_build_query(['id'=>$id,'copies_page'=>$target]), 'Copy pages', 'copies');
             $content .= '</section><section class="management-section"><h2>Replace cover</h2>' . catalog_cover_html($book) . '<form method="post" enctype="multipart/form-data">' . $token . $bookField . '<input type="hidden" name="action" value="cover"><label for="replacement">New JPEG or PNG cover</label><input id="replacement" type="file" name="cover" accept="image/jpeg,image/png" required><p>Maximum 2 MB and 4000 × 4000 pixels. Your existing cover stays until the replacement saves successfully.</p><button>Replace cover</button></form></section>'
                 . '<section class="management-section"><h2>Archive book</h2><p>Remove this title from browsing while preserving its copies and history. Resolve pending requests and outstanding allocations first.</p><form method="post">' . $token . $bookField . '<input type="hidden" name="action" value="archive_book"><button class="button-danger" aria-label="' . h('Archive book ' . $book['title']) . '">Archive this book</button></form></section>';
         }
@@ -74,8 +73,7 @@ try {
         $content .= '<form method="get"><label for="q">Find a book to manage</label><input id="q" name="q" maxlength="100" value="' . h($query) . '"><button>Search</button></form>';
         foreach ($results['books'] as $row) { $content .= '<article class="student-card"><div><h2>' . h($row['title']) . '</h2><p>' . h($row['authors']) . '</p></div><a class="button" href="?id=' . h($row['book_id']) . '">Manage book</a></article>'; }
         if ($results['books'] === []) { $content .= '<p>No books found.</p>'; }
-        if ($page > 1) { $content .= '<a href="?' . h(http_build_query(['q' => $query, 'page' => $page - 1])) . '">Previous</a> '; }
-        if ($results['has_next']) { $content .= '<a href="?' . h(http_build_query(['q' => $query, 'page' => $page + 1])) . '">Next</a>'; }
+        $content .= pagination_html($results, static fn(int $target): string => '?'.http_build_query(['q'=>$query,'page'=>$target]), 'Managed book pages', 'books');
     }
     render_page('Manage books', $content . '</section>');
 } catch (DomainException $exception) {

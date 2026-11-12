@@ -1,0 +1,591 @@
+[
+  {
+    "key": "pg-103",
+    "category": "Adventure",
+    "title": "Around the World in Eighty Days",
+    "authors": [
+      "Jules Verne"
+    ],
+    "publication_year": 1872,
+    "description": "Phileas Fogg and his companion Passepartout race across continents to win a wager, confronting delays, danger and a persistent detective.",
+    "source": "https://www.gutenberg.org/ebooks/103",
+    "cover_source": "https://www.gutenberg.org/cache/epub/103/pg103.cover.medium.jpg",
+    "cover_file": "pg-103.jpg",
+    "cover_sha256": "d7faeb7fae930f2bcbc36161c774a915c60e80a1f2d8788de5e236f7fe24bfd6",
+    "quantity": 4
+  },
+  {
+    "key": "pg-2166",
+    "category": "Adventure",
+    "title": "King Solomon's Mines",
+    "authors": [
+      "H. Rider Haggard"
+    ],
+    "publication_year": 1885,
+    "description": "Allan Quatermain guides an expedition across southern Africa in search of a missing man and a legendary treasure, encountering a hidden kingdom and a struggle for power.",
+    "source": "https://www.gutenberg.org/ebooks/2166",
+    "cover_source": "https://www.gutenberg.org/cache/epub/2166/pg2166.cover.medium.jpg",
+    "cover_file": "pg-2166.jpg",
+    "cover_sha256": "f560412c60ddc763c10f72a2effc54d4c3efb9e8332fd1968bd627ecdcafe58d",
+    "quantity": 2
+  },
+  {
+    "key": "pg-1874",
+    "category": "Children's Fiction",
+    "title": "The Railway Children",
+    "authors": [
+      "E. Nesbit"
+    ],
+    "publication_year": 1906,
+    "description": "After a family crisis, three siblings move to the countryside and form friendships with railway workers and passengers while hoping for their father to return.",
+    "source": "https://www.gutenberg.org/ebooks/1874",
+    "cover_source": "https://www.gutenberg.org/cache/epub/1874/pg1874.cover.medium.jpg",
+    "cover_file": "pg-1874.jpg",
+    "cover_sha256": "0bcb58f6da4a5a9e6f99fa1a73cf591edf0898e08e116e5a4c90e1115c5697f0",
+    "quantity": 3
+  },
+  {
+    "key": "pg-146",
+    "category": "Children's Fiction",
+    "title": "A Little Princess",
+    "authors": [
+      "Frances Hodgson Burnett"
+    ],
+    "publication_year": 1905,
+    "description": "Sara Crewe loses her privileged place at a boarding school and faces poverty and mistreatment, relying on imagination, friendship and kindness to endure.",
+    "source": "https://www.gutenberg.org/ebooks/146",
+    "cover_source": "https://www.gutenberg.org/cache/epub/146/pg146.cover.medium.jpg",
+    "cover_file": "pg-146.jpg",
+    "cover_sha256": "e462a73c353f6d59b93823f1b6ccb7dcd9d719a37847bec368cc8e651ff6acc4",
+    "quantity": 5
+  },
+  {
+    "key": "pg-145",
+    "category": "Classic Fiction",
+    "title": "Middlemarch",
+    "authors": [
+      "George Eliot"
+    ],
+    "publication_year": 1871,
+    "description": "The ambitions and marriages of residents in a provincial English town intertwine as Dorothea Brooke and Tertius Lydgate confront social expectations and disappointed ideals.",
+    "source": "https://www.gutenberg.org/ebooks/145",
+    "cover_source": "https://www.gutenberg.org/cache/epub/145/pg145.cover.medium.jpg",
+    "cover_file": "pg-145.jpg",
+    "cover_sha256": "bdae96f69544e72aa484c12606e2a35f98855c103c03017ea6bb30a618e011f8",
+    "quantity": 4
+  },
+  {
+    "key": "pg-6688",
+    "category": "Classic Fiction",
+    "title": "The Mill on the Floss",
+    "authors": [
+      "George Eliot"
+    ],
+    "publication_year": 1860,
+    "description": "Maggie and Tom Tulliver grow up beside their family mill, where financial hardship, sibling loyalty and conflicting expectations shape their adult lives.",
+    "source": "https://www.gutenberg.org/ebooks/6688",
+    "cover_source": "https://www.gutenberg.org/cache/epub/6688/pg6688.cover.medium.jpg",
+    "cover_file": "pg-6688.jpg",
+    "cover_sha256": "7a77e4f61c10405663a3482539e7307114d8b080b9abad7d7a7f245aeb2dc5f3",
+    "quantity": 4
+  },
+  {
+    "key": "pg-766",
+    "category": "Coming of Age",
+    "title": "David Copperfield",
+    "authors": [
+      "Charles Dickens"
+    ],
+    "publication_year": 1849,
+    "description": "David recounts his difficult childhood, schooling, work and relationships as he grows toward independence and discovers the people and values that shape his life.",
+    "source": "https://www.gutenberg.org/ebooks/766",
+    "cover_source": "https://www.gutenberg.org/cache/epub/766/pg766.cover.medium.jpg",
+    "cover_file": "pg-766.jpg",
+    "cover_sha256": "1ddcba772a15dc36f0d1937053f20f0cdcb6feac56442e4b0315036a49a1a1ac",
+    "quantity": 3
+  },
+  {
+    "key": "pg-498",
+    "category": "Coming of Age",
+    "title": "Rebecca of Sunnybrook Farm",
+    "authors": [
+      "Kate Douglas Wiggin"
+    ],
+    "publication_year": 1903,
+    "description": "An imaginative girl leaves her large family to live with two aunts in Maine, where school, friendship and strict expectations guide her growth into a young woman.",
+    "source": "https://www.gutenberg.org/ebooks/498",
+    "cover_source": "https://www.gutenberg.org/cache/epub/498/pg498.cover.medium.jpg",
+    "cover_file": "pg-498.jpg",
+    "cover_sha256": "213c15df7fece7b92d48cb16260124ce3cba3e1adb54a5443467f98ad76ce675",
+    "quantity": 3
+  },
+  {
+    "key": "pg-325",
+    "category": "Fantasy",
+    "title": "Phantastes: A Faerie Romance for Men and Women",
+    "authors": [
+      "George MacDonald"
+    ],
+    "publication_year": 1858,
+    "description": "Anodos enters a shifting fairy world of enchanted forests, strange companions and unsettling trials, undertaking a dreamlike journey of desire and self-discovery.",
+    "source": "https://www.gutenberg.org/ebooks/325",
+    "cover_source": "https://www.gutenberg.org/cache/epub/325/pg325.cover.medium.jpg",
+    "cover_file": "pg-325.jpg",
+    "cover_sha256": "611b34dd1fa6deed53b9d5a527a5ea62294a52add98e863bea404791e1f86454",
+    "quantity": 2
+  },
+  {
+    "key": "pg-708",
+    "category": "Fantasy",
+    "title": "The Princess and the Goblin",
+    "authors": [
+      "George MacDonald"
+    ],
+    "publication_year": 1872,
+    "description": "Princess Irene and the miner Curdie become allies when underground goblins threaten her mountain kingdom, with a mysterious grandmother offering unexpected guidance.",
+    "source": "https://www.gutenberg.org/ebooks/708",
+    "cover_source": "https://www.gutenberg.org/cache/epub/708/pg708.cover.medium.jpg",
+    "cover_file": "pg-708.jpg",
+    "cover_sha256": "9e81e9ad2fff985ad0669b5e4b7cb65078d5ec5946d831d5bcd94298901ffd15",
+    "quantity": 3
+  },
+  {
+    "key": "pg-43",
+    "category": "Gothic Fiction",
+    "title": "The Strange Case of Dr. Jekyll and Mr. Hyde",
+    "authors": [
+      "Robert Louis Stevenson"
+    ],
+    "publication_year": 1886,
+    "description": "A London lawyer investigates the connection between a respected physician and a violent stranger, uncovering a troubling experiment in identity and moral responsibility.",
+    "source": "https://www.gutenberg.org/ebooks/43",
+    "cover_source": "https://www.gutenberg.org/cache/epub/43/pg43.cover.medium.jpg",
+    "cover_file": "pg-43.jpg",
+    "cover_sha256": "1c47d6b76a234db646ea32eabcc4f2fb2eab496bf8fe2cdf7dc6099bb1d7085f",
+    "quantity": 4
+  },
+  {
+    "key": "pg-696",
+    "category": "Gothic Fiction",
+    "title": "The Castle of Otranto",
+    "authors": [
+      "Horace Walpole"
+    ],
+    "publication_year": 1764,
+    "description": "A ruler attempts to secure his dynasty after a bizarre death at his castle, while supernatural events and concealed family histories threaten his plans.",
+    "source": "https://www.gutenberg.org/ebooks/696",
+    "cover_source": "https://www.gutenberg.org/cache/epub/696/pg696.cover.medium.jpg",
+    "cover_file": "pg-696.jpg",
+    "cover_sha256": "0e11c52a66c0bc136c50b0efbe432ec69f43070cb8616ccb31a46679b13902b0",
+    "quantity": 3
+  },
+  {
+    "key": "pg-82",
+    "category": "Historical Fiction",
+    "title": "Ivanhoe",
+    "authors": [
+      "Walter Scott"
+    ],
+    "publication_year": 1819,
+    "description": "In medieval England, a disinherited Saxon knight becomes entangled in tournaments, captivity and political conflict during the reign of Richard the Lionheart.",
+    "source": "https://www.gutenberg.org/ebooks/82",
+    "cover_source": "https://www.gutenberg.org/cache/epub/82/pg82.cover.medium.jpg",
+    "cover_file": "pg-82.jpg",
+    "cover_sha256": "dcd3016f43c151f42dc74c0f841815bf27911b29b8854008adc7bd04b43d8bca",
+    "quantity": 4
+  },
+  {
+    "key": "pg-1184",
+    "category": "Historical Fiction",
+    "title": "The Count of Monte Cristo",
+    "authors": [
+      "Alexandre Dumas",
+      "Auguste Maquet"
+    ],
+    "publication_year": 1844,
+    "description": "Wrongfully imprisoned Edmond Dantes escapes and acquires a fortune, then returns to post-Napoleonic French society with an elaborate plan against those who betrayed him.",
+    "source": "https://www.gutenberg.org/ebooks/1184",
+    "cover_source": "https://www.gutenberg.org/cache/epub/1184/pg1184.cover.medium.jpg",
+    "cover_file": "pg-1184.jpg",
+    "cover_sha256": "3b01316ac0d20a17ad711f9b6270b6ee36b79deca7e78504d773caffae401777",
+    "quantity": 5
+  },
+  {
+    "key": "pg-244",
+    "category": "Mystery",
+    "title": "A Study in Scarlet",
+    "authors": [
+      "Arthur Conan Doyle"
+    ],
+    "publication_year": 1887,
+    "description": "Dr. Watson meets Sherlock Holmes and joins his investigation into a London murder whose apparently inexplicable clues connect to a long-hidden history.",
+    "source": "https://www.gutenberg.org/ebooks/244",
+    "cover_source": "https://www.gutenberg.org/cache/epub/244/pg244.cover.medium.jpg",
+    "cover_file": "pg-244.jpg",
+    "cover_sha256": "7504dca37cc2deac2873fac128e84ddc924ac447ae24572f9be45b3ce12b057c",
+    "quantity": 3
+  },
+  {
+    "key": "pg-2852",
+    "category": "Mystery",
+    "title": "The Hound of the Baskervilles",
+    "authors": [
+      "Arthur Conan Doyle"
+    ],
+    "publication_year": 1901,
+    "description": "Holmes and Watson examine a suspicious death and threats against a family heir on Dartmoor, separating a terrifying legend from human motives.",
+    "source": "https://www.gutenberg.org/ebooks/2852",
+    "cover_source": "https://www.gutenberg.org/cache/epub/2852/pg2852.cover.medium.jpg",
+    "cover_file": "pg-2852.jpg",
+    "cover_sha256": "9d41aae1480938bf067d77aaff78c02fa74af112b6ef9af2ba1db4125ca2b0f5",
+    "quantity": 2
+  },
+  {
+    "key": "pg-158",
+    "category": "Romance",
+    "title": "Emma",
+    "authors": [
+      "Jane Austen"
+    ],
+    "publication_year": 1815,
+    "description": "Emma Woodhouse believes she understands everyone else's romantic prospects, but her matchmaking in Highbury exposes mistaken judgments and her own unrecognized feelings.",
+    "source": "https://www.gutenberg.org/ebooks/158",
+    "cover_source": "https://www.gutenberg.org/cache/epub/158/pg158.cover.medium.jpg",
+    "cover_file": "pg-158.jpg",
+    "cover_sha256": "aa9574501133bd882931c287a0b88ed11b258f7f1ce2012176ca4234b97f0545",
+    "quantity": 4
+  },
+  {
+    "key": "pg-161",
+    "category": "Romance",
+    "title": "Sense and Sensibility",
+    "authors": [
+      "Jane Austen"
+    ],
+    "publication_year": 1811,
+    "description": "Elinor and Marianne Dashwood navigate reduced circumstances, uncertain courtships and disappointment, testing the balance between emotional openness and careful judgment.",
+    "source": "https://www.gutenberg.org/ebooks/161",
+    "cover_source": "https://www.gutenberg.org/cache/epub/161/pg161.cover.medium.jpg",
+    "cover_file": "pg-161.jpg",
+    "cover_sha256": "da850e7d4b58ad7149d48877779c514bfbcf1b94b95cfc72fc36d84426fff46f",
+    "quantity": 4
+  },
+  {
+    "key": "pg-36",
+    "category": "Science Fiction",
+    "title": "The War of the Worlds",
+    "authors": [
+      "H. G. Wells"
+    ],
+    "publication_year": 1898,
+    "description": "An unnamed narrator struggles through southern England as an invasion from Mars overwhelms human defenses and transforms ordinary life into a fight for survival.",
+    "source": "https://www.gutenberg.org/ebooks/36",
+    "cover_source": "https://www.gutenberg.org/cache/epub/36/pg36.cover.medium.jpg",
+    "cover_file": "pg-36.jpg",
+    "cover_sha256": "015b7b51d28c908510717d52eb00cb04bbe1941265ce9dd0e6bf8ac382457e1a",
+    "quantity": 3
+  },
+  {
+    "key": "pg-18857",
+    "category": "Science Fiction",
+    "title": "A Journey to the Centre of the Earth",
+    "authors": [
+      "Jules Verne"
+    ],
+    "publication_year": 1864,
+    "description": "A professor, his nephew and their guide descend through an Icelandic volcano, following an old manuscript into a fantastic subterranean world.",
+    "source": "https://www.gutenberg.org/ebooks/18857",
+    "cover_source": "https://www.gutenberg.org/cache/epub/18857/pg18857.cover.medium.jpg",
+    "cover_file": "pg-18857.jpg",
+    "cover_sha256": "be1297503cd030ff54e7a5a2017ace2cbd62dbbb72a2e5e42b6b536945afff60",
+    "quantity": 3
+  },
+  {
+    "key": "businessethics",
+    "category": "Accountancy / Business",
+    "title": "Business Ethics",
+    "authors": [
+      "Stephen M. Byars",
+      "Kurt Stanberry"
+    ],
+    "publication_year": 2018,
+    "description": "Examines how ethical reasoning informs business decisions, covering stakeholders, corporate responsibility, workplace obligations and the tensions between profit and public interests.",
+    "source": "https://openstax.org/details/books/business-ethics",
+    "cover_source": "https://assets.openstax.org/oscms-prodcms/media/documents/business_ethics_card.svg",
+    "cover_file": "businessethics.jpg",
+    "cover_sha256": "6a3c8334bbf07a705dcee42c7208f07a32f9b8085e598a47958a801cc30850f5",
+    "quantity": 4
+  },
+  {
+    "key": "marketing",
+    "category": "Accountancy / Business",
+    "title": "Principles of Marketing",
+    "authors": [
+      "Maria Gomez Albrecht",
+      "Mark Green",
+      "Linda Hoffman"
+    ],
+    "publication_year": 2023,
+    "description": "Introduces customer-focused marketing through research, segmentation, branding, pricing, distribution and promotion, with attention to digital channels and ethical decisions.",
+    "source": "https://openstax.org/details/books/principles-marketing",
+    "cover_source": "https://assets.openstax.org/oscms-prodcms/media/documents/principles.marketing.web.card.svg",
+    "cover_file": "marketing.jpg",
+    "cover_sha256": "6091f2e84e05278a67d3d54f3d0d96a5b7d7ef906b40ca38f0053d4ecefb6da8",
+    "quantity": 5
+  },
+  {
+    "key": "calculus",
+    "category": "Engineering",
+    "title": "Calculus Volume 2",
+    "authors": [
+      "Gilbert Strang",
+      "Edwin “Jed” Herman"
+    ],
+    "publication_year": 2016,
+    "description": "Develops integral calculus, techniques and applications of integration, sequences, series, and parametric and polar representations for further mathematical and engineering study.",
+    "source": "https://openstax.org/details/books/calculus-volume-2",
+    "cover_source": "https://assets.openstax.org/oscms-prodcms/media/documents/calculus-v2.svg",
+    "cover_file": "calculus.jpg",
+    "cover_sha256": "0d6c899083d8959d6bb6534ef4142ed1213ffc93db1149d489e79473d26ae9f0",
+    "quantity": 2
+  },
+  {
+    "key": "physics",
+    "category": "Engineering",
+    "title": "University Physics Volume 2",
+    "authors": [
+      "Samuel J. Ling",
+      "William Moebs",
+      "Jeff Sanny"
+    ],
+    "publication_year": 2016,
+    "description": "Develops calculus-based thermodynamics, electricity and magnetism, connecting mathematical models with worked examples and physical applications.",
+    "source": "https://openstax.org/details/books/university-physics-volume-2",
+    "cover_source": "https://assets.openstax.org/oscms-prodcms/media/documents/university_physics_volume_2_web_card.svg",
+    "cover_file": "physics.jpg",
+    "cover_sha256": "8f62439650927d99b5d030cefefc06abb52ddfc8f4ae670c2bae3c86f7241b92",
+    "quantity": 4
+  },
+  {
+    "key": "ethics",
+    "category": "Criminology",
+    "title": "Ethics in Law Enforcement",
+    "authors": [
+      "Steve McCartney",
+      "Rick Parent"
+    ],
+    "publication_year": 2015,
+    "description": "Introduces ethical theories and professional accountability in policing, using issues such as discretion, authority, loyalty and investigative conduct. Its legal examples focus on Canada.",
+    "source": "https://opentextbc.ca/ethicsinlawenforcement/",
+    "cover_source": "https://opentextbc.ca/ethicsinlawenforcement/wp-content/uploads/sites/77/2022/12/OTB076-01-Ethics-in-Law-Enforcement-COVER-STORE.jpg",
+    "cover_file": "ethics.jpg",
+    "cover_sha256": "af83085e3d131c33a8f01fe1e31abfdf25e615f41efd4cec3ad53453c6f14206",
+    "quantity": 3
+  },
+  {
+    "key": "investigation",
+    "category": "Criminology",
+    "title": "Introduction to Criminal Investigation: Processes, Practices and Thinking",
+    "authors": [
+      "Rod Gehl",
+      "Darryl Plecas"
+    ],
+    "publication_year": 2017,
+    "description": "Explains investigative reasoning alongside incident response, evidence handling, witness management, interviews and crime-scene practice. Canadian examples illustrate methods rather than Philippine legal procedure.",
+    "source": "https://pressbooks.bccampus.ca/criminalinvestigation/",
+    "cover_source": "https://pressbooks.bccampus.ca/criminalinvestigation/wp-content/uploads/sites/162/2017/08/cover.jpg",
+    "cover_file": "investigation.jpg",
+    "cover_sha256": "be3c44f4f6d4348c9065cf97589bf4f1df4b0ddd62e38774129685ab680e7be5",
+    "quantity": 4
+  },
+  {
+    "key": "hospitalityhr",
+    "category": "Hospitality Management",
+    "title": "Human Resources in the Food Service and Hospitality Industry",
+    "authors": [
+      "The BC Cook Articulation Committee"
+    ],
+    "publication_year": 2015,
+    "description": "Introduces hospitality staffing through recruitment, job analysis, employee development, performance management, compensation and workplace safety. Employment-law examples refer to British Columbia.",
+    "source": "https://opentextbc.ca/humanresourcesinfoodservices/",
+    "cover_source": "https://opentextbc.ca/humanresourcesinfoodservices/wp-content/uploads/sites/116/2022/12/OTB084-01-Human-Resources-in-the-Food-Service-and-Hospitality-Industry-COVER-STORE.jpg",
+    "cover_file": "hospitalityhr.jpg",
+    "cover_sha256": "13c09019209bfc0e21316d6713545486bd31f83f9a7b0ad5a4aaee09e763584e",
+    "quantity": 4
+  },
+  {
+    "key": "foodservice",
+    "category": "Hospitality Management",
+    "title": "Working in the Food Service Industry",
+    "authors": [
+      "The BC Cook Articulation Committee"
+    ],
+    "publication_year": 2015,
+    "description": "Covers professionalism, food-service occupations, communication, teamwork, time management and job-search skills, with employment-standards examples from British Columbia.",
+    "source": "https://opentextbc.ca/workinginfoodserviceindustry/",
+    "cover_source": "https://opentextbc.ca/workinginfoodserviceindustry/wp-content/uploads/sites/119/2022/12/OTB086-01-Working-in-the-Food-Service-Industry-COVER-STORE.jpg",
+    "cover_file": "foodservice.jpg",
+    "cover_sha256": "0062d21e294a27e368e8bc0ec4380d076630c7e51fc0d66abecbb4acb33b0e9d",
+    "quantity": 3
+  },
+  {
+    "key": "digitalteaching",
+    "category": "Education",
+    "title": "Teaching in a Digital Age",
+    "authors": [
+      "A. W. (Tony) Bates"
+    ],
+    "publication_year": 2015,
+    "description": "Offers a framework for choosing teaching methods and educational technologies, connecting learning theories, course design, media selection and support for digital learners.",
+    "source": "https://opentextbc.ca/teachinginadigitalage/",
+    "cover_source": "https://opentextbc.ca/teachinginadigitalage/wp-content/uploads/sites/29/2016/09/BatesCover-No-WM.jpg",
+    "cover_file": "digitalteaching.jpg",
+    "cover_sha256": "2b5590115d1e7a2271336388beef3397dde53cc3167dd48010e5b165d85b1881",
+    "quantity": 2
+  },
+  {
+    "key": "crowds",
+    "category": "Education",
+    "title": "Teaching Crowds: Learning and Social Media",
+    "authors": [
+      "Jon Dron",
+      "Terry Anderson"
+    ],
+    "publication_year": 2014,
+    "description": "Explores how people learn through groups, networks and online communities, examining social software and approaches to designing connected educational experiences.",
+    "source": "https://www.aupress.ca/books/120235-teaching-crowds/",
+    "cover_source": "https://www.aupress.ca/app/uploads/120235_Teaching-Crowds-cover-400x600.jpg",
+    "cover_file": "crowds.jpg",
+    "cover_sha256": "466a16b7578361b57eb3a154648f25a226f4ca922e4fd59fd9030fb5eccc50ab",
+    "quantity": 2
+  },
+  {
+    "key": "music",
+    "category": "Arts",
+    "title": "Understanding Music: Past and Present",
+    "authors": [
+      "N. Alan Clark",
+      "Thomas Heflin",
+      "Jeffrey Kluball",
+      "Elizabeth Kramer"
+    ],
+    "publication_year": 2015,
+    "description": "Introduces musical elements and listening skills, then surveys Western music from early traditions to modern styles and popular music in the United States.",
+    "source": "https://ung.edu/university-press/books/understanding-music-past-and-present.php",
+    "cover_source": "https://ung.edu/university-press/_uploads/images/book-covers/understanding-music-450-675.jpg",
+    "cover_file": "music.jpg",
+    "cover_sha256": "2d17f3b143e630c54f3a9c76fb10baaa8a6a7dec4271cd69dba0f68afd1b0e38",
+    "quantity": 5
+  },
+  {
+    "key": "resonances",
+    "category": "Arts",
+    "title": "Resonances: Engaging Music in Its Cultural Context",
+    "authors": [
+      "Esther M. Morgan-Ellis"
+    ],
+    "publication_year": 2020,
+    "description": "Explores music through its social purposes, including storytelling, political expression, spirituality, dance and entertainment, drawing examples from classical, popular and folk traditions.",
+    "source": "https://ung.edu/university-press/books/resonances-engaging-music.php",
+    "cover_source": "https://ung.edu/university-press/_uploads/images/book-covers/resonance-engaging-music-450x675.jpg",
+    "cover_file": "resonances.jpg",
+    "cover_sha256": "2479980d172a63fddab2516006b8350d419f272e81b7293f0c5928b56c2a1c48",
+    "quantity": 3
+  },
+  {
+    "key": "python",
+    "category": "Information Technology / Computer Science",
+    "title": "Think Python: How to Think Like a Computer Scientist (2nd Edition)",
+    "authors": [
+      "Allen B. Downey"
+    ],
+    "publication_year": 2015,
+    "description": "Builds introductory Python programming skills through functions, iteration, recursion, data structures and object-oriented design, with progressively developed examples and exercises.",
+    "source": "https://greenteapress.com/wp/think-python-2e/",
+    "cover_source": "https://greenteapress.com/thinkpython2/think_python2_medium.jpg",
+    "cover_file": "python.jpg",
+    "cover_sha256": "15312d35b90c06dc052eec49eeb094a1500bea86706eea98e293768b8dd15d3d",
+    "quantity": 2
+  },
+  {
+    "key": "java",
+    "category": "Information Technology / Computer Science",
+    "title": "Think Java: How to Think Like a Computer Scientist",
+    "authors": [
+      "Allen B. Downey",
+      "Chris Mayfield"
+    ],
+    "publication_year": 2016,
+    "description": "Introduces programming and computer science using Java, progressing from variables and control flow to methods, arrays, recursion and object-oriented problem solving.",
+    "source": "https://greenteapress.com/wp/think-java/",
+    "cover_source": "https://greenteapress.com/wp/wp-content/uploads/2016/01/think_java_cover-229x300.jpg",
+    "cover_file": "java.jpg",
+    "cover_sha256": "17b8ad7cb9cca0d0ba499dadbd7ab3b4a73ebaad097df3f02ac9bab501cee8cd",
+    "quantity": 3
+  },
+  {
+    "key": "socialpsych",
+    "category": "Psychology",
+    "title": "Principles of Social Psychology: 1st International Edition",
+    "authors": [
+      "Rajiv Jhangiani",
+      "Hammond Tarry",
+      "Charles Stangor"
+    ],
+    "publication_year": 2014,
+    "description": "Introduces social cognition, attitudes, identity, relationships, group processes and intergroup behavior through research and practical examples. This version adds interactive activities to the international edition.",
+    "source": "https://opentextbc.ca/socialpsychology/",
+    "cover_source": "https://opentextbc.ca/socialpsychology/wp-content/uploads/sites/21/2023/01/OTB025-03-Principles-of-Social-Psychology-1st-International-H5P-Edition-STORE.jpg",
+    "cover_file": "socialpsych.jpg",
+    "cover_sha256": "b61433e4ba13e26bd7cad48a35f03634dbfd11b90effa8820ed7c5facae5ef69",
+    "quantity": 3
+  },
+  {
+    "key": "disorders",
+    "category": "Psychology",
+    "title": "Fundamentals of Psychological Disorders",
+    "authors": [
+      "Alexis Bridley",
+      "Lee W. Daffin Jr."
+    ],
+    "publication_year": 2018,
+    "description": "Introduces approaches to classification, assessment and treatment of psychological disorders, followed by disorder-focused modules. The linked fourth edition reflects DSM-5-TR terminology.",
+    "source": "https://wsu.pressbooks.pub/abnormal-psych/",
+    "cover_source": "https://wsu.pressbooks.pub/app/uploads/sites/41/2026/08/Fundamentals-of-Psychological-Disorders-OER-Title-Page-4th-ed-2.jpg",
+    "cover_file": "disorders.jpg",
+    "cover_sha256": "efa38cd252c6ca9d5e7b04e9f313046c3c53ba0a7b811488bb0c8a9285fd1bbd",
+    "quantity": 2
+  },
+  {
+    "key": "nursingfund",
+    "category": "Nursing",
+    "title": "Nursing Fundamentals",
+    "authors": [
+      "Kimberly Ernstmeyer",
+      "Elizabeth Christman"
+    ],
+    "publication_year": 2021,
+    "description": "Introduces nursing practice, communication, clinical judgment and patient-care concepts using the nursing process. The second edition aligns examples with the Wisconsin nursing curriculum and updated exam frameworks.",
+    "source": "https://www.ncbi.nlm.nih.gov/sites/books/NBK591823/?report=reader",
+    "cover_source": "https://wtcs.pressbooks.pub/app/uploads/sites/31/2025/03/Fundies-1.png",
+    "cover_file": "nursingfund.jpg",
+    "cover_sha256": "c023b70b87736cce2e4a9305526422c598d2547624172360ab27f1bd5f2f6eef",
+    "quantity": 4
+  },
+  {
+    "key": "nursingskills",
+    "category": "Nursing",
+    "title": "Nursing Skills",
+    "authors": [
+      "Kimberly Ernstmeyer",
+      "Elizabeth Christman"
+    ],
+    "publication_year": 2021,
+    "description": "Provides entry-level nursing skill procedures and assessment guidance, connecting preparation, safe performance, documentation and evaluation with clinical judgment.",
+    "source": "https://open.umn.edu/opentextbooks/textbooks/nursing-skills",
+    "cover_source": "https://open.umn.edu/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MjQ1NCwicHVyIjoiYmxvYl9pZCJ9fQ%3D%3D--6c708e0df1dee52b1882e50a9b4158a012ca1c7b/Nursing-Skills-Cover.jpg",
+    "cover_file": "nursingskills.jpg",
+    "cover_sha256": "c103183c87346109a00766e9c243392bf40b0e26c5f121abbb25abec5a96ca5e",
+    "quantity": 4
+  }
+]

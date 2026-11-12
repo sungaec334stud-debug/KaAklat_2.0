@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+require_once __DIR__ . '/pagination.php';
 require_once __DIR__.'/auth.php';
 
 function require_staff_administrator(?array $user): void
@@ -107,12 +108,12 @@ function staff_update(PDO $db,int $target,mixed $role,mixed $status,int $expecte
     return $result;
 }
 
-function staff_list(PDO $db,int $page,string $search): array
+function staff_list(PDO $db,int $page,string $search, ?array &$pagination = null): array
 {
     staff_actor($db);
     if ($page<1 || $page>10000 || mb_strlen($search)>100) { throw new InvalidArgumentException('Choose a valid page and search of at most 100 characters.'); }
-    $s=$db->prepare("SELECT user_id,username,display_name,role,account_status,session_version,(password_hash IS NOT NULL) AS password_set FROM users WHERE role IN ('librarian','administrator') AND (LOCATE(?,username)>0 OR LOCATE(?,display_name)>0) ORDER BY user_id LIMIT 21 OFFSET ".(($page-1)*20));
-    $s->execute([$search,$search]); return $s->fetchAll();
+    $sql="SELECT user_id,username,display_name,role,account_status,session_version,(password_hash IS NOT NULL) AS password_set FROM users WHERE role IN ('librarian','administrator') AND (LOCATE(?,username)>0 OR LOCATE(?,display_name)>0)";
+    return pagination_rows($db, $sql, [$search,$search], 'user_id', $page, 20, $pagination, 10000, func_num_args() >= 4);
 }
 
 function bootstrap_administrator(PDO $db,mixed $username,mixed $display,mixed $password): int

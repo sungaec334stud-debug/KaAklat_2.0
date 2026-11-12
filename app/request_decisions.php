@@ -104,7 +104,7 @@ function decide_borrow_request(PDO $db, int $requestId, string $action, mixed $d
     }
 }
 
-function list_review_requests(PDO $db, int $page, string $search=''): array
+function list_review_requests(PDO $db, int $page, string $search='', ?array &$pagination = null): array
 {
     require_request_librarian(current_user($db));
     if($page<1 || $page>10000 || mb_strlen($search)>100) { throw new InvalidArgumentException('Choose a valid page and search of at most 100 characters.'); }
@@ -115,5 +115,5 @@ function list_review_requests(PDO $db, int $page, string $search=''): array
         FROM borrow_requests r JOIN books b ON b.book_id=r.book_id JOIN users u ON u.user_id=r.student_id WHERE r.decision='pending'";
     $args=[];
     if(trim($search)!=='') { $sql.=' AND (LOCATE(?,b.title)>0 OR LOCATE(?,u.display_name)>0 OR LOCATE(?,u.username)>0)'; $args=array_fill(0,3,trim($search)); }
-    $s=$db->prepare($sql.' ORDER BY r.requested_at,r.request_id LIMIT 21 OFFSET '.(($page-1)*20)); $s->execute($args); return $s->fetchAll();
+    return pagination_rows($db, $sql, $args, 'r.requested_at,r.request_id', $page, 20, $pagination, 10000, func_num_args() >= 4);
 }

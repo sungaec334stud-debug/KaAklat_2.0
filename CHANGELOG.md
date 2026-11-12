@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-11-12 — Shared numbered list pagination
+
+Shared numbered pagination now covers student request history, student accounts, staff accounts, audit records, request reviews, pickups, returns, managed books and physical copies, using the catalog's existing renderer/style. Each list has accurate filtered totals, a current-page marker, bounded first/last/nearby numbers, Previous/Next and preserved search/status/book context. Out-of-range page links clamp to the last valid page; empty lists show0 and page1of1. Existing page sizes, role/ownership restrictions and mutation handlers remain unchanged. Verified31 regression scripts,390 existing HTTP checks,373 additional pagination HTTP checks and90 Chrome role/theme/viewport combinations, including28 native keyboard navigations with JavaScript disabled and zero runtime exceptions. Pilot rows/schema/covers/config match the pre-change baseline. Actual400% zoom, real phones, screen readers and new query performance remain unverified. Usage tool unavailable. No commit/push; hosting deferred. See verification/SHARED_PAGINATION_2026-11-12.md.
+
+## 2026-11-12 — Catalog sorting, filters and unavailable titles
+
+Implemented catalog discovery: four deterministic sort orders, title-or-author search, inclusive/open year ranges with legacy exact-year compatibility, three availability choices for every authenticated role, distinct result totals, removable filters and preserved results/detail/back context. Native GET controls work without JavaScript; existing availability and request authorization remain authoritative. No schema or pilot data migration. Verified30 regression scripts,390 HTTP checks,115 PHP lints and96 authenticated Chrome role/theme/viewport combinations with zero runtime exceptions; keyboard/error focus and JS-disabled apply/removal/clear checked. Fifteen final read-only pilot catalog requests passed. Original accounts/rows,86 books/273 copies,87 cover files and configuration preserved; one independently registered/activated student during work was retained, bringing accounts to4. Actual400% zoom, real-device/screen-reader acceptance and updated performance timings remain unverified. Usage tool unavailable. No commit/push; hosting deferred. See verification/CATALOG_DISCOVERY_2026-11-12.md.
+
+## 2026-11-12 — Real-title catalog expansion
+
+Added38 researched real titles (two per each of19 categories),127 simulated copy records and38 protected source covers. Pilot totals86 books/273 copies; prior data preserved. Actual audit-failure rollback and repeated-import refusal rehearsed in separate scratch resources. Corrected imported cover filenames to the existing protected endpoint format, without weakening security. Final306 HTTP checks and276 browser geometry/image combinations passed. Public bibliography/manifest and detailed evidence in verification/CATALOG_EXPANSION_2026-11-12.md. No application/schema/policy change or commit/push; hosting deferred.
+
+## 2026-11-12 — Remove unreferenced Lantern Valley demo catalog
+
+2026-11-12: user-authorized Lantern Valley demo cleanup completed. Removed80 archived, unreferenced fictional titles,240 DEMO copies and80 author links in one audited transaction after a verified full pilot backup. Remaining48 books/146 copies; accounts/passwords/history/authors/categories/covers and visible catalog availability unchanged.38 post-removal HTTP/preservation checks passed. Earlier128/386 totals are historical. See verification/LANTERN_DEMO_REMOVAL_2026-11-12.md. No code/schema change or commit/push; hosting deferred.
+
+## 2026-11-11 — Protected project cleanup
+
+Saved source consolidation in local commit412e40a, then relocated temporary artifacts, research outputs, catalog import material, old pilot/rollback copies and older backups to a protected archive outside the repository. Kept maintained source/tests/docs/operator tools and current pilot configuration/covers/sessions/latest backup. Added cleanup inventory and verification evidence; no feature/business-rule/database changes, no database deletion and no push. Full isolated regression, HTTP, concurrency, theme/browser and fictional restore checks executed. See verification/PROJECT_CLEANUP_2026-11-11.md.
+
 ## 2026-11-11 — One maintained source for the local pilot
 
 Consolidated runtime into the main repository while keeping existing kaaklat_pilot records/passwords unchanged. Added guarded start-local.ps1 and CLI config checker; active private config/cookie copied from pilot, covers synchronized exactly, sessions copied to private/pilot-sessions. Old main private config/covers preserved for rollback; old pilot code snapshot retained and launcher forwarded. Verified full pilot backup and source/data preservation; no seed/import/demo merge. Updated setup guidance. No commit/push; hosting deferred. Evidence: verification/PILOT_CONSOLIDATION_2026-11-11.md.

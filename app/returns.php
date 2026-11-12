@@ -37,12 +37,12 @@ function record_return(PDO $db, int $requestId, mixed $token): string
     }
 }
 
-function list_returns(PDO $db,int $page,string $search=''): array
+function list_returns(PDO $db,int $page,string $search='', ?array &$pagination = null): array
 {
     require_request_librarian(current_user($db));
     if($page<1 || $page>10000 || mb_strlen($search)>100) { throw new InvalidArgumentException('Choose a valid page and search of at most 100 characters.'); }
     $sql="SELECT r.*,l.loan_id,l.copy_id,l.checked_out_at,l.checked_out_by,l.due_date,l.returned_at,l.returned_by,u.username,u.display_name AS student_name,u.account_status,b.title,c.copy_code,(l.due_date<DATE(UTC_TIMESTAMP()+INTERVAL 8 HOUR)) AS overdue FROM borrow_requests r JOIN loans l ON l.request_id=r.request_id JOIN users u ON u.user_id=r.student_id JOIN books b ON b.book_id=r.book_id JOIN book_copies c ON c.copy_id=l.copy_id WHERE r.decision='approved' AND l.checked_out_at IS NOT NULL AND l.returned_at IS NULL AND l.cancelled_at IS NULL";
     $args=[];
     if(trim($search)!=='') { $sql.=' AND (LOCATE(?,b.title)>0 OR LOCATE(?,u.username)>0 OR LOCATE(?,u.display_name)>0 OR LOCATE(?,c.copy_code)>0)'; $args=array_fill(0,4,trim($search)); }
-    $s=$db->prepare($sql.' ORDER BY l.due_date,r.request_id LIMIT 21 OFFSET '.(($page-1)*20)); $s->execute($args); return $s->fetchAll();
+    return pagination_rows($db, $sql, $args, 'l.due_date,r.request_id', $page, 20, $pagination, 10000, func_num_args() >= 4);
 }

@@ -67,3 +67,13 @@ Developer panel: user-provided portrait and credits sit side by side above 600px
 Shared logout (2026-11-09): layout owns one signed-in navigation link for every role; logout.php owns a server-rendered confirmation using auth-panel and native POST/CSRF with confirm=yes. Stay signed in returns to dashboard; no JS or modal/focus-trap dependency. Existing tokens and responsive navigation retained.
 
 Pagination correction: center the number group beneath a full-width centered summary. Override paragraph reading-width cap for .pagination-summary and declare nav.catalog-pagination after generic paging rules. Verified midpoint at1920/1440/360px.
+
+
+## Catalog discovery controls — 2026-11-12
+
+app/catalog.php owns validated search, inclusive years, availability, fixed sort mappings and local results-context URLs. views/catalog_filters.php owns one native GET form: title-or-author search, category, availability and sort in the primary row; More filters is a native details disclosure for author/title contains, title initial and a paired From/To year fieldset. Reuse app.css tokens, 44px actions and forms.js linked error-summary focus. Keep Apply filters explicit and JS-disabled core behavior. Active choices are wrapping native removal links; Clear all restores defaults. Search clearing uses a local link/fragment returning focus to the search input. Details and pagination consume the shared URL helper. Result range is textual; zero availability uses a neutral text badge and a truthful general explanation. No async search, dependencies, new palettes or new borrowing rules. Actual browser/verification evidence: verification/CATALOG_DISCOVERY_2026-11-12.md.
+
+
+## Shared numbered pagination — 2026-11-12
+
+views/pagination.php is the sole navigation renderer; views/catalog_pagination.php adapts validated catalog URLs. All existing paginated lists reuse centered catalog-pagination/pagination-summary/current/gap tokens from app.css. Native GET links,44px targets, wrapping at narrow widths, current-page text and bounded first/last/nearby numbers; no new CSS/JS or dependencies. app/pagination.php counts the identical authorized/filtered selection and normalizes displayed page bounds; legacy row-only service callers retain their lookahead/empty out-of-range behavior. Keep20 rows for requests/reviews/pickups/returns/staff,25 students/audit,12 books and50 copies. Copy links preserve book ID and use copies_page; other lists retain their own search/status/audit fields. Dashboard previews and static forms do not get artificial pagination. Actual evidence and limits: verification/SHARED_PAGINATION_2026-11-12.md.

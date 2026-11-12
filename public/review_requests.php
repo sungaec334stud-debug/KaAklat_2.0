@@ -47,7 +47,7 @@ try {
             $errors = form_error_summary($fieldErrors);
         }
     }
-    $rows = list_review_requests($db, $page, $search);
+    $rows = list_review_requests($db, $page, $search,$pagination); $page=$pagination['page'];
     $content = '<section class="panel"><h1>Review borrowing requests</h1>' . $errors
         . '<p>Review the student’s reason and choose the final duration. Approval holds one copy for 48 hours; the loan starts only at physical pickup.</p>'
         . '<form method="get" class="catalog-search"><label for="q">Search pending requests by book or student</label>'
@@ -79,10 +79,8 @@ try {
             . field_error_html($fieldErrors,'note-' . $id)
             . '<div class="decision-actions"><section><h3>Approve collection</h3><p>Approve <strong>'.h($row['title']).'</strong> for <strong>'.h($row['student_name']).'</strong>. One copy will be held for 48 hours using the duration above.</p><button name="action" value="approve">Approve request</button></section><section><h3>Reject this request</h3><p>Reject this request for '.h($row['student_name']).'. Explain the reason above so the student understands your decision.</p><button class="button-danger" name="action" value="reject">Reject request</button></section></div></form></article>';
     }
-    $content .= '<nav class="catalog-pagination" aria-label="Pending request pages">';
-    if ($page > 1) { $content .= '<a href="?' . h(http_build_query(['q' => $search, 'page' => $page - 1])) . '">Previous</a>'; }
-    if (count($rows) > 20 && $page < 10000) { $content .= '<a href="?' . h(http_build_query(['q' => $search, 'page' => $page + 1])) . '">Next</a>'; }
-    render_page('Review requests', $content . '</nav></section>');
+    $content .= pagination_html($pagination, static fn(int $target): string => '?'.http_build_query(['q'=>$search,'page'=>$target]), 'Pending request pages', 'requests');
+    render_page('Review requests', $content . '</section>');
 } catch (DomainException $e) {
     http_response_code(403);
     render_page('Access denied', '<section class="panel"><h1>Access denied</h1><p role="alert">' . h($e->getMessage()) . '</p><a href="/">Dashboard</a></section>');

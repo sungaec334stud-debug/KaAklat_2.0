@@ -820,3 +820,133 @@ Outcome: Used built-in image editing to produce bold dark forward arrows and fee
 User: “Can you do all the necessary steps you need to do this? I give you permission” following the agreed plan to run one main application source against kaaklat_pilot, without importing/merging demo data. User restarted XAMPP when3306 was initially unavailable.
 
 Outcome: compared main/pilot application checksums; only docs differed. Paused verified pilot listener, created verified full pilot backup, preserved old main config/covers for rollback, installed exact pilot config/cookie and49 covers in root, copied20 sessions to private/pilot-sessions, restricted main private access, retained old code snapshot and forwarded its launcher. Root start-local.ps1 with CLI config guard now runs maintained public/ on8000. All table row/definition fingerprints in BOTH pilot/demo unchanged, including3 accounts/password hashes,128 books/386 copies/19 categories; no seed/import/SQL DML/account reset.5 fictional no-DB guard cases,52 read-only operator-session HTTP checks and313 existing HTTP checks in fresh scratch DB passed. No new password login performed. README/workflow/progress/evidence updated preserving prior edits. No demo records returned, deletion, commit/push or hosting. Details: verification/PILOT_CONSOLIDATION_2026-11-11.md. Usage tool unavailable.
+
+## 2026-11-11 — Authorized safe project cleanup
+
+User: “Can you do all of this? Make sure that at the end EVERYTHING still works and no bugs or errors are made” following the reviewed cleanup recommendations.
+
+Outcome: consolidation saved first in local commit412e40a, not pushed. Paused the verified local server and created a fresh verified pilot backup. Archived old temporary artifacts, research files, import material, duplicate pilot/rollback source and older backups outside the project, retaining active runtime data and maintained source/tests/docs/tools. Verified file inventories and original pilot/demo/config/cover/session fingerprints. Executed27 regression scripts,313 HTTP checks,seven concurrency suites,52 fictional restore checks,12 theme tests and248 browser combinations in isolated protected resources. Updated current guidance and cleanup evidence; preserved unrelated test-plan edits. No feature, business-rule, account or database edits/deletions. No zero-bug guarantee, real-pilot SQL-restore claim, off-device backup or hosting claim. Usage tool unavailable. Details and remaining limits: verification/PROJECT_CLEANUP_2026-11-11.md.
+
+## 2026-11-12 — Remove remaining Lantern Valley demo books
+
+User: “So I opened the kaaklat_pilot database and saw that The lantern valley books are still there in the book table. Can you delete al those books without affecting the entire database and the system since those were just some demo books?”
+
+Outcome: 2026-11-12: user-authorized Lantern Valley demo cleanup completed. Removed80 archived, unreferenced fictional titles,240 DEMO copies and80 author links in one audited transaction after a verified full pilot backup. Remaining48 books/146 copies; accounts/passwords/history/authors/categories/covers and visible catalog availability unchanged.38 post-removal HTTP/preservation checks passed. Earlier128/386 totals are historical. See verification/LANTERN_DEMO_REMOVAL_2026-11-12.md. No code/schema change or commit/push; hosting deferred. Exact backup, atomic deletion/audit and protected preservation reports recorded in the linked verification note. Usage tool unavailable; no percentage inferred.
+
+## 2026-11-12 — More real books in each category
+
+User: “Can you add more books to each categories to the database and website? Make sure that these are all real books.Get their author name, book title, book cover, make sure that the categories you put them on are accurate and their book description/synopsis. Make the book copies random so it will feel natural when they are in the website. Make sure that you dont produce bugs or errors.”
+
+Outcome: researched and added38 titles/two per each of19 existing categories,127 simulated copies (2–5 per book), protected validated covers and original short summaries. Saved primary/library sources, work-year/edition notes and image attribution. Scratch database audit failure rolled back rows and new files; repeated batch refused. Full pilot backup verified. Existing accounts/passwords/history/catalog rows/covers and original availability preserved. Corrected an imported cover-prefix mismatch identified by HTTP; no application/security change. Final306 HTTP checks and276 browser geometry/image combinations passed; no full circulation or new real-phone/keyboard/password-login claim. Totals86 books/273 copies. Exact resources/limitations: verification/CATALOG_EXPANSION_2026-11-12.md. Prior documentation preserved; one test-plan write failed without changing its contents and was safely retried. No commit/push. Hosting deferred. Usage tool unavailable.
+
+
+## 2026-11-12 — Catalog discovery
+
+### User prompt
+
+Implement the next small increment: catalog sorting, clearer search/filter controls and visibility of unavailable books for all roles.
+
+Read AGENTS.md, the latest PROGRESS.md handoff, SRS.md, SCHEMA.md, TEST_PLAN.md, DESIGN.md and the existing catalog, availability, pagination and authentication code. Inspect Git status and preserve all existing work.
+
+Keep the current kaaklat_pilot database, accounts, books, covers and borrowing history. Do not seed, reset, reimport or delete data. Keep hosting deferred.
+
+Implement:
+
+1. Sorting
+Add a “Sort by” dropdown:
+- Title: A–Z (default).
+- Title: Z–A.
+- Publication year: Newest first.
+- Publication year: Oldest first.
+
+Use title as the secondary order for publication-year sorting and book ID as the final tie-breaker. Put unknown publication years last in both year directions. Preserve the existing treatment of titles beginning with A/The.
+
+2. Search and publication-year filters
+- Provide one clearly labelled search box that searches title OR author.
+- Combine that search with the other selected filters using AND.
+- Retain a separate author filter and the existing title-initial filter under “More filters.”
+- Add inclusive “From year” and “To year” inputs. Either bound may be blank; matching bounds mean an exact year.
+- Reject invalid years and reversed ranges with useful validation.
+- Preserve compatibility with existing exact-year links and dashboard/catalog links.
+- Explain that publication year means when the work was first published, following the existing catalog convention.
+
+3. Availability for every role
+Offer the same three choices to students, librarians and administrators:
+- All books.
+- Available now: at least one available copy.
+- Currently unavailable: zero available copies.
+
+Keep unavailable titles visible in All books and Currently unavailable. Show their covers, details, a text badge and “0 copies available.”
+
+Use “No copies are currently available” as the general explanation. Mention borrowed copies or pending pickup only when the records support that explanation.
+
+Keep archived titles excluded. Derive availability through the existing copy/allocation/loan rules; never store or update an availability counter.
+
+Students must remain unable to request an unavailable book, including through forged submissions. Preserve all existing role permissions.
+
+4. Results and navigation
+- Show the total matching titles and the displayed range, such as “Showing 1–12 of 18 books.”
+- Count titles rather than author-join rows or physical copies.
+- Show removable active-filter labels and Clear all.
+- Preserve search, filters, sorting and page when navigating between results and book details.
+- Reset to page one when applying changed filters/sorting or removing a filter.
+- Make empty results helpful, with an action to clear filters.
+- Define Clear all consistently: empty search/filter values and restore default sorting.
+
+Keep the current blue/white/gray theme, Light/Dark appearance and responsive layouts. Keep an explicit Apply filters button. Core searching, filtering, sorting and navigation must work without JavaScript.
+
+Security and query requirements:
+- Require authentication and existing current-account/session checks.
+- Validate and allowlist sort/filter values on the server.
+- Use fixed SQL mappings for sort options; never interpolate user-provided SQL identifiers.
+- Parameterize search values, preserve literal wildcard escaping and escape displayed inputs.
+- Avoid duplicate titles, inaccurate totals and unstable pagination with multiple authors.
+- Validate any return-to-results context as local catalog parameters; do not introduce open redirects.
+- Reuse the existing derived availability logic consistently for results and counts.
+
+Keep this focused. Do not add autocomplete, fuzzy search, waitlists, reservations, notifications, new permissions or borrowing rules.
+
+Write meaningful isolated tests for:
+- All four sort directions, tie-breakers and unknown years.
+- Title/author search, multiple authors and literal wildcard characters.
+- Combined filters and inclusive/open-ended/exact year ranges.
+- Invalid, reversed and forged filter/sort inputs.
+- All three availability choices for all roles.
+- Correct unavailable badges and continued server-side request refusal.
+- Archived titles and copies.
+- Availability after approval, pickup, return, cancellation and allocation expiry, following existing rules.
+- Accurate distinct-title totals, empty states and pagination without duplicates or skipped records.
+- Preserved results context and page-one reset behavior.
+- Output escaping, authentication and unchanged authorization.
+
+Use isolated fixtures and existing test conventions. Never write test fixtures into kaaklat_pilot.
+
+Run relevant regression tests, PHP lint, HTTP checks and available browser checks. Check desktop, 768px, 360px, Light/Dark, keyboard navigation and JavaScript-disabled operation when tools permit. Report actual results and limitations; do not claim browser acceptance from HTTP tests alone.
+
+Fix confirmed defects within this scope. Do not guarantee zero bugs.
+
+Update PROGRESS.md, TEST_PLAN.md, CHANGELOG.md and prompt.md. Update SRS.md where this approved addition affects requirements. Keep current summaries consistent and preserve unrelated edits.
+
+Check usage if a tool is available; otherwise say it is unavailable. If usage becomes low, finish a safe checkpoint and record exact remaining steps.
+
+Do not commit or push.
+
+Finish with:
+- What changed.
+- Executed checks and remaining limitations.
+- Beginner-friendly testing instructions for student, librarian and administrator accounts.
+
+### Outcome
+
+Implemented catalog discovery: four deterministic sort orders, title-or-author search, inclusive/open year ranges with legacy exact-year compatibility, three availability choices for every authenticated role, distinct result totals, removable filters and preserved results/detail/back context. Native GET controls work without JavaScript; existing availability and request authorization remain authoritative. No schema or pilot data migration. Verified30 regression scripts,390 HTTP checks,115 PHP lints and96 authenticated Chrome role/theme/viewport combinations with zero runtime exceptions; keyboard/error focus and JS-disabled apply/removal/clear checked. Fifteen final read-only pilot catalog requests passed. Original accounts/rows,86 books/273 copies,87 cover files and configuration preserved; one independently registered/activated student during work was retained, bringing accounts to4. Actual400% zoom, real-device/screen-reader acceptance and updated performance timings remain unverified. Usage tool unavailable. No commit/push; hosting deferred. See verification/CATALOG_DISCOVERY_2026-11-12.md.
+
+
+## 2026-11-12 — Shared pagination
+
+### User prompt
+
+can we apply the pagination design in the book catalog for every pages that needs to see other pages? For example, the librarians and administrators have pages that needs to move to other pages so they can navigate faster
+
+### Outcome
+
+Shared numbered pagination now covers student request history, student accounts, staff accounts, audit records, request reviews, pickups, returns, managed books and physical copies, using the catalog's existing renderer/style. Each list has accurate filtered totals, a current-page marker, bounded first/last/nearby numbers, Previous/Next and preserved search/status/book context. Out-of-range page links clamp to the last valid page; empty lists show0 and page1of1. Existing page sizes, role/ownership restrictions and mutation handlers remain unchanged. Verified31 regression scripts,390 existing HTTP checks,373 additional pagination HTTP checks and90 Chrome role/theme/viewport combinations, including28 native keyboard navigations with JavaScript disabled and zero runtime exceptions. Pilot rows/schema/covers/config match the pre-change baseline. Actual400% zoom, real phones, screen readers and new query performance remain unverified. Usage tool unavailable. No commit/push; hosting deferred. See verification/SHARED_PAGINATION_2026-11-12.md.

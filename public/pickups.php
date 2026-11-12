@@ -36,7 +36,7 @@ try {
             redirect('/pickups.php?'.http_build_query(['q'=>$search,'page'=>$page]));
         } catch(InvalidArgumentException $e) { http_response_code(400); $cancelError=$failedId!==null?$e->getMessage():''; $error=form_error_summary([''=>$e->getMessage()]); }
     }
-    $rows=list_pickups($db,$page,$search);
+    $rows=list_pickups($db,$page,$search,$pagination); $page=$pagination['page'];
     if($cancelError!=='' && in_array($failedId,array_map('intval',array_column(array_slice($rows,0,20),'request_id')),true)) {
         $error=form_error_summary(['cancel-note-'.$failedId=>$cancelError]);
     }
@@ -55,10 +55,8 @@ try {
         }
         $content.='</article>';
     }
-    $content.='<nav class="catalog-pagination" aria-label="Pickup pages">';
-    if($page>1) { $content.='<a href="?'.h(http_build_query(['q'=>$search,'page'=>$page-1])).'">Previous</a>'; }
-    if(count($rows)>20 && $page<10000) { $content.='<a href="?'.h(http_build_query(['q'=>$search,'page'=>$page+1])).'">Next</a>'; }
-    render_page('Physical pickup',$content.'</nav></section>');
+    $content .= pagination_html($pagination, static fn(int $target): string => '?'.http_build_query(['q'=>$search,'page'=>$target]), 'Pickup pages', 'pickups');
+    render_page('Physical pickup',$content.'</section>');
 } catch(DomainException $e) {
     http_response_code(403); render_page('Access denied','<section class="panel"><h1>Access denied</h1><p role="alert">'.h($e->getMessage()).'</p><a href="/">Dashboard</a></section>');
 } catch(InvalidArgumentException $e) {
