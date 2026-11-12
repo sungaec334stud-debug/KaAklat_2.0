@@ -40,11 +40,13 @@ function dashboard_preview(PDO $db): array
         return $statement->fetchAll();
     }
     if ($user['role'] === 'librarian') {
-        $pending = $db->query("SELECT b.title, u.display_name AS student_name, r.requested_at AS event_time
+        $pending = $db->query("SELECT b.book_id, b.title, b.cover_path, b.archived_at AS book_archived_at,
+            u.display_name AS student_name, r.requested_at AS event_time
             FROM borrow_requests r JOIN books b ON b.book_id = r.book_id
             JOIN users u ON u.user_id = r.student_id WHERE r.decision = 'pending'
             ORDER BY r.requested_at, r.request_id LIMIT 2")->fetchAll();
-        $pickups = $db->query("SELECT b.title, u.display_name AS student_name,
+        $pickups = $db->query("SELECT b.book_id, b.title, b.cover_path, b.archived_at AS book_archived_at,
+            u.display_name AS student_name,
             DATE_ADD(r.decided_at, INTERVAL 48 HOUR) AS event_time
             $openLoans JOIN users u ON u.user_id = r.student_id WHERE $outstanding AND $livePickup
             ORDER BY r.decided_at, r.request_id LIMIT 2")->fetchAll();
@@ -58,4 +60,44 @@ function dashboard_preview(PDO $db): array
             ORDER BY a.occurred_at DESC, a.audit_id DESC LIMIT 3")->fetchAll();
     }
     throw new DomainException('Dashboard preview is unavailable for this account.');
+}
+
+/** Account metadata only. Administrators do not receive circulation records. */
+function dashboard_administrator_counts(PDO $db): array
+{
+    $user = current_user($db);
+    if ($user === null || $user['role'] !== 'administrator' || $user['account_status'] !== 'active') {
+        throw new DomainException('Administrator overview requires an active administrator.');
+    }
+    $row = $db->query("SELECT COALESCE(SUM(role = 'student' AND account_status = 'pending'), 0) AS pending,
+        COALESCE(SUM(role IN ('librarian', 'administrator') AND account_status = 'active'), 0) AS staff
+        FROM users WHERE account_status <> 'archived'")->fetch();
+    return ['pending' => (int)$row['pending'], 'staff' => (int)$row['staff']];
+}
+
+/** Bounded read-only side panels. Never select IDs, credentials or audit payloads. */
+function dashboard_staff_panels(PDO $db): array
+{
+    $user = current_user($db);
+    if ($user === null || $user['account_status'] !== 'active'
+        || !in_array($user['role'], ['librarian', 'administrator'], true)) {
+        throw new DomainException('Staff dashboard requires an active staff account.');
+    }
+    $result = ['pending_count'=>0, 'students'=>[], 'staff'=>[], 'activity'=>[]];
+    if ($user['role'] === 'administrator') {
+        $result['staff'] = $db->query("SELECT display_name, username, role, account_status FROM users
+            WHERE role IN ('librarian','administrator') AND account_status='active'
+            ORDER BY created_at DESC, user_id DESC LIMIT 2")->fetchAll();
+        return $result;
+    }
+    $result['pending_count'] = (int)$db->query("SELECT COUNT(*) FROM users WHERE role='student' AND account_status='pending'")->fetchColumn();
+    $result['students'] = $db->query("SELECT display_name, username, created_at FROM users
+        WHERE role='student' AND account_status='pending' ORDER BY created_at, user_id LIMIT 1")->fetchAll();
+    $statement = $db->prepare("SELECT event_code, occurred_at FROM audit_events
+        WHERE actor_user_id=? AND event_code IN
+        ('request.approved','request.rejected','loan.collected','loan.returned','loan.cancelled')
+        ORDER BY occurred_at DESC, audit_id DESC LIMIT 3");
+    $statement->execute([(int)$user['user_id']]);
+    $result['activity'] = $statement->fetchAll();
+    return $result;
 }

@@ -51,7 +51,7 @@ try {
         $content .= '<p class="catalog-result-count" role="status">Showing ' . h($first) . '–' . h($last) . ' of ' . h($result['total']) . ' books</p><div class="book-grid">';
         foreach ($result['books'] as $book) {
             $statusLabel = catalog_request_status_html($ownStates[(int)$book['book_id']] ?? null);
-            $content .= '<article class="book-card">' . catalog_cover_html($book) . '<h2><a href="' . h(catalog_url($query, $page, $filters, (int) $book['book_id'])) . '">' . h($book['title']) . '</a></h2>' . $statusLabel . catalog_unavailable_badge_html($book) . '<p>' . h($book['authors'] ?: 'Author not listed') . '</p>' . catalog_metadata_html($book) . '<p>' . h(mb_strimwidth($book['description'], 0, 150, '…', 'UTF-8')) . '</p><p class="availability">' . h($book['available_copies']) . ' copies available</p></article>';
+            $content .= '<article class="book-card">' . catalog_cover_html($book) . '<h2><a href="' . h(catalog_url($query, $page, $filters, (int) $book['book_id'])) . '">' . h($book['title']) . '</a></h2><div class="catalog-card-status">' . $statusLabel . catalog_unavailable_badge_html($book) . '</div><p>' . h($book['authors'] ?: 'Author not listed') . '</p>' . catalog_metadata_html($book) . '<p>' . h(mb_strimwidth($book['description'], 0, 150, '…', 'UTF-8')) . '</p><p class="availability">' . h($book['available_copies']) . ' copies available</p></article>';
         }
         $content .= '</div>';
         if ($result['books'] === []) { $content .= '<p>No books match these choices. Try a broader search or clear the filters.</p><a href="/catalog.php">Clear all</a>'; }

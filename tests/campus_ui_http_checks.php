@@ -9,7 +9,7 @@ curl_setopt_array($portalStudent, [CURLOPT_RETURNTRANSFER=>true,CURLOPT_COOKIEFI
 accept_check($code === 303, 'Campus student fixture sign-in');
 $portalCases = [
     [$portalStudent, '/profile.php', ['/', '/catalog.php', '/requests.php', '/profile.php'], 'Student portal'],
-    [$clients['librarian'], '/pickups.php', ['/', '/catalog.php', '/review_requests.php', '/pickups.php', '/returns.php', '/manage_books.php', '/students.php', '/recover_account.php'], 'Librarian portal'],
+    [$clients['librarian'], '/pickups.php', ['/', '/catalog.php', '/manage_books.php', '/review_requests.php', '/pickups.php', '/returns.php', '/students.php', '/recover_account.php'], 'Librarian portal'],
     [$clients['admin'], '/staff.php', ['/', '/catalog.php', '/staff.php', '/students.php', '/audit.php', '/recover_account.php'], 'Administrator portal'],
 ];
 foreach ($portalCases as [$client,$path,$expectedLinks,$roleText]) {
@@ -38,8 +38,8 @@ accept_check($code === 200 && str_contains($html, 'Only your records') && str_co
     && str_contains($html, '/requests.php?status=awaiting_pickup'), 'Campus dashboard uses own linked shared summary');
 $dashboardCases = [
     [$portalStudent, 'Acceptance Student', ['/requests.php?status=pending', '/requests.php?status=awaiting_pickup', '/requests.php?status=active', '/catalog.php']],
-    [$clients['librarian'], 'Acceptance Librarian', ['/review_requests.php', '/pickups.php', '/review_requests.php', '/pickups.php']],
-    [$clients['admin'], 'Acceptance Admin', ['/staff.php', '/audit.php']],
+    [$clients['librarian'], 'Acceptance Librarian', ['/review_requests.php', '/pickups.php', '/returns.php']],
+    [$clients['admin'], 'Acceptance Admin', ['/staff.php', '/students.php', '/students.php?status=pending', '/audit.php']],
 ];
 foreach ($dashboardCases as [$client, $displayName, $expectedLinks]) {
     [$code, $html] = accept_http($client, '/');
@@ -50,10 +50,21 @@ foreach ($dashboardCases as [$client, $displayName, $expectedLinks]) {
     foreach ($xpath->query('//div[@class="dashboard"]//a') as $link) {
         $links[] = $link->getAttribute('href');
     }
-    accept_check($code === 200 && $links === $expectedLinks && str_contains($html, 'Welcome back, ' . $displayName),
+    accept_check($code === 200 && array_diff($expectedLinks, $links) === [] && str_contains($html, 'Welcome back, ' . $displayName),
         'Dashboard shows the role’s links and personalized greeting');
+    $allowed = $client === $portalStudent ? ['requests.php', 'catalog.php']
+        : ($client === $clients['admin'] ? ['staff.php', 'students.php', 'audit.php'] : ['review_requests.php', 'pickups.php', 'returns.php', 'students.php']);
+    foreach ($links as $url) {
+        accept_check(in_array(basename(parse_url($url, PHP_URL_PATH)), $allowed, true), 'Dashboard links stay within role workflow destinations');
+    }
     accept_check($xpath->query('//nav[@aria-label="Main navigation"]/a[@href="/logout.php"]')->length === 1,
         'Dashboard provides one shared logout confirmation link');
+    if ($client === $clients['librarian']) {
+        accept_check(str_contains($html, 'Student verification') && str_contains($html, 'Recent desk activity'), 'Librarian dashboard retains both accepted supporting panels');
+    }
+    if ($client === $clients['admin']) {
+        accept_check(str_contains($html, 'Account access') && str_contains($html, 'Keep access separate.'), 'Administrator dashboard retains accepted account-access panel and permission guidance');
+    }
 }
 $db->exec("INSERT INTO books (title, description) VALUES ('Fictional own pickup', 'Dashboard fixture'), ('Fictional other pickup', 'Dashboard fixture')");
 $dashboardBooks = $db->query("SELECT book_id FROM books WHERE description = 'Dashboard fixture' ORDER BY book_id")->fetchAll(PDO::FETCH_COLUMN);
@@ -66,7 +77,10 @@ foreach ($dashboardBooks as $index => $bookId) {
     $db->prepare('INSERT INTO loans (request_id, copy_id) VALUES (?, ?)')->execute([$db->lastInsertId(), $copyId]);
 }
 [$code, $html] = accept_http($portalStudent, '/');
-accept_check($code === 200 && str_contains($html, 'Fictional own pickup') && !str_contains($html, 'Fictional other pickup')
+$previewDom = new DOMDocument(); @$previewDom->loadHTML($html);
+$previewXpath = new DOMXPath($previewDom);
+$ownPreview = $previewXpath->query('//section[contains(@class,"dashboard-preview-student")]')->item(0)?->textContent ?? '';
+accept_check($code === 200 && str_contains($ownPreview, 'Fictional own pickup') && !str_contains($ownPreview, 'Fictional other pickup')
     && !str_contains($html, 'Private dashboard fixture reason') && str_contains($html, 'Pick up by'), 'Next up shows only the student’s live pickup');
 [$code, $html] = accept_http($clients['librarian'], '/');
 accept_check($code === 200 && strpos($html, 'Fictional other pickup') < strpos($html, 'Fictional own pickup')

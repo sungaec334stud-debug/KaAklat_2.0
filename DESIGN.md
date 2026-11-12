@@ -1,4 +1,28 @@
+## Staff dashboard parity correction — 2026-11-13
+
+The earlier redesign completion statement overstated staff-dashboard parity. Corrected the librarian and administrator dashboards to the accepted layout: whole-card summaries, two-column work/account panels, protected book covers, librarian student verification and own recent desk activity, administrator recent account activity and active staff access. All values come from bounded read-only queries. Librarians see only their own allowlisted circulation activity; administrators gain no circulation permissions. Existing student dashboard, role checks, About content, pagination and pilot records remain unchanged. No schema changes, commit or push; hosting deferred.
+
+Verification: 36 regression scripts passed before the final administrator presentation adjustment; final affected dashboard/design tests, PHP lint and 416 workflow HTTP assertions passed. Final browser rerun covered 248 role/theme/viewport combinations with zero runtime exceptions and zero sampled contrast failures. Final librarian/administrator dark screenshots were visually inspected. Strict static UI audit reported zero findings. Actual 400% browser zoom, physical-device and screen-reader acceptance remain manual; no claim of a bug-free system. Usage tool unavailable.
+
+Evidence: verification/STAFF_DASHBOARD_PARITY_2026-11-13.md.
+
 # KaAklat interface system
+
+### Catalog card alignment — 2026-11-13
+
+Catalog row alignment corrected with seven shared natural-height CSS subgrid tracks and one optional-badge container. Covers, titles, badge blocks, authors, publication metadata, descriptions and available counts align within each visual row without fixed text heights or additional clipping. Server queries, status/availability rules, cover permissions, links, sorting, filters and pagination unchanged. Focused browser reproduction initially measured150.77px drift; final10 Light/Dark viewport cases(1440/1000/768/360/320px) measured0px, with no overflow/clipped text and a JavaScript-disabled CSS check passing. Existing96 authenticated catalog browser combinations and focused status/view tests passed; PHP lint passed. No pilot records changed, no commit/push. Earlier redesign work remains preserved.
+
+## Accepted design-review refinement — 2026-11-13 (current)
+
+Apply the approved three-role working preview through existing canonical owners. Retain blue/white/gray, Bahnschrift/Segoe UI, primary KaAklat and secondary university identity. Native numbered pagination is explicitly unchanged. views/layout.php groups existing permitted links into Library/Circulation/Accounts & security/Preferences; views/portal_ui.php uses the accepted nonfocusable decorative 26-unit line SVGs. No prototype role selector or mock data reaches the application.
+
+app.css owns the compact header, smaller personalized welcome/avatar, linked summary strip, date tile and bounded protected-cover discovery. app/dashboard.php retains student/current-account scope and adds only active-administrator scalar account totals. public/index.php supplies existing catalog data; no stored counters or policy moves to UI. Student pending/browsing and separate active/overdue count semantics remain authoritative, even where prototype examples were simplified.
+
+workspace.css refines existing directory/inspector, audit, requests, profile, recovery, About and logout surfaces. public/manage_books.php wraps intact server forms in native sections, opening the affected action on error or copy-page navigation; no-JS, field IDs, values, CSRF and multipart behavior remain. views/audit_ui.php supplements actual raw codes with allowlisted readable labels. Unknown codes remain Recorded activity, never an invented decision.
+
+The complete maintained About source is preserved exactly: school philosophy/location/values/mission-summary/source, all six borrowing steps, demonstration disclaimer and developer photo/qualification/contact. The prototype's shorter About is not application content. Field, route, history, error and authorization information is never removed merely to fit the reference screenshot. No new textarea, mobile menu, preference persistence or circulation behavior is introduced.
+
+Evidence and pending real-device/zoom/screen-reader/performance review: verification/DESIGN_REVIEW_IMPLEMENTATION_2026-11-13.md. Previous visual descriptions below are historical where this refinement supersedes them.
 
 ## Approved workspace directory/detail design — 2026-11-12
 

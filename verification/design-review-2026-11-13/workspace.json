@@ -1,0 +1,21 @@
+{
+  "database": "kaaklat_acceptance_a75e7762d394",
+  "directory": "C:\\Users\\63961\\Desktop\\Emman\\KaAklat2.0/tmp/student-profile-browser-a75e7762d394",
+  "layouts": 78,
+  "interactions": 30,
+  "runtimeErrors": 0,
+  "checks": [
+    "all twelve pages",
+    "light/dark responsive geometry",
+    "unique IDs",
+    "keyboard record selection and return focus",
+    "original form identity and values",
+    "second-row server error association",
+    "error-summary links",
+    "receipt search retention",
+    "JavaScript-disabled original forms"
+  ],
+  "limitations": [
+    "Actual browser 400% zoom, screen reader and real phone acceptance remain manual."
+  ]
+}

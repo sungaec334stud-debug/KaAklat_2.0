@@ -44,7 +44,7 @@ try {
         if ($error !== '' && in_array($_POST['action'] ?? null, ['create', 'edit'], true)) {
             foreach ($values as $key => $value) { if (is_string($_POST[$key] ?? null)) { $values[$key] = $_POST[$key]; } }
         }
-        $editor .= '<h2>' . ($book ? 'Book details' : 'Add a book') . '</h2><form method="post" enctype="multipart/form-data">' . $token . $bookField
+        $editor .= '<h2>' . ($book ? 'Book details' : 'Add a book') . '</h2><details class="editor-section" open><summary>Book details</summary><form method="post" enctype="multipart/form-data">' . $token . $bookField
             . '<input type="hidden" name="action" value="' . ($book ? 'edit' : 'create') . '">'
             . '<label for="title">Title</label><input id="title" name="title" maxlength="255" required value="' . h($values['title']) . '">'
             . '<label for="authors">Authors — one per line</label><textarea id="authors" name="authors" rows="3" required>' . h($values['authors']) . '</textarea>';
@@ -55,9 +55,9 @@ try {
             $editor .= '<label for="quantity">Initial copies (1–100)</label><input id="quantity" name="quantity" type="number" min="1" max="100" required value="' . h($values['quantity']) . '">'
                 . '<label for="cover">Cover (optional)</label><input id="cover" type="file" name="cover" accept="image/jpeg,image/png"><p>JPEG or PNG, up to 2 MB and 4000 × 4000 pixels.</p>';
         }
-        $editor .= '<button>Save book details</button></form>';
+        $editor .= '<button>Save book details</button></form></details>';
         if ($book) {
-            $editor .= '<section class="management-section"><h2>Copies</h2><p>' . h($book['available_copies']) . ' available of ' . h($book['total_copies']) . ' active copies.</p><form method="post">' . $token . $bookField . '<input type="hidden" name="action" value="add_copies"><label for="extra">Add copies (1–100)</label><input id="extra" type="number" name="quantity" min="1" max="100" value="1" required><button>Add copies</button></form>';
+            $editor .= '<details class="editor-section"' . (isset($_GET['copies_page']) || ($error !== '' && in_array($_POST['action'] ?? '', ['add_copies','archive_copy'], true)) ? ' open' : '') . '><summary>Physical copies</summary><section class="management-section"><h2>Copies</h2><p>' . h($book['available_copies']) . ' available of ' . h($book['total_copies']) . ' active copies.</p><form method="post">' . $token . $bookField . '<input type="hidden" name="action" value="add_copies"><label for="extra">Add copies (1–100)</label><input id="extra" type="number" name="quantity" min="1" max="100" value="1" required><button>Add copies</button></form>';
             $copyPage = filter_var($_GET['copies_page'] ?? 1, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 10000]]) ?: 1;
             $rows = pagination_rows($pdo, 'SELECT copy_id, copy_code, archived_at FROM book_copies WHERE book_id = ?', [$id], 'copy_id', $copyPage, 50, $copyPagination);
             $copyPage = $copyPagination['page'];
@@ -67,8 +67,8 @@ try {
                 $editor .= '</article>';
             }
             $editor .= pagination_html($copyPagination, static fn(int $target): string => '?'.http_build_query(['id'=>$id,'q'=>$query,'page'=>$page,'copies_page'=>$target]), 'Copy pages', 'copies');
-            $editor .= '</section><section class="management-section"><h2>Replace cover</h2>' . catalog_cover_html($book) . '<form method="post" enctype="multipart/form-data">' . $token . $bookField . '<input type="hidden" name="action" value="cover"><label for="replacement">New JPEG or PNG cover</label><input id="replacement" type="file" name="cover" accept="image/jpeg,image/png" required><p>Maximum 2 MB and 4000 × 4000 pixels. Your existing cover stays until the replacement saves successfully.</p><button>Replace cover</button></form></section>'
-                . '<section class="management-section"><h2>Archive book</h2><p>Remove this title from browsing while preserving its copies and history. Resolve pending requests and outstanding allocations first.</p><form method="post">' . $token . $bookField . '<input type="hidden" name="action" value="archive_book"><button class="button-danger" aria-label="' . h('Archive book ' . $book['title']) . '">Archive this book</button></form></section>';
+            $editor .= '</section></details><details class="editor-section"' . ($error !== '' && ($_POST['action'] ?? '') === 'cover' ? ' open' : '') . '><summary>Cover image</summary><section class="management-section"><h2>Replace cover</h2>' . catalog_cover_html($book) . '<form method="post" enctype="multipart/form-data">' . $token . $bookField . '<input type="hidden" name="action" value="cover"><label for="replacement">New JPEG or PNG cover</label><input id="replacement" type="file" name="cover" accept="image/jpeg,image/png" required><p>Maximum 2 MB and 4000 × 4000 pixels. Your existing cover stays until the replacement saves successfully.</p><button>Replace cover</button></form></section></details>'
+                . '<details class="editor-section"' . ($error !== '' && ($_POST['action'] ?? '') === 'archive_book' ? ' open' : '') . '><summary>Archive information</summary><section class="management-section"><h2>Archive book</h2><p>Remove this title from browsing while preserving its copies and history. Resolve pending requests and outstanding allocations first.</p><form method="post">' . $token . $bookField . '<input type="hidden" name="action" value="archive_book"><button class="button-danger" aria-label="' . h('Archive book ' . $book['title']) . '">Archive this book</button></form></section></details>';
         }
     } else {
         $editor .= '<h2>Select a book</h2><p>Choose Manage beside a title to edit its details, covers and physical copies.</p>';

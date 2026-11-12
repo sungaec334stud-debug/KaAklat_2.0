@@ -4,6 +4,7 @@ require_once dirname(__DIR__).'/app/bootstrap.php';
 require_once dirname(__DIR__).'/app/audit.php';
 require_once dirname(__DIR__).'/views/layout.php';
 require_once dirname(__DIR__).'/views/time.php';
+require_once dirname(__DIR__).'/views/audit_ui.php';
 start_application_session(); header('Cache-Control: no-store');
 try {
     $db=database_connection(application_config()['database']); if(current_user($db)===null) redirect('/login.php'); staff_actor($db);
@@ -15,7 +16,7 @@ try {
     if(!$rows) $html.='<p>No audit events on this page. Clear filters or return to the first page.</p>';
     foreach(array_slice($rows,0,25) as $row) {
         $time=display_manila_time($row['occurred_at'], 'M j, Y g:i:s a');
-        $html.='<article class="management-section audit-record"><h2>'.h($row['event_code']).'</h2><p>'.h($time).' (Manila)</p><p>Actor: '.h($row['actor_username']??'System / local operator').'</p><p>Affected record: '.h($row['entity_type']).' '.h($row['entity_id']??'—').'</p></article>';
+        $html.='<article class="management-section audit-record"><h2>'.h(audit_event_label($row['event_code'])).'<small class="audit-event-code">'.h($row['event_code']).'</small></h2><p>'.h($time).' (Manila)</p><p>Actor: '.h($row['actor_username']??'System / local operator').'</p><p>Affected record: '.h($row['entity_type']).' '.h($row['entity_id']??'—').'</p></article>';
     }
     $html .= pagination_html($pagination, static fn(int $target): string => '?'.http_build_query(['event'=>$event,'actor'=>$actor,'page'=>$target]), 'Audit pages', 'events');
     render_page('Audit records',$html.'</section>');

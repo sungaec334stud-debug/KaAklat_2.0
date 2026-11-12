@@ -234,3 +234,8 @@ FR-02 administrator student activation/suspension/reactivation now implemented; 
 ### Approved student-management presentation addition — 2026-11-12
 
 The user requested school ID and account activation/suspension information on active/suspended student detail cards. Active librarians may read the existing school ID there; the existing administrator ID restriction is preserved. Registration and recorded activation/suspension/reactivation times are displayed in Asia/Manila from existing records/audit events. Missing history is labelled Not recorded; no new dates are invented and no new mutation permissions or schema are introduced.
+
+
+### Accepted presentation refinement — 2026-11-13
+
+User approved the full three-role design recommendation. Apply grouped navigation/icons, compact task-first dashboards and staff workspaces, sectioned book editing and clearer audit labels while retaining all current application information, role/ownership restrictions and lifecycle rules. Administrator dashboard totals are account metadata only; student catalog preview remains authenticated and bounded. About's school/developer/process information, existing pagination design and all appearance options remain. No schema, new school policy, email or hosting change. This records presentation approval, not real-device/accessibility certification.

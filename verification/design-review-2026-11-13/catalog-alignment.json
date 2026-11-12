@@ -1,0 +1,88 @@
+{
+  "database": "kaaklat_acceptance_a68d73b2fdf4",
+  "checks": 10,
+  "noScript": true,
+  "runtimeErrors": 0,
+  "rows": [
+    {
+      "width": 1440,
+      "theme": "light",
+      "max": 0,
+      "overflow": false,
+      "groups": 2,
+      "clips": false
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "max": 0,
+      "overflow": false,
+      "groups": 2,
+      "clips": false
+    },
+    {
+      "width": 1000,
+      "theme": "light",
+      "max": 0,
+      "overflow": false,
+      "groups": 3,
+      "clips": false
+    },
+    {
+      "width": 1000,
+      "theme": "dark",
+      "max": 0,
+      "overflow": false,
+      "groups": 3,
+      "clips": false
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "max": 0,
+      "overflow": false,
+      "groups": 4,
+      "clips": false
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "max": 0,
+      "overflow": false,
+      "groups": 4,
+      "clips": false
+    },
+    {
+      "width": 360,
+      "theme": "light",
+      "max": 0,
+      "overflow": false,
+      "groups": 8,
+      "clips": false
+    },
+    {
+      "width": 360,
+      "theme": "dark",
+      "max": 0,
+      "overflow": false,
+      "groups": 8,
+      "clips": false
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "max": 0,
+      "overflow": false,
+      "groups": 8,
+      "clips": false
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "max": 0,
+      "overflow": false,
+      "groups": 8,
+      "clips": false
+    }
+  ]
+}

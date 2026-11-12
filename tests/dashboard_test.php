@@ -29,6 +29,29 @@ $_SESSION['user_id']=2;
 count_check(dashboard_counts($db)===['pending'=>1,'awaiting'=>0,'active'=>0,'overdue'=>0],'Pending student own scope');
 $_SESSION['user_id']=3;
 count_check(dashboard_counts($db)===['pending'=>2,'awaiting'=>1,'active'=>1,'overdue'=>1],'Librarian global scope');
+try { dashboard_administrator_counts($db); throw new RuntimeException('Librarian must not receive administrator account totals'); } catch (DomainException) {}
+$_SESSION['user_id']=4;
+count_check(dashboard_administrator_counts($db)===['pending'=>1,'staff'=>2], 'Administrator metadata totals use current active identity');
+$panels = dashboard_staff_panels($db);
+count_check(count($panels['staff']) === 2 && $panels['students'] === [] && $panels['activity'] === [], 'Administrator receives bounded staff directory, no student verification or circulation feed');
+count_check(!array_key_exists('password_hash', $panels['staff'][0]) && !array_key_exists('school_student_id', $panels['staff'][0]), 'Staff card excludes credentials and school IDs');
+record_audit_event($db, 3, 'loan.returned', 'loan', 3, 'PRIVATE reason must not reach dashboard');
+record_audit_event($db, 4, 'loan.collected', 'loan', 3, 'Other actor event must not reach librarian');
+record_audit_event($db, 3, 'account.reset_issued', 'users', 1, 'PRIVATE recovery event');
+$_SESSION['user_id']=3;
+$panels = dashboard_staff_panels($db);
+count_check($panels['pending_count'] === 1 && count($panels['students']) === 1 && $panels['staff'] === [], 'Librarian receives actual pending verification preview');
+count_check(count($panels['activity']) === 1 && $panels['activity'][0]['event_code'] === 'loan.returned', 'Librarian feed is own allowlisted circulation metadata only');
+count_check(!str_contains(json_encode($panels), 'PRIVATE') && !array_key_exists('school_student_id', $panels['students'][0]), 'No audit payload or school ID leaks into dashboard panels');
+$_SESSION['user_id']=2;
+try { dashboard_administrator_counts($db); throw new RuntimeException('Student must not receive global account totals'); } catch (DomainException) {}
+try { dashboard_staff_panels($db); throw new RuntimeException('Student must not receive staff panels'); } catch (DomainException) {}
+$_SESSION['user_id']=4;
+$db->exec('UPDATE users SET session_version=session_version+1 WHERE user_id=4');
+try { dashboard_administrator_counts($db); throw new RuntimeException('Stale administrator session must be denied'); } catch (DomainException) {}
+try { dashboard_staff_panels($db); throw new RuntimeException('Stale identity must not receive staff panels'); } catch (DomainException) {}
+$db->exec('UPDATE users SET session_version=1 WHERE user_id=4');
+$_SESSION['session_version']=1; $_SESSION['last_activity']=time();
 foreach([4,1] as $id) {
     $_SESSION['user_id']=$id;
     if($id===1) { $db->exec("UPDATE users SET account_status='suspended' WHERE user_id=1"); }

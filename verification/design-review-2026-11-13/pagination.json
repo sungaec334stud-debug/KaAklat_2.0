@@ -1,0 +1,15 @@
+{
+  "database": "kaaklat_acceptance_d352d44fc148",
+  "combinations": 90,
+  "keyboardNoJsNavigations": 28,
+  "runtimeErrors": 0,
+  "widths": [
+    1440,
+    768,
+    360
+  ],
+  "themes": [
+    "light",
+    "dark"
+  ]
+}

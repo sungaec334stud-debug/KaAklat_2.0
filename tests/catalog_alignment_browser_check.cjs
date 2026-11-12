@@ -1,0 +1,27 @@
+// Reuses an explicitly named fictional fixture. Only browser DOM content changes; no DB writes.
+const fs=require('node:fs'),assert=require('node:assert/strict'),{spawn}=require('node:child_process');
+const {connect_browser_protocol}=require('./browser_protocol.cjs');
+const fixture=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));
+assert.match(fixture.database,/^kaaklat_acceptance_[a-f0-9]{12}$/);
+const base='http://127.0.0.1:8046',delay=n=>new Promise(r=>setTimeout(r,n));
+const server=spawn('C:/php-8.4.14/php.exe',['-S','127.0.0.1:8046','-t','public','tests/acceptance_router.php'],{env:{...process.env,KAAKLAT_ACCEPTANCE_DB:fixture.database},stdio:'ignore',windowsHide:true});
+const chrome=spawn('C:/Program Files/Google/Chrome/Application/chrome.exe',['--headless=new','--remote-debugging-port=9388','--user-data-dir='+fixture.directory+'/alignment-chrome','--no-first-run','--no-proxy-server','about:blank'],{stdio:'ignore',windowsHide:true});
+let c;
+(async()=>{
+async function ready(url){for(let i=0;i<90;i++){try{return await fetch(url)}catch{}await delay(100)}throw Error('Not ready '+url)}
+await ready(base+'/login.php');const tabs=await(await ready('http://127.0.0.1:9388/json')).json();c=await connect_browser_protocol(tabs.find(t=>t.type==='page').webSocketDebuggerUrl);
+await c.call('Page.enable');await c.call('Runtime.enable');
+async function until(expression){for(let i=0;i<100;i++){if(await c.ev(expression))return;await delay(50)}throw Error('Timed out '+expression)}
+async function go(path){await c.call('Page.navigate',{url:base+path});await until('document.readyState==="complete"');await delay(80)}
+await go('/login.php');await c.ev(`document.querySelector('[name=username]').value=${JSON.stringify(fixture.active)};document.querySelector('[name=password]').value=${JSON.stringify(fixture.password)};document.querySelector('[name=password]').form.requestSubmit()`);await until("location.pathname==='/'");await go('/catalog.php');
+await c.ev(`(()=>{const cards=[...document.querySelectorAll('.book-card')];cards[0].querySelector('h2 a').textContent='A Very Long Fictional College Library Book Title That Wraps Across Several Lines';cards[1].querySelector('h2 a').textContent='Short title';cards.forEach((card,i)=>{const holder=card.querySelector('.catalog-card-status');card.querySelectorAll('.catalog-request-status,.catalog-unavailable').forEach(n=>n.remove());const badges=i===0?'<p class="catalog-request-status"><span class="status-badge">Your loan: Active</span></p><p class="catalog-unavailable"><span class="status-badge">Currently unavailable</span></p>':i===2?'<p class="catalog-request-status"><span class="status-badge">Your book: Awaiting pickup</span></p>':'';if(holder)holder.insertAdjacentHTML('beforeend',badges);else card.querySelector('h2').insertAdjacentHTML('afterend',badges);const paragraphs=[...card.children].filter(p=>p.tagName==='P'&&!p.matches('.book-metadata,.availability,.catalog-request-status,.catalog-unavailable'));if(i===0)paragraphs[0].textContent='Fictional Author One, Fictional Author Two and Fictional Author Three';if(i===1)paragraphs[1].textContent='A short description.';});})()`);
+let checks=0;const rows=[];
+for(const width of [1440,1000,768,360,320])for(const theme of ['light','dark']){
+await c.call('Emulation.setDeviceMetricsOverride',{width,height:1100,deviceScaleFactor:1,mobile:false});await c.ev(`document.documentElement.dataset.theme='${theme}'`);await delay(60);
+const result=await c.ev(`(()=>{const groups=new Map();for(const card of document.querySelectorAll('.book-card')){const paragraphs=[...card.children].filter(p=>p.tagName==='P'&&!p.matches('.book-metadata,.availability,.catalog-request-status,.catalog-unavailable'));const key=Math.round(card.getBoundingClientRect().top);if(!groups.has(key))groups.set(key,[]);groups.get(key).push([card.querySelector('h2'),paragraphs[0],card.querySelector('.book-metadata'),paragraphs[1],card.querySelector('.availability')].map(x=>x.getBoundingClientRect().top));}let max=0;for(const group of groups.values())for(let col=0;col<5;col++){const points=group.map(x=>x[col]);max=Math.max(max,Math.max(...points)-Math.min(...points));}return {max,overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth,groups:groups.size,clips:[...document.querySelectorAll('.book-card h2,.book-card > p')].some(e=>e.scrollHeight>e.clientHeight+1)}})()`);
+assert.ok(result.max<=1,`${width}/${theme} row sections drifted ${result.max}px`);assert.ok(!result.overflow&&!result.clips,'No overflow or clipped text');rows.push({width,theme,...result});checks++;
+if(width===1440&&theme==='dark')await c.screenshot(fixture.directory+'/catalog-alignment-dark.png');if(width===360&&theme==='light')await c.screenshot(fixture.directory+'/catalog-alignment-phone.png');
+}
+await c.call('Emulation.setScriptExecutionDisabled',{value:true});await go('/catalog.php');assert.ok(await c.ev("document.querySelectorAll('.book-card').length>0 && getComputedStyle(document.querySelector('.book-card')).gridTemplateRows!=='none'"),'Native CSS alignment works without page JavaScript');
+assert.equal(c.errors.length,0);const report={database:fixture.database,checks,noScript:true,runtimeErrors:c.errors.length,rows};fs.writeFileSync(fixture.directory+'/catalog-alignment-results.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));
+})().catch(e=>{console.error(e);process.exitCode=1}).finally(()=>{c?.ws.close();server.kill();chrome.kill()});

@@ -1,4 +1,5 @@
 /* Approved campus workspace. Route-scoped; existing pagination stays untouched. */
+/* 2026-11-13: compact record-first refinement using the same fields and semantic tokens. */
 .managed-workspace { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(360px, .9fr); align-items: start; gap: 24px; margin-top: 28px; }
 .managed-catalog { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 .managed-catalog-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 24px; border-bottom: 1px solid var(--line); }
@@ -196,4 +197,107 @@
     .workspace-screen .profile-account, .workspace-inspector, .workspace-screen .recovery-form { padding: 20px; }
     .workspace-screen .empty-state { padding: 24px; }
     .workspace-screen .logout-confirmation { padding: 24px; margin-block: 20px; }
+}
+
+/* Accepted review refinement: preserve the directory/inspector behavior and content. */
+.workspace-screen main > section > h1 { font-size: clamp(1.65rem,2.5vw,2.2rem); margin-bottom: 7px; }
+.workspace-screen main > section > h1 + p { font-size: .875rem; line-height: 1.65; }
+.workspace-screen main > section > form[method=get] { padding: 16px 20px; margin-block: 22px; border-radius: 8px; background: var(--soft); }
+.workspace-screen main > section > form[method=get] > label { font-size: .75rem; }
+.workspace-screen .account-tabs ul { background: transparent; padding: 0; margin-block: 20px; }
+.workspace-screen .account-tabs li { min-width: 0; flex: 0 1 auto; }
+.workspace-screen .account-tabs a { border: 1px solid var(--line); background: var(--surface); font-size: .8125rem; padding: 10px 14px; border-radius: 5px; }
+.workspace-screen .account-tabs a[aria-current=page] { background: var(--nav-selected); border-color: var(--nav-selected); color: #fff; box-shadow: none; }
+.workspace-list, .workspace-inspector, .managed-catalog, .managed-editor { border-radius: 9px; }
+.workspace-record > summary { min-height: 82px; padding: 16px 20px; }
+.workspace-record-label { gap: 4px; }
+.workspace-record-label strong { font-size: .875rem; line-height: 1.5; }
+.workspace-record-label > span { font-size: .75rem; }
+.workspace-monogram { border-radius: 50%; flex-basis: 36px; width: 36px; height: 36px; font-size: .75rem; }
+.workspace-inspector { padding: 20px 22px; }
+.workspace-inspector .workspace-back { min-height: 44px; padding: 8px 12px; }
+.workspace-inspector .circulation-heading { margin-block: 20px 16px; }
+.workspace-inspector .circulation-heading h2 { font-size: 1.2rem; line-height: 1.35; }
+.workspace-inspector p { font-size: .8125rem; line-height: 1.65; }
+.workspace-inspector label { font-size: .8125rem; }
+.workspace-inspector .decision-actions > section { padding-block: 17px; }
+.workspace-inspector .student-account-facts > div { padding-block: 11px; }
+.workspace-inspector .student-account-facts { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 18px; }
+.workspace-inspector .student-account-facts dd { font-size: .8125rem; }
+.workspace-screen .workspace-create { border-radius: 8px; padding: 12px 20px; }
+.workspace-create > summary { font-size: .875rem; }
+.workspace-screen .request-row { border-radius: 9px; padding: 5px 20px; }
+.workspace-screen .request-row > summary { padding-block: 14px; gap: 15px; }
+.workspace-screen .request-row-title strong { font-size: 1rem; line-height: 1.45; }
+.workspace-screen .request-row-date { font-size: .8125rem; }
+.workspace-screen .empty-state { border-style: solid; border-radius: 9px; padding: 30px; text-align: center; }
+.workspace-screen .empty-state p { margin-inline: auto; }
+.workspace-screen .profile-layout { grid-template-columns: minmax(210px,.8fr) minmax(0,1.6fr); gap: 22px; }
+.workspace-screen .profile-card { background: var(--surface); color: var(--ink); min-height: 0; padding: 24px; border-radius: 9px; border-top: 3px solid var(--blue); }
+.profile-card .profile-monogram { border-radius: 50%; width: 62px; height: 62px; background: var(--info-bg); color: var(--info); border: 1px solid var(--line); margin-bottom: 20px; }
+.workspace-screen .profile-card p { color: var(--muted); font-size: .8125rem; }
+.workspace-screen .profile-account { border-radius: 9px; padding: 22px; }
+.workspace-screen .profile-account h2 { font-size: 1.15rem; }
+.workspace-screen .profile-details > div { padding-block: 14px; gap: 16px; }
+.workspace-screen .profile-details dt { font-size: .8125rem; }
+.workspace-screen .profile-details dd { font-size: .875rem; }
+.workspace-screen .recovery-form { border-radius: 9px; padding: 24px; }
+.recovery-guidance { padding-top: 0; }
+.recovery-guidance li { padding-bottom: 16px; font-size: .875rem; }
+.workspace-screen main > section > .audit-record { padding: 16px 20px; margin: 0; border-radius: 0; border-bottom: 0; gap: 12px 18px; }
+.workspace-screen main > section > .audit-record:last-of-type { border-bottom: 1px solid var(--line); }
+.workspace-screen .audit-record h2 { line-height: 1.5; font-size: .875rem; }
+.audit-event-code { display: block; margin-top: 4px; color: var(--muted); font: 400 .75rem/1.5 var(--font-body); }
+.workspace-screen .audit-record p { font-size: .8125rem; }
+.managed-column-headings, .managed-catalog-record { padding-block: 15px; }
+.managed-catalog-heading { padding-block: 17px; }
+.managed-catalog-search { background: var(--soft); padding-block: 17px; }
+.managed-editor { padding: 20px 22px; }
+.managed-editor > h2 { font-size: 1.25rem; }
+.editor-section { border-top: 1px solid var(--line); padding-block: 16px; margin-top: 12px; }
+.editor-section > summary { min-height: 44px; align-content: center; font-size: .875rem; color: var(--navy); }
+.editor-section > form, .editor-section > section { margin-top: 16px; }
+.managed-editor .editor-section > .management-section { border: 0; padding: 0; margin: 16px 0 0; }
+.managed-editor .editor-section .student-card { padding-block: 14px; border-bottom: 1px solid var(--line); }
+.workspace-screen .about-page { display: grid; grid-template-columns: minmax(0,1.35fr) minmax(250px,1fr); gap: 24px; }
+.workspace-screen .about-intro { grid-column: 1/-1; border-radius: 9px; min-height: 0; padding: 28px 220px 28px 28px; }
+.workspace-screen .about-intro h1 { font-size: clamp(1.8rem,3vw,2.5rem); }
+.workspace-screen .about-intro .about-lead { font-size: 1.15rem; }
+.workspace-screen .about-intro p { font-size: .875rem; max-width: 80ch; }
+.workspace-screen .about-school { grid-column: 1; grid-row: 2; padding: 24px; border-radius: 9px; margin: 0; }
+.workspace-screen .about-school h2, .workspace-screen .about-borrowing h2 { font-size: 1.3rem; }
+.workspace-screen .about-school h3 { font-size: 1rem; margin-top: 24px; }
+.workspace-screen .about-school p { font-size: .875rem; }
+.workspace-screen .about-developer { grid-column: 2; grid-row: 2; align-self: start; padding: 24px; border-radius: 9px; margin: 0; display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+.workspace-screen .about-developer .developer-photo { width: 100px; height: 100px; flex-basis: 100px; }
+.workspace-screen .about-developer h2 { font-size: 1.15rem; }
+.workspace-screen .about-developer h3 { font-size: 1rem; }
+.workspace-screen .about-developer p, .workspace-screen .about-developer a { font-size: .875rem; overflow-wrap: anywhere; }
+.workspace-screen .about-borrowing { grid-column: 1/-1; margin: 0; padding: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 9px; }
+.workspace-screen .about-borrowing > p, .workspace-screen .about-steps p { font-size: .875rem; }
+.workspace-screen .about-steps { gap: 12px 30px; padding-left: 24px; }
+.workspace-screen .about-steps li { padding-left: 8px; }
+.workspace-screen .about-steps h3 { font-size: .9375rem; }
+.workspace-screen .logout-confirmation { border-radius: 9px; padding: 28px; }
+@media (max-width:1100px) {
+    .managed-workspace { grid-template-columns: minmax(0,1fr) minmax(300px,1fr); }
+    .workspace-screen .about-page { grid-template-columns: minmax(0,1fr); }
+    .workspace-screen .about-school, .workspace-screen .about-developer, .workspace-screen .about-borrowing { grid-column: 1; grid-row: auto; }
+    .workspace-screen .about-developer { flex-direction: row; }
+}
+@media (max-width:900px) {
+    .managed-workspace { grid-template-columns: minmax(0,1fr); }
+    .workspace-screen .profile-layout { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width:820px) {
+    .workspace-screen .about-intro { padding: 24px; }
+    .workspace-inspector .student-account-facts { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width:540px) {
+    .workspace-inspector, .managed-editor { padding: 18px; }
+    .workspace-screen .profile-account, .workspace-screen .recovery-form, .workspace-screen .about-borrowing, .workspace-screen .about-school, .workspace-screen .about-developer { padding: 20px; }
+    .workspace-screen .about-developer { flex-direction: column; }
+    .workspace-screen .profile-details > div { gap: 5px; }
+    .workspace-screen .account-tabs ul { gap: 6px; }
+    .workspace-screen .account-tabs a { font-size: .75rem; padding: 10px 11px; }
 }

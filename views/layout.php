@@ -26,9 +26,23 @@ function render_page(string $title, string $content, bool $landing = false): voi
     if ($navigationUser !== null) { $links['/settings.php'] = 'Settings'; }
     $links['/about.php'] = 'About';
     if ($navigationUser !== null) { $links['/logout.php'] = 'Log out'; }
+    // Presentation grouping never adds destinations or grants role permissions.
+    if ($navigationUser !== null) {
+        $order = $navigationUser['role'] === 'librarian'
+            ? ['/', '/catalog.php', '/manage_books.php', '/review_requests.php', '/pickups.php', '/returns.php', '/students.php', '/recover_account.php', '/settings.php', '/about.php', '/logout.php']
+            : array_keys($links);
+        $links = array_replace(array_intersect_key(array_fill_keys($order, ''), $links), $links);
+    }
     $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
     $navigation = '';
+    $lastGroup = '';
     foreach ($links as $url => $label) {
+        if ($navigationUser !== null) {
+            $group = in_array($url, ['/review_requests.php', '/pickups.php', '/returns.php'], true) ? 'Circulation'
+                : (in_array($url, ['/students.php', '/staff.php', '/audit.php', '/recover_account.php'], true) ? 'Accounts & security'
+                : (in_array($url, ['/settings.php', '/about.php', '/logout.php'], true) ? 'Preferences' : 'Library'));
+            if ($group !== $lastGroup) { $navigation .= '<span class="nav-group-label">' . h($group) . '</span>'; $lastGroup = $group; }
+        }
         $current = $path === $url || ($url === '/' && $path === '/index.php');
         $utilityClass = $navigationUser !== null && $url === '/settings.php' ? ' class="nav-utility-start"' : '';
         $navigation .= '<a href="' . h($url) . '"' . ($current ? ' aria-current="page"' : '') . $utilityClass . '>'
@@ -54,7 +68,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
         $identity = '<div class="sidebar-identity"><strong>' . h($navigationUser['display_name']) . '</strong><span>' . h($role) . ' · ' . h($status) . '</span></div>';
         $portalBar = '<div class="portal-topbar"><div class="portal-location"><span>' . h($role) . ' portal</span><span aria-hidden="true">/</span><strong>' . $safeTitle . '</strong></div><span class="portal-account-status">' . h($status) . '</span></div>';
     }
-    $landingStyles=$landing && $navigationUser===null?'<link rel="stylesheet" href="/assets/landing.css?v=20261110-appearance">':'';
+    $landingStyles=$landing && $navigationUser===null?'<link rel="stylesheet" href="/assets/landing.css?v=20261113-review">':'';
     if ($landingStyles!=='') { $bodyClass.=' landing-page'; }
     $workspaceRoutes = ['/staff.php', '/students.php', '/audit.php', '/recover_account.php',
         '/about.php', '/logout.php', '/review_requests.php', '/pickups.php', '/returns.php',
@@ -62,8 +76,8 @@ function render_page(string $title, string $content, bool $landing = false): voi
     $workspaceAssets = '';
     if (in_array($path, $workspaceRoutes, true)) {
         $bodyClass .= ' workspace-screen';
-        $workspaceAssets = '<link rel="stylesheet" href="/assets/workspace.css?v=20261112">'
-            . '<script src="/assets/workspace.js?v=20261112" defer></script>';
+        $workspaceAssets = '<link rel="stylesheet" href="/assets/workspace.css?v=20261113-review">'
+            . '<script src="/assets/workspace.js?v=20261113-review" defer></script>';
     }
     echo <<<HTML
 <!doctype html>
@@ -73,8 +87,8 @@ function render_page(string $title, string $content, bool $landing = false): voi
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{$safeTitle} | {$appName}</title>
     <link rel="icon" href="/assets/kaaklat-logo.svg" type="image/svg+xml">
-    <script src="/assets/theme.js?v=20261110-appearance"></script>
-    <link rel="stylesheet" href="/assets/app.css?v=20261110-appearance">
+    <script src="/assets/theme.js?v=20261113-review"></script>
+    <link rel="stylesheet" href="/assets/app.css?v=20261113-staff-dashboard">
     {$landingStyles}
     {$workspaceAssets}
     <script src="/assets/forms.js" defer></script>

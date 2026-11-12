@@ -1,11 +1,33 @@
 # KaAklat progress
 
-Updated: 2026-11-12 (Asia/Manila)
+Updated: 2026-11-13 (Asia/Manila)
 
 Status vocabulary: Planned; In progress; Implemented but unverified; Verified; Blocked.
 Verified applies only to the named evidence, not to the entire application.
 
 ## Current status
+
+## User-reported manual acceptance — 2026-11-13
+
+The user confirms that actual 400% zoom, physical-device and screen-reader checks all passed for the current interface. These are user-operated acceptance results, not independently observed automated results. No problems were reported. Device/browser/screen-reader versions and detailed procedures were not supplied. This supersedes earlier current-interface notes marking those three checks unverified; dated historical evidence retains its original scope. No code or pilot data changes. Hosting remains deferred. No commit or push performed.
+
+## Staff dashboard parity correction — 2026-11-13
+
+The earlier redesign completion statement overstated staff-dashboard parity. Corrected the librarian and administrator dashboards to the accepted layout: whole-card summaries, two-column work/account panels, protected book covers, librarian student verification and own recent desk activity, administrator recent account activity and active staff access. All values come from bounded read-only queries. Librarians see only their own allowlisted circulation activity; administrators gain no circulation permissions. Existing student dashboard, role checks, About content, pagination and pilot records remain unchanged. No schema changes, commit or push; hosting deferred.
+
+Verification: 36 regression scripts passed before the final administrator presentation adjustment; final affected dashboard/design tests, PHP lint and 416 workflow HTTP assertions passed. Final browser rerun covered 248 role/theme/viewport combinations with zero runtime exceptions and zero sampled contrast failures. Final librarian/administrator dark screenshots were visually inspected. Strict static UI audit reported zero findings. Actual 400% browser zoom, physical-device and screen-reader acceptance remain manual; no claim of a bug-free system. Usage tool unavailable.
+
+Evidence: verification/STAFF_DASHBOARD_PARITY_2026-11-13.md.
+
+### Catalog card alignment — 2026-11-13
+
+Catalog row alignment corrected with seven shared natural-height CSS subgrid tracks and one optional-badge container. Covers, titles, badge blocks, authors, publication metadata, descriptions and available counts align within each visual row without fixed text heights or additional clipping. Server queries, status/availability rules, cover permissions, links, sorting, filters and pagination unchanged. Focused browser reproduction initially measured150.77px drift; final10 Light/Dark viewport cases(1440/1000/768/360/320px) measured0px, with no overflow/clipped text and a JavaScript-disabled CSS check passing. Existing96 authenticated catalog browser combinations and focused status/view tests passed; PHP lint passed. No pilot records changed, no commit/push. Earlier redesign work remains preserved.
+
+### Accepted design review implementation — 2026-11-13 (latest)
+
+Applied all accepted recommendation areas across the maintained application: grouped navigation with the approved line icons; compact shared headings/search/cards; real role-scoped dashboard summaries and student deadline/catalog preview; sectioned native book editor; clearer audit labels; refined staff, profile, recovery, request, About and logout presentation. All current About information is retained byte-for-byte. Original workflow forms/fields, security, history, protected covers, System/Light/Dark and pagination design are preserved. Verified36 regression scripts,409 workflow HTTP assertions,373 pagination HTTP checks,440 browser layout combinations(248 theme+78 workspace+24 editor+90 pagination),30 workspace interactions,28 no-JS page navigations,12 theme unit checks and121 PHP lints; zero browser runtime exceptions, no sampled theme contrast failures and zero strict static UI findings. All pilot table row fingerprints match the initial baseline; no pilot test accounts/records added. Actual400% zoom, real-device/screen-reader acceptance and updated performance/restore/evaluation remain pending. No schema or circulation mutation/lock changes; independent-process concurrency suites not rerun. Usage tool unavailable. No commit/push; hosting deferred. Evidence: verification/DESIGN_REVIEW_IMPLEMENTATION_2026-11-13.md.
+
+Earlier dated checkpoints below are historical for their source version.
 
 ### Git publication checkpoint — 2026-11-12
 
@@ -85,6 +107,12 @@ The six defaults enumerated above are approved for the demonstration; the follow
 - Fictional student accounts and simulated loan records; book metadata may use well-known titles.
 
 ## Resume here
+
+### Accepted design refinement — 2026-11-13 (current)
+
+Applied all accepted recommendation areas across the maintained application: grouped navigation with the approved line icons; compact shared headings/search/cards; real role-scoped dashboard summaries and student deadline/catalog preview; sectioned native book editor; clearer audit labels; refined staff, profile, recovery, request, About and logout presentation. All current About information is retained byte-for-byte. Original workflow forms/fields, security, history, protected covers, System/Light/Dark and pagination design are preserved. Verified36 regression scripts,409 workflow HTTP assertions,373 pagination HTTP checks,440 browser layout combinations(248 theme+78 workspace+24 editor+90 pagination),30 workspace interactions,28 no-JS page navigations,12 theme unit checks and121 PHP lints; zero browser runtime exceptions, no sampled theme contrast failures and zero strict static UI findings. All pilot table row fingerprints match the initial baseline; no pilot test accounts/records added. Actual400% zoom, real-device/screen-reader acceptance and updated performance/restore/evaluation remain pending. No schema or circulation mutation/lock changes; independent-process concurrency suites not rerun. Usage tool unavailable. No commit/push; hosting deferred. Evidence: verification/DESIGN_REVIEW_IMPLEMENTATION_2026-11-13.md.
+
+Continue from the maintained root using start-local.ps1. Refresh the browser with Ctrl+F5. Review every role, the full About information and native Book details/Physical copies/Cover/Archive sections before commit. Keep all real pilot data; do not import seed.sql or add test users. Remaining operational work is controlled pilot restore/evaluation and current-design manual acceptance.
 
 ### Covers, alignment and student details — latest
 

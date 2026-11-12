@@ -1,0 +1,16 @@
+{
+  "database": "kaaklat_acceptance_2ef999c335a6",
+  "directory": "C:\\Users\\63961\\Desktop\\Emman\\KaAklat2.0/tmp/student-profile-browser-2ef999c335a6",
+  "layouts": 24,
+  "runtimeErrors": 0,
+  "checks": [
+    "two desktop columns",
+    "stacked narrow layout",
+    "native no-JS selection",
+    "search/selection retained",
+    "CSRF and book fields retained",
+    "invalid save retains input",
+    "successful save remains in split editor",
+    "add-copies refreshes derived counts"
+  ]
+}

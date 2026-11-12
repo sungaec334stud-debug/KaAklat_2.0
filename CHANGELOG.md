@@ -1,4 +1,20 @@
+## Staff dashboard parity correction — 2026-11-13
+
+The earlier redesign completion statement overstated staff-dashboard parity. Corrected the librarian and administrator dashboards to the accepted layout: whole-card summaries, two-column work/account panels, protected book covers, librarian student verification and own recent desk activity, administrator recent account activity and active staff access. All values come from bounded read-only queries. Librarians see only their own allowlisted circulation activity; administrators gain no circulation permissions. Existing student dashboard, role checks, About content, pagination and pilot records remain unchanged. No schema changes, commit or push; hosting deferred.
+
+Verification: 36 regression scripts passed before the final administrator presentation adjustment; final affected dashboard/design tests, PHP lint and 416 workflow HTTP assertions passed. Final browser rerun covered 248 role/theme/viewport combinations with zero runtime exceptions and zero sampled contrast failures. Final librarian/administrator dark screenshots were visually inspected. Strict static UI audit reported zero findings. Actual 400% browser zoom, physical-device and screen-reader acceptance remain manual; no claim of a bug-free system. Usage tool unavailable.
+
+Evidence: verification/STAFF_DASHBOARD_PARITY_2026-11-13.md.
+
 # Changelog
+
+## 2026-11-13 — Catalog card alignment
+
+Catalog row alignment corrected with seven shared natural-height CSS subgrid tracks and one optional-badge container. Covers, titles, badge blocks, authors, publication metadata, descriptions and available counts align within each visual row without fixed text heights or additional clipping. Server queries, status/availability rules, cover permissions, links, sorting, filters and pagination unchanged. Focused browser reproduction initially measured150.77px drift; final10 Light/Dark viewport cases(1440/1000/768/360/320px) measured0px, with no overflow/clipped text and a JavaScript-disabled CSS check passing. Existing96 authenticated catalog browser combinations and focused status/view tests passed; PHP lint passed. No pilot records changed, no commit/push. Earlier redesign work remains preserved.
+
+## 2026-11-13 — Accepted three-role design refinement
+
+Applied all accepted recommendation areas across the maintained application: grouped navigation with the approved line icons; compact shared headings/search/cards; real role-scoped dashboard summaries and student deadline/catalog preview; sectioned native book editor; clearer audit labels; refined staff, profile, recovery, request, About and logout presentation. All current About information is retained byte-for-byte. Original workflow forms/fields, security, history, protected covers, System/Light/Dark and pagination design are preserved. Verified36 regression scripts,409 workflow HTTP assertions,373 pagination HTTP checks,440 browser layout combinations(248 theme+78 workspace+24 editor+90 pagination),30 workspace interactions,28 no-JS page navigations,12 theme unit checks and121 PHP lints; zero browser runtime exceptions, no sampled theme contrast failures and zero strict static UI findings. All pilot table row fingerprints match the initial baseline; no pilot test accounts/records added. Actual400% zoom, real-device/screen-reader acceptance and updated performance/restore/evaluation remain pending. No schema or circulation mutation/lock changes; independent-process concurrency suites not rerun. Usage tool unavailable. No commit/push; hosting deferred. Evidence: verification/DESIGN_REVIEW_IMPLEMENTATION_2026-11-13.md.
 
 ## 2026-11-12 — Covers, alignment and student detail cards
 
@@ -402,3 +418,7 @@ Created output/documents/KaAklat_Chapters_1_2_With_References.docx because the e
 
 ### Conceptual framework arrow visibility — 2026-11-11
 Created output/documents/KaAklat_Chapters_1_2_Clear_Arrows.docx and companion KaAklat_Conceptual_Framework_Clear_Arrows.png. Built-in image editing darkened the two forward arrows and output-to-input feedback loop; labels visually verified. Prompt requested exact existing wording/layout/pastel boxes with bold charcoal arrows only. DOCX ZIP comparison confirms only word/media/image2.png changed; original references copy preserved. Word export remained 14 pages; page text matches after excluding PDF extraction whitespace. Exact pixel comparison failed due to minor text rendering differences; this is not reported as pixel-identical. Conceptual framework rendered page inspected and arrow visibility confirmed. No application change/tests. Next: review the updated copy.
+
+## User-reported manual acceptance — 2026-11-13
+
+The user confirms that actual 400% zoom, physical-device and screen-reader checks all passed for the current interface. These are user-operated acceptance results, not independently observed automated results. No problems were reported. Device/browser/screen-reader versions and detailed procedures were not supplied. This supersedes earlier current-interface notes marking those three checks unverified; dated historical evidence retains its original scope. No code or pilot data changes. Hosting remains deferred. No commit or push performed.

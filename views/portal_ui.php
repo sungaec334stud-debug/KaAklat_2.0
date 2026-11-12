@@ -23,30 +23,30 @@ function student_overdue_notice_html(int $count): string
 function portal_icon(string $route): string
 {
     $paths = [
-        '/settings.php' => '<path d="m9 3-1 3-3 1v4l2 1-1 3 3 3 3-1 1 2h4l1-3 3-1v-4l-2-1 1-3-3-3-3 1-1-2z"/><circle cx="12" cy="11" r="3"/>',
-        '/logout.php' => '<path d="M9 4H4v16h5m5-12 4 4-4 4m-6-4h12"/>',
-        '/about.php' => '<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/>',
-        '/' => '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
-        '/catalog.php' => '<path d="M12 5C8 2 3 3 3 3v16s5-1 9 2c4-3 9-2 9-2V3s-5-1-9 2v16M6 7l3 1m-3 3 3 1m6-4 3-1m-3 5 3-1"/>',
-        '/requests.php' => '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2M9 10h6M9 14h6M9 18h3"/>',
-        '/profile.php' => '<circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/>',
-        '/review_requests.php' => '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="m8 9 2 2 5-5M8 15h8M8 18h5"/>',
-        '/pickups.php' => '<path d="M4 7h16v13H4zM8 7V4h8v3m-8 6 3 3 5-6"/>',
-        '/returns.php' => '<path d="M5 3h14v18H5zM9 3v8l3-2 3 2V3"/>',
-        '/manage_books.php' => '<path d="M4 4h5v17H4zm6 0h5v17h-5zm6 1 4-1 3 16-4 1zM5 8h3m3 1h3"/>',
-        '/students.php' => '<circle cx="9" cy="7" r="3"/><path d="M3 21v-4a6 6 0 0 1 12 0v4m1-17a3 3 0 0 1 0 6m2 4a6 6 0 0 1 3 5v2"/>',
-        '/staff.php' => '<circle cx="9" cy="7" r="3"/><path d="M3 21v-4a6 6 0 0 1 9-5m5 0 4 2v4l-4 3-4-3v-4z"/>',
-        '/audit.php' => '<path d="M5 3h14v18H5zM8 7h8M8 11h8M8 15h5M8 18h8"/>',
-        '/recover_account.php' => '<circle cx="8" cy="9" r="5"/><path d="m12 13 8 8m-4-4 3-3m-6 0 3-3M6 9h.1"/>',
+        '/' => '<path d="M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z"/>',
+        '/catalog.php' => '<path d="M12 5C8 2 4 3 2 4v16c3-2 7-1 10 1 3-2 7-3 10-1V4c-3-2-7-1-10 1zm0 0v16"/>',
+        '/requests.php' => '<path d="M7 4H4v18h16V4h-3 M8 2h8v5H8z M8 12h8 M8 17h6"/>',
+        '/review_requests.php' => '<path d="M7 4H4v18h16V4h-3 M8 2h8v5H8z M8 12h8 M8 17h6"/>',
+        '/pickups.php' => '<path d="M4 8h16v13H4z M8 3h8v5 M8 14l3 3 5-6"/>',
+        '/returns.php' => '<path d="M8 7H3v-5 M3 7a9 9 0 1 1-1 9"/>',
+        '/manage_books.php' => '<path d="M3 3h4v18H3z M10 3h4v18h-4z M17 3l4-1 4 18-4 1z"/>',
+        '/students.php' => '<path d="M8 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M1 22v-4c0-5 14-5 14 0v4 M17 4a4 4 0 0 1 0 8 M19 15c3 0 4 2 4 5"/>',
+        '/staff.php' => '<path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10z M3 23v-4c0-7 18-7 18 0v4"/>',
+        '/profile.php' => '<path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10z M3 23v-4c0-7 18-7 18 0v4"/>',
+        '/audit.php' => '<path d="M5 2h14v20H5z M8 7h8 M8 12h8 M8 17h5"/>',
+        '/recover_account.php' => '<path d="M8 14a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M13 12l9 9 M17 16l3-3"/>',
+        '/settings.php' => '<path d="M3 6h18 M3 12h18 M3 18h18 M7 3v6 M17 9v6 M10 15v6"/>',
+        '/about.php' => '<path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 11v7 M12 6v2"/>',
+        '/logout.php' => '<path d="M9 3H3v18h6 M7 12h15 M17 7l5 5-5 5"/>',
     ];
     if (!isset($paths[$route])) { return ''; }
-    return '<svg xmlns="http://www.w3.org/2000/svg" class="portal-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' . $paths[$route] . '</svg>';
+    return '<svg xmlns="http://www.w3.org/2000/svg" class="portal-icon" viewBox="0 0 26 26" aria-hidden="true" focusable="false">' . $paths[$route] . '</svg>';
 }
 
 function portal_summary_html(array $summaries, string $heading, string $scope): string
 {
     $html = '<section class="summary-panel" aria-label="' . h($heading) . '"><div class="summary-heading"><span>' . h($heading)
-        . '</span><span>' . h($scope) . '</span></div><div class="summary-grid" role="group" aria-label="Borrowing summary">';
+        . '</span><span>' . h($scope) . '</span></div><div class="summary-grid" role="group" aria-label="' . h($heading) . '">';
     foreach ($summaries as [$label,$count,$url]) {
         $path = parse_url($url, PHP_URL_PATH);
         if (str_contains($url, 'status=awaiting_pickup')) { $path = '/pickups.php'; }

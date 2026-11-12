@@ -1020,3 +1020,42 @@ Fixed missing circulation cover presentation and alignment: review/pickup/return
 ### Pre-publication outcome
 
 Fresh35-script isolated regression run passed;128 PHP files linted;12 theme-controller checks, protocol tests and workspace presentation contract passed. Reviewed the complete pending source/docs/test diff, verified tested-source parity, unchanged pagination owners, private/runtime exclusions and no likely credential-pattern findings. Fetched origin and confirmed local main and origin/main aligned before publication. Proceed with the user-authorized normal commit/push; report its actual hash/result in the operator response. No database/config/cover/backup artifacts are included.
+
+
+## 2026-11-13 — Implement all accepted design recommendations
+
+User prompt:
+
+> Can you implement ALL of the recomendation you did here? ALL I MEAN ALL. Just make sure that There are no bugs and errors.
+>
+> Also the about page in the mock up doesn't sync the info in the actual website.
+>
+> I want you to make sure that each info in the current system is all there when you made the entire change with the new design I accepted.
+>
+> I also like all the icons you used for the mock up in the navigation bar on the left. Use those icons as well Just make sure that everything
+
+Outcome:
+
+Applied all accepted recommendation areas across the maintained application: grouped navigation with the approved line icons; compact shared headings/search/cards; real role-scoped dashboard summaries and student deadline/catalog preview; sectioned native book editor; clearer audit labels; refined staff, profile, recovery, request, About and logout presentation. All current About information is retained byte-for-byte. Original workflow forms/fields, security, history, protected covers, System/Light/Dark and pagination design are preserved. Verified36 regression scripts,409 workflow HTTP assertions,373 pagination HTTP checks,440 browser layout combinations(248 theme+78 workspace+24 editor+90 pagination),30 workspace interactions,28 no-JS page navigations,12 theme unit checks and121 PHP lints; zero browser runtime exceptions, no sampled theme contrast failures and zero strict static UI findings. All pilot table row fingerprints match the initial baseline; no pilot test accounts/records added. Actual400% zoom, real-device/screen-reader acceptance and updated performance/restore/evaluation remain pending. No schema or circulation mutation/lock changes; independent-process concurrency suites not rerun. Usage tool unavailable. No commit/push; hosting deferred. Evidence: verification/DESIGN_REVIEW_IMPLEMENTATION_2026-11-13.md.
+
+The unfinished final phrase was treated as reinforcement of the explicit information/behavior-preservation requirement. No absolute bug-free guarantee is claimed; only executed evidence.
+
+
+## 2026-11-13 — Catalog card alignment
+
+User: “I kinda hate how these are not aligned” (catalog screenshot), followed by “can we fix that?”
+
+Outcome: Catalog row alignment corrected with seven shared natural-height CSS subgrid tracks and one optional-badge container. Covers, titles, badge blocks, authors, publication metadata, descriptions and available counts align within each visual row without fixed text heights or additional clipping. Server queries, status/availability rules, cover permissions, links, sorting, filters and pagination unchanged. Focused browser reproduction initially measured150.77px drift; final10 Light/Dark viewport cases(1440/1000/768/360/320px) measured0px, with no overflow/clipped text and a JavaScript-disabled CSS check passing. Existing96 authenticated catalog browser combinations and focused status/view tests passed; PHP lint passed. No pilot records changed, no commit/push. Earlier redesign work remains preserved.
+
+
+## 2026-11-13 — Staff dashboard mismatch
+
+User: Why are the librarian and administrator dashboards different from the accepted mockup?
+
+Outcome: The earlier redesign completion statement overstated staff-dashboard parity. Corrected the librarian and administrator dashboards to the accepted layout: whole-card summaries, two-column work/account panels, protected book covers, librarian student verification and own recent desk activity, administrator recent account activity and active staff access. All values come from bounded read-only queries. Librarians see only their own allowlisted circulation activity; administrators gain no circulation permissions. Existing student dashboard, role checks, About content, pagination and pilot records remain unchanged. No schema changes, commit or push; hosting deferred.
+
+Verification: 36 regression scripts passed before the final administrator presentation adjustment; final affected dashboard/design tests, PHP lint and 416 workflow HTTP assertions passed. Final browser rerun covered 248 role/theme/viewport combinations with zero runtime exceptions and zero sampled contrast failures. Final librarian/administrator dark screenshots were visually inspected. Strict static UI audit reported zero findings. Actual 400% browser zoom, physical-device and screen-reader acceptance remain manual; no claim of a bug-free system. Usage tool unavailable.
+
+## User-reported manual acceptance — 2026-11-13
+
+The user confirms that actual 400% zoom, physical-device and screen-reader checks all passed for the current interface. These are user-operated acceptance results, not independently observed automated results. No problems were reported. Device/browser/screen-reader versions and detailed procedures were not supplied. This supersedes earlier current-interface notes marking those three checks unverified; dated historical evidence retains its original scope. No code or pilot data changes. Hosting remains deferred. No commit or push performed.

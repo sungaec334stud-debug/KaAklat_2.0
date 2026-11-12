@@ -30,6 +30,18 @@ async function run() {
             await go('/settings.php');await ev("document.querySelector('[name=appearance][value="+theme+"]').click()");
             for(const path of paths){
                 await go(path);assert.equal(await ev('document.documentElement.dataset.theme'),theme,'Theme persists across pages');
+                if (path === '/') {
+                    assert.ok(await ev("!document.querySelector('main').textContent.includes('temporarily unavailable')"), 'Dashboard read models and catalog preview render without fallback');
+                    if (role === 'active') assert.equal(await ev("document.querySelectorAll('.dashboard-books article').length"),4,'Student discovery remains bounded to four catalog books');
+                    if (role === 'librarian') {
+                        assert.equal(await ev("document.querySelectorAll('.dashboard .staff-stat').length"),3,'Librarian gets review, collection and outstanding-loan totals');
+                        assert.ok(await ev("!!document.querySelector('.dashboard-account-panel') && !!document.querySelector('.dashboard-desk-activity')"),'Librarian has accepted verification and recent-activity panels');
+                    }
+                    if (role === 'admin') {
+                        assert.equal(await ev("document.querySelectorAll('.dashboard .staff-stat').length"),3,'Administrator gets pending, staff and recent-account-event summaries');
+                        assert.ok(await ev("!!document.querySelector('.staff-access-row') && !document.querySelector('.dashboard-desk-activity')"),'Administrator has staff access without librarian circulation feed');
+                    }
+                }
                 for(const width of [1440,768,360,320]){
                     await viewport(width);
                     await until("[...document.images].every(i=>i.loading==='lazy' || i.complete)");

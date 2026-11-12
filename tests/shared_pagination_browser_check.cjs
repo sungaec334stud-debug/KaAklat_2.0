@@ -23,6 +23,13 @@ for(const [role,paths] of Object.entries(pages)){
   for(const path of paths){
    paginationSelector=path.includes('id=1')?'nav.catalog-pagination[aria-label="Copy pages"]':'nav.catalog-pagination:not([aria-label="Copy pages"])';
    await go(path);assert.ok(await ev("!!document.querySelector('nav.catalog-pagination .pagination-summary')"));
+   // Copy pagination now lives in the native Physical copies disclosure.
+   // Open it through its keyboard control before testing its page links.
+   if(await ev("!!document.querySelector('nav.catalog-pagination').closest('details:not([open])')")) {
+    await ev("document.querySelector('nav.catalog-pagination').closest('details').querySelector(':scope > summary').focus()");
+    await key('Enter');
+    assert.ok(await ev("document.querySelector('nav.catalog-pagination').closest('details').open"),'Keyboard opens Physical copies');
+   }
    for(const width of [1440,768,360]){
     await call('Emulation.setDeviceMetricsOverride',{width,height:1000,deviceScaleFactor:1,mobile:false});
     await ev("document.querySelector('nav.catalog-pagination').scrollIntoView({block:'center'})");

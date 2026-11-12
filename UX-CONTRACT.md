@@ -32,3 +32,17 @@ Canonical optional directory/inspector enhancement: public/assets/workspace.js; 
 ## Covers and student details — 2026-11-12
 
 Circulation thumbnail owner: views/circulation_ui.php using /cover.php with existing identity/archive rules. No cover storage keys are output. workspace.js handles failed images with a visible fallback; selected-panel images load eagerly. Account detail owner: views/student_account_ui.php, fed by authorized bounded student-list reads and existing audit timestamps; librarian IDs only, no guessed dates or write behavior. Catalog column-center and pagination-container spacing belong to workspace.css; pagination controls keep their existing owner.
+
+
+## Accepted refinement owners — 2026-11-13
+
+Layout groups the same role-allowlisted links; portal_ui owns accepted SVGs and escaped count labels. app.css owns compact shell/dashboard/discovery tokens; workspace.css owns existing directory/inspector and native editor-section presentation. app/dashboard.php separately authorizes administrator scalar account totals; existing dashboard_counts remains unchanged for student/librarian scope. Readable audit labels supplement the original codes without changing exact GET filters or exposing payloads. About source/information and existing pagination owners remain unchanged. Original POST forms/tokens/fields stay intact; failed editor actions and copies_page open the relevant native section, including without JavaScript. Prototype-only simplified validation, controls and examples do not define application behavior.
+
+
+## Staff dashboard parity correction — 2026-11-13
+
+The earlier redesign completion statement overstated staff-dashboard parity. Corrected the librarian and administrator dashboards to the accepted layout: whole-card summaries, two-column work/account panels, protected book covers, librarian student verification and own recent desk activity, administrator recent account activity and active staff access. All values come from bounded read-only queries. Librarians see only their own allowlisted circulation activity; administrators gain no circulation permissions. Existing student dashboard, role checks, About content, pagination and pilot records remain unchanged. No schema changes, commit or push; hosting deferred.
+
+Verification: 36 regression scripts passed before the final administrator presentation adjustment; final affected dashboard/design tests, PHP lint and 416 workflow HTTP assertions passed. Final browser rerun covered 248 role/theme/viewport combinations with zero runtime exceptions and zero sampled contrast failures. Final librarian/administrator dark screenshots were visually inspected. Strict static UI audit reported zero findings. Actual 400% browser zoom, physical-device and screen-reader acceptance remain manual; no claim of a bug-free system. Usage tool unavailable.
+
+Evidence: verification/STAFF_DASHBOARD_PARITY_2026-11-13.md.

@@ -1,0 +1,17 @@
+{
+  "database": "kaaklat_acceptance_43f8a76e7833",
+  "directory": "C:\\Users\\63961\\Desktop\\Emman\\KaAklat2.0/tmp/student-profile-browser-43f8a76e7833",
+  "combinations": 248,
+  "runtimeErrors": 0,
+  "contrastFailures": [],
+  "checks": [
+    "theme persistence",
+    "keyboard radio selection",
+    "narrow navigation keyboard visibility",
+    "student and librarian invalid-input summary focus",
+    "system changes",
+    "blocked storage",
+    "JavaScript-free system theme",
+    "guest themes"
+  ]
+}
