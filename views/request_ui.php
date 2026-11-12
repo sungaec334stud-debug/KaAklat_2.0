@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/time.php';
 function request_status_label(string $state): string
 {
     return match($state) { 'pending'=>'Pending review','awaiting pickup'=>'Ready for pickup','active'=>'Active loan','overdue'=>'Overdue','rejected'=>'Rejected','expired'=>'Pickup expired','returned'=>'Returned','student','librarian','cancelled'=>'Cancelled',default=>'Check with librarian' };
@@ -39,8 +40,7 @@ function borrowing_form_html(int $bookId,string $days,string $reason,array $erro
 
 function request_history_time(string $utc): string
 {
-    return (new DateTimeImmutable($utc, new DateTimeZone('UTC')))
-        ->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a');
+    return display_manila_time($utc);
 }
 
 function request_history_row_html(array $row, bool $activeStudent): string

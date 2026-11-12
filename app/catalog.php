@@ -62,7 +62,7 @@ function catalog_books(PDO $connection, string $query, int $page, array $filters
     }
     if ($query !== '') {
         // Treat wildcard characters as literal search text, using an explicit escape character.
-        $pattern = '%' . strtr($query, ['!' => '!!', '%' => '!%', '_' => '!_']) . '%';
+        $pattern = '%' . catalog_like($query) . '%';
         $sql .= " AND (b.title LIKE :title ESCAPE '!' OR EXISTS (
             SELECT 1 FROM book_authors sx JOIN authors ax ON ax.author_id = sx.author_id
             WHERE sx.book_id = b.book_id AND ax.author_name LIKE :author ESCAPE '!'))";

@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/app/bootstrap.php';
 require_once dirname(__DIR__) . '/app/student_accounts.php';
 require_once dirname(__DIR__) . '/views/layout.php';
+require_once dirname(__DIR__) . '/views/student_account_ui.php';
 require_once dirname(__DIR__) . '/app/pagination.php';
 
 start_application_session();
@@ -42,8 +43,13 @@ try {
     }
     $page = filter_var($_GET['page'] ?? 1, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 100000]]) ?: 1;
     $canReview = $user['role'] === 'librarian' && $status === 'pending';
-    $reviewColumns = $canReview ? ', school_student_id, session_version' : '';
-    $students = array_slice(pagination_rows($connection, "SELECT user_id, username, display_name, account_status{$reviewColumns} FROM users WHERE role = 'student' AND account_status = :status", ['status'=>$status], 'user_id', $page, 25, $pagination, 100000), 0, 25);
+    $showSchoolId = $user['role'] === 'librarian';
+    $reviewColumns = ($showSchoolId ? ', school_student_id' : '') . ($canReview ? ', session_version' : '');
+    $historyColumns = ", created_at,
+        (SELECT MIN(e.occurred_at) FROM audit_events e WHERE e.entity_type='users' AND e.entity_id=users.user_id AND e.event_code='student.activate') AS activated_at,
+        (SELECT MAX(e.occurred_at) FROM audit_events e WHERE e.entity_type='users' AND e.entity_id=users.user_id AND e.event_code='student.suspend') AS suspended_at,
+        (SELECT MAX(e.occurred_at) FROM audit_events e WHERE e.entity_type='users' AND e.entity_id=users.user_id AND e.event_code='student.reactivate') AS reactivated_at";
+    $students = array_slice(pagination_rows($connection, "SELECT user_id, username, display_name, account_status{$reviewColumns}{$historyColumns} FROM users WHERE role = 'student' AND account_status = :status", ['status'=>$status], 'user_id', $page, 25, $pagination, 100000), 0, 25);
     $page = $pagination['page'];
     $content = '<section class="panel"><h1>Student accounts</h1><p>Activate students after checking their school identity. Suspended students cannot sign in. Account changes require the student to sign in again.</p><p><a href="/">Dashboard</a></p>';
     $content .= '<nav class="account-tabs" aria-label="Student account actions"><ul>';
@@ -54,6 +60,7 @@ try {
     foreach ($students as $student) {
         $action = match ($student['account_status']) { 'pending' => 'activate', 'active' => 'suspend', 'suspended' => 'reactivate' };
         $content .= '<article class="student-card"><div class="student-info"><h3>' . h($student['display_name']) . '</h3><p>' . h($student['username']) . ' <span class="badge badge-' . h($student['account_status']) . '">' . h(ucfirst($student['account_status'])) . '</span></p></div>';
+        if ($status !== 'pending') { $content .= student_account_details_html($student, $showSchoolId); }
         $form = '<form method="post" action="' . h($sectionUrl) . '"><input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '">'
             . '<input type="hidden" name="student_id" value="' . h($student['user_id']) . '">';
         if ($canReview) {

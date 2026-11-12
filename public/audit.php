@@ -3,6 +3,7 @@ declare(strict_types=1);
 require_once dirname(__DIR__).'/app/bootstrap.php';
 require_once dirname(__DIR__).'/app/audit.php';
 require_once dirname(__DIR__).'/views/layout.php';
+require_once dirname(__DIR__).'/views/time.php';
 start_application_session(); header('Cache-Control: no-store');
 try {
     $db=database_connection(application_config()['database']); if(current_user($db)===null) redirect('/login.php'); staff_actor($db);
@@ -13,8 +14,8 @@ try {
     $html='<section class="panel"><h1>Audit records</h1><p>Read-only security and workflow metadata. Borrowing reasons, decision explanations, passwords and recovery secrets are not displayed. Times below are Manila time.</p><form method="get"><label for="event">Exact event code (optional)</label><input id="event" name="event" maxlength="64" value="'.h($event).'"><label for="actor">Actor username (optional)</label><input id="actor" name="actor" maxlength="32" value="'.h($actor).'"><button>Filter events</button> <a href="/audit.php">Clear</a></form>';
     if(!$rows) $html.='<p>No audit events on this page. Clear filters or return to the first page.</p>';
     foreach(array_slice($rows,0,25) as $row) {
-        $time=(new DateTimeImmutable($row['occurred_at'],new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i:s a');
-        $html.='<article class="management-section"><h2>'.h($row['event_code']).'</h2><p>'.h($time).' (Manila)<br>Actor: '.h($row['actor_username']??'System / local operator').'<br>Affected record: '.h($row['entity_type']).' '.h($row['entity_id']??'—').'</p></article>';
+        $time=display_manila_time($row['occurred_at'], 'M j, Y g:i:s a');
+        $html.='<article class="management-section audit-record"><h2>'.h($row['event_code']).'</h2><p>'.h($time).' (Manila)</p><p>Actor: '.h($row['actor_username']??'System / local operator').'</p><p>Affected record: '.h($row['entity_type']).' '.h($row['entity_id']??'—').'</p></article>';
     }
     $html .= pagination_html($pagination, static fn(int $target): string => '?'.http_build_query(['event'=>$event,'actor'=>$actor,'page'=>$target]), 'Audit pages', 'events');
     render_page('Audit records',$html.'</section>');

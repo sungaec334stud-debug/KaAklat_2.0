@@ -2,6 +2,7 @@
 const {spawn, execFileSync} = require('node:child_process');
 const fs = require('node:fs');
 const assert = require('node:assert/strict');
+const {connect_browser_protocol}=require('./browser_protocol.cjs');
 const output = execFileSync('C:/php-8.4.14/php.exe', ['tests/student_profile_browser_fixture.php', '--campus'], {encoding:'utf8'});
 const fixture = JSON.parse(fs.readFileSync(output.match(/Private fixture file: (.+)/)[1].trim(), 'utf8'));
 const base = 'http://127.0.0.1:8034';
@@ -12,16 +13,12 @@ async function ready(url) { for(let i=0;i<80;i++){try{return await fetch(url)}ca
 async function run() {
     await ready(base+'/login.php');
     const target = (await(await ready('http://127.0.0.1:9358/json/list')).json()).find(t=>t.type==='page');
-    const ws = new WebSocket(target.webSocketDebuggerUrl);
-    await new Promise((resolve,reject)=>{ws.onopen=resolve;ws.onerror=reject;});
-    let id=0; const pending=new Map(), errors=[], contrast=[];
-    ws.onmessage=({data})=>{const m=JSON.parse(data);if(m.method==='Runtime.exceptionThrown')errors.push(m.params);const p=pending.get(m.id);if(p){pending.delete(m.id);m.error?p.reject(m.error):p.resolve(m.result);}};
-    const call=(method,params={})=>new Promise((resolve,reject)=>{const key=++id;pending.set(key,{resolve,reject});ws.send(JSON.stringify({id:key,method,params}));});
-    const ev=async expression=>{const r=await call('Runtime.evaluate',{expression,returnByValue:true});if(r.exceptionDetails)throw Error(r.result.description);return r.result.value;};
+    const {ws,call,ev,screenshot: captureScreenshot,errors}=await connect_browser_protocol(target.webSocketDebuggerUrl, {awaitPromise:false});
+    const contrast=[];
     async function until(expression){for(let i=0;i<70;i++){try{if(await ev(expression))return;}catch{}await pause(80);}throw Error('Timed out '+expression);}
     async function go(path){const r=await call('Page.navigate',{url:base+path});if(r.errorText)throw Error(r.errorText);await until('document.readyState==="complete"');await pause(70);}
     async function viewport(width){await call('Emulation.setDeviceMetricsOverride',{width,height:1000,deviceScaleFactor:1,mobile:false});}
-    async function screenshot(name){const r=await call('Page.captureScreenshot',{format:'png'});fs.writeFileSync(fixture.directory+'/'+name+'.png',Buffer.from(r.data,'base64'));}
+    const screenshot=name=>captureScreenshot(fixture.directory+'/'+name+'.png');
     await call('Page.enable');await call('Runtime.enable');
     let combinations=0;
     const matrix={active:['/','/settings.php','/catalog.php','/requests.php','/requests.php?book=6','/profile.php','/about.php','/logout.php'],pending:['/settings.php','/catalog.php','/profile.php'],librarian:['/','/settings.php','/catalog.php','/review_requests.php','/pickups.php','/returns.php','/manage_books.php','/students.php','/recover_account.php','/about.php','/logout.php'],admin:['/','/settings.php','/catalog.php','/staff.php','/students.php','/audit.php','/recover_account.php','/about.php','/logout.php']};

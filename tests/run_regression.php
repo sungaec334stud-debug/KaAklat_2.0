@@ -23,6 +23,10 @@ $tests[] = 'catalog_discovery_test.php';
 $tests[] = 'catalog_discovery_integration_test.php';
 $tests[] = 'catalog_discovery_view_test.php';
 $tests[] = 'shared_pagination_test.php';
+$tests[] = 'presentation_helpers_test.php';
+$tests[] = 'managed_catalog_view_test.php';
+$tests[] = 'circulation_cover_test.php';
+$tests[] = 'student_account_details_test.php';
 foreach ($tests as $test) {
     $process = proc_open([PHP_BINARY, __DIR__ . '/' . $test], [0=>STDIN,1=>STDOUT,2=>STDERR], $pipes);
     if (!is_resource($process) || proc_close($process) !== 0) { fwrite(STDERR, "FAIL: $test\n"); exit(1); }

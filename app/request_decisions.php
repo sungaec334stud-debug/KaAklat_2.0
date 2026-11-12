@@ -108,7 +108,7 @@ function list_review_requests(PDO $db, int $page, string $search='', ?array &$pa
 {
     require_request_librarian(current_user($db));
     if($page<1 || $page>10000 || mb_strlen($search)>100) { throw new InvalidArgumentException('Choose a valid page and search of at most 100 characters.'); }
-    $sql="SELECT r.*,b.title,u.display_name AS student_name,u.username,u.account_status,
+    $sql="SELECT r.*,b.title,b.cover_path,b.archived_at AS book_archived_at,u.display_name AS student_name,u.username,u.account_status,
         (SELECT COUNT(*) FROM book_copies c WHERE c.book_id=b.book_id AND c.archived_at IS NULL AND b.archived_at IS NULL AND NOT EXISTS(SELECT 1 FROM loans l JOIN borrow_requests a ON a.request_id=l.request_id WHERE l.copy_id=c.copy_id AND l.returned_at IS NULL AND l.cancelled_at IS NULL AND (l.checked_out_at IS NOT NULL OR a.decided_at>UTC_TIMESTAMP()-INTERVAL 48 HOUR))) AS available_copies,
         (SELECT COUNT(*) FROM loans l JOIN borrow_requests a ON a.request_id=l.request_id WHERE a.student_id=u.user_id AND l.returned_at IS NULL AND l.cancelled_at IS NULL AND (l.checked_out_at IS NOT NULL OR a.decided_at>UTC_TIMESTAMP()-INTERVAL 48 HOUR)) AS live_allowance,
         EXISTS(SELECT 1 FROM loans l JOIN borrow_requests a ON a.request_id=l.request_id WHERE a.student_id=u.user_id AND l.checked_out_at IS NOT NULL AND l.returned_at IS NULL AND l.cancelled_at IS NULL AND l.due_date<DATE(UTC_TIMESTAMP()+INTERVAL 8 HOUR)) AS has_overdue

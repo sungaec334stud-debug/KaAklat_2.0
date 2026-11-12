@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+require_once __DIR__ . '/time.php';
 
 function dashboard_welcome(array $user): string
 {
@@ -28,8 +29,7 @@ function dashboard_welcome(array $user): string
 
 function dashboard_manila_time(string $utc): string
 {
-    return (new DateTimeImmutable($utc, new DateTimeZone('UTC')))
-        ->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, g:i A');
+    return display_manila_time($utc, 'M j, g:i A');
 }
 
 function dashboard_preview_html(string $role, array $preview): string

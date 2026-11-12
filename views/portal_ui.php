@@ -2,6 +2,23 @@
 
 declare(strict_types=1);
 
+function student_summary_items(array $counts, string $pickupLabel = 'Ready for pickup'): array
+{
+    return [
+        ['Pending requests', $counts['pending'], '/requests.php?status=pending'],
+        [$pickupLabel, $counts['awaiting'], '/requests.php?status=awaiting_pickup'],
+        ['Active loans', $counts['active'] - $counts['overdue'], '/requests.php?status=active'],
+    ];
+}
+
+function student_overdue_notice_html(int $count): string
+{
+    if ($count <= 0) { return ''; }
+    return '<p class="flash flash-error" role="status">You have ' . h((string) $count)
+        . ' <a href="/requests.php?status=overdue">' . ($count === 1 ? 'overdue loan' : 'overdue loans')
+        . '</a>. Please speak with your librarian.</p>';
+}
+
 // Static decorative artwork. Route names come from existing navigation, never SVG input.
 function portal_icon(string $route): string
 {

@@ -42,13 +42,13 @@ try {
     if ($failed!==null && !in_array($failed,array_map('intval',array_column(array_slice($rows,0,20),'user_id')),true) && isset($errors['staff-'.$failed])) {
         $errors=[''=>$errors['staff-'.$failed]];
     }
-    $html='<section class="panel"><h1>Staff accounts</h1>'.form_error_summary($errors).'<p>Manage website staff access. Administrators do not have circulation permissions. Accounts and history are preserved.</p><form method="get"><label for="q">Search username or name</label><input id="q" name="q" maxlength="100" value="'.h($q).'"><button>Search</button> <a href="/staff.php">Clear</a></form><h2>Create staff account</h2><p>New accounts need a password assigned privately by the local operator before sign-in.</p><form method="post" novalidate><input type="hidden" name="action" value="create"><input type="hidden" name="csrf_token" value="'.h(csrf_token()).'">';
+    $html='<section class="panel"><h1>Staff accounts</h1>'.form_error_summary($errors).'<p>Manage website staff access. Administrators do not have circulation permissions. Accounts and history are preserved.</p><form method="get"><label for="q">Search username or name</label><input id="q" name="q" maxlength="100" value="'.h($q).'"><button>Search</button> <a href="/staff.php">Clear</a></form><details class="workspace-create"'.(($_SERVER['REQUEST_METHOD']==='POST' && ($_POST['action']??null)==='create')?' open':'').'><summary>Create staff account</summary><p>New accounts need a password assigned privately by the local operator before sign-in.</p><form method="post" novalidate><input type="hidden" name="action" value="create"><input type="hidden" name="csrf_token" value="'.h(csrf_token()).'">';
     foreach (['username'=>'Username (3–32 letters, numbers or underscores)','display_name'=>'Display name (1–100 characters)'] as $key=>$label) {
         $html.='<label for="'.h($key).'">'.h($label).'</label><input id="'.h($key).'" name="'.h($key).'" required maxlength="'.($key==='username'?32:100).'" value="'.h($values[$key]).'">'.field_error_html($errors,$key);
     }
     $html.='<label for="role">Role</label><select id="role" name="role">';
     foreach (['librarian','administrator'] as $role) {$html.='<option value="'.$role.'"'.($values['role']===$role?' selected':'').'>'.ucfirst($role).'</option>';}
-    $html.='</select>'.field_error_html($errors,'role').'<button>Create staff account</button></form>';
+    $html.='</select>'.field_error_html($errors,'role').'<button>Create staff account</button></form></details>';
     if (!$rows) {$html.='<p>No staff accounts on this page. Clear the search or return to the first page.</p>';}
     foreach (array_slice($rows,0,20) as $row) {
         $id=(int)$row['user_id']; $selectedRole=$failed===$id?$roleValue:$row['role']; $selectedStatus=$failed===$id?$statusValue:$row['account_status'];

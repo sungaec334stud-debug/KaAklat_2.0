@@ -4,6 +4,7 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/app/bootstrap.php';
 require_once dirname(__DIR__) . '/app/request_decisions.php';
 require_once dirname(__DIR__) . '/views/layout.php';
+require_once dirname(__DIR__) . '/views/circulation_ui.php';
 require_once dirname(__DIR__) . '/views/request_ui.php';
 
 start_application_session();
@@ -59,12 +60,11 @@ try {
         $id = (int) $row['request_id'];
         $days = $failedId === $id && is_string($_POST['days'] ?? null) ? $_POST['days'] : (string) $row['requested_days'];
         $note = $failedId === $id && is_string($_POST['note'] ?? null) ? $_POST['note'] : '';
-        $submitted = (new DateTimeImmutable($row['requested_at'], new DateTimeZone('UTC')))
-            ->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a');
+        $submitted = display_manila_time($row['requested_at']);
         $eligibility = $row['account_status'] !== 'active' ? 'Account is not active.'
             : ((bool) $row['has_overdue'] ? 'Overdue loan: approval is blocked.'
             : ((int) $row['live_allowance'] >= 5 ? 'Five-book allowance is full.' : 'Account and allowance checks currently allow review.'));
-        $content .= '<article class="management-section"><h2>' . h($row['title']) . '</h2>'
+        $content .= '<article class="management-section"><header class="circulation-heading">' . circulation_cover_html($row) . '<h2>' . h($row['title']) . '</h2></header>'
             . '<p><strong>' . h($row['student_name']) . '</strong> (' . h($row['username']) . ') · ' . h(ucfirst($row['account_status'])) . '</p>'
             . '<p>' . h($eligibility) . ' Approved pickups and active loans: ' . h($row['live_allowance']) . '/5. Available copies: ' . h($row['available_copies']) . '.</p>'
             . '<p>Requested duration: <strong>' . h($row['requested_days']) . ' days</strong><br>Submitted ' . h($submitted) . ' (Manila)</p>'

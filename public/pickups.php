@@ -4,6 +4,7 @@ require_once dirname(__DIR__).'/app/bootstrap.php';
 require_once dirname(__DIR__).'/app/approved_cancellation.php';
 require_once dirname(__DIR__).'/views/request_ui.php';
 require_once dirname(__DIR__).'/views/layout.php';
+require_once dirname(__DIR__).'/views/circulation_ui.php';
 start_application_session();
 header('Cache-Control: no-store');
 try {
@@ -44,7 +45,7 @@ try {
     if(!$rows) { $content.='<p>No pickups on this page. Try clearing the search or return to the first page.</p><a href="/pickups.php">Clear search / first page</a>'; }
     foreach(array_slice($rows,0,20) as $row) {
         $deadline=(new DateTimeImmutable($row['decided_at'],new DateTimeZone('UTC')))->modify('+48 hours')->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a');
-        $content.='<article class="management-section"><h2>'.h($row['title']).'</h2><p><strong>'.h($row['student_name']).'</strong> ('.h($row['username']).')</p><p>Allocated copy: <strong>'.h($row['copy_code']).'</strong><br>Approved duration: '.h($row['approved_days']).' days<br>Collection deadline: '.h($deadline).' (Manila)</p>';
+        $content.='<article class="management-section"><header class="circulation-heading">'.circulation_cover_html($row).'<h2>'.h($row['title']).'</h2></header><p><strong>'.h($row['student_name']).'</strong> ('.h($row['username']).')</p><p>Allocated copy: <strong>'.h($row['copy_code']).'</strong><br>Approved duration: '.h($row['approved_days']).' days<br>Collection deadline: '.h($deadline).' (Manila)</p>';
         if((bool)$row['expired']) { $content.='<p class="flash flash-error">Expired — do not hand over this copy. This student needs a new request.</p>'; }
         else { $content.='<p>Awaiting collection. Eligibility is checked again when confirming.</p>'; }
         $content.='<form method="post"><input type="hidden" name="action" value="pickup"><input type="hidden" name="request_id" value="'.h($row['request_id']).'"><input type="hidden" name="csrf_token" value="'.h(csrf_token()).'"><button aria-label="'.h(((bool)$row['expired']?'Release expired allocation for ':'Confirm pickup of ').$row['title'].', copy '.$row['copy_code']).'">'.((bool)$row['expired']?'Release expired allocation':'Confirm physical handover').'</button></form>';

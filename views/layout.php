@@ -56,6 +56,15 @@ function render_page(string $title, string $content, bool $landing = false): voi
     }
     $landingStyles=$landing && $navigationUser===null?'<link rel="stylesheet" href="/assets/landing.css?v=20261110-appearance">':'';
     if ($landingStyles!=='') { $bodyClass.=' landing-page'; }
+    $workspaceRoutes = ['/staff.php', '/students.php', '/audit.php', '/recover_account.php',
+        '/about.php', '/logout.php', '/review_requests.php', '/pickups.php', '/returns.php',
+        '/manage_books.php', '/requests.php', '/profile.php'];
+    $workspaceAssets = '';
+    if (in_array($path, $workspaceRoutes, true)) {
+        $bodyClass .= ' workspace-screen';
+        $workspaceAssets = '<link rel="stylesheet" href="/assets/workspace.css?v=20261112">'
+            . '<script src="/assets/workspace.js?v=20261112" defer></script>';
+    }
     echo <<<HTML
 <!doctype html>
 <html lang="en">
@@ -67,6 +76,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
     <script src="/assets/theme.js?v=20261110-appearance"></script>
     <link rel="stylesheet" href="/assets/app.css?v=20261110-appearance">
     {$landingStyles}
+    {$workspaceAssets}
     <script src="/assets/forms.js" defer></script>
 </head>
 <body class="{$bodyClass}">

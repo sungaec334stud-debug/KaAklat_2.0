@@ -39,8 +39,6 @@ try {
     $content='<section class="panel"><h1>Receive returned books</h1>'.$error.'<p>Confirm only after physically receiving the exact copy shown. Overdue books and borrowers with inactive accounts can still return books.</p><form method="get" class="catalog-search"><label for="q">Search book, student or copy code</label><input id="q" name="q" maxlength="100" value="'.h($search).'"><button>Search</button> <a href="/returns.php">Clear</a></form>';
     if(!$rows) { $content.='<div class="empty-state"><h2>No outstanding loans on this page</h2><p>Try another search or return to the first page.</p><a href="/returns.php">Clear search / first page</a></div>'; }
     foreach(array_slice($rows,0,20) as $row) {
-        $pickup=(new DateTimeImmutable($row['checked_out_at'],new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a');
-        $due=(new DateTimeImmutable($row['due_date'],new DateTimeZone('Asia/Manila')))->format('M j, Y');
         $content.=return_card_html($row,$failedId,$message,$checked);
     }
     $content .= pagination_html($pagination, static fn(int $target): string => '?'.http_build_query(['q'=>$search,'page'=>$target]), 'Return pages', 'loans');

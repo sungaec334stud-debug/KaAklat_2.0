@@ -23,16 +23,10 @@ if ($user !== null) {
         try {
             $counts = dashboard_counts($db);
             $summaries = $student
-                ? [['Pending requests', $counts['pending'], '/requests.php?status=pending'],
-                   ['Ready to collect', $counts['awaiting'], '/requests.php?status=awaiting_pickup'],
-                   ['Active loans', $counts['active'] - $counts['overdue'], '/requests.php?status=active']]
+                ? student_summary_items($counts, 'Ready to collect')
                 : [['Requests to review', $counts['pending'], '/review_requests.php'],
                    ['Awaiting collection', $counts['awaiting'], '/pickups.php']];
-            if ($student && $counts['overdue'] > 0) {
-                $loanLabel = $counts['overdue'] === 1 ? 'overdue loan' : 'overdue loans';
-                $content .= '<p class="flash flash-error" role="status">You have ' . h((string) $counts['overdue'])
-                    . ' <a href="/requests.php?status=overdue">' . $loanLabel . '</a>. Please speak with your librarian.</p>';
-            }
+            if ($student) { $content .= student_overdue_notice_html($counts['overdue']); }
             $content .= portal_summary_html($summaries, $student ? 'Your borrowing at a glance' : 'Circulation at a glance',
                 $student ? 'Only your records' : 'Library overview');
         } catch (Throwable) {

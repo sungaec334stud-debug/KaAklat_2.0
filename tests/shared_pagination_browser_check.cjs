@@ -1,12 +1,13 @@
 // Fictional isolated fixture only; no npm dependency or pilot account access.
-const {spawn,execFileSync}=require('node:child_process'),fs=require('node:fs'),assert=require('node:assert/strict');
+const {spawn}=require('node:child_process'),fs=require('node:fs'),assert=require('node:assert/strict');
 const fixture=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));
 assert.match(fixture.database,/^kaaklat_acceptance_[a-f0-9]{12}$/);
 const base='http://127.0.0.1:8037';const server=spawn('C:/php-8.4.14/php.exe',['-S','127.0.0.1:8037','-t','public','tests/acceptance_router.php'],{env:{...process.env,KAAKLAT_ACCEPTANCE_DB:fixture.database},stdio:'ignore',windowsHide:true});
 const chrome=spawn('C:/Program Files/Google/Chrome/Application/chrome.exe',['--headless=new','--remote-debugging-port=9364','--user-data-dir='+fixture.directory+'/pagination-chrome','--no-first-run','--no-proxy-server','about:blank'],{stdio:'ignore',windowsHide:true});
-const pause=ms=>new Promise(r=>setTimeout(r,ms));let ws;
+const {connect_browser_protocol}=require('./browser_protocol.cjs');
+const pause=ms=>new Promise(r=>setTimeout(r,ms));
 async function ready(url){for(let i=0;i<100;i++){try{return await fetch(url)}catch{}await pause(100)}throw Error('Not ready')}
-(async()=>{await ready(base+'/login.php');const tabs=await(await ready('http://127.0.0.1:9364/json/list')).json();ws=new WebSocket(tabs.find(t=>t.type==='page').webSocketDebuggerUrl);await new Promise((r,j)=>{ws.onopen=r;ws.onerror=j});let id=0;const pending=new Map(),errors=[];ws.onmessage=({data})=>{const m=JSON.parse(data);if(m.method==='Runtime.exceptionThrown')errors.push(m.params);const p=pending.get(m.id);if(p){pending.delete(m.id);m.error?p.reject(m.error):p.resolve(m.result)}};const call=(method,params={})=>new Promise((resolve,reject)=>{const k=++id;pending.set(k,{resolve,reject});ws.send(JSON.stringify({id:k,method,params}))});const ev=async expression=>{const r=await call('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(r.exceptionDetails)throw Error(r.result.description);return r.result.value};async function until(expression){for(let i=0;i<100;i++){try{if(await ev(expression))return}catch{}await pause(50)}throw Error('Timed out: '+expression)};async function go(path){await call('Page.navigate',{url:base+path});await until('document.readyState==="complete" && location.pathname==='+JSON.stringify(new URL(base+path).pathname));await pause(60)};async function key(key,code=key,n=13){await call('Input.dispatchKeyEvent',{type:'keyDown',key,code,windowsVirtualKeyCode:n,text:key==='Enter'?'\r':key===' '?' ':undefined});await call('Input.dispatchKeyEvent',{type:'keyUp',key,code,windowsVirtualKeyCode:n})};async function shot(name){const r=await call('Page.captureScreenshot',{format:'png'});fs.writeFileSync(fixture.directory+'/'+name+'.png',Buffer.from(r.data,'base64'))};await call('Page.enable');await call('Runtime.enable');
+(async()=>{await ready(base+'/login.php');const tabs=await(await ready('http://127.0.0.1:9364/json/list')).json();const {ws,call,ev:rawEvaluate,key,screenshot,errors}=await connect_browser_protocol(tabs.find(t=>t.type==='page').webSocketDebuggerUrl);let paginationSelector='nav.catalog-pagination';const ev=expression=>rawEvaluate(expression.replaceAll('nav.catalog-pagination',paginationSelector));async function until(expression){for(let i=0;i<100;i++){try{if(await ev(expression))return}catch{}await pause(50)}throw Error('Timed out: '+expression)};async function go(path){await call('Page.navigate',{url:base+path});await until('document.readyState==="complete" && location.pathname==='+JSON.stringify(new URL(base+path).pathname));await pause(60)};const shot=name=>screenshot(fixture.directory+'/'+name+'.png');await call('Page.enable');await call('Runtime.enable');
 let combinations=0,keyboardChecks=0;
 const pages={
 active:['/requests.php?status=rejected','/catalog.php?q=Pager'],
@@ -20,6 +21,7 @@ for(const [role,paths] of Object.entries(pages)){
  for(const theme of ['light','dark']){
   await go('/settings.php');await ev("document.querySelector('[name=appearance][value="+theme+"]').click()");
   for(const path of paths){
+   paginationSelector=path.includes('id=1')?'nav.catalog-pagination[aria-label="Copy pages"]':'nav.catalog-pagination:not([aria-label="Copy pages"])';
    await go(path);assert.ok(await ev("!!document.querySelector('nav.catalog-pagination .pagination-summary')"));
    for(const width of [1440,768,360]){
     await call('Emulation.setDeviceMetricsOverride',{width,height:1000,deviceScaleFactor:1,mobile:false});

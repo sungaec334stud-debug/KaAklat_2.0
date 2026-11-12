@@ -21,3 +21,14 @@ No new async requests, dialogs, loading states, dependencies or localization sys
 
 
 Shared pagination owner (2026-11-12): views/pagination.php renders all numbered list navigation; app/pagination.php owns authorized filtered totals and bounded page state. Catalog adapts its existing URL helper. Controllers pass only their validated search/status/book context; no arbitrary return URL. All links are native GET, current page uses aria-current, and existing app.css owns responsive Light/Dark/44px styling. Row-only service callers retain their legacy lookahead behavior; counted page controllers clamp stale pages. Security and circulation sources remain SRS.md/SCHEMA.md and existing service authorization. Verification: verification/SHARED_PAGINATION_2026-11-12.md.
+
+
+Presentation owner update(2026-11-12): views/portal_ui.php shares only student summary item mapping and overdue notice markup; authorization/count calculation remains in existing services. views/time.php shares display-only UTC/Manila formatting without touching due-date/expiry calculations. Exact labels, error states, routes and ordering retained. Verification:24 identical presentation snapshots and the named full regression/HTTP/browser reruns in verification/SIMPLIFICATION_2026-11-12.md.
+
+## Workspace presentation — 2026-11-12
+
+Canonical optional directory/inspector enhancement: public/assets/workspace.js; route-scoped presentation: public/assets/workspace.css, loaded by views/layout.php before forms.js. Reuse original DOM forms, field names, IDs, values and POST/CSRF routes; never clone forms or fetch/serialize private records into storage. Native summary activation selects and focuses context; Back to list restores focus. Reveal affected rows/disclosures before error-link field focus. No-JS fallback retains full server-rendered forms; narrow screens begin with the list. Existing pagination ownership and appearance are unchanged. No application policy or query ownership transfers to UI code.
+
+## Covers and student details — 2026-11-12
+
+Circulation thumbnail owner: views/circulation_ui.php using /cover.php with existing identity/archive rules. No cover storage keys are output. workspace.js handles failed images with a visible fallback; selected-panel images load eagerly. Account detail owner: views/student_account_ui.php, fed by authorized bounded student-list reads and existing audit timestamps; librarian IDs only, no guessed dates or write behavior. Catalog column-center and pagination-container spacing belong to workspace.css; pagination controls keep their existing owner.

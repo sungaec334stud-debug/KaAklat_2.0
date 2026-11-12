@@ -6,7 +6,7 @@ function about_html(): string
 {
     return <<<'HTML'
 <article class="about-page">
-    <header class="about-intro">
+    <header class="about-intro"><div class="about-shelf" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
         <h1>About KaAklat</h1>
         <p class="about-lead">A place for books, learning, and discovery.</p>
         <p>KaAklat helps students browse books and follow their borrowing requests. Librarians manage requests, record physical pickups, and receive returned books.</p>
