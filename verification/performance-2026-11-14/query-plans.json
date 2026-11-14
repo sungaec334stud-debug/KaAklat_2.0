@@ -1,0 +1,762 @@
+{
+    "listing": {
+        "sql": "SELECT b.book_id, b.title, b.description, b.cover_path, b.publication_year, b.category_id, cat.category_name,\r\n        (SELECT GROUP_CONCAT(a.author_name ORDER BY ba.credit_order SEPARATOR ', ')\r\n         FROM book_authors ba JOIN authors a ON a.author_id = ba.author_id WHERE ba.book_id = b.book_id) AS authors,\r\n        (SELECT COUNT(*) FROM book_copies c WHERE c.book_id = b.book_id AND c.archived_at IS NULL) AS total_copies,\r\n        (SELECT COUNT(*) FROM book_copies c WHERE c.book_id = b.book_id AND c.archived_at IS NULL\r\n         AND NOT EXISTS (SELECT 1 FROM loans l JOIN borrow_requests r ON r.request_id = l.request_id\r\n             WHERE l.copy_id = c.copy_id AND l.returned_at IS NULL AND l.cancelled_at IS NULL\r\n             AND (l.checked_out_at IS NOT NULL OR r.decided_at > UTC_TIMESTAMP() - INTERVAL 48 HOUR))) AS available_copies\r\n        FROM books b LEFT JOIN categories cat ON cat.category_id = b.category_id WHERE b.archived_at IS NULL ORDER BY b.title, b.book_id LIMIT 12",
+        "explain": [
+            {
+                "id": 1,
+                "select_type": "PRIMARY",
+                "table": "b",
+                "type": "range",
+                "possible_keys": "ix_books_catalog",
+                "key": "ix_books_catalog",
+                "key_len": "6",
+                "ref": null,
+                "rows": "100",
+                "Extra": "Using where"
+            },
+            {
+                "id": 1,
+                "select_type": "PRIMARY",
+                "table": "cat",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY",
+                "key": "PRIMARY",
+                "key_len": "8",
+                "ref": "kaaklat_perf_f39f6a373949.b.category_id",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 4,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "c",
+                "type": "ref",
+                "possible_keys": "ix_book_copies_book",
+                "key": "ix_book_copies_book",
+                "key_len": "14",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,const",
+                "rows": "1",
+                "Extra": "Using where; Using index"
+            },
+            {
+                "id": 5,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "l",
+                "type": "ref",
+                "possible_keys": "uq_loans_request,ix_loans_copy_history,ix_loans_outstanding",
+                "key": "ix_loans_copy_history",
+                "key_len": "8",
+                "ref": "func",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 5,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "r",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY,ix_requests_student_title,ix_requests_queue,ix_requests_expiry,ix_requests_book,ix_requests_decider",
+                "key": "PRIMARY",
+                "key_len": "8",
+                "ref": "kaaklat_perf_f39f6a373949.l.request_id",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 3,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "c",
+                "type": "ref",
+                "possible_keys": "ix_book_copies_book",
+                "key": "ix_book_copies_book",
+                "key_len": "14",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,const",
+                "rows": "1",
+                "Extra": "Using where; Using index"
+            },
+            {
+                "id": 2,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "ba",
+                "type": "ref",
+                "possible_keys": "PRIMARY,uq_book_authors_order,ix_book_authors_author",
+                "key": "uq_book_authors_order",
+                "key_len": "8",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id",
+                "rows": "1",
+                "Extra": "Using index"
+            },
+            {
+                "id": 2,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "a",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY",
+                "key": "PRIMARY",
+                "key_len": "8",
+                "ref": "kaaklat_perf_f39f6a373949.ba.author_id",
+                "rows": "1",
+                "Extra": ""
+            }
+        ]
+    },
+    "available_count": {
+        "sql": "SELECT COUNT(*) FROM (SELECT b.book_id, b.title, b.description, b.cover_path, b.publication_year, b.category_id, cat.category_name,\r\n        (SELECT GROUP_CONCAT(a.author_name ORDER BY ba.credit_order SEPARATOR ', ')\r\n         FROM book_authors ba JOIN authors a ON a.author_id = ba.author_id WHERE ba.book_id = b.book_id) AS authors,\r\n        (SELECT COUNT(*) FROM book_copies c WHERE c.book_id = b.book_id AND c.archived_at IS NULL) AS total_copies,\r\n        (SELECT COUNT(*) FROM book_copies c WHERE c.book_id = b.book_id AND c.archived_at IS NULL\r\n         AND NOT EXISTS (SELECT 1 FROM loans l JOIN borrow_requests r ON r.request_id = l.request_id\r\n             WHERE l.copy_id = c.copy_id AND l.returned_at IS NULL AND l.cancelled_at IS NULL\r\n             AND (l.checked_out_at IS NOT NULL OR r.decided_at > UTC_TIMESTAMP() - INTERVAL 48 HOUR))) AS available_copies\r\n        FROM books b LEFT JOIN categories cat ON cat.category_id = b.category_id WHERE b.archived_at IS NULL) p WHERE available_copies > 0",
+        "explain": [
+            {
+                "id": 1,
+                "select_type": "PRIMARY",
+                "table": "b",
+                "type": "ALL",
+                "possible_keys": "ix_books_catalog",
+                "key": null,
+                "key_len": null,
+                "ref": null,
+                "rows": "100",
+                "Extra": "Using where"
+            },
+            {
+                "id": 5,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "c",
+                "type": "ref",
+                "possible_keys": "ix_book_copies_book",
+                "key": "ix_book_copies_book",
+                "key_len": "14",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,const",
+                "rows": "1",
+                "Extra": "Using where; Using index"
+            },
+            {
+                "id": 6,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "l",
+                "type": "ref",
+                "possible_keys": "uq_loans_request,ix_loans_copy_history,ix_loans_outstanding",
+                "key": "ix_loans_copy_history",
+                "key_len": "8",
+                "ref": "func",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 6,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "r",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY,ix_requests_student_title,ix_requests_queue,ix_requests_expiry,ix_requests_book,ix_requests_decider",
+                "key": "PRIMARY",
+                "key_len": "8",
+                "ref": "kaaklat_perf_f39f6a373949.l.request_id",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 4,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "c",
+                "type": "ref",
+                "possible_keys": "ix_book_copies_book",
+                "key": "ix_book_copies_book",
+                "key_len": "14",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,const",
+                "rows": "1",
+                "Extra": "Using where; Using index"
+            },
+            {
+                "id": 3,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "ba",
+                "type": "ref",
+                "possible_keys": "PRIMARY,uq_book_authors_order,ix_book_authors_author",
+                "key": "uq_book_authors_order",
+                "key_len": "8",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id",
+                "rows": "1",
+                "Extra": "Using index"
+            },
+            {
+                "id": 3,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "a",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY",
+                "key": "PRIMARY",
+                "key_len": "8",
+                "ref": "kaaklat_perf_f39f6a373949.ba.author_id",
+                "rows": "1",
+                "Extra": ""
+            }
+        ]
+    },
+    "combined": {
+        "sql": "SELECT b.book_id, b.title, b.description, b.cover_path, b.publication_year, b.category_id, cat.category_name,\r\n        (SELECT GROUP_CONCAT(a.author_name ORDER BY ba.credit_order SEPARATOR ', ')\r\n         FROM book_authors ba JOIN authors a ON a.author_id = ba.author_id WHERE ba.book_id = b.book_id) AS authors,\r\n        (SELECT COUNT(*) FROM book_copies c WHERE c.book_id = b.book_id AND c.archived_at IS NULL) AS total_copies,\r\n        (SELECT COUNT(*) FROM book_copies c WHERE c.book_id = b.book_id AND c.archived_at IS NULL\r\n         AND NOT EXISTS (SELECT 1 FROM loans l JOIN borrow_requests r ON r.request_id = l.request_id\r\n             WHERE l.copy_id = c.copy_id AND l.returned_at IS NULL AND l.cancelled_at IS NULL\r\n             AND (l.checked_out_at IS NOT NULL OR r.decided_at > UTC_TIMESTAMP() - INTERVAL 48 HOUR))) AS available_copies\r\n        FROM books b LEFT JOIN categories cat ON cat.category_id = b.category_id WHERE b.archived_at IS NULL AND b.category_id = 1 AND b.publication_year = 2021\r\n            AND b.title LIKE '%Textbook%' AND EXISTS(SELECT 1 FROM book_authors ba JOIN authors a ON a.author_id=ba.author_id\r\n            WHERE ba.book_id=b.book_id AND a.author_name LIKE '%Fictional Author 1%') ORDER BY b.title,b.book_id LIMIT 12",
+        "explain": [
+            {
+                "id": 1,
+                "select_type": "PRIMARY",
+                "table": "b",
+                "type": "index_merge",
+                "possible_keys": "PRIMARY,ix_books_catalog,ix_books_category,ix_books_year",
+                "key": "ix_books_year,ix_books_category",
+                "key_len": "3,9",
+                "ref": null,
+                "rows": "4",
+                "Extra": "Using intersect(ix_books_year,ix_books_category); Using where; Using temporary; Using filesort"
+            },
+            {
+                "id": 1,
+                "select_type": "PRIMARY",
+                "table": "a",
+                "type": "index",
+                "possible_keys": "PRIMARY",
+                "key": "ix_authors_name",
+                "key_len": "402",
+                "ref": null,
+                "rows": "5",
+                "Extra": "Using where; Using index; Start temporary; Using join buffer (flat, BNL join)"
+            },
+            {
+                "id": 1,
+                "select_type": "PRIMARY",
+                "table": "ba",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY,uq_book_authors_order,ix_book_authors_author",
+                "key": "PRIMARY",
+                "key_len": "16",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,kaaklat_perf_f39f6a373949.a.author_id",
+                "rows": "1",
+                "Extra": "Using index; End temporary"
+            },
+            {
+                "id": 1,
+                "select_type": "PRIMARY",
+                "table": "cat",
+                "type": "const",
+                "possible_keys": "PRIMARY",
+                "key": "PRIMARY",
+                "key_len": "8",
+                "ref": "const",
+                "rows": "1",
+                "Extra": ""
+            },
+            {
+                "id": 4,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "c",
+                "type": "ref",
+                "possible_keys": "ix_book_copies_book",
+                "key": "ix_book_copies_book",
+                "key_len": "14",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,const",
+                "rows": "1",
+                "Extra": "Using where; Using index"
+            },
+            {
+                "id": 5,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "l",
+                "type": "ref",
+                "possible_keys": "uq_loans_request,ix_loans_copy_history,ix_loans_outstanding",
+                "key": "ix_loans_copy_history",
+                "key_len": "8",
+                "ref": "func",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 5,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "r",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY,ix_requests_student_title,ix_requests_queue,ix_requests_expiry,ix_requests_book,ix_requests_decider",
+                "key": "PRIMARY",
+                "key_len": "8",
+                "ref": "kaaklat_perf_f39f6a373949.l.request_id",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 3,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "c",
+                "type": "ref",
+                "possible_keys": "ix_book_copies_book",
+                "key": "ix_book_copies_book",
+                "key_len": "14",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,const",
+                "rows": "1",
+                "Extra": "Using where; Using index"
+            },
+            {
+                "id": 2,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "a",
+                "type": "index",
+                "possible_keys": "PRIMARY",
+                "key": "ix_authors_name",
+                "key_len": "402",
+                "ref": null,
+                "rows": "5",
+                "Extra": "Using index"
+            },
+            {
+                "id": 2,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "ba",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY,uq_book_authors_order,ix_book_authors_author",
+                "key": "PRIMARY",
+                "key_len": "16",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,kaaklat_perf_f39f6a373949.a.author_id",
+                "rows": "1",
+                "Extra": ""
+            }
+        ]
+    },
+    "year_newest": {
+        "sql": "SELECT * FROM (SELECT b.book_id, b.title, b.description, b.cover_path, b.publication_year, b.category_id, cat.category_name,\r\n        (SELECT GROUP_CONCAT(a.author_name ORDER BY ba.credit_order SEPARATOR ', ')\r\n         FROM book_authors ba JOIN authors a ON a.author_id = ba.author_id WHERE ba.book_id = b.book_id) AS authors,\r\n        (SELECT COUNT(*) FROM book_copies c WHERE c.book_id = b.book_id AND c.archived_at IS NULL) AS total_copies,\r\n        (SELECT COUNT(*) FROM book_copies c WHERE c.book_id = b.book_id AND c.archived_at IS NULL\r\n         AND NOT EXISTS (SELECT 1 FROM loans l JOIN borrow_requests r ON r.request_id = l.request_id\r\n             WHERE l.copy_id = c.copy_id AND l.returned_at IS NULL AND l.cancelled_at IS NULL\r\n             AND (l.checked_out_at IS NOT NULL OR r.decided_at > UTC_TIMESTAMP() - INTERVAL 48 HOUR))) AS available_copies\r\n        FROM books b LEFT JOIN categories cat ON cat.category_id = b.category_id WHERE b.archived_at IS NULL) p ORDER BY publication_year IS NULL ASC, publication_year DESC, title ASC, book_id ASC LIMIT 12",
+        "explain": [
+            {
+                "id": 1,
+                "select_type": "PRIMARY",
+                "table": "b",
+                "type": "ALL",
+                "possible_keys": "ix_books_catalog",
+                "key": null,
+                "key_len": null,
+                "ref": null,
+                "rows": "100",
+                "Extra": "Using where; Using filesort"
+            },
+            {
+                "id": 1,
+                "select_type": "PRIMARY",
+                "table": "cat",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY",
+                "key": "PRIMARY",
+                "key_len": "8",
+                "ref": "kaaklat_perf_f39f6a373949.b.category_id",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 5,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "c",
+                "type": "ref",
+                "possible_keys": "ix_book_copies_book",
+                "key": "ix_book_copies_book",
+                "key_len": "14",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,const",
+                "rows": "1",
+                "Extra": "Using where; Using index"
+            },
+            {
+                "id": 6,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "l",
+                "type": "ref",
+                "possible_keys": "uq_loans_request,ix_loans_copy_history,ix_loans_outstanding",
+                "key": "ix_loans_copy_history",
+                "key_len": "8",
+                "ref": "func",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 6,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "r",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY,ix_requests_student_title,ix_requests_queue,ix_requests_expiry,ix_requests_book,ix_requests_decider",
+                "key": "PRIMARY",
+                "key_len": "8",
+                "ref": "kaaklat_perf_f39f6a373949.l.request_id",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 4,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "c",
+                "type": "ref",
+                "possible_keys": "ix_book_copies_book",
+                "key": "ix_book_copies_book",
+                "key_len": "14",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,const",
+                "rows": "1",
+                "Extra": "Using where; Using index"
+            },
+            {
+                "id": 3,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "a",
+                "type": "index",
+                "possible_keys": "PRIMARY",
+                "key": "ix_authors_name",
+                "key_len": "402",
+                "ref": null,
+                "rows": "5",
+                "Extra": "Using index"
+            },
+            {
+                "id": 3,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "ba",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY,uq_book_authors_order,ix_book_authors_author",
+                "key": "PRIMARY",
+                "key_len": "16",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,kaaklat_perf_f39f6a373949.a.author_id",
+                "rows": "1",
+                "Extra": ""
+            }
+        ]
+    },
+    "unavailable_count": {
+        "sql": "SELECT COUNT(*) FROM (SELECT b.book_id, b.title, b.description, b.cover_path, b.publication_year, b.category_id, cat.category_name,\r\n        (SELECT GROUP_CONCAT(a.author_name ORDER BY ba.credit_order SEPARATOR ', ')\r\n         FROM book_authors ba JOIN authors a ON a.author_id = ba.author_id WHERE ba.book_id = b.book_id) AS authors,\r\n        (SELECT COUNT(*) FROM book_copies c WHERE c.book_id = b.book_id AND c.archived_at IS NULL) AS total_copies,\r\n        (SELECT COUNT(*) FROM book_copies c WHERE c.book_id = b.book_id AND c.archived_at IS NULL\r\n         AND NOT EXISTS (SELECT 1 FROM loans l JOIN borrow_requests r ON r.request_id = l.request_id\r\n             WHERE l.copy_id = c.copy_id AND l.returned_at IS NULL AND l.cancelled_at IS NULL\r\n             AND (l.checked_out_at IS NOT NULL OR r.decided_at > UTC_TIMESTAMP() - INTERVAL 48 HOUR))) AS available_copies\r\n        FROM books b LEFT JOIN categories cat ON cat.category_id = b.category_id WHERE b.archived_at IS NULL) p WHERE available_copies=0",
+        "explain": [
+            {
+                "id": 1,
+                "select_type": "PRIMARY",
+                "table": "b",
+                "type": "ALL",
+                "possible_keys": "ix_books_catalog",
+                "key": null,
+                "key_len": null,
+                "ref": null,
+                "rows": "100",
+                "Extra": "Using where"
+            },
+            {
+                "id": 5,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "c",
+                "type": "ref",
+                "possible_keys": "ix_book_copies_book",
+                "key": "ix_book_copies_book",
+                "key_len": "14",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,const",
+                "rows": "1",
+                "Extra": "Using where; Using index"
+            },
+            {
+                "id": 6,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "l",
+                "type": "ref",
+                "possible_keys": "uq_loans_request,ix_loans_copy_history,ix_loans_outstanding",
+                "key": "ix_loans_copy_history",
+                "key_len": "8",
+                "ref": "func",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 6,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "r",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY,ix_requests_student_title,ix_requests_queue,ix_requests_expiry,ix_requests_book,ix_requests_decider",
+                "key": "PRIMARY",
+                "key_len": "8",
+                "ref": "kaaklat_perf_f39f6a373949.l.request_id",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 4,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "c",
+                "type": "ref",
+                "possible_keys": "ix_book_copies_book",
+                "key": "ix_book_copies_book",
+                "key_len": "14",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,const",
+                "rows": "1",
+                "Extra": "Using where; Using index"
+            },
+            {
+                "id": 3,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "a",
+                "type": "index",
+                "possible_keys": "PRIMARY",
+                "key": "ix_authors_name",
+                "key_len": "402",
+                "ref": null,
+                "rows": "5",
+                "Extra": "Using index"
+            },
+            {
+                "id": 3,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "ba",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY,uq_book_authors_order,ix_book_authors_author",
+                "key": "PRIMARY",
+                "key_len": "16",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,kaaklat_perf_f39f6a373949.a.author_id",
+                "rows": "1",
+                "Extra": ""
+            }
+        ]
+    },
+    "author_search": {
+        "sql": "SELECT b.book_id, b.title, b.description, b.cover_path, b.publication_year, b.category_id, cat.category_name,\r\n        (SELECT GROUP_CONCAT(a.author_name ORDER BY ba.credit_order SEPARATOR ', ')\r\n         FROM book_authors ba JOIN authors a ON a.author_id = ba.author_id WHERE ba.book_id = b.book_id) AS authors,\r\n        (SELECT COUNT(*) FROM book_copies c WHERE c.book_id = b.book_id AND c.archived_at IS NULL) AS total_copies,\r\n        (SELECT COUNT(*) FROM book_copies c WHERE c.book_id = b.book_id AND c.archived_at IS NULL\r\n         AND NOT EXISTS (SELECT 1 FROM loans l JOIN borrow_requests r ON r.request_id = l.request_id\r\n             WHERE l.copy_id = c.copy_id AND l.returned_at IS NULL AND l.cancelled_at IS NULL\r\n             AND (l.checked_out_at IS NOT NULL OR r.decided_at > UTC_TIMESTAMP() - INTERVAL 48 HOUR))) AS available_copies\r\n        FROM books b LEFT JOIN categories cat ON cat.category_id = b.category_id WHERE b.archived_at IS NULL AND (b.title LIKE '%Fictional Author 1%' OR EXISTS(SELECT 1 FROM book_authors sx JOIN authors ax ON ax.author_id=sx.author_id WHERE sx.book_id=b.book_id AND ax.author_name LIKE '%Fictional Author 1%')) ORDER BY b.title,b.book_id LIMIT 12",
+        "explain": [
+            {
+                "id": 1,
+                "select_type": "PRIMARY",
+                "table": "b",
+                "type": "range",
+                "possible_keys": "ix_books_catalog",
+                "key": "ix_books_catalog",
+                "key_len": "6",
+                "ref": null,
+                "rows": "100",
+                "Extra": "Using where"
+            },
+            {
+                "id": 1,
+                "select_type": "PRIMARY",
+                "table": "cat",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY",
+                "key": "PRIMARY",
+                "key_len": "8",
+                "ref": "kaaklat_perf_f39f6a373949.b.category_id",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 6,
+                "select_type": "MATERIALIZED",
+                "table": "ax",
+                "type": "index",
+                "possible_keys": "PRIMARY,ix_authors_name",
+                "key": "ix_authors_name",
+                "key_len": "402",
+                "ref": null,
+                "rows": "5",
+                "Extra": "Using where; Using index"
+            },
+            {
+                "id": 6,
+                "select_type": "MATERIALIZED",
+                "table": "sx",
+                "type": "ref",
+                "possible_keys": "PRIMARY,uq_book_authors_order,ix_book_authors_author",
+                "key": "ix_book_authors_author",
+                "key_len": "8",
+                "ref": "kaaklat_perf_f39f6a373949.ax.author_id",
+                "rows": "75",
+                "Extra": "Using index"
+            },
+            {
+                "id": 4,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "c",
+                "type": "ref",
+                "possible_keys": "ix_book_copies_book",
+                "key": "ix_book_copies_book",
+                "key_len": "14",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,const",
+                "rows": "1",
+                "Extra": "Using where; Using index"
+            },
+            {
+                "id": 5,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "l",
+                "type": "ref",
+                "possible_keys": "uq_loans_request,ix_loans_copy_history,ix_loans_outstanding",
+                "key": "ix_loans_copy_history",
+                "key_len": "8",
+                "ref": "func",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 5,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "r",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY,ix_requests_student_title,ix_requests_queue,ix_requests_expiry,ix_requests_book,ix_requests_decider",
+                "key": "PRIMARY",
+                "key_len": "8",
+                "ref": "kaaklat_perf_f39f6a373949.l.request_id",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 3,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "c",
+                "type": "ref",
+                "possible_keys": "ix_book_copies_book",
+                "key": "ix_book_copies_book",
+                "key_len": "14",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,const",
+                "rows": "1",
+                "Extra": "Using where; Using index"
+            },
+            {
+                "id": 2,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "a",
+                "type": "index",
+                "possible_keys": "PRIMARY",
+                "key": "ix_authors_name",
+                "key_len": "402",
+                "ref": null,
+                "rows": "5",
+                "Extra": "Using index"
+            },
+            {
+                "id": 2,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "ba",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY,uq_book_authors_order,ix_book_authors_author",
+                "key": "PRIMARY",
+                "key_len": "16",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,kaaklat_perf_f39f6a373949.a.author_id",
+                "rows": "1",
+                "Extra": ""
+            }
+        ]
+    },
+    "year_range": {
+        "sql": "SELECT b.book_id, b.title, b.description, b.cover_path, b.publication_year, b.category_id, cat.category_name,\r\n        (SELECT GROUP_CONCAT(a.author_name ORDER BY ba.credit_order SEPARATOR ', ')\r\n         FROM book_authors ba JOIN authors a ON a.author_id = ba.author_id WHERE ba.book_id = b.book_id) AS authors,\r\n        (SELECT COUNT(*) FROM book_copies c WHERE c.book_id = b.book_id AND c.archived_at IS NULL) AS total_copies,\r\n        (SELECT COUNT(*) FROM book_copies c WHERE c.book_id = b.book_id AND c.archived_at IS NULL\r\n         AND NOT EXISTS (SELECT 1 FROM loans l JOIN borrow_requests r ON r.request_id = l.request_id\r\n             WHERE l.copy_id = c.copy_id AND l.returned_at IS NULL AND l.cancelled_at IS NULL\r\n             AND (l.checked_out_at IS NOT NULL OR r.decided_at > UTC_TIMESTAMP() - INTERVAL 48 HOUR))) AS available_copies\r\n        FROM books b LEFT JOIN categories cat ON cat.category_id = b.category_id WHERE b.archived_at IS NULL AND b.publication_year>=2022 AND b.publication_year<=2023 ORDER BY b.title,b.book_id LIMIT 12",
+        "explain": [
+            {
+                "id": 1,
+                "select_type": "PRIMARY",
+                "table": "b",
+                "type": "range",
+                "possible_keys": "ix_books_catalog,ix_books_year",
+                "key": "ix_books_catalog",
+                "key_len": "6",
+                "ref": null,
+                "rows": "100",
+                "Extra": "Using where"
+            },
+            {
+                "id": 1,
+                "select_type": "PRIMARY",
+                "table": "cat",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY",
+                "key": "PRIMARY",
+                "key_len": "8",
+                "ref": "kaaklat_perf_f39f6a373949.b.category_id",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 4,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "c",
+                "type": "ref",
+                "possible_keys": "ix_book_copies_book",
+                "key": "ix_book_copies_book",
+                "key_len": "14",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,const",
+                "rows": "1",
+                "Extra": "Using where; Using index"
+            },
+            {
+                "id": 5,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "l",
+                "type": "ref",
+                "possible_keys": "uq_loans_request,ix_loans_copy_history,ix_loans_outstanding",
+                "key": "ix_loans_copy_history",
+                "key_len": "8",
+                "ref": "func",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 5,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "r",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY,ix_requests_student_title,ix_requests_queue,ix_requests_expiry,ix_requests_book,ix_requests_decider",
+                "key": "PRIMARY",
+                "key_len": "8",
+                "ref": "kaaklat_perf_f39f6a373949.l.request_id",
+                "rows": "1",
+                "Extra": "Using where"
+            },
+            {
+                "id": 3,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "c",
+                "type": "ref",
+                "possible_keys": "ix_book_copies_book",
+                "key": "ix_book_copies_book",
+                "key_len": "14",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,const",
+                "rows": "1",
+                "Extra": "Using where; Using index"
+            },
+            {
+                "id": 2,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "a",
+                "type": "index",
+                "possible_keys": "PRIMARY",
+                "key": "ix_authors_name",
+                "key_len": "402",
+                "ref": null,
+                "rows": "5",
+                "Extra": "Using index"
+            },
+            {
+                "id": 2,
+                "select_type": "DEPENDENT SUBQUERY",
+                "table": "ba",
+                "type": "eq_ref",
+                "possible_keys": "PRIMARY,uq_book_authors_order,ix_book_authors_author",
+                "key": "PRIMARY",
+                "key_len": "16",
+                "ref": "kaaklat_perf_f39f6a373949.b.book_id,kaaklat_perf_f39f6a373949.a.author_id",
+                "rows": "1",
+                "Extra": ""
+            }
+        ]
+    },
+    "own_status": {
+        "sql": "SELECT r.book_id, r.decision, l.checked_out_at FROM borrow_requests r\r\n            LEFT JOIN loans l ON l.request_id=r.request_id WHERE r.student_id=1 AND r.book_id IN (1,2,3,4,5,6,7,8,9,10,11,12)\r\n            AND (r.decision='pending' OR (r.decision='approved' AND l.request_id IS NOT NULL\r\n                AND l.returned_at IS NULL AND l.cancelled_at IS NULL\r\n                AND (l.checked_out_at IS NOT NULL OR r.decided_at>UTC_TIMESTAMP()-INTERVAL 48 HOUR)))",
+        "explain": [
+            {
+                "id": 1,
+                "select_type": "SIMPLE",
+                "table": "r",
+                "type": "ref",
+                "possible_keys": "uq_requests_one_pending_title,ix_requests_student_title,ix_requests_queue,ix_requests_expiry,ix_requests_book",
+                "key": "uq_requests_one_pending_title",
+                "key_len": "8",
+                "ref": "const",
+                "rows": "7",
+                "Extra": "Using where"
+            },
+            {
+                "id": 1,
+                "select_type": "SIMPLE",
+                "table": "l",
+                "type": "eq_ref",
+                "possible_keys": "uq_loans_request",
+                "key": "uq_loans_request",
+                "key_len": "8",
+                "ref": "kaaklat_perf_f39f6a373949.r.request_id",
+                "rows": "1",
+                "Extra": "Using where"
+            }
+        ]
+    }
+}

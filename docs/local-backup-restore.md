@@ -37,14 +37,14 @@ if ($LASTEXITCODE -ne 0) { throw 'Backup integrity verification failed.' }
 7. Restart local development only after the backup succeeds:
 
 ```powershell
-& 'C:\php-8.4.14\php.exe' -S 127.0.0.1:8000 -t public
+& .\start-local.ps1
 ```
 
 Record the backup name/time and off-device copy completion privately. During active work back up daily, before schema/deployment changes and before the presentation. RPO ≤24h depends on actually doing this; no schedule or off-device copy was verified by this increment.
 
 ## Restore safely into a separate copy
 
-The automatic fictional rehearsal below is the safest first exercise. A restore of an actual demo backup requires a controlled, separately reviewed operator exercise; it has not been performed here.
+A controlled current-pilot restore passed on 2026-11-14 into a new scratch database and separate private folder; see verification/PILOT_BACKUP_RESTORE_2026-11-14.md. This does not authorize overwriting the pilot or prove recovery from disk loss. The fictional rehearsal below remains useful for repeatable tool checks.
 
 1. Select one complete bundle, verify checksums and inspect SQL. Refuse database selection, destructive DDL or unexpected content. Never import into `kaaklat_dev`, an existing scratch database or your only backup. Never combine a full dump with schema.sql/seed.sql/migrations; the dump already contains the schema.
 2. Create a uniquely named empty database. If that name exists, stop and choose a new one. Use a restore-only database credential limited to that target where possible. The rehearsal's configured local operator needs CREATE DATABASE; it never grants broader website permissions. Read every import error; do not use `--force` or continue over a partial import. Choose a fresh target for another attempt.
@@ -65,3 +65,14 @@ The automatic fictional rehearsal below is the safest first exercise. A restore 
 Each rehearsal creates new `kaaklat_backup_src_<12hex>` and `kaaklat_restore_<12hex>` databases and `private/restore-rehearsals/<12hex>/`, exports real SQL, restores matching code/covers, tests the application and terminates its own test server. Passwords are random and not printed. It neither resets nor deletes an existing database. Failure details/resources remain private. Unit tests leave fictional files under `tmp/backup-unit-<12hex>/`.
 
 See verification/BACKUP_RESTORE_2026-11-03.md for actual executed results. For eventual cleanup, first compare the exact names printed in the report with the database/directory inventory, confirm all rehearsal processes are stopped and the owner no longer needs them, then request explicit deletion approval. No blanket cleanup command is supplied or executed.
+
+
+## Controlled pilot restoration — 2026-11-14
+
+Controlled current-pilot backup/restore rehearsal completed locally. Backed up kaaklat_pilot and restored only into new kaaklat_pilot_restore_a4dc97bdafc7 and a separate private application directory. Passed 251 restore checks plus 15 backup safety unit checks: exact rows/definitions across all 12 tables; 86 titles/274 copies/31 requests/16 loans/30 existing accounts preserved; all 143 cover files matched, referenced covers decoded, and derived catalog availability matched. Verified CHECK/FK/username/pending-title/active-copy uniqueness and rollback, scratch-only session/recovery quarantine, fictional authentication and request/approval/pickup/return, authorized original-cover retrieval and private-path denial. Final source comparisons confirmed pilot rows/schema/covers/config/source unchanged during the rehearsal. No accounts or fictional books were added to the pilot.
+
+SQL import measured 0.617s; import-through-restore-verification measured 7.714s on this local run, within the 30-minute local target for the tested dataset. This is not a disaster-recovery guarantee. Original backup plus checksum-verified protected same-disk archive retained; off-device copy, daily RPO evidence and participant evaluation remain outstanding. Scratch server stopped; usual pilot restarted at http://127.0.0.1:8000 and health returned HTTP200/ready. First scratch attempt stopped on an invalid lowercase fictional copy code; corrected to uppercase and rerun in a new scratch. Both attempts retained. No application feature/schema change, commit, push or deployment. Prior unrelated documentation edits preserved.
+
+Evidence: verification/PILOT_BACKUP_RESTORE_2026-11-14.md. Next: protected off-device copy and refreshed current-version performance evidence, then participant evaluation.
+
+The current bundle helper omits start-local.ps1 and nested docs/. This rehearsal retained them separately in the protected archive with a supplemental SHA-256 manifest. Keep the maintained Git repository/research separately; do not assume the bundle is a complete workstation backup.

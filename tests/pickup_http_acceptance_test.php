@@ -105,6 +105,7 @@ try {
  [$code]=accept_http($adminClient,'/staff.php',['action'=>'update','user_id'=>4,'version'=>1,'role'=>'librarian','status'=>'active','csrf_token'=>$adminToken]); accept_check($code===400,'Last usable admin HTTP protected');
  [$code]=accept_http($adminClient,'/manage_books.php'); accept_check($code===403,'Admin catalog mutation denied');
  [$code]=accept_http($clients['librarian'],'/staff.php',['action'=>'create','username'=>'forged_staff','display_name'=>'Forged','role'=>'administrator','csrf_token'=>$staffToken]); accept_check($code===403,'Librarian forged staff POST denied');
+ require __DIR__.'/entry_http_checks.php';
  require __DIR__.'/broad_http_checks.php';
  require __DIR__.'/account_access_http_checks.php';
  require __DIR__.'/student_profile_http_checks.php';

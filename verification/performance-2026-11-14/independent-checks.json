@@ -1,0 +1,24 @@
+{
+  "measured_samples": 2520,
+  "warmups": 252,
+  "independently_recalculated_statistics": "PASS",
+  "all_content_valid": true,
+  "http_errors": 0,
+  "redirect_responses": 0,
+  "transport_errors": 0,
+  "timeouts": 0,
+  "pilot_rows_schema_covers_config": "Exact pre/post match",
+  "measured_source_hashes": "Match after measurement",
+  "benchmark_listener_closed": true,
+  "application_log_error_lines": 0,
+  "regression_scripts_passed": 36,
+  "workflow_http_assertions_passed": 416,
+  "environment": {
+    "cpu": "12th Gen Intel Core i5-1235U",
+    "logical_processors": 12,
+    "os": "Windows 11 Home Single Language",
+    "version": "10.0.26300",
+    "build": "26300",
+    "physical_memory_kib": 8085560
+  }
+}

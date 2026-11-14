@@ -68,8 +68,11 @@ function render_page(string $title, string $content, bool $landing = false): voi
         $identity = '<div class="sidebar-identity"><strong>' . h($navigationUser['display_name']) . '</strong><span>' . h($role) . ' · ' . h($status) . '</span></div>';
         $portalBar = '<div class="portal-topbar"><div class="portal-location"><span>' . h($role) . ' portal</span><span aria-hidden="true">/</span><strong>' . $safeTitle . '</strong></div><span class="portal-account-status">' . h($status) . '</span></div>';
     }
-    $landingStyles=$landing && $navigationUser===null?'<link rel="stylesheet" href="/assets/landing.css?v=20261113-review">':'';
-    if ($landingStyles!=='') { $bodyClass.=' landing-page'; }
+    $entryAssets = '';
+    if ($landing || in_array($path, ['/login.php', '/register.php', '/reset_password.php'], true)) {
+        $bodyClass .= ' entry-page';
+        $entryAssets = '<link rel="stylesheet" href="/assets/entry.css?v=20261114"><script src="/assets/entry.js?v=20261114" defer></script>';
+    }
     $workspaceRoutes = ['/staff.php', '/students.php', '/audit.php', '/recover_account.php',
         '/about.php', '/logout.php', '/review_requests.php', '/pickups.php', '/returns.php',
         '/manage_books.php', '/requests.php', '/profile.php'];
@@ -89,8 +92,8 @@ function render_page(string $title, string $content, bool $landing = false): voi
     <link rel="icon" href="/assets/kaaklat-logo.svg" type="image/svg+xml">
     <script src="/assets/theme.js?v=20261113-review"></script>
     <link rel="stylesheet" href="/assets/app.css?v=20261113-staff-dashboard">
-    {$landingStyles}
     {$workspaceAssets}
+    {$entryAssets}
     <script src="/assets/forms.js" defer></script>
 </head>
 <body class="{$bodyClass}">

@@ -92,6 +92,8 @@ function performance_fixture(PDO $db, string $password): void
             }
         }
     }
+    // An unknown year exercises null-last ordering without changing the required dataset size.
+    $db->exec('UPDATE books SET publication_year=NULL WHERE book_id=100');
     // A fully allocated title makes the availability scenario meaningfully different.
     for ($student = 1; $student <= 3; $student++) {
         $request->execute([$student, 100, 'approved', 7, gmdate('Y-m-d H:i:s', time() - 3600), 31, null]);
@@ -116,15 +118,16 @@ function performance_request(CurlHandle $client, string $url, ?array $post = nul
     return $body;
 }
 
-function performance_validate(string|false $body, int $status, array $expected): bool
+function performance_validate(string|false $body, int $status, array $expected, int $userId = 0): bool
 {
-    if ($status !== 200 || $body === false) { return false; }
+    if ($status !== 200 || $body === false || ($userId > 0
+        && !str_contains($body, 'Fictional Performance User ' . $userId . '<'))) { return false; }
     $document = new DOMDocument();
     @$document->loadHTML($body);
     $xpath = new DOMXPath($document);
     $ids = [];
     foreach ($xpath->query('//article[contains(concat(" ", normalize-space(@class), " "), " book-card ")]/h2/a') as $link) {
-        parse_str(ltrim($link->getAttribute('href'), '?'), $query);
+        parse_str((string) parse_url($link->getAttribute('href'), PHP_URL_QUERY), $query);
         $ids[] = (int) ($query['id'] ?? 0);
     }
     $summary = $xpath->query('//p[@class="pagination-summary"]');
@@ -140,7 +143,11 @@ function performance_statistics(array $samples): array
     return ['samples' => count($samples), 'failures' => count(array_filter($samples, static fn (array $row): bool => !$row['valid'])),
         'average_ms' => round(array_sum($times) / count($times), 3),
         'p95_ms' => round($times[(int) ceil(count($times) * .95) - 1], 3), 'maximum_ms' => round(max($times), 3),
-        'p95_ttfb_ms' => performance_percentile(array_column($samples, 'ttfb_ms'))];
+        'p95_ttfb_ms' => performance_percentile(array_column($samples, 'ttfb_ms')),
+        'http_errors' => count(array_filter($samples, static fn(array $row): bool => $row['status'] >= 400)),
+        'redirect_responses' => count(array_filter($samples, static fn(array $row): bool => $row['status'] >= 300 && $row['status'] < 400)),
+        'transport_errors' => count(array_filter($samples, static fn(array $row): bool => $row['curl_error'] !== 0)),
+        'timeouts' => count(array_filter($samples, static fn(array $row): bool => $row['curl_error'] === CURLE_OPERATION_TIMEDOUT))];
 }
 
 function performance_percentile(array $times): float
@@ -155,6 +162,14 @@ performance_assert(!performance_validate('<h1>Log in</h1>', 200, ['ids' => [], '
     && !performance_validate('<h1>Explore the library</h1>', 303, ['ids' => [], 'summary' => '']),
     'Harness failure classification failed.');
 performance_assert(performance_percentile(range(1, 30)) === 29.0, 'Nearest-rank p95 self-check failed.');
+$validatorExample = '<meta charset="UTF-8"><h1>Explore the library</h1><span>Fictional Performance User 1</span><article class="book-card"><h2><a href="/catalog.php?id=7">Fictional</a></h2></article><p class="pagination-summary">1 books · Page 1 of 1</p>';
+$validatorExpected = ['ids'=>[7], 'summary'=>'1 books · Page 1 of 1'];
+performance_assert(performance_validate($validatorExample,200,$validatorExpected,1)
+    && !performance_validate($validatorExample,200,$validatorExpected,2)
+    && !performance_validate($validatorExample,200,['ids'=>[8],'summary'=>$validatorExpected['summary']],1),
+    'Harness exact-content and session identity self-check failed.');
+unset($validatorExample, $validatorExpected);
+
 
 $root = dirname(__DIR__);
 $config = application_config();
@@ -193,6 +208,7 @@ try {
     }
     performance_assert($manifest['dataset']['books'] === 100 && $manifest['dataset']['book_copies'] === 300
         && $manifest['dataset']['users'] === 33, 'Fixture size mismatch.');
+    $manifest['dataset']['unknown_year_titles'] = 1;
     $manifest['dataset']['students'] = 30;
     $manifest['dataset']['staff'] = ['librarians' => 2, 'administrators' => 1];
     $manifest['dataset']['account_roles'] = $db->query('SELECT role, COUNT(*) AS records FROM users GROUP BY role ORDER BY role')->fetchAll();
@@ -202,14 +218,24 @@ try {
         'server' => 'PHP built-in development server, one process', 'transport' => 'HTTP on IPv4 loopback',
         'opcache_enabled_cli' => ini_get('opcache.enable_cli'), 'memory_limit' => ini_get('memory_limit'),
         'curl' => curl_version()['version'], 'php_extensions' => get_loaded_extensions()];
+    $manifest['source_sha256'] = [];
+    foreach (['app','public','views'] as $sourceDirectory) {
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root . '/' . $sourceDirectory, FilesystemIterator::SKIP_DOTS));
+        foreach ($files as $file) {
+            if ($file->isFile()) { $manifest['source_sha256'][str_replace('\\', '/', substr($file->getPathname(), strlen($root) + 1))] = hash_file('sha256', $file->getPathname()); }
+        }
+    }
+    foreach (['tests/catalog_performance.php','tests/performance_router.php'] as $file) { $manifest['source_sha256'][$file] = hash_file('sha256', $root . '/' . $file); }
+    ksort($manifest['source_sha256']);
     $socket = stream_socket_server('tcp://127.0.0.1:0', $errorCode, $errorMessage);
     performance_assert(is_resource($socket), 'Cannot allocate a loopback port.');
     $address = stream_socket_get_name($socket, false);
     fclose($socket);
     $manifest['address'] = 'http://' . $address;
+    performance_assert(mkdir($directory . '/sessions', 0700), 'Cannot create isolated sessions directory.');
     putenv('KAAKLAT_PERFORMANCE_DB=' . $name);
     putenv('KAAKLAT_PERFORMANCE_RUN=' . $run);
-    $server = proc_open([PHP_BINARY, '-S', $address, '-t', $root . '/public', __DIR__ . '/performance_router.php'],
+    $server = proc_open([PHP_BINARY, '-d', 'session.save_path=' . $directory . '/sessions', '-S', $address, '-t', $root . '/public', __DIR__ . '/performance_router.php'],
         [0 => ['pipe', 'r'], 1 => ['file', $directory . '/server.log', 'a'], 2 => ['file', $directory . '/server.log', 'a']], $pipes);
     performance_assert(is_resource($server), 'Benchmark server failed to start.');
     fclose($pipes[0]);
@@ -253,13 +279,31 @@ try {
             'year' => 2021, 'title' => 'Textbook'], 'ids' => range(1, 56, 5), 'summary' => '20 books · Page 1 of 2'],
         'available_only' => ['query' => ['available' => '1', 'page' => 9], 'ids' => [97, 98, 99], 'summary' => '99 books · Page 9 of 9'],
         'pagination' => ['query' => ['page' => 5], 'ids' => range(49, 60), 'summary' => '100 books · Page 5 of 9'],
+        'author_search' => ['query' => ['q' => 'Fictional Author 1'],
+            'ids' => [1,6,10,11,16,20,21,26,30,31,36,40], 'summary' => '30 books · Page 1 of 3'],
+        'title_z_a' => ['query' => ['sort' => 'title_desc'], 'ids' => range(100,89), 'summary' => '100 books · Page 1 of 9'],
+        'year_newest' => ['query' => ['sort' => 'year_desc'], 'ids' => range(5,60,5), 'summary' => '100 books · Page 1 of 9'],
+        'year_oldest' => ['query' => ['sort' => 'year_asc'], 'ids' => range(1,56,5), 'summary' => '100 books · Page 1 of 9'],
+        'unknown_year_last' => ['query' => ['sort' => 'year_desc','page' => 9], 'ids' => [86,91,96,100], 'summary' => '100 books · Page 9 of 9'],
+        'year_range' => ['query' => ['year_from'=>2022,'year_to'=>2023],
+            'ids' => [2,3,7,8,12,13,17,18,22,23,27,28], 'summary' => '40 books · Page 1 of 4'],
+        'filtered_page_2' => ['query' => ['q'=>'Textbook','letter'=>'F','title'=>'Textbook','author'=>'Fictional Author 1',
+            'category'=>1,'year_from'=>2021,'year_to'=>2021,'available'=>'1','sort'=>'title_desc','page'=>2],
+            'ids' => [36,31,26,21,16,11,6,1], 'summary' => '20 books · Page 2 of 2'],
+        'unavailable_only' => ['query' => ['available'=>'0'], 'ids' => [100], 'summary' => '1 books · Page 1 of 1'],
+        'empty_search' => ['query' => ['q'=>'NoMatchingFictionalTitle'], 'ids' => [], 'summary' => '0 books · Page 1 of 1'],
     ];
+    $manifest['scenarios'] = $scenarios;
     $plans = [];
     foreach (['listing' => catalog_select_sql() . ' ORDER BY b.title, b.book_id LIMIT 12',
         'available_count' => 'SELECT COUNT(*) FROM (' . catalog_select_sql() . ') p WHERE available_copies > 0',
         'combined' => catalog_select_sql() . " AND b.category_id = 1 AND b.publication_year = 2021
             AND b.title LIKE '%Textbook%' AND EXISTS(SELECT 1 FROM book_authors ba JOIN authors a ON a.author_id=ba.author_id
             WHERE ba.book_id=b.book_id AND a.author_name LIKE '%Fictional Author 1%') ORDER BY b.title,b.book_id LIMIT 12",
+        'year_newest' => 'SELECT * FROM (' . catalog_select_sql() . ') p ORDER BY publication_year IS NULL ASC, publication_year DESC, title ASC, book_id ASC LIMIT 12',
+        'unavailable_count' => 'SELECT COUNT(*) FROM (' . catalog_select_sql() . ') p WHERE available_copies=0',
+        'author_search' => catalog_select_sql() . " AND (b.title LIKE '%Fictional Author 1%' OR EXISTS(SELECT 1 FROM book_authors sx JOIN authors ax ON ax.author_id=sx.author_id WHERE sx.book_id=b.book_id AND ax.author_name LIKE '%Fictional Author 1%')) ORDER BY b.title,b.book_id LIMIT 12",
+        'year_range' => catalog_select_sql() . ' AND b.publication_year>=2022 AND b.publication_year<=2023 ORDER BY b.title,b.book_id LIMIT 12',
         'own_status' => "SELECT r.book_id, r.decision, l.checked_out_at FROM borrow_requests r
             LEFT JOIN loans l ON l.request_id=r.request_id WHERE r.student_id=1 AND r.book_id IN (1,2,3,4,5,6,7,8,9,10,11,12)
             AND (r.decision='pending' OR (r.decision='approved' AND l.request_id IS NOT NULL
@@ -277,10 +321,10 @@ try {
             $url = $manifest['address'] . '/catalog.php?' . http_build_query($expected['query']);
             // Three validated warmup requests per participating session, all reported separately.
             $participants = $mode === 'sequential' ? [$clients[0]] : $clients;
-            foreach ($participants as $client) {
+            foreach ($participants as $index => $client) {
                 for ($warm = 0; $warm < 3; $warm++) {
                     $body = performance_request($client, $url);
-                    performance_assert(performance_validate($body, (int) curl_getinfo($client, CURLINFO_RESPONSE_CODE), $expected),
+                    performance_assert(performance_validate($body, (int) curl_getinfo($client, CURLINFO_RESPONSE_CODE), $expected, $index + 1),
                         'Warmup failed for ' . $mode . '/' . $scenario);
                 }
             }
@@ -297,14 +341,14 @@ try {
                 } while ($running && $multiCode === CURLM_OK);
                 performance_assert($multiCode === CURLM_OK, 'cURL multi scheduling failed.');
                 foreach ($participants as $index => $client) {
-                    $body = curl_multi_getcontent($client);
+                    $body = curl_multi_getcontent($client) ?? false;
                     $status = (int) curl_getinfo($client, CURLINFO_RESPONSE_CODE);
                     $sample = ['mode' => $mode, 'scenario' => $scenario, 'round' => $round, 'session' => $index + 1,
                         'status' => $status, 'curl_error' => curl_errno($client),
                         'redirects' => (int) curl_getinfo($client, CURLINFO_REDIRECT_COUNT),
-                        'bytes' => strlen($body), 'ttfb_ms' => round(curl_getinfo($client, CURLINFO_STARTTRANSFER_TIME) * 1000, 3),
+                        'bytes' => strlen((string)$body), 'ttfb_ms' => round(curl_getinfo($client, CURLINFO_STARTTRANSFER_TIME) * 1000, 3),
                         'total_ms' => round(curl_getinfo($client, CURLINFO_TOTAL_TIME) * 1000, 3),
-                        'valid' => curl_errno($client) === 0 && performance_validate($body, $status, $expected)];
+                        'valid' => curl_errno($client) === 0 && performance_validate($body, $status, $expected, $index + 1)];
                     $samples[] = $sample;
                     fputcsv($csv, array_values($sample), ',', '"', '');
                     curl_multi_remove_handle($multi, $client);

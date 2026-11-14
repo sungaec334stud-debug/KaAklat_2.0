@@ -46,3 +46,10 @@ The earlier redesign completion statement overstated staff-dashboard parity. Cor
 Verification: 36 regression scripts passed before the final administrator presentation adjustment; final affected dashboard/design tests, PHP lint and 416 workflow HTTP assertions passed. Final browser rerun covered 248 role/theme/viewport combinations with zero runtime exceptions and zero sampled contrast failures. Final librarian/administrator dark screenshots were visually inspected. Strict static UI audit reported zero findings. Actual 400% browser zoom, physical-device and screen-reader acceptance remain manual; no claim of a bug-free system. Usage tool unavailable.
 
 Evidence: verification/STAFF_DASHBOARD_PARITY_2026-11-13.md.
+
+
+## Public entry presentation — 2026-11-14
+
+Accepted mockup implemented through views/landing.php, views/auth_entry.php and scoped entry.css. Existing controllers retain methods, fields, CSRF, validators, generic failures, redirects, throttling and recovery safeguards. Guest header styles never replace the authenticated sidebar. About remains a real /about.php destination; How borrowing works links to #how-borrowing-works on the landing page. No mockup theme/motion reviewer toolbar or fake submit behavior is shipped.
+
+entry.js progressively reveals native type=button password toggles (44px targets, aria-controls and state-specific accessible labels); it never submits, stores, logs or sends field values. JS-disabled forms remain usable and toggles stay hidden. Registration retains the applicant's own escaped submitted ID/name/username on an error with no-store, but never passwords; duplicate feedback discloses no other account details or ID. forms.js still owns linked error summaries and focus. Native details supplies recovery help. Finite entrance/photo animations stop under prefers-reduced-motion; natural scrolling and narrow stacked forms remain. Existing application appearance storage and no-JS system theme are reused. See verification/ENTRY_DESIGN_2026-11-14.md for actual evidence/limitations.

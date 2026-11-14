@@ -21,7 +21,9 @@ accept_check($newStudent['school_student_id']==='26-0001-004','School ID preserv
 foreach (['26-1-004','26-0001-004'] as $claim) {
     [$code,$body]=accept_http($anonymous,'/register.php',['school_student_id'=>$claim,'username'=>'second_claim','display_name'=>'Fictional duplicate','password'=>$password,'csrf_token'=>$newToken]);
     $message=$claim==='26-1-004' ? 'YY-####-### format' : 'visit the library';
-    accept_check($code===200 && str_contains($body,$message) && !str_contains($body,'26-0001-004') && !str_contains($body,'new_http_student'),'Invalid or duplicate claim rejected without exposing owner or ID');
+    // The applicant's own submitted value may remain in their form; no ID or owner is disclosed elsewhere.
+    $claimFeedback = preg_replace('/<input[^>]+name="school_student_id"[^>]*>/', '', $body);
+    accept_check($code===200 && str_contains($body,$message) && !str_contains($claimFeedback,'26-0001-004') && !str_contains($body,'new_http_student'),'Invalid or duplicate claim rejected without exposing owner or ID outside the submitted input');
 }
 [$code,$body]=accept_http($student,'/students.php'); accept_check($code===403 && !str_contains($body,'26-0001-004'),'Student cannot see other ID');
 [$code,$body]=accept_http($clients['admin'],'/students.php'); accept_check($code===200 && !str_contains($body,'26-0001-004'),'Administrator cannot see school ID');
