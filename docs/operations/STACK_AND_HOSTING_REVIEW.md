@@ -93,4 +93,4 @@ The user wants a book cover along with title, authors, description and number of
 
 Before implementing full features, deploy a small temporary diagnostic page with no secrets or personal data exposed. Check direct-subdomain HTTPS, PHP version, PDO connection, sessions, database version, InnoDB, constraints, rollback and private-file access restrictions. Remove diagnostics afterward. Later execute two-librarian checkout and five-book-limit races with independent sessions/connections. Export and restore sample data locally. If critical constraints fail, stop and revise the host/design before adding more features.
 
-The full DEPLOYMENT.md will be written after provider selection and updated with actual results; researched claims must remain separate from executed checks.
+The full docs/operations/DEPLOYMENT.md will be written after provider selection and updated with actual results; researched claims must remain separate from executed checks.

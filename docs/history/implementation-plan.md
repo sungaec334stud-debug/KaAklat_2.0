@@ -2,7 +2,7 @@
 
 **Goal:** Build and verify the KaAklat demonstration in small, reviewable increments using the approved plain-PHP stack.
 
-**Spec:** `SRS.md`, `SCHEMA.md`, `TEST_PLAN.md`, `WORKFLOW.md`, and `DEPLOYMENT.md`.
+**Spec:** `SRS.md`, `SCHEMA.md`, `TEST_PLAN.md`, `docs/operations/WORKFLOW.md`, and `docs/operations/DEPLOYMENT.md`.
 
 **Important boundary:** This plan follows the selected stack and user-confirmed workflow. Requirements marked P in `SRS.md` are proposed demonstration defaults. Do not treat this plan as evidence that the website, tests, hosting, research evaluation, or paper revision is complete.
 

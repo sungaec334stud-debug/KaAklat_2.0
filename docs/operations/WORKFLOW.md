@@ -1,5 +1,7 @@
 ## Controlled pilot restoration — 2026-11-14
 
+Current layout (2026-11-15): operational guides are under `docs/operations/`; root README is the current startup guide. Historical phases/examples below retain their original evidence. The optional `seed.sql`, catalog sample installers and metadata migration wrapper are retired and available only in Git history or the protected cleanup archive. Do not run historical seed/import commands against the pilot. Use `schema.sql` plus numbered migrations only for a new, explicitly isolated database. Hosting remains deferred.
+
 Controlled current-pilot backup/restore rehearsal completed locally. Backed up kaaklat_pilot and restored only into new kaaklat_pilot_restore_a4dc97bdafc7 and a separate private application directory. Passed 251 restore checks plus 15 backup safety unit checks: exact rows/definitions across all 12 tables; 86 titles/274 copies/31 requests/16 loans/30 existing accounts preserved; all 143 cover files matched, referenced covers decoded, and derived catalog availability matched. Verified CHECK/FK/username/pending-title/active-copy uniqueness and rollback, scratch-only session/recovery quarantine, fictional authentication and request/approval/pickup/return, authorized original-cover retrieval and private-path denial. Final source comparisons confirmed pilot rows/schema/covers/config/source unchanged during the rehearsal. No accounts or fictional books were added to the pilot.
 
 SQL import measured 0.617s; import-through-restore-verification measured 7.714s on this local run, within the 30-minute local target for the tested dataset. This is not a disaster-recovery guarantee. Original backup plus checksum-verified protected same-disk archive retained; off-device copy, daily RPO evidence and participant evaluation remain outstanding. Scratch server stopped; usual pilot restarted at http://127.0.0.1:8000 and health returned HTTP200/ready. First scratch attempt stopped on an invalid lowercase fictional copy code; corrected to uppercase and rerun in a new scratch. Both attempts retained. No application feature/schema change, commit, push or deployment. Prior unrelated documentation edits preserved.
@@ -14,11 +16,11 @@ The main repository `C:\Users\63961\Desktop\Emman\KaAklat2.0` is now the sole ma
 
 For the student ID increment, apply migration 002 after migration 001 in the intended local database after pausing writes and backing it up. For a fresh database, follow the baseline setup first. In phpMyAdmin select the intended database, import `migrations/002_student_school_id.sql` once and check the result before starting the updated app. For an isolated review, run `tests/student_profile_browser_fixture.php` with the project PHP executable. Start the loopback server using the generated scratch database name as `KAAKLAT_ACCEPTANCE_DB` and `tests/acceptance_router.php` as the router. The fixture manifest contains disposable sign-in details. Register a fictional ID, sign in as the fixture librarian, open Students and confirm the in-person check before activating. Expand the pending claim controls to correct or release a mistaken claim.
 
-Current local backup procedure (2026-11-04): [operator instructions](docs/local-backup-restore.md). Use CLI-only `bin/local_backup.php UNIQUE_NAME --writes-paused` after stopping all writers. It bundles database, covers, sensitive config and current working source into ignored private storage; make a separate protected off-device copy. Actual fictional restore evidence is in verification/BACKUP_RESTORE_2026-11-03.md. Real-demo restore, daily backup/RPO routine and hosted recovery remain unverified. Earlier phases below retain their original planning language.
+Current local backup procedure (2026-11-04): [operator instructions](local-backup-restore.md). Use CLI-only `bin/local_backup.php UNIQUE_NAME --writes-paused` after stopping all writers. It bundles database, covers, sensitive config and current working source into ignored private storage; make a separate protected off-device copy. Actual fictional restore evidence is in verification/BACKUP_RESTORE_2026-11-03.md. Real-demo restore, daily backup/RPO routine and hosted recovery remain unverified. Earlier phases below retain their original planning language.
 
 Prepared 2026-10-29. Option A: plain PHP 8.4, PDO MySQL, a MySQL-compatible database, semantic HTML, custom responsive CSS and minimal JavaScript. This is a future work guide. Preparing these documents does not implement the application, start a database, create a hosting account or prove that deployment works.
 
-Start with `DESIGN_BRIEF.md`, `SRS.md`, `SCHEMA.md`, `TEST_PLAN.md` and `AGENTS.md`. Follow the confirmed requirements; proposed defaults in the brief remain proposals until accepted by the school. Keep the original research paper unchanged. `schema.sql` and fictional `seed.sql` belong at the project root. `DEPLOYMENT.md` gives the detailed hosting and recovery procedure.
+Start with `docs/history/DESIGN_BRIEF.md`, `SRS.md`, `SCHEMA.md`, `TEST_PLAN.md` and `AGENTS.md`. Follow the confirmed requirements; proposed defaults in the brief remain proposals until accepted by the school. Keep the original research paper unchanged. `schema.sql` and fictional `seed.sql` belong at the project root. `docs/operations/DEPLOYMENT.md` gives the detailed hosting and recovery procedure.
 
 ## How to use this guide
 
@@ -40,7 +42,7 @@ At the beginning, this was an empty project folder. The handoff adds design docu
 
 **Actions:**
 
-1. Open this project folder in your editor. Read `AGENTS.md`, `DESIGN_BRIEF.md` and `SRS.md`.
+1. Open this project folder in your editor. Read `AGENTS.md`, `docs/history/DESIGN_BRIEF.md` and `SRS.md`.
 2. Run the checks below. If `.git` exists, inspect `git status` rather than initializing another repository.
 3. Before staging, create `.gitignore` with the entries shown below. Private local configuration, runtime logs, uploads and backups must not enter Git. Tracked schema and fictional seed data are intentional exceptions to a general “do not commit database exports” rule.
 4. If `.git` does not exist, run `git init -b main`. Set your own Git display name and email locally if Git asks; do not invent another person's identity.
@@ -52,7 +54,7 @@ Test-Path .git
 git init -b main
 git config user.name 'YOUR DISPLAY NAME'
 git config user.email 'YOUR EMAIL'
-git add -- .gitignore AGENTS.md DESIGN_BRIEF.md SRS.md SCHEMA.md schema.sql seed.sql WORKFLOW.md DEPLOYMENT.md TEST_PLAN.md PROGRESS.md CHANGELOG.md prompt.md STACK_AND_HOSTING_REVIEW.md RESEARCH_REVISION_PLAN.md
+git add -- .gitignore AGENTS.md docs/history/DESIGN_BRIEF.md SRS.md SCHEMA.md schema.sql seed.sql docs/operations/WORKFLOW.md docs/operations/DEPLOYMENT.md TEST_PLAN.md PROGRESS.md CHANGELOG.md docs/history/prompt.md docs/operations/STACK_AND_HOSTING_REVIEW.md docs/research/RESEARCH_REVISION_PLAN.md
 git diff --cached --stat
 git diff --cached
 git commit -m 'Document KaAklat scope, design and development workflow'
@@ -166,7 +168,7 @@ PowerShell does not support the common Bash-style `mysql ... < schema.sql` examp
 
 **Prerequisites:** Phase 3 and the owner's decision to proceed with the recommended InfinityFree free plan. No account or deployment was created during the documentation handoff.
 
-**Actions:** follow `DEPLOYMENT.md` sections “Early hosting gate” and “Private configuration and document root.” The owner creates the free account and direct subdomain, then uses its actual database settings. Upload only a small temporary diagnostic and non-secret test fixtures, using private configuration only after public-access denial is verified.
+**Actions:** follow `docs/operations/DEPLOYMENT.md` sections “Early hosting gate” and “Private configuration and document root.” The owner creates the free account and direct subdomain, then uses its actual database settings. Upload only a small temporary diagnostic and non-secret test fixtures, using private configuration only after public-access denial is verified.
 
 **Expected result:** HTTPS, PHP/PDO, sessions, GD and InnoDB behavior are demonstrated on the assigned account. SQL compatibility is based on the real server, not the advertised version. Browser checks pass with JavaScript and cookies enabled.
 
@@ -174,7 +176,7 @@ PowerShell does not support the common Bash-style `mysql ... < schema.sql` examp
 
 **Common problems and fixes:** the hosted database hostname is usually not `localhost`; copy it from the account panel. A successful automated HTTP status can be the provider's browser-check page, so inspect the real browser result. If privacy, transactions or HTTPS cannot be established, pause host-dependent implementation and revise the hosting choice; do not weaken the application requirements.
 
-**Sample agent prompt:** “Prepare the smallest temporary hosted diagnostic described in DEPLOYMENT.md, with no phpinfo dump or publicly displayed credentials. Make the files and checks reviewable first. Record untested items honestly and remove diagnostics after verification.”
+**Sample agent prompt:** “Prepare the smallest temporary hosted diagnostic described in docs/operations/DEPLOYMENT.md, with no phpinfo dump or publicly displayed credentials. Make the files and checks reviewable first. Record untested items honestly and remove diagnostics after verification.”
 
 **Checkpoint/recovery:** keep a sanitized deployment note: canonical URL, PHP/database versions, host layout and check results. Preserve a local working copy. Hosting failure does not require rebuilding the application from scratch.
 
@@ -215,7 +217,7 @@ The integration test writes only connection-local temporary InnoDB fixtures. Mul
 
 **Prerequisites:** working authorization and verified GD. Read schema relationships and cover constraints.
 
-**Actions:** implement librarian catalog forms for title, multiple authors, description, optional cover and copy quantity. Adding N copies creates N unique internal copy records; there is no ISBN or barcode. Derive counts from copy/assignment state. Archive specific available copies instead of erasing history. Block archive of books/copies with live assignments. Implement the JPEG/PNG validation, 2 MB/4000×4000 limits, decoder verification, re-encoding, random filenames and non-executable storage from `DEPLOYMENT.md`.
+**Actions:** implement librarian catalog forms for title, multiple authors, description, optional cover and copy quantity. Adding N copies creates N unique internal copy records; there is no ISBN or barcode. Derive counts from copy/assignment state. Archive specific available copies instead of erasing history. Block archive of books/copies with live assignments. Implement the JPEG/PNG validation, 2 MB/4000×4000 limits, decoder verification, re-encoding, random filenames and non-executable storage from `docs/operations/DEPLOYMENT.md`.
 
 **Expected result:** students see login-protected catalog details, correct counts and a placeholder where a cover is absent. Unauthorized users cannot mutate catalog data or upload files.
 
@@ -302,7 +304,7 @@ foreach ($phpFile in $phpFiles) {
 
 Use fictional performance fixtures of 100 titles, 300 copies, 30 student accounts and three staff accounts, generated by an explicitly reviewed future fixture tool. These counts are the test target, not a claim about `seed.sql`. Measure five simultaneous browser users locally. Record warmed catalog server response p95 against the proposed two-second target, with machine, sample size and procedure; the PHP development server alone is not a production-capacity test. Observe hosted pages against a five-second target under recorded network conditions; do not load-test shared free hosting aggressively.
 
-Export a backup and restore it into a new, empty local database using `DEPLOYMENT.md`. Confirm accounts, copies, requests, loans, audit history and covers agree. Target a successful same-day restore within 30 minutes.
+Export a backup and restore it into a new, empty local database using `docs/operations/DEPLOYMENT.md`. Confirm accounts, copies, requests, loans, audit history and covers agree. Target a successful same-day restore within 30 minutes.
 
 **Expected result:** no unresolved critical permission, privacy, data-integrity or recovery defects. Failed checks remain visible with owners and next actions.
 
@@ -318,7 +320,7 @@ Export a backup and restore it into a new, empty local database using `DEPLOYMEN
 
 **Goal:** produce a verified HTTPS demonstration and a usable local fallback. Covers NFR-07 and NFR-08.
 
-**Prerequisites:** passing Phase 10, the early hosting gate and a planned short maintenance window for any update. Read all of `DEPLOYMENT.md` before uploading.
+**Prerequisites:** passing Phase 10, the early hosting gate and a planned short maintenance window for any update. Read all of `docs/operations/DEPLOYMENT.md` before uploading.
 
 **Actions:** record the release commit; export current data/covers off-host; enable maintenance before a paired code/schema update; upload the reviewed file set; import into the intended empty database or apply an individually tested migration; configure private credentials; verify HTTPS/cookies and run hosted smoke checks. Do not reimport `seed.sql` into a used demo database. Remove diagnostics and bootstrap artifacts. Keep maintenance active until checks pass. Rehearse the demonstration with separate student/librarian/admin browser profiles, then verify the actual phone and presentation network.
 
@@ -326,7 +328,7 @@ Export a backup and restore it into a new, empty local database using `DEPLOYMEN
 
 **Verify:** hosted login → request → approve → physical pickup → return; rejected/expired/cancelled requests; last-copy/cap conflicts; unauthorized direct access; covers; logout; no private-file exposure. Record observed hosted behavior separately from local test results.
 
-**Common problems and fixes:** incomplete uploads can mix old/new code, so deploy during maintenance and verify the file manifest. A database import failure is not fixed by importing again blindly. If a release fails, follow the rollback decision tree in `DEPLOYMENT.md` and preserve any transactions already accepted.
+**Common problems and fixes:** incomplete uploads can mix old/new code, so deploy during maintenance and verify the file manifest. A database import failure is not fixed by importing again blindly. If a release fails, follow the rollback decision tree in `docs/operations/DEPLOYMENT.md` and preserve any transactions already accepted.
 
 **Sample agent prompt:** “Prepare the release package and exact deployment checklist for the tested commit. Exclude secrets, SQL exports, tests and diagnostics from public files. After an authorized deployment, perform hosted smoke checks and record failures honestly. Preserve current data before any rollback.”
 
@@ -359,7 +361,7 @@ Read `AGENTS.md`, the relevant requirements and the most recent checkpoint. Choo
 
 **Sample agent prompt:** “Read AGENTS.md, PROGRESS.md and the relevant requirements. Inspect current Git/files without discarding changes. Continue the next unfinished checkpoint only, verify it, and leave precise resume notes. Keep credentials and backups private.”
 
-**Checkpoint/recovery:** keep source history, release notes and off-host database/cover backups together by release/date, with secrets stored separately. After data loss or an uncertain release, stop new writes, preserve current evidence and follow `DEPLOYMENT.md` recovery steps before restoring anything.
+**Checkpoint/recovery:** keep source history, release notes and off-host database/cover backups together by release/date, with secrets stored separately. After data loss or an uncertain release, stop new writes, preserve current evidence and follow `docs/operations/DEPLOYMENT.md` recovery steps before restoring anything.
 
 ## Staff account management — 2026-11-03
 Administrator > Staff accounts creates active librarian/admin records with NULL password_hash (sign-in disabled), searches/paginates and changes permitted staff role/status. Student conversion and physical deletion are excluded. Administrator circulation/catalog permissions remain denied. A staff member with no password is not counted as a usable administrator. Initial administrator bootstrap is CLI-only, only when no usable admin exists; duplicate usernames are refused without elevation.

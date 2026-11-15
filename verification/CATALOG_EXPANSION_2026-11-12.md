@@ -2,7 +2,7 @@
 
 User requested more real books in every category, with accurate author/title/category, covers, descriptions and varied copy quantities. Added two titles in each of the19 existing categories:38 books and127 simulated physical-copy records. The pilot now has86 books and273 copies. Categories were reused; no schema, application feature, borrowing policy or theme changes were made. Hosting remains deferred.
 
-The public source manifest and bibliography are [JSON](../docs/catalog-additions-2026-11-12.json) and [readable sources/descriptions](../docs/catalog-additions-2026-11-12.md). Authors, descriptions, work-first-publication years, cover URLs, hashes and saved randomized quantities are recorded there. Counts are2–5 per title and are simulated pilot inventory, not verified university holdings. Textbooks are relevant subject resources, not verified university course adoptions. Foreign jurisdiction examples and edition/work-year distinctions are documented. Descriptions are short original paraphrases.
+The public source manifest and bibliography are [JSON](../docs/catalog/catalog-additions-2026-11-12.json) and [readable sources/descriptions](../docs/catalog/catalog-additions-2026-11-12.md). Authors, descriptions, work-first-publication years, cover URLs, hashes and saved randomized quantities are recorded there. Counts are2–5 per title and are simulated pilot inventory, not verified university holdings. Textbooks are relevant subject resources, not verified university course adoptions. Foreign jurisdiction examples and edition/work-year distinctions are documented. Descriptions are short original paraphrases.
 
 ## Research and cover preparation
 

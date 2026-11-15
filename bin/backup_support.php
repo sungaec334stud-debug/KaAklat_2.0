@@ -61,7 +61,7 @@ function backup_database_inventory(PDO $db): array
 function backup_source_inventory(string $root): array
 {
     $files = [];
-    foreach (['app','public','views','bin','migrations'] as $directory) {
+    foreach (['app','public','views','bin','migrations','docs'] as $directory) {
         if (!is_dir($root . '/' . $directory)) {
             if (in_array($directory, ['app','public','views'], true)) { throw new RuntimeException('Required application source directory is missing.'); }
             continue;
@@ -70,7 +70,7 @@ function backup_source_inventory(string $root): array
             $files[$directory . '/' . $relative] = $metadata;
         }
     }
-    foreach ([...glob($root . '/*.md'), ...glob($root . '/*.sql'), $root . '/.gitignore', $root . '/.env.example'] as $file) {
+    foreach ([...glob($root . '/*.md'), ...glob($root . '/*.sql'), $root . '/.gitignore', $root . '/.env.example', $root . '/start-local.ps1'] as $file) {
         if (!is_file($file)) { continue; }
         $relative = basename($file);
         backup_child_path($root, $relative);
@@ -184,7 +184,7 @@ function create_local_backup(array $database, string $projectRoot, string $bundl
     $manifest = ['format'=>1, 'started_utc'=>$started, 'completed_utc'=>gmdate('c'),
         'source_database'=>(string)$database['database'], 'server_version'=>$db->query('SELECT VERSION()')->fetchColumn(),
         'tables'=>$tables, 'files'=>backup_file_inventory($bundle),
-        'source_requirement'=>'code/ includes current app/public/views/bin/migrations and root Markdown/SQL, .gitignore/.env.example, including uncommitted edits; no Git history, tests or research output. Retain the repository separately. This is not an off-device copy or a verified restore.'];
+        'source_requirement'=>'code/ includes current app/public/views/bin/migrations/docs and root Markdown/SQL, start-local.ps1, .gitignore/.env.example, including uncommitted edits; no Git history, tests or research output. Retain the repository separately. This is not an off-device copy or a verified restore.'];
     unset($manifest['files']['INCOMPLETE.txt']);
     file_put_contents($bundle . '/manifest.json', json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR));
     verify_backup_files($bundle, true);

@@ -38,7 +38,7 @@ Two approaches were presented: A, plain PHP/PDO with relational storage, semanti
 
 Use PHP 8.4 locally via `C:\php-8.4.14\php.exe`, XAMPP's database service after verifying its actual version, and portable InnoDB SQL for MariaDB 10.4+ / MySQL 8.0+. XAMPP's bundled PHP is a different installation (8.2.12); do not accidentally use it for version-specific checks. PHP PDO is the built-in database interface. No application framework, Composer, npm, paid API or build tool is required.
 
-InfinityFree is the recommended free demonstration host, not yet selected through account registration or runtime testing. Its documented PHP/database support must be verified on the assigned account before relying on it. See STACK_AND_HOSTING_REVIEW.md and DEPLOYMENT.md. Provider terms may change; no unlimited capacity or permanent free-service guarantee is assumed.
+InfinityFree is the recommended free demonstration host, not yet selected through account registration or runtime testing. Its documented PHP/database support must be verified on the assigned account before relying on it. See docs/operations/STACK_AND_HOSTING_REVIEW.md and docs/operations/DEPLOYMENT.md. Provider terms may change; no unlimited capacity or permanent free-service guarantee is assumed.
 
 Organize small HTTP entry pages under `public/`, shared security/database/business functions under `app/`, HTML templates under `views/`, and private configuration outside the public tree. Root `schema.sql` and `seed.sql` are initial database artifacts; subsequent changes are numbered SQL migrations. Do not create a framework-sized abstraction layer. Route naming, visual style and minor component structure are implementation decisions within this design.
 
@@ -211,7 +211,7 @@ Hosting remains deferred. User-operated PHP/extensions, MariaDB/InnoDB, private-
 
 The dated notes below preserve implementation history. Statements that pickup/returns or circulation remain pending describe earlier checkpoints, not the current state above.
 
-SCHEMA.md describes storage and concurrency; schema.sql/seed.sql are the initial database artifacts. TEST_PLAN.md maps every FR/NFR to unexecuted and executed checks. WORKFLOW.md guides implementation phases; DEPLOYMENT.md separates provider documentation from runtime evidence. AGENTS.md governs future agents. PROGRESS.md records current truth, CHANGELOG.md historical changes, and prompt.md only actual prompts. RESEARCH_REVISION_PLAN.md maps paper changes before any rewriting.
+SCHEMA.md describes storage and concurrency; schema.sql/seed.sql are the initial database artifacts. TEST_PLAN.md maps every FR/NFR to unexecuted and executed checks. docs/operations/WORKFLOW.md guides implementation phases; docs/operations/DEPLOYMENT.md separates provider documentation from runtime evidence. AGENTS.md governs future agents. PROGRESS.md records current truth, CHANGELOG.md historical changes, and docs/history/prompt.md only actual prompts. docs/research/RESEARCH_REVISION_PLAN.md maps paper changes before any rewriting.
 
 Current implementation includes authentication, librarian student activation/suspension, catalog browsing/filtering, catalog editing/copy management, protected cover handling and audit for these mutations. Local automated evidence is recorded in TEST_PLAN.md. Staff administration, recovery, circulation requests/decisions/pickup/returns, complete history, restore rehearsal, hosting and participant evaluation remain pending. Full authenticated browser/accessibility/concurrency acceptance is not yet complete.
 

@@ -2,7 +2,7 @@
 
 User request: Impeccable modernize every page, retain school blue/white/gray, preserve behavior and avoid introducing errors. Refinement of the existing identity, not a new product or business-rule change.
 
-Changes: consolidated shared CSS tokens/type/spacing; navy desktop sidebar at 1100px+; wrapping light-header navigation below that; quieter white surfaces; blue current-route/primary actions; consistent forms, checkbox labels, focus, caution/status states, tabs, filters, catalog, request history/progress, staff, audit/recovery and librarian operational lists. Dashboard task links aligned; decorative eyebrow labels removed; existing SVG logo, factual copy, routes, forms/field names and authorization/transaction services preserved. DESIGN.md records the system; no external font/UI dependency or new JavaScript.
+Changes: consolidated shared CSS tokens/type/spacing; navy desktop sidebar at 1100px+; wrapping light-header navigation below that; quieter white surfaces; blue current-route/primary actions; consistent forms, checkbox labels, focus, caution/status states, tabs, filters, catalog, request history/progress, staff, audit/recovery and librarian operational lists. Dashboard task links aligned; decorative eyebrow labels removed; existing SVG logo, factual copy, routes, forms/field names and authorization/transaction services preserved. docs/design/DESIGN.md records the system; no external font/UI dependency or new JavaScript.
 
 ## Verification
 - Baseline local login screenshot inspected before edits.

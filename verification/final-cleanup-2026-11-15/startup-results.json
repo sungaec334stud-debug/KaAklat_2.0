@@ -1,0 +1,40 @@
+[
+  {
+    "path": "/health.php",
+    "status": 200
+  },
+  {
+    "path": "/",
+    "status": 200
+  },
+  {
+    "path": "/login.php",
+    "status": 200
+  },
+  {
+    "path": "/about.php",
+    "status": 200
+  },
+  {
+    "path": "/catalog.php",
+    "status": 303
+  },
+  {
+    "path": "/assets/entry.css",
+    "status": 200
+  },
+  {
+    "path": "/assets/navigation.js",
+    "status": 200
+  },
+  {
+    "path": "/private/config.local.php",
+    "status": 200,
+    "body": "Identical public landing fallback; no private/source content"
+  },
+  {
+    "path": "/schema.sql",
+    "status": 200,
+    "body": "Identical public landing fallback; no private/source content"
+  }
+]

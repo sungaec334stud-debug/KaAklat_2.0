@@ -4,7 +4,7 @@
 
 **Architecture:** Extend app/catalog.php as the canonical read-only query/parameter/URL owner. Keep the existing derived availability selection shared between listing, counts and details. Add views/catalog_filters.php for native GET controls, disclosure, removable labels and safe feedback. public/catalog.php remains the authenticated controller. views/catalog_pagination.php preserves the canonical query context. Reuse existing CSS tokens and forms.js summary focus; no new dependencies or asynchronous search.
 
-**Spec:** The user's pasted request, recorded in prompt.md on completion. Plain PHP/PDO,12 titles/page, archived titles excluded, 100-character search/filter strings, years1–current Manila year, native Apply filters and JS-disabled operation. New allowlists: sort=title_asc/title_desc/year_desc/year_asc; available empty/1/0. Legacy year remains accepted and maps to matching inclusive bounds; contradictory legacy/range inputs are refused. Detail links carry allowlisted catalog parameters directly, with no arbitrary return URL.
+**Spec:** The user's pasted request, recorded in docs/history/prompt.md on completion. Plain PHP/PDO,12 titles/page, archived titles excluded, 100-character search/filter strings, years1–current Manila year, native Apply filters and JS-disabled operation. New allowlists: sort=title_asc/title_desc/year_desc/year_asc; available empty/1/0. Legacy year remains accepted and maps to matching inclusive bounds; contradictory legacy/range inputs are refused. Detail links carry allowlisted catalog parameters directly, with no arbitrary return URL.
 
 ## Tasks
 

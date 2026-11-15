@@ -1,5 +1,7 @@
 ## Controlled pilot restoration — 2026-11-14
 
+Current layout (2026-11-15): operational guides are under `docs/operations/`; root README is the current startup guide. Historical phases/examples below retain their original evidence. The optional `seed.sql`, catalog sample installers and metadata migration wrapper are retired and available only in Git history or the protected cleanup archive. Do not run historical seed/import commands against the pilot. Use `schema.sql` plus numbered migrations only for a new, explicitly isolated database. Hosting remains deferred.
+
 Controlled current-pilot backup/restore rehearsal completed locally. Backed up kaaklat_pilot and restored only into new kaaklat_pilot_restore_a4dc97bdafc7 and a separate private application directory. Passed 251 restore checks plus 15 backup safety unit checks: exact rows/definitions across all 12 tables; 86 titles/274 copies/31 requests/16 loans/30 existing accounts preserved; all 143 cover files matched, referenced covers decoded, and derived catalog availability matched. Verified CHECK/FK/username/pending-title/active-copy uniqueness and rollback, scratch-only session/recovery quarantine, fictional authentication and request/approval/pickup/return, authorized original-cover retrieval and private-path denial. Final source comparisons confirmed pilot rows/schema/covers/config/source unchanged during the rehearsal. No accounts or fictional books were added to the pilot.
 
 SQL import measured 0.617s; import-through-restore-verification measured 7.714s on this local run, within the 30-minute local target for the tested dataset. This is not a disaster-recovery guarantee. Original backup plus checksum-verified protected same-disk archive retained; off-device copy, daily RPO evidence and participant evaluation remain outstanding. Scratch server stopped; usual pilot restarted at http://127.0.0.1:8000 and health returned HTTP200/ready. First scratch attempt stopped on an invalid lowercase fictional copy code; corrected to uppercase and rerun in a new scratch. Both attempts retained. No application feature/schema change, commit, push or deployment. Prior unrelated documentation edits preserved.
@@ -8,13 +10,13 @@ Evidence: verification/PILOT_BACKUP_RESTORE_2026-11-14.md. Next: protected off-d
 
 # KaAklat deployment and recovery guide
 
-Current local recovery update (2026-11-04): follow [docs/local-backup-restore.md](docs/local-backup-restore.md) for the new CLI bundle helper, write pause, protected copies and restore authentication quarantine. A complete **fictional local** rehearsal passed; see verification/BACKUP_RESTORE_2026-11-03.md. This does not establish real-demo/hosted recovery, off-device protection or deployment. Hosting is deferred. The prepared-date statements below describe their historical handoff.
+Current local recovery update (2026-11-04): follow [docs/local-backup-restore.md](local-backup-restore.md) for the new CLI bundle helper, write pause, protected copies and restore authentication quarantine. A complete **fictional local** rehearsal passed; see verification/BACKUP_RESTORE_2026-11-03.md. This does not establish real-demo/hosted recovery, off-device protection or deployment. Hosting is deferred. The prepared-date statements below describe their historical handoff.
 
 Prepared 2026-10-29 (Asia/Manila). This is a deployment plan for the selected plain-PHP option. Official hosting documentation was reviewed on this date; **no account, live PHP/database connection, upload, HTTPS behavior or full application deployment was tested during this handoff**. Record real results in `PROGRESS.md` as they are obtained.
 
 Requirements covered: FR-01–FR-12 as hosted smoke checks; particularly FR-04 covers and FR-11 backup/restore, plus NFR-01 security, NFR-02 privacy, NFR-03 integrity, NFR-06 performance, NFR-07 recovery and NFR-08 maintainability.
 
-Use this with `WORKFLOW.md`, `TEST_PLAN.md`, `SCHEMA.md`, root `schema.sql` and root `seed.sql`. Proposed policy defaults are documented in `DESIGN_BRIEF.md`; deployment must not silently change them.
+Use this with `docs/operations/WORKFLOW.md`, `TEST_PLAN.md`, `SCHEMA.md`, root `schema.sql` and root `seed.sql`. Proposed policy defaults are documented in `docs/history/DESIGN_BRIEF.md`; deployment must not silently change them.
 
 ## Hosting decision and its limits
 
@@ -32,7 +34,7 @@ Use the direct free-subdomain address assigned to the account, without `www` or 
 | Mandatory browser checks need JavaScript and cookies; automated HTTP/API clients and external monitors can receive a challenge instead of the app. [Browser security](https://forum.infinityfree.com/t/browser-security-system-features-and-limitations/49353) | Verify with real browsers. An HTTP 200 from a script does not prove an application page worked. Do not claim JavaScript-disabled hosted operation. |
 | No provider backup recovery is supplied on the free plan. [Admin backup explanation](https://forum.infinityfree.com/t/mysql-database-disappeared-wordpress-database-recovery/120319) | Keep off-host SQL and file backups and perform local restore tests. |
 
-Additional documented hit/CPU, inode and inactivity limits are linked in `STACK_AND_HOSTING_REVIEW.md`. Check the actual account panel and current policy before the presentation. A free demo host is not evidence of suitability for daily school operations or real student data. AwardSpace was screened out because its free tier does not support SSL; details are in the hosting review.
+Additional documented hit/CPU, inode and inactivity limits are linked in `docs/operations/STACK_AND_HOSTING_REVIEW.md`. Check the actual account panel and current policy before the presentation. A free demo host is not evidence of suitability for daily school operations or real student data. AwardSpace was screened out because its free tier does not support SSL; details are in the hosting review.
 
 ## Owner's preparation checklist
 
@@ -166,7 +168,7 @@ This local command does not bypass hosting's remote-database restrictions. Avoid
 
 ## Restore rehearsal into a new local database
 
-Before allowing restored users access, apply the session/reset/password precautions in docs/local-backup-restore.md: new cookie name and empty session directory, invalidate restored reset secrets, increment restored versions, and reconcile post-backup credential/status changes. Do this only on the separate restored target. Never enable the backed-up source configuration blindly.
+Before allowing restored users access, apply the session/reset/password precautions in docs/operations/local-backup-restore.md: new cookie name and empty session directory, invalidate restored reset secrets, increment restored versions, and reconcile post-backup credential/status changes. Do this only on the separate restored target. Never enable the backed-up source configuration blindly.
 
 1. Choose a specific backup with matching covers/source release. Keep the live database untouched. Inspect the SQL for embedded database selection or destructive statements. A copied export must not redirect import into `kaaklat_dev` or a live database.
 2. Start the local XAMPP database service. Create a new, uniquely named empty restore database. The example name is for one rehearsal; if it exists, choose a new name rather than dropping it.

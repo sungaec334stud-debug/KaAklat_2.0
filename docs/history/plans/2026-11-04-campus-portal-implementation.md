@@ -2,7 +2,7 @@
 
 **Goal:** apply the user-approved campus-portal mockup to the actual PHP website without changing core behavior.
 
-**Spec:** docs/superpowers/specs/2026-11-04-campus-portal-design.md, approved by user: "I like this design apply it to the real website and make sure there are no bugs and errors with the core functionalities and logics".
+**Spec:** docs/design/specs/2026-11-04-campus-portal-design.md, approved by user: "I like this design apply it to the real website and make sure there are no bugs and errors with the core functionalities and logics".
 
 **Architecture:** existing plain PHP/PDO backend untouched. Shared SVG presentation helper + existing layout, replacement consolidated app/landing CSS and small presentation wrappers in dashboard/profile. Current routes/actions/field names/IDs/permissions/data remain authoritative. CSS runtime tokens stay canonical and DESIGN mirrors them. No dependencies, migration, commit or push.
 

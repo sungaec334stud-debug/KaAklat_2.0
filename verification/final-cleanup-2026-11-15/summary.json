@@ -1,0 +1,15 @@
+{
+  "regression_scripts": 36,
+  "backup_safety_checks": 18,
+  "http_assertions": 448,
+  "php_lints": 130,
+  "navigation_layouts": 56,
+  "native_routes": 30,
+  "entry_combinations": 64,
+  "browser_runtime_errors": 0,
+  "pilot_rows_schema_covers_config_unchanged": true,
+  "runtime_source_matches_isolated_test_copy": true,
+  "default_scratch_database": "kaaklat_cleanup_test_0ea94194181d",
+  "browser_scratch_database": "kaaklat_acceptance_317da689ce74",
+  "http_scratch_database": "kaaklat_acceptance_16fcb8015404"
+}

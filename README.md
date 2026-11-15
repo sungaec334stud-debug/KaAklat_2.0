@@ -1,5 +1,7 @@
 # KaAklat
 
+Documentation: [guide index](docs/README.md). Current operation uses the existing pilot database; run `& .\start-local.ps1` from this project root. Optional demo seeding/catalog import tools have been retired; no data import or reset is needed.
+
 **A local school-library catalog and borrowing system for Universidad de Dagupan pilot testing.**
 
 KaAklat helps students find physical books and follow their borrowing requests. Librarians verify student accounts, review requests and record physical pickup and return. Administrators manage staff access and review audit records.
@@ -242,7 +244,7 @@ The main repository now serves the pilot directly; source edits there affect the
 
 ### Manual backup
 
-Follow the full [backup and restore operator guide](docs/local-backup-restore.md). In the intended installation:
+Follow the full [backup and restore operator guide](docs/operations/local-backup-restore.md). In the intended installation:
 
 1. Keep MySQL running; stop PHP and all other writers, including imports, editing tools and tests.
 2. Run:
@@ -309,7 +311,6 @@ docs/           Operator guides and design/implementation notes
 private/        Ignored current configuration, covers, backups and pilot sessions
 tmp/            Ignored temporary fixture resources and diagnostics
 schema.sql      Baseline schema; apply migrations afterward
-seed.sql        Optional fictional development seed, not clean-pilot data
 ```
 
 | Document | Purpose |
@@ -318,10 +319,10 @@ seed.sql        Optional fictional development seed, not clean-pilot data
 | [SRS.md](SRS.md) | Requirements and approved defaults versus proposals |
 | [SCHEMA.md](SCHEMA.md) | Relationships, lifecycle, constraints and lock order |
 | [TEST_PLAN.md](TEST_PLAN.md) | Test procedures and actual evidence/limits |
-| [WORKFLOW.md](WORKFLOW.md) | Development/operator workflow; check current handoffs before older phase examples |
-| [Backup/restore guide](docs/local-backup-restore.md) | Protected backup and isolated recovery precautions |
-| [DEPLOYMENT.md](DEPLOYMENT.md) | Future deployment/recovery considerations; hosting deferred |
-| [DESIGN.md](DESIGN.md) / [UX-CONTRACT.md](UX-CONTRACT.md) | Shared interface tokens, navigation and behavior owners |
-| [CHANGELOG.md](CHANGELOG.md) / [prompt.md](prompt.md) | Change history and implementation requests/outcomes |
+| [WORKFLOW.md](docs/operations/WORKFLOW.md) | Development/operator workflow; check current handoffs before older phase examples |
+| [Backup/restore guide](docs/operations/local-backup-restore.md) | Protected backup and isolated recovery precautions |
+| [DEPLOYMENT.md](docs/operations/DEPLOYMENT.md) | Future deployment/recovery considerations; hosting deferred |
+| [DESIGN.md](docs/design/DESIGN.md) / [UX-CONTRACT.md](docs/design/UX-CONTRACT.md) | Shared interface tokens, navigation and behavior owners |
+| [CHANGELOG.md](CHANGELOG.md) / [prompt.md](docs/history/prompt.md) | Change history and implementation requests/outcomes |
 
 University branding and catalog metadata/cover assets retain their respective owners’ rights. This README does not grant redistribution rights to third-party material. Confirm school authorization and applicable asset permissions before wider distribution.

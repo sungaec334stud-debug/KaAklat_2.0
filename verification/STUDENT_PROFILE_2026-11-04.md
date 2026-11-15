@@ -36,7 +36,7 @@ Computer Use skill/runtime initialized successfully and returned Chrome. The fir
 
 No further browser automation or alternate browser-control workaround attempted. **Desktop,360px,768px,400% zoom, keyboard/focus and actual visual acceptance are NOT VERIFIED.** Earlier interface passes do not cover this new page. Browser fixture script created kaaklat_acceptance_04f695ff7ede and private tmp/student-profile-browser-04f695ff7ede/fixture.json with random fictional credentials; these remain private/ignored. Only the isolated8021 server PID11948 was stopped after its executable/command line were matched. User browser tabs were not navigated or signed in by the agent.
 
-Premium UI static-audit command attempted with the installed skill's audit_project.py. It could not run because C:/Users/63961/AppData/Local/Microsoft/WindowsApps/python.exe was inaccessible (ResourceUnavailable). No Python install or static-audit pass claimed; no generated audit JSON. DESIGN.md and maintained SRS/SCHEMA/WORKFLOW/TEST_PLAN guide the touched route; no broad redesign or unrelated legacy contract migration.
+Premium UI static-audit command attempted with the installed skill's audit_project.py. It could not run because C:/Users/63961/AppData/Local/Microsoft/WindowsApps/python.exe was inaccessible (ResourceUnavailable). No Python install or static-audit pass claimed; no generated audit JSON. docs/design/DESIGN.md and maintained SRS/SCHEMA/WORKFLOW/TEST_PLAN guide the touched route; no broad redesign or unrelated legacy contract migration.
 
 ## Manual acceptance checklist
 

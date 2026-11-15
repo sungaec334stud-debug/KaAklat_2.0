@@ -1,5 +1,11 @@
 ## Staff dashboard parity correction — 2026-11-13
 
+### Final project cleanup — 2026-11-15
+
+Organized documentation under docs with a guide index; retained seven root Markdown documents, tests and research/verification evidence. Archived generated artifacts, research exports, historical private rehearsals/backups and retired optional sample tools/seed/unused landing stylesheet outside the project with content hashes. Current private configuration, covers and sessions are retained. Extended backup source coverage to nested docs and the startup script (18 backup checks).
+
+Verified 36 regression scripts, 448 isolated HTTP assertions, 130 PHP lints, JavaScript syntax, startup configuration, 56 navigation layouts/30 native routes and 64 entry combinations; zero browser runtime errors. Tested runtime bytes match the isolated copy. All pilot rows/schema/covers/configuration fingerprints remain unchanged. Hosting deferred; physical-device/Safari/screen-reader/400% zoom limits remain as documented. See verification/FINAL_CLEANUP_2026-11-15.md and docs/README.md.
+
 The earlier redesign completion statement overstated staff-dashboard parity. Corrected the librarian and administrator dashboards to the accepted layout: whole-card summaries, two-column work/account panels, protected book covers, librarian student verification and own recent desk activity, administrator recent account activity and active staff access. All values come from bounded read-only queries. Librarians see only their own allowlisted circulation activity; administrators gain no circulation permissions. Existing student dashboard, role checks, About content, pagination and pilot records remain unchanged. No schema changes, commit or push; hosting deferred.
 
 Verification: 36 regression scripts passed before the final administrator presentation adjustment; final affected dashboard/design tests, PHP lint and 416 workflow HTTP assertions passed. Final browser rerun covered 248 role/theme/viewport combinations with zero runtime exceptions and zero sampled contrast failures. Final librarian/administrator dark screenshots were visually inspected. Strict static UI audit reported zero findings. Actual 400% browser zoom, physical-device and screen-reader acceptance remain manual; no claim of a bug-free system. Usage tool unavailable.
@@ -192,8 +198,8 @@ All dates use Asia/Manila. This records completed document changes, not applicat
 
 - Initial project requirements and MVP scope in `SRS.md` (FR-01 through FR-12; NFR-01 through NFR-08).
 - Normalized database documentation in `SCHEMA.md`, executable initial DDL in `schema.sql`, and fictional non-login seed fixtures in `seed.sql`.
-- Development guidance in `AGENTS.md`, `WORKFLOW.md`, `DEPLOYMENT.md`, and `TEST_PLAN.md`.
-- Research scope map in `RESEARCH_REVISION_PLAN.md` and free-hosting review in `STACK_AND_HOSTING_REVIEW.md`.
+- Development guidance in `AGENTS.md`, `docs/operations/WORKFLOW.md`, `docs/operations/DEPLOYMENT.md`, and `TEST_PLAN.md`.
+- Research scope map in `docs/research/RESEARCH_REVISION_PLAN.md` and free-hosting review in `docs/operations/STACK_AND_HOSTING_REVIEW.md`.
 - This changelog, an append-only prompt log template, and an implementation plan.
 
 ### Implemented but not fully verified - 2026-10-29
@@ -212,7 +218,7 @@ All dates use Asia/Manila. This records completed document changes, not applicat
 
 ### Verified document checks - 2026-10-29
 
-- PDF Chapters 1-2: page text reviewed; the conceptual-framework page was rendered and inspected. See `RESEARCH_REVISION_PLAN.md`.
+- PDF Chapters 1-2: page text reviewed; the conceptual-framework page was rendered and inspected. See `docs/research/RESEARCH_REVISION_PLAN.md`.
 - Local tool inventory: PHP 8.4.14 CLI with PDO MySQL; XAMPP PHP 8.2.12; MariaDB 10.4.32 client; Git 2.47.1. This does not verify a running XAMPP database or a hosted runtime.
 - Hosting claims: official-source documentation review completed. No provider account or deployment was created.
 - Static SQL structure check: `schema.sql` contains 11 table definitions and no `DROP`/`TRUNCATE`; `seed.sql` contains 11 inserts in one explicit transaction and no destructive statements. This is not a database import or constraint test.
@@ -266,7 +272,7 @@ Verification: 14 regression scripts PASS; added positive Pending/overdue Active 
 User authorized review, commit and push of application/documentation changes; output/ research artifacts excluded. Fresh checks: 14 regression scripts PASS; 45 PHP files lint PASS; four decision concurrency scenarios and two pickup concurrency scenarios PASS. Fictional scratch databases retained: kaaklat_decision_test_f1dac2220538 and kaaklat_pickup_test_f2d34f1487ca. Staged filenames and secret patterns reviewed: private config/runtime/logs/backups/temporary artifacts excluded; no secret-pattern matches. Trailing test-file blank lines corrected. Remaining browser/phone/keyboard and HTTP acceptance limitations remain documented. No demo data reset/reimport.
 
 ## Blue/white/gray visual refresh — 2026-11-01
-Replaced overlapping green-theme CSS with a consistent navy/blue, white and gray portal design. Added role-specific dashboard task cards, explanatory welcome/borrowing guidance, current-page navigation, skip-to-content, consistent forms/buttons, clearer selected tabs and responsive catalog/card layouts. No new dependency or data/schema change. Design notes: docs/visual-refresh.md.
+Replaced overlapping green-theme CSS with a consistent navy/blue, white and gray portal design. Added role-specific dashboard task cards, explanatory welcome/borrowing guidance, current-page navigation, skip-to-content, consistent forms/buttons, clearer selected tabs and responsive catalog/card layouts. No new dependency or data/schema change. Design notes: docs/history/visual-refresh.md.
 Executed: 14 regression scripts PASS (isolated fixtures), 45 PHP files lint PASS. Browser desktop/mobile/keyboard/zoom acceptance for the redesign remains pending; no new visual/accessibility pass claimed. No commit/push.
 
 ## KaAklat logo — 2026-11-01
@@ -336,7 +342,7 @@ Closed admin student-management permission gap without broadening circulation/ca
 
 2026-11-03: full local verification rerun PASS (21 regression scripts, 17 races, 101 HTTP assertions, 79 PHP lints, JS syntax/whitespace). Health ready; five read-only demo integrity checks zero. No new app changes. Limitations/evidence in verification/FULL_LOCAL_CHECK_2026-11-03.md.
 
-2026-11-03: modernized shared interface in existing school palette; desktop sidebar, responsive navigation, clearer forms/task hierarchy and consistent status/focus/caution styles. DESIGN.md and verification/DESIGN_REFINEMENT_2026-11-03.md record scope and evidence. 21 regressions/101 HTTP assertions PASS; final92 headless width captures without horizontal overflow. No business/data/schema changes. Manual acceptance remains scoped.
+2026-11-03: modernized shared interface in existing school palette; desktop sidebar, responsive navigation, clearer forms/task hierarchy and consistent status/focus/caution styles. docs/design/DESIGN.md and verification/DESIGN_REFINEMENT_2026-11-03.md record scope and evidence. 21 regressions/101 HTTP assertions PASS; final92 headless width captures without horizontal overflow. No business/data/schema changes. Manual acceptance remains scoped.
 
 2026-11-03: added signed-out library imagery and bounded reduced-motion-aware animation, dedicated landing view/CSS and four-step guide. Local optimized generated images, no runtime external dependency.21 regressions/104 HTTP assertions PASS; actual headless responsive/motion/JS-off/skip-link checks recorded in verification/LANDING_2026-11-03.md. Authenticated dashboards/data preserved.
 

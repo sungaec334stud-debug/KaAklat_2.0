@@ -51,7 +51,7 @@ Write meaningful tests for:
 
 Use isolated fictional fixtures. Never reset, reimport, or delete existing demo data. Run relevant regression tests, PHP lint, and available browser checks. Report actual results and anything not verified.
 
-Update PROGRESS.md, TEST_PLAN.md, CHANGELOG.md, and append this prompt and its outcome to prompt.md. Check usage at the start and finish; if usage becomes low, record the current state and exact next steps.
+Update PROGRESS.md, TEST_PLAN.md, CHANGELOG.md, and append this prompt and its outcome to docs/history/prompt.md. Check usage at the start and finish; if usage becomes low, record the current state and exact next steps.
 
 Finish with beginner-friendly local testing instructions and identify the next increment: librarian review and approval/rejection of borrowing requests.
 ```
@@ -137,7 +137,7 @@ This is append-only. Record only real prompts available to the coding agent. Do 
 - **Prompt submitted:** "Act as my beginner-friendly software development mentor, systems analyst, database designer, and research writing assistant. Help me restart my school’s web-based Library Management System from scratch and revise my research paper so it accurately matches the redesigned system." The supplied prompt further required PHP without Laravel, a free hosted demonstration, SRS, normalized schema, development documentation, secure workflow, and evidence-based paper revision.
 - **Intended task:** Establish requirements, stack/hosting recommendation, initial documentation, database design, and research revision planning.
 - **Outcome:** Initial review/design documents created. No application code, hosted system, or revised paper chapter was claimed or produced.
-- **Related files or commit:** `SRS.md`, `SCHEMA.md`, `schema.sql`, `seed.sql`, `AGENTS.md`, `WORKFLOW.md`, `DEPLOYMENT.md`, `TEST_PLAN.md`, `RESEARCH_REVISION_PLAN.md`, `STACK_AND_HOSTING_REVIEW.md`, `PROGRESS.md`.
+- **Related files or commit:** `SRS.md`, `SCHEMA.md`, `schema.sql`, `seed.sql`, `AGENTS.md`, `docs/operations/WORKFLOW.md`, `docs/operations/DEPLOYMENT.md`, `TEST_PLAN.md`, `docs/research/RESEARCH_REVISION_PLAN.md`, `docs/operations/STACK_AND_HOSTING_REVIEW.md`, `PROGRESS.md`.
 - **Verification performed:** Reviewed the supplied Chapters 1-2 PDF; inspected local PHP/Git tooling; checked provider documentation. SQL import was not completed because sandbox connection restrictions blocked the isolated temporary server.
 - **Follow-up:** Review the design/implementation plan, then implement in small verified increments.
 
@@ -147,7 +147,7 @@ This is append-only. Record only real prompts available to the coding agent. Do 
 - **Prompt submitted:** "use A"
 - **Intended task:** Select the recommended plain PHP, custom CSS, minimal JavaScript stack.
 - **Outcome:** Stack A recorded consistently in the SRS and agent instructions.
-- **Related files or commit:** `SRS.md`, `DESIGN_BRIEF.md`, `AGENTS.md`, `STACK_AND_HOSTING_REVIEW.md`.
+- **Related files or commit:** `SRS.md`, `docs/history/DESIGN_BRIEF.md`, `AGENTS.md`, `docs/operations/STACK_AND_HOSTING_REVIEW.md`.
 - **Verification performed:** Selection is a user decision; no application implementation followed from this entry.
 - **Follow-up:** Review the implementation plan before code scaffolding.
 
@@ -156,8 +156,8 @@ This is append-only. Record only real prompts available to the coding agent. Do 
 - **Date/time/timezone:** 2026-10-29, Asia/Manila.
 - **Prompt submitted:** "continue where you stopped"
 - **Intended task:** Finish the remaining design documentation and record schema-verification limits.
-- **Outcome:** Added CHANGELOG.md, prompt.md and docs/implementation-plan.md; updated SRS.md, TEST_PLAN.md and PROGRESS.md. No application code or deployment was added.
-- **Related files or commit:** `CHANGELOG.md`, `prompt.md`, `docs/implementation-plan.md`, `SRS.md`, `TEST_PLAN.md`, `PROGRESS.md`.
+- **Outcome:** Added CHANGELOG.md, docs/history/prompt.md and docs/history/implementation-plan.md; updated SRS.md, TEST_PLAN.md and PROGRESS.md. No application code or deployment was added.
+- **Related files or commit:** `CHANGELOG.md`, `docs/history/prompt.md`, `docs/history/implementation-plan.md`, `SRS.md`, `TEST_PLAN.md`, `PROGRESS.md`.
 - **Verification performed:** Confirmed all requested initial documentation files exist; performed static SQL structure inspection. Isolated database import remains unexecuted because sandbox networking/named-pipe permissions deny a local client connection.
 - **Follow-up:** User reviews design and implementation plan before application code begins.
 
@@ -169,7 +169,7 @@ This is append-only. Record only real prompts available to the coding agent. Do 
 - **Outcome:** The screenshot showed query results matching the seed fixtures: 33 users, 100 books, 300 copies, 17 requests and 14 loans.
 - **Related files or commit:** `schema.sql`, `seed.sql`, `TEST_PLAN.md`, `PROGRESS.md`, `CHANGELOG.md`.
 - **Verification performed:** User-operated phpMyAdmin import and aggregate count query, evidenced by the screenshot. Application-level verification remains unperformed.
-- **Follow-up:** Review/approve SRS.md and docs/implementation-plan.md before application code begins.
+- **Follow-up:** Review/approve SRS.md and docs/history/implementation-plan.md before application code begins.
 
 ### Entry ID: 2026-10-29-05
 
@@ -187,7 +187,7 @@ This is append-only. Record only real prompts available to the coding agent. Do 
 - **Prompt submitted:** "continue where you stopped and please update the changelog on that you implemented with the details. make sure to check the usage remaining evrytime and before it runs out you note it and put it on the changelog.md"
 - **Intended task:** Continue the authentication increment, maintain detailed change records, and monitor available Codex usage.
 - **Outcome:** Continued unit/syntax checks, added route/authentication code, and recorded implementation, verification limitations and usage snapshots in CHANGELOG.md.
-- **Related files or commit:** `CHANGELOG.md`, `PROGRESS.md`, `prompt.md`, authentication/foundation files listed in entry 2026-10-29-05.
+- **Related files or commit:** `CHANGELOG.md`, `PROGRESS.md`, `docs/history/prompt.md`, authentication/foundation files listed in entry 2026-10-29-05.
 - **Verification performed:** Usage tool reported 1% then 27% used in the current 12-hour window, with usage available and no limit reached. The PHP development server starts but does not persist under the Codex sandbox.
 - **Follow-up:** Run the development server in the user's local terminal and test through the browser.
 
@@ -197,7 +197,7 @@ This is append-only. Record only real prompts available to the coding agent. Do 
 - **Prompt submitted:** User supplied a screenshot showing `{"status":"ready"}` from the local health endpoint after student registration showed a generic failure.
 - **Intended task:** Diagnose the registration failure without exposing database details to website users.
 - **Outcome:** Confirmed that the PHP application can reach `kaaklat_dev`. Added an opaque failure reference and private server-log detail. A follow-up local-only diagnostic displays the escaped exception message on the local page; production mode remains generic.
-- **Related files or commit:** `public/register.php`, `CHANGELOG.md`, `PROGRESS.md`, `TEST_PLAN.md`, `prompt.md`.
+- **Related files or commit:** `public/register.php`, `CHANGELOG.md`, `PROGRESS.md`, `TEST_PLAN.md`, `docs/history/prompt.md`.
 - **Verification performed:** Full PHP syntax lint passed. The user browser verified database readiness only; the registration transaction is still failing and needs its matched server-log detail.
 - **Follow-up:** User retries registration and provides the local diagnostic text; fix the concrete transaction error.
 
@@ -207,7 +207,7 @@ This is append-only. Record only real prompts available to the coding agent. Do 
 - **Prompt submitted:** User supplied a browser screenshot after retrying student registration.
 - **Intended task:** Verify whether local registration and login work.
 - **Outcome:** A fresh fictional student account `test_student_04` was registered and signed in. The dashboard showed the expected pending-activation message. The earlier failure did not recur, so its cause remains unconfirmed.
-- **Related files or commit:** `TEST_PLAN.md`, `PROGRESS.md`, `CHANGELOG.md`, `prompt.md`.
+- **Related files or commit:** `TEST_PLAN.md`, `PROGRESS.md`, `CHANGELOG.md`, `docs/history/prompt.md`.
 - **Verification performed:** User-operated local browser check. This is the registration and login happy path only; it does not cover duplicate usernames, forged input, access control, activation, catalog or borrowing.
 - **Follow-up:** Run remaining T-01 checks before marking the requirement fully passed, then implement staff bootstrap and activation.
 
@@ -217,7 +217,7 @@ This is append-only. Record only real prompts available to the coding agent. Do 
 - **Prompt submitted:** "can you help me use an existing account for login?"
 - **Intended task:** Provide access to seeded accounts where password hashes are initially NULL by design.
 - **Outcome:** Created a CLI bootstrap script `bin/set_user_password.php` and backing `set_user_password()` in `app/auth.php` with 12-72 character validation, session-version rotation, rate-limit clearing, and audit logging. Fixed literal `\n` in single-quoted SQL strings in `app/auth.php` that caused MariaDB error 1064. Successfully set password for `demo_admin` and verified via integration test.
-- **Related files or commit:** `bin/set_user_password.php`, `app/auth.php`, `tests/auth_unit_test.php`, `tests/auth_integration_test.php`, `TEST_PLAN.md`, `CHANGELOG.md`, `PROGRESS.md`, `prompt.md`.
+- **Related files or commit:** `bin/set_user_password.php`, `app/auth.php`, `tests/auth_unit_test.php`, `tests/auth_integration_test.php`, `TEST_PLAN.md`, `CHANGELOG.md`, `PROGRESS.md`, `docs/history/prompt.md`.
 - **Verification performed:** Full PHP lint passed; `tests/foundation_test.php`, `tests/auth_unit_test.php`, and `tests/auth_integration_test.php` passed; CLI bootstrap executed on `demo_admin` and verified against `kaaklat_dev`.
 - **Follow-up:** Test logging in with `demo_admin` in the browser, then implement librarian account activation for pending students.
 
@@ -308,7 +308,7 @@ Use isolated fictional fixtures following existing conventions. Never reset, rei
 
 Run relevant regression tests, PHP lint and available browser checks. Report actual results and anything not verified.
 
-Update PROGRESS.md, TEST_PLAN.md, CHANGELOG.md, affected SRS/schema documentation and prompt.md with this prompt and its outcome. Keep the top progress table consistent with the latest handoff. Check usage at the start and finish; if usage becomes low, save the current state and exact next steps.
+Update PROGRESS.md, TEST_PLAN.md, CHANGELOG.md, affected SRS/schema documentation and docs/history/prompt.md with this prompt and its outcome. Keep the top progress table consistent with the latest handoff. Check usage at the start and finish; if usage becomes low, save the current state and exact next steps.
 
 Keep this increment focused on pickup. Do not implement returns, renewals, fines, notifications, ISBNs or barcodes.
 
@@ -326,7 +326,7 @@ Outcome before commit: reviewed staged scope and excluded output/; private confi
 
 ## Visual refresh — 2026-11-01
 Prompt: "can you improve the overall design of the project? Use a modern design and make the color scheme related to our school which is blue,white, and gray. Make the design modern and inuitive to learn for new users"
-Outcome: consolidated CSS, blue/white/gray shared portal theme, responsive cards/forms/tabs, current-page navigation and skip link, task-focused role dashboards and welcome guidance. 14 regression scripts and 45-file lint PASS. Browser visual/keyboard acceptance pending; no data/schema change or external dependencies. Design details in docs/visual-refresh.md. No commit/push.
+Outcome: consolidated CSS, blue/white/gray shared portal theme, responsive cards/forms/tabs, current-page navigation and skip link, task-focused role dashboards and welcome guidance. 14 regression scripts and 45-file lint PASS. Browser visual/keyboard acceptance pending; no data/schema change or external dependencies. Design details in docs/history/visual-refresh.md. No commit/push.
 
 ## Logo request — 2026-11-01
 Prompt: "can you make a logo for this website and add it"
@@ -383,7 +383,7 @@ Implement the next small increment: administrator staff-account management.
 
 For this increment, I approve creating staff accounts with login disabled until their password is assigned through the existing local operator tool. Staff-assisted password setup/recovery will be a separate increment.
 
-Read AGENTS.md, the latest PROGRESS.md handoff, SRS.md, SCHEMA.md, TEST_PLAN.md, WORKFLOW.md and the existing authentication, student-account, audit, dashboard and layout code. Inspect Git status and preserve existing work, design, sample books and database data. Use the existing plain PHP/PDO stack. Keep hosting deferred.
+Read AGENTS.md, the latest PROGRESS.md handoff, SRS.md, SCHEMA.md, TEST_PLAN.md, docs/operations/WORKFLOW.md and the existing authentication, student-account, audit, dashboard and layout code. Inspect Git status and preserve existing work, design, sample books and database data. Use the existing plain PHP/PDO stack. Keep hosting deferred.
 
 Build an administrator-only staff page that:
 - Lists librarian and administrator accounts with bounded pagination and useful search.
@@ -451,7 +451,7 @@ Use isolated fictional fixtures. Never reset, reimport or delete demo data. Do n
 
 Run relevant regression tests, PHP lint and available HTTP/browser checks. Report actual results and limitations. Do not claim visual or keyboard acceptance without observing it.
 
-Update PROGRESS.md, TEST_PLAN.md, CHANGELOG.md, WORKFLOW.md and prompt.md. Update SRS.md/SCHEMA.md where affected. Keep current summaries consistent and preserve historical evidence.
+Update PROGRESS.md, TEST_PLAN.md, CHANGELOG.md, docs/operations/WORKFLOW.md and docs/history/prompt.md. Update SRS.md/SCHEMA.md where affected. Keep current summaries consistent and preserve historical evidence.
 
 Check usage at the start and finish if available; otherwise say it is unavailable. If usage becomes low, finish a safe reviewable checkpoint and document exact remaining steps.
 
@@ -485,7 +485,7 @@ Actual user prompt:
 
 > Implement the next small increment: a safe local backup and restore workflow.
 >
-> Read AGENTS.md, the latest PROGRESS.md handoff, SRS.md, SCHEMA.md, TEST_PLAN.md, WORKFLOW.md and DEPLOYMENT.md. Inspect Git status and existing backup tools before changing anything. Preserve all existing work, accounts, books, covers and database data. Keep hosting deferred.
+> Read AGENTS.md, the latest PROGRESS.md handoff, SRS.md, SCHEMA.md, TEST_PLAN.md, docs/operations/WORKFLOW.md and docs/operations/DEPLOYMENT.md. Inspect Git status and existing backup tools before changing anything. Preserve all existing work, accounts, books, covers and database data. Keep hosting deferred.
 >
 > First identify the backup and recovery requirements already documented. Reuse existing tools where possible. Do not introduce new application features, paid services, dependencies or scheduled tasks.
 >
@@ -512,7 +512,7 @@ Actual user prompt:
 >
 > Run relevant regression tests, PHP lint if PHP changes, and the actual restore checks. Report executed results and limitations. No deployment or production-restore claim.
 >
-> Update WORKFLOW.md, DEPLOYMENT.md, TEST_PLAN.md, PROGRESS.md, CHANGELOG.md and prompt.md. Keep the current progress summary consistent with the latest handoff.
+> Update docs/operations/WORKFLOW.md, docs/operations/DEPLOYMENT.md, TEST_PLAN.md, PROGRESS.md, CHANGELOG.md and docs/history/prompt.md. Keep the current progress summary consistent with the latest handoff.
 >
 > Check usage at the start and finish if available. If usage becomes low, stop at a safe checkpoint and document exact remaining steps.
 >
@@ -534,7 +534,7 @@ Actual user prompt:
 
 > Implement the next small increment: a view-only student profile.
 >
-> Read AGENTS.md, the latest PROGRESS.md handoff, SRS.md, SCHEMA.md, TEST_PLAN.md, DESIGN.md and existing authentication, student dashboard, navigation and request-history code. Inspect Git status and preserve existing work, including the uncommitted backup/restore increment, demo data and research files. Keep hosting deferred.
+> Read AGENTS.md, the latest PROGRESS.md handoff, SRS.md, SCHEMA.md, TEST_PLAN.md, docs/design/DESIGN.md and existing authentication, student dashboard, navigation and request-history code. Inspect Git status and preserve existing work, including the uncommitted backup/restore increment, demo data and research files. Keep hosting deferred.
 >
 > Build a student-only My Profile page displaying:
 > - Display name.
@@ -570,7 +570,7 @@ Actual user prompt:
 >
 > Run relevant regression tests, PHP lint and available HTTP/browser checks. Verify desktop, 360px, 768px, keyboard navigation and zoom when tools permit. Report unverified checks honestly; do not claim visual acceptance from HTTP tests alone.
 >
-> Update PROGRESS.md, TEST_PLAN.md, CHANGELOG.md and append this prompt/outcome to prompt.md. Update SRS.md if needed to record this approved addition. Keep current summaries consistent.
+> Update PROGRESS.md, TEST_PLAN.md, CHANGELOG.md and append this prompt/outcome to docs/history/prompt.md. Update SRS.md if needed to record this approved addition. Keep current summaries consistent.
 >
 > Check usage at the start and finish if available. If usage becomes low, stop at a safe checkpoint and document exact remaining work.
 >
@@ -608,7 +608,7 @@ Outcome: read matching tmp/profile-premium-audit.json and inspected checker cove
 
 2026-11-04 user: "commit and push". Outcome: reviewed/staged the authorized backup/restore, student profile, UTC connection fix, tests and documentation, excluding private/runtime files and separate research output/. Fresh readiness23 regressions/133 HTTP assertions PASS after MySQL restarted; latest90 lints/whitespace PASS. No demo reset/import/update. Final commit/push result checked separately through Git and reported in chat. Hosting deferred; performance/controlled real-demo recovery and documented legacy-timestamp/remaining acceptance limitations retained.
 
-2026-11-04 user: "[@Frontend Design Premium] make an overhaul design upgrade without affecting anything or making bugs and errors. Make the design unique". User selected "Campus portal — crisp geometric typography and compact task-focused layouts". Prepared reviewed design brief docs/superpowers/specs/2026-11-04-campus-portal-design.md; independent builder check found nothing important left. No implementation started pending design approval.
+2026-11-04 user: "[@Frontend Design Premium] make an overhaul design upgrade without affecting anything or making bugs and errors. Make the design unique". User selected "Campus portal — crisp geometric typography and compact task-focused layouts". Prepared reviewed design brief docs/design/specs/2026-11-04-campus-portal-design.md; independent builder check found nothing important left. No implementation started pending design approval.
 
 2026-11-04 user: "can you show me a mock up first?" Outcome: built ignored standalone fictional HTML prototype with dashboard/catalog concept navigation; exported and visually inspected desktop dashboard/catalog and phone dashboard images in tmp/campus-portal-mockup. Refined phone composition after initial export clipping. These are concept images, not application visual/keyboard acceptance. No production application/code/data changes, new dependencies, commit or push. Design approval remains pending.
 
@@ -846,7 +846,7 @@ Outcome: researched and added38 titles/two per each of19 existing categories,127
 
 Implement the next small increment: catalog sorting, clearer search/filter controls and visibility of unavailable books for all roles.
 
-Read AGENTS.md, the latest PROGRESS.md handoff, SRS.md, SCHEMA.md, TEST_PLAN.md, DESIGN.md and the existing catalog, availability, pagination and authentication code. Inspect Git status and preserve all existing work.
+Read AGENTS.md, the latest PROGRESS.md handoff, SRS.md, SCHEMA.md, TEST_PLAN.md, docs/design/DESIGN.md and the existing catalog, availability, pagination and authentication code. Inspect Git status and preserve all existing work.
 
 Keep the current kaaklat_pilot database, accounts, books, covers and borrowing history. Do not seed, reset, reimport or delete data. Keep hosting deferred.
 
@@ -925,7 +925,7 @@ Run relevant regression tests, PHP lint, HTTP checks and available browser check
 
 Fix confirmed defects within this scope. Do not guarantee zero bugs.
 
-Update PROGRESS.md, TEST_PLAN.md, CHANGELOG.md and prompt.md. Update SRS.md where this approved addition affects requirements. Keep current summaries consistent and preserve unrelated edits.
+Update PROGRESS.md, TEST_PLAN.md, CHANGELOG.md and docs/history/prompt.md. Update SRS.md where this approved addition affects requirements. Keep current summaries consistent and preserve unrelated edits.
 
 Check usage if a tool is available; otherwise say it is unavailable. If usage becomes low, finish a safe checkpoint and record exact remaining steps.
 
@@ -1121,3 +1121,10 @@ Verified:36 regression scripts;448 isolated workflow HTTP assertions;133 PHP lin
 Evidence: verification/NAVIGATION_DRAWER_2026-11-15.md. Next: user phone/tablet/keyboard review, then continue local finalization/evaluation rather than optional features.
 
 The new HTTP check failed before implementation because no drawer/trigger existed. Browser harness initially redeclared a Runtime evaluation variable; scoped its test expression and reran successfully. All application checks listed above passed. Earlier mockup keyboard testing corrected virtual-key codes; the live suite dispatches real Tab/Shift+Tab/Escape codes. No visual/device results inferred from HTTP tests.
+
+
+### Final project cleanup — 2026-11-15
+
+Organized documentation under docs with a guide index; retained seven root Markdown documents, tests and research/verification evidence. Archived generated artifacts, research exports, historical private rehearsals/backups and retired optional sample tools/seed/unused landing stylesheet outside the project with content hashes. Current private configuration, covers and sessions are retained. Extended backup source coverage to nested docs and the startup script (18 backup checks).
+
+Verified 36 regression scripts, 448 isolated HTTP assertions, 130 PHP lints, JavaScript syntax, startup configuration, 56 navigation layouts/30 native routes and 64 entry combinations; zero browser runtime errors. Tested runtime bytes match the isolated copy. All pilot rows/schema/covers/configuration fingerprints remain unchanged. Hosting deferred; physical-device/Safari/screen-reader/400% zoom limits remain as documented. See verification/FINAL_CLEANUP_2026-11-15.md and docs/README.md.

@@ -32,7 +32,7 @@ The signature is a campus-directory composition: a strong navy navigation spine,
 
 ## Visual system
 
-Existing app.css remains the canonical runtime token owner; DESIGN.md mirrors the accepted values and rationale (no generator or second token system).
+Existing app.css remains the canonical runtime token owner; docs/design/DESIGN.md mirrors the accepted values and rationale (no generator or second token system).
 
 | Role | Proposed value | Use |
 | --- | --- | --- |
@@ -91,7 +91,7 @@ Recompose the signed-out welcome as the public entrance to the same campus porta
 
 Primary owners: public/assets/app.css, public/assets/landing.css, views/layout.php, views/landing.php and presentation-only wrappers/classes in existing dashboard/page/view markup when necessary. Prefer replacing/consolidating the existing styling rules over appending conflicting override layers. Maintain selector/ID compatibility with forms.js and existing tests. Do not restructure backend/page mutation branches to obtain a layout.
 
-Expand DESIGN.md and add a concise UX-CONTRACT.md if needed to map shared interaction ownership, referencing SRS/SCHEMA rather than copying business rules. Any static audit must explicitly target actual public CSS/JS and rendered HTML; the premium checker cannot parse PHP, and zero eligible files is not a pass for application UI. Do not introduce npm/Composer just to satisfy a generic audit.
+Expand docs/design/DESIGN.md and add a concise docs/design/UX-CONTRACT.md if needed to map shared interaction ownership, referencing SRS/SCHEMA rather than copying business rules. Any static audit must explicitly target actual public CSS/JS and rendered HTML; the premium checker cannot parse PHP, and zero eligible files is not a pass for application UI. Do not introduce npm/Composer just to satisfy a generic audit.
 
 ## Verification and acceptance
 

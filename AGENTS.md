@@ -4,7 +4,7 @@
 
 Read PROGRESS.md (especially Resume here), SRS.md, SCHEMA.md, TEST_PLAN.md and the files relevant to the task. Inspect directory contents and Git status if a repository exists; do not assume a fresh checkout. Preserve user work. These files describe a hosted school demonstration, not a deployed production school service.
 
-The user selected option A: plain PHP 8.4, PDO, MySQL-compatible InnoDB database, semantic HTML, custom CSS and minimal JavaScript. No Laravel or other application framework. Do not introduce Composer/npm, paid APIs, email/cron dependencies or Bootstrap without a clear approved need. Database compatibility target: MariaDB 10.4+ and MySQL 8.0.16+; actual hosting runtime still needs verification. See STACK_AND_HOSTING_REVIEW.md.
+The user selected option A: plain PHP 8.4, PDO, MySQL-compatible InnoDB database, semantic HTML, custom CSS and minimal JavaScript. No Laravel or other application framework. Do not introduce Composer/npm, paid APIs, email/cron dependencies or Bootstrap without a clear approved need. Database compatibility target: MariaDB 10.4+ and MySQL 8.0.16+; actual hosting runtime still needs verification. See docs/operations/STACK_AND_HOSTING_REVIEW.md.
 
 ## Current boundaries
 
@@ -19,7 +19,7 @@ The user selected option A: plain PHP 8.4, PDO, MySQL-compatible InnoDB database
 - `public/`: HTTP entry pages and public CSS/JS assets; never secrets, SQL dumps or unguarded student data/cover files.
 - `app/`: shared bootstrap, PDO connection, authentication, authorization, validation and circulation functions.
 - `views/`: HTML templates, escaping at output boundaries.
-- `schema.sql`, `seed.sql`: initial schema and wholly fictional development seed. `migrations/`: later numbered additive changes with documented migration/rollback considerations.
+- `schema.sql`: initial empty schema. The optional fictional seed and catalog sample installers were retired during final cleanup; use isolated test fixtures for verification. `migrations/`: later numbered additive changes with documented migration/rollback considerations.
 - `tests/`: future automated checks; `verification/`: reproducible database/design checks created during this phase.
 - Private config, staged uploads and backups belong outside `public/`, outside Git, and outside public hosting paths. Directory access denial must be verified if the provider forces private files inside its document root.
 - Use four-space indentation, UTF-8, clear snake_case database columns, readable PHP function names, strict parameter/return types where useful, and explicit PDO exceptions. Keep files focused; avoid magic globals and copy-pasted authorization checks.
@@ -56,7 +56,7 @@ foreach ($phpFile in $phpFiles) {
 }
 ```
 
-See WORKFLOW.md for database import steps; PowerShell does not support shell-style `< schema.sql`. Use the client's `source` command or phpMyAdmin. Never run seed.sql against an existing/live database. No application test runner exists yet: create a minimal meaningful runner alongside the first implementation tests and document its real command. Review TEST_PLAN.md for manual and concurrency scenarios.
+See docs/operations/WORKFLOW.md for database import steps; PowerShell does not support shell-style `< schema.sql`. Use the client's `source` command or phpMyAdmin. Never run seed.sql against an existing/live database. No application test runner exists yet: create a minimal meaningful runner alongside the first implementation tests and document its real command. Review TEST_PLAN.md for manual and concurrency scenarios.
 
 ## Security and integrity are part of each increment
 
@@ -77,14 +77,14 @@ Read the current schema and migration history before editing. For any schema cha
 
 No destructive reset, data deletion, production migration, force push, recursive cleanup of unknown folders or live database replacement without explicit authorization. Never use `git reset --hard`, DROP/TRUNCATE, or a blanket database re-import as a routine fix. Independently created empty scratch databases may be populated for tests; keep their paths/database names explicit and isolated from XAMPP's existing data.
 
-Before deployment, use DEPLOYMENT.md, take a private backup, verify restore, and account for live transactions in rollback. Do not make hosting accounts, paid subscriptions, or claims of completed deployment from documentation alone. No automated cron workarounds on InfinityFree.
+Before deployment, use docs/operations/DEPLOYMENT.md, take a private backup, verify restore, and account for live transactions in rollback. Do not make hosting accounts, paid subscriptions, or claims of completed deployment from documentation alone. No automated cron workarounds on InfinityFree.
 
 ## Working increments and truthful reporting
 
 1. State the exact requirement and files the increment touches.
 2. Check existing behavior and dependencies. Write meaningful tests for security/integrity and functional behavior before implementation; don't add tests that only mirror trivial markup.
 3. Implement only that increment; run relevant lint/tests and inspect the interface when it exists.
-4. Update TEST_PLAN.md with actual result/evidence, PROGRESS.md with current state, CHANGELOG.md with historical changes, and append the actual prompt/outcome to prompt.md. Keep failures and limitations visible.
+4. Update TEST_PLAN.md with actual result/evidence, PROGRESS.md with current state, CHANGELOG.md with historical changes, and append the actual prompt/outcome to docs/history/prompt.md. Keep failures and limitations visible.
 5. Report what changed, what was executed, what passed/failed/not run, and the next action. Do not invent test counts, citations, interview responses, user-acceptance results or successful deployments.
 
 Research writing must use planned language until implementation or evaluation evidence exists. Preserve the supplied PDF and revise chapter by chapter using its template.

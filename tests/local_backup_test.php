@@ -59,4 +59,16 @@ backup_refused(fn()=>verify_backup_files($bundle), 'Manifest traversal refused')
 file_put_contents($bundle . '/INCOMPLETE.txt', 'failed');
 backup_refused(fn()=>verify_backup_files($bundle), 'Partial completion marker refused');
 
+// Working-source backups must follow documentation moves and preserve the launcher.
+foreach (['app','views','bin','migrations','docs/operations','tests'] as $directory) {
+    mkdir($root . '/' . $directory, 0700, true);
+}
+file_put_contents($root . '/docs/operations/guide.md', 'Fictional operator guide');
+file_put_contents($root . '/start-local.ps1', '# Fictional launcher');
+file_put_contents($root . '/tests/fixture.php', '<?php // fictional');
+$source = backup_source_inventory($root);
+backup_test(isset($source['docs/operations/guide.md']), 'Nested documentation included in working-source backup');
+backup_test(isset($source['start-local.ps1']), 'Local launcher included in working-source backup');
+backup_test(!isset($source['private/config.local.php']) && !isset($source['tests/fixture.php']), 'Private state and test fixtures excluded from working source');
+
 echo "PASS: $checks local backup safety checks. Fictional unit files retained under $root\n";
