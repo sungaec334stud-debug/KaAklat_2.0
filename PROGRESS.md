@@ -1,11 +1,20 @@
 # KaAklat progress
 
-Updated: 2026-11-14 (Asia/Manila)
+Updated: 2026-11-15 (Asia/Manila)
 
 Status vocabulary: Planned; In progress; Implemented but unverified; Verified; Blocked.
 Verified applies only to the named evidence, not to the entire application.
 
 ## Current status
+
+### Approved responsive navigation drawer — 2026-11-15
+
+Implemented the accepted phone/tablet mockup using the existing server-rendered navigation. Below1100px, an icon-only44px Open navigation button opens a native left modal drawer. The compact sticky header keeps the actual page title and role/status visible. Current links remain highlighted; the same permitted links/icons/identity move into the drawer without cloning, fetching or new permissions. Desktop232px sidebar and pagination are unchanged. Escape, Close/backdrop dismissal, focus wrapping/return, short-height scrolling, resize/bfcache reset, safe-area spacing and reduced motion are supported. JavaScript/dialog-unavailable fallback leaves real links visible and wrapped. Guest navigation is unchanged.
+
+Verified:36 regression scripts;448 isolated workflow HTTP assertions;133 PHP lints; JS syntax; strict static audit zero findings;56 role/theme/viewport drawer layouts and30 real route navigations;64 existing entry-page browser combinations. Browser suites reported zero runtime exceptions. Active/pending student, librarian and administrator checked at320/360/768/1024/1099/1100/1440px; keyboard dismissal/wrapping, unsent-input retention, desktop transitions, short-height final-link access, reduced motion and JS-disabled fallback passed. Pilot rows/schema/covers/config match fresh before/after fingerprints. No schema/services/transactions/audit changes or pilot test accounts. Physical-device/Safari/screen-reader and actual400% browser-zoom acceptance for this new drawer remain manual. No commit/push; hosting deferred.
+
+Evidence: verification/NAVIGATION_DRAWER_2026-11-15.md. Next: user phone/tablet/keyboard review, then continue local finalization/evaluation rather than optional features.
+
 
 ## Approved public entry design — 2026-11-14
 
@@ -97,12 +106,12 @@ Historical evidence summary (2026-11-04; superseded by current status above): ap
 | --- | --- | --- | --- | --- |
 | Capture project direction | In progress | Stack A and implementation approved. Six demonstration borrowing defaults approved 2026-10-31; available-copy-at-request rule also approved. Login-only catalog, student activation, five-book allowance and librarian pickup/return confirmed. | Exact November presentation deadline, evaluation instrument and librarian participant count remain unresolved. Demo rules are not verified school policies. | Resolve research/evaluation details; use approved demo rules for implementation. |
 | Review Chapters 1 and 2 | Implemented but unverified | Original 16-page PDF reviewed; revised PDF and revision notes preserved in the external cleanup archive under research-output/pdf with TOC links preserved. See RESEARCH_REVISION_PLAN.md. | Adviser/content acceptance and remaining reference/evaluation questions are unresolved. | Review revised paper with adviser and align later claims with actual implementation/evaluation evidence. |
-| Inspect local tools | Verified for named checks | PHP8.4.14/MariaDB10.4.32; latest128 PHP lints PASS. | Headless Chrome fixture checks work; older Chrome URL-confidence issues are historical. Latest strict static UI audit has zero findings; PHP is checked separately by lint/regressions. Local checks do not establish host compatibility. | Keep explicit executables; use PHP-aware checks and remaining target-specific verification. |
+| Inspect local tools | Verified for named checks | PHP8.4.14/MariaDB10.4.32; latest133 PHP lints PASS (2026-11-15). | Headless Chrome fixture checks work; older Chrome URL-confidence issues are historical. Latest strict static UI audit has zero findings; PHP is checked separately by lint/regressions. Local checks do not establish host compatibility. | Keep explicit executables; use PHP-aware checks and remaining target-specific verification. |
 | Evaluate free hosting | In progress | InfinityFree account and user-operated compatibility probes recorded: PHP 8.4.27/extensions, MariaDB 11.4.13/InnoDB, private-file protection/read, session persistence, database connection, rollback, CHECK and FK rejection passed. | Intermittent HTTPS certificate warning; cookie flags, actual GD processing, generated uniqueness, host contention, restore and deployed application acceptance unverified. Remote diagnostics/config/probe cleanup pending. | Hosting deferred while local development continues; revisit deployment and cleanup using DEPLOYMENT.md. |
 | Approve stack and workflow | Verified | User approved implementation, plain PHP/PDO/custom CSS and six borrowing demonstration defaults. | Other proposed details must not be described as institutional policy. | Preserve approved rules; finish operational verification. |
 | SRS and normalized schema | Verified for named local evidence | Baseline+migrations001/002 and actual12-table pilot rows/definitions restored to isolated scratch2026-11-14; constraints/rollback verified. | Hosted restore remains deferred. | Preserve pilot; do not reimport seeds or migrations over a restore. |
 | Development documentation | In progress | SRS, schema, test plan, changelog, prompt history and latest Resume here handoff record implemented scope and limitations. Top status table synchronized with current handoff. | Older dated notes are historical and may contain superseded statuses. | Use the latest handoff and dated test evidence; update documents after each increment. |
-| Application implementation | Core implemented; final evaluation pending | Latest36 regression scripts/416 workflow HTTP checks PASS; current14-scenario local performance2,520 samples PASS, max p95303.394ms. User-reported zoom/device/screen-reader passes retained. | New hosted/paint timing and participant evaluation not established. | Conduct participant evaluation; keep pilot protected. |
+| Application implementation | Core implemented; final evaluation pending | Latest36 regression scripts/448 workflow HTTP checks PASS;56 drawer layouts/30 navigations and64 entry layouts PASS.2026-11-14 local performance2,520 samples PASS, max p95303.394ms. Earlier user-reported accessibility passes retained for their version. | New drawer physical-device/Safari/screen-reader/actual400% zoom, hosted/paint timing and participant evaluation remain unverified. | Review the new drawer manually, then participant evaluation; keep pilot protected. |
 | Local backup and restore | Verified for current local pilot snapshot | 2026-11-14:251 restore checks +15 safety checks; exact12-table rows/schema,143 covers and availability; scratch-only auth/workflow. | Same-disk copies only; off-device copy/daily RPO/crash recovery remain unverified. | Protect a second-device copy; see verification/PILOT_BACKUP_RESTORE_2026-11-14.md. |
 | Deployment and evaluation | Local pilot restore verified; evaluation pending; hosting deferred | Actual pilot restored only to isolated scratch on2026-11-14; user-reported UI/accessibility passes retained. | Off-device backup, participant evaluation and eventual hosted checks outstanding. | Refresh performance evidence and evaluate locally; hosting is a separate later phase. |
 
@@ -129,6 +138,15 @@ The six defaults enumerated above are approved for the demonstration; the follow
 - Fictional student accounts and simulated loan records; book metadata may use well-known titles.
 
 ## Resume here
+
+### Approved responsive navigation drawer — 2026-11-15
+
+Implemented the accepted phone/tablet mockup using the existing server-rendered navigation. Below1100px, an icon-only44px Open navigation button opens a native left modal drawer. The compact sticky header keeps the actual page title and role/status visible. Current links remain highlighted; the same permitted links/icons/identity move into the drawer without cloning, fetching or new permissions. Desktop232px sidebar and pagination are unchanged. Escape, Close/backdrop dismissal, focus wrapping/return, short-height scrolling, resize/bfcache reset, safe-area spacing and reduced motion are supported. JavaScript/dialog-unavailable fallback leaves real links visible and wrapped. Guest navigation is unchanged.
+
+Verified:36 regression scripts;448 isolated workflow HTTP assertions;133 PHP lints; JS syntax; strict static audit zero findings;56 role/theme/viewport drawer layouts and30 real route navigations;64 existing entry-page browser combinations. Browser suites reported zero runtime exceptions. Active/pending student, librarian and administrator checked at320/360/768/1024/1099/1100/1440px; keyboard dismissal/wrapping, unsent-input retention, desktop transitions, short-height final-link access, reduced motion and JS-disabled fallback passed. Pilot rows/schema/covers/config match fresh before/after fingerprints. No schema/services/transactions/audit changes or pilot test accounts. Physical-device/Safari/screen-reader and actual400% browser-zoom acceptance for this new drawer remain manual. No commit/push; hosting deferred.
+
+Evidence: verification/NAVIGATION_DRAWER_2026-11-15.md. Next: user phone/tablet/keyboard review, then continue local finalization/evaluation rather than optional features.
+
 
 ## Approved public entry design — 2026-11-14
 

@@ -61,12 +61,25 @@ function render_page(string $title, string $content, bool $landing = false): voi
     $workspaceLabel = '';
     $identity = '';
     $portalBar = '';
+    $mobileNavigation = '';
+    $navigationDialog = '';
+    $navigationAssets = '';
     if ($navigationUser !== null) {
         $role = match ($navigationUser['role']) { 'student'=>'Student', 'librarian'=>'Librarian', 'administrator'=>'Administrator', default=>'Account' };
         $status = $navigationUser['account_status'] === 'pending' ? 'Pending activation' : ucfirst($navigationUser['account_status']);
         $workspaceLabel = '<p class="workspace-label">' . h($role) . ' workspace</p>';
         $identity = '<div class="sidebar-identity"><strong>' . h($navigationUser['display_name']) . '</strong><span>' . h($role) . ' · ' . h($status) . '</span></div>';
         $portalBar = '<div class="portal-topbar"><div class="portal-location"><span>' . h($role) . ' portal</span><span aria-hidden="true">/</span><strong>' . $safeTitle . '</strong></div><span class="portal-account-status">' . h($status) . '</span></div>';
+        $mobileNavigation = '<div class="mobile-navigation-bar" hidden><div class="mobile-navigation-row">'
+            . '<button id="navigation-toggle" type="button" aria-label="Open navigation" aria-controls="navigation-drawer" aria-expanded="false">'
+            . '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6h18 M3 12h18 M3 18h18"/></svg></button>'
+            . '<a class="mobile-brand" href="/"><img src="/assets/kaaklat-logo.svg" width="36" height="36" alt=""><span>' . $appName . '</span></a></div>'
+            . '<div class="mobile-navigation-location"><div><span class="mobile-portal-label">' . h($role) . ' portal</span>'
+            . '<strong class="mobile-current-page">' . $safeTitle . '</strong></div><span class="mobile-account-status">' . h($status) . '</span></div></div>';
+        $navigationDialog = '<dialog id="navigation-drawer" aria-label="Main navigation"><button type="button" class="navigation-close" aria-label="Close navigation">'
+            . '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12 M6 18 18 6"/></svg></button></dialog>';
+        $navigationAssets = '<link rel="stylesheet" href="/assets/navigation.css?v=20261115"><script src="/assets/navigation.js?v=20261115" defer></script>';
+
     }
     $entryAssets = '';
     if ($landing || in_array($path, ['/login.php', '/register.php', '/reset_password.php'], true)) {
@@ -94,10 +107,12 @@ function render_page(string $title, string $content, bool $landing = false): voi
     <link rel="stylesheet" href="/assets/app.css?v=20261113-staff-dashboard">
     {$workspaceAssets}
     {$entryAssets}
+    {$navigationAssets}
     <script src="/assets/forms.js" defer></script>
 </head>
 <body class="{$bodyClass}">
     <a class="skip-link" href="#main-content">Skip to content</a>
+    {$mobileNavigation}
     <header class="site-header">
         <div class="header-inner">
         <div class="site-branding">
@@ -115,6 +130,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
         {$identity}
         </div>
     </header>
+    {$navigationDialog}
     <main class="container" id="main-content" tabindex="-1">
         {$portalBar}
         {$flashes}

@@ -31,6 +31,7 @@ try {
  $clients=[];
  foreach(['student','other','librarian','admin'] as $role){$c=curl_init();curl_setopt_array($c,[CURLOPT_RETURNTRANSFER=>true,CURLOPT_COOKIEFILE=>'',CURLOPT_TIMEOUT=>10]);[$code,$html]=accept_http($c,'/login.php');[$code]=accept_http($c,'/login.php',['username'=>'accept_'.$role,'password'=>$password,'csrf_token'=>accept_token($html)]);accept_check($code===303,"$role login");$clients[$role]=$c;}
  require __DIR__ . '/settings_http_checks.php';
+ require __DIR__ . '/navigation_http_checks.php';
  $guest = curl_init();
  curl_setopt_array($guest, [CURLOPT_RETURNTRANSFER=>true, CURLOPT_COOKIEFILE=>'', CURLOPT_TIMEOUT=>10]);
  foreach (['guest'=>$guest] + $clients as $role=>$client) {

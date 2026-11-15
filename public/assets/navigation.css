@@ -1,0 +1,93 @@
+/* Approved mobile/tablet drawer; app.css owns desktop navigation and semantic themes. */
+.mobile-navigation-bar { display: none; }
+#navigation-drawer:not([open]) { display: none; }
+#navigation-drawer {
+    position: fixed;
+    inset: 0 auto 0 0;
+    margin: 0;
+    padding: 0;
+    width: min(320px, calc(100vw - 40px));
+    max-width: none;
+    height: 100dvh;
+    max-height: 100dvh;
+    border: 0;
+    border-right: 1px solid var(--line);
+    background: var(--nav-surface);
+    color: var(--on-strong-muted);
+    overflow: hidden;
+    box-shadow: 12px 0 40px #0003;
+}
+#navigation-drawer::backdrop { background: #07132299; }
+.navigation-close {
+    position: absolute;
+    inset: max(18px, env(safe-area-inset-top)) 16px auto auto;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    margin: 0;
+    padding: 8px;
+    color: #e6edf7;
+    background: transparent;
+    border: 1px solid #466080;
+}
+.navigation-close svg, #navigation-toggle svg {
+    width: 23px;
+    height: 23px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+}
+html.navigation-open { overflow: hidden; }
+@media (max-width: 1099px) {
+    /* Usable server-rendered navigation when scripts/dialogs are unavailable. */
+    .is-authenticated:not(.navigation-enhanced) .header-nav { flex-wrap: wrap; overflow-x: visible; }
+    .navigation-enhanced .mobile-navigation-bar:not([hidden]) {
+        display: block;
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        padding: max(12px, env(safe-area-inset-top)) 18px 10px;
+        background: var(--surface);
+        border-bottom: 1px solid var(--line);
+    }
+    .mobile-navigation-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    #navigation-toggle { display: inline-flex; align-items: center; justify-content: center; width: 44px; min-width: 44px; min-height: 44px; margin: 0; padding: 9px; color: var(--ink); background: var(--surface); border: 1px solid var(--input-border); }
+    .mobile-brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font: 650 23px var(--font-display); }
+    .mobile-brand img { width: 36px; height: 36px; }
+    .mobile-navigation-location { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 8px; margin-top: 10px; border-top: 1px solid var(--line); }
+    .mobile-navigation-location > div { min-width: 0; }
+    .mobile-portal-label { display: block; font-size: .6875rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+    .mobile-current-page { display: block; font-size: .9375rem; line-height: 1.4; overflow-wrap: anywhere; }
+    .mobile-account-status { flex-shrink: 0; max-width: 40%; color: var(--muted); font-size: .75rem; }
+    .navigation-enhanced .portal-topbar { display: none; }
+    .navigation-enhanced .container { scroll-margin-top: 145px; }
+    .navigation-enhanced :is(h1, h2, [id]) { scroll-margin-top: 145px; }
+    #navigation-drawer .site-header { display: block; position: static; width: 100%; height: 100%; padding: 0; border: 0; background: var(--nav-surface); overflow: hidden; }
+    #navigation-drawer .header-inner { display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0; height: 100%; min-height: 0; width: 100%; max-width: none; padding: max(22px, env(safe-area-inset-top)) 12px max(18px, env(safe-area-inset-bottom)); }
+    #navigation-drawer .site-branding { flex-shrink: 0; display: flex; flex-direction: column; align-items: stretch; gap: 15px; margin: 0 8px 20px; }
+    #navigation-drawer .brand { align-self: flex-start; padding-right: 48px; font-size: 25px; color: #e6edf7; }
+    #navigation-drawer .brand-mark { width: 36px; height: 36px; flex-basis: 36px; }
+    #navigation-drawer .brand-university { display: flex; gap: 9px; padding-top: 15px; border-top: 1px solid #344d76; color: #b0c8ec; font-size: .75rem; }
+    #navigation-drawer .header-nav { display: flex; flex-direction: column; align-items: stretch; gap: 3px; flex: 1; min-height: 0; width: 100%; padding: 4px 0 24px; border: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-color: #667e9f var(--nav-surface); }
+    #navigation-drawer .nav-group-label { display: block; margin: 20px 12px 8px; color: #b0c8ec; }
+    #navigation-drawer .header-nav a { flex: 0 0 auto; display: flex; align-items: center; justify-content: flex-start; gap: 12px; min-height: 48px; padding: 10px 12px; color: #e6edf7; background: transparent; border-left: 3px solid transparent; border-radius: 0 5px 5px 0; white-space: normal; }
+    #navigation-drawer .header-nav a:hover { background: var(--nav-hover); }
+    #navigation-drawer .header-nav a[aria-current=page] { background: var(--nav-selected); border-left-color: #96c0ff; }
+    #navigation-drawer .header-nav a:focus-visible, .navigation-close:focus-visible { outline-color: #96c0ff; }
+    #navigation-drawer .header-nav .portal-icon { width: 23px; height: 23px; flex-basis: 23px; }
+    #navigation-drawer .sidebar-identity { display: block; flex-shrink: 0; margin: 0 10px; padding-top: 16px; border-top: 1px solid #344d76; }
+    #navigation-drawer .sidebar-identity strong { color: #e6edf7; }
+    #navigation-drawer .sidebar-identity span { color: #b0c8ec; }
+    #navigation-drawer[open] { animation: navigation-slide-in .2s cubic-bezier(.2,.7,.2,1); }
+}
+@keyframes navigation-slide-in { from { transform: translateX(-100%); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) { #navigation-drawer[open] { animation: none; } }
+@media (forced-colors: active) {
+    #navigation-drawer, #navigation-toggle, .navigation-close { border: 1px solid CanvasText; }
+    #navigation-drawer .header-nav a[aria-current=page] { border-left-color: Highlight; }
+    #navigation-drawer .header-nav a:focus-visible, .navigation-close:focus-visible { outline-color: Highlight; }
+}

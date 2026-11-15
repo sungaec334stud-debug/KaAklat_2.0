@@ -1,0 +1,20 @@
+{
+  "layouts": 56,
+  "routeChecks": 30,
+  "runtimeErrors": 0,
+  "database": "kaaklat_acceptance_eac1808f83a4",
+  "checks": [
+    "active/pending student, librarian, administrator",
+    "Light/Dark;320/360/768/1024/1099/1100/1440",
+    "icon-only accessible button, unique current route and visible title",
+    "modal focus wrapping; Escape/Close/backdrop focus return",
+    "native role-specific navigation",
+    "unsent input preservation",
+    "open drawer resize to desktop and back",
+    "short-height final-link reachability",
+    "reduced motion",
+    "JavaScript-free wrapped navigation",
+    "guest entry unchanged"
+  ],
+  "limitations": "Chromium simulated widths and short-height reflow, not physical devices, Safari, actual 400% browser zoom or screen readers."
+}

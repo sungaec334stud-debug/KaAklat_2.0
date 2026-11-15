@@ -1104,3 +1104,20 @@ Verification: 36 regression scripts; 427 isolated workflow HTTP assertions; 132 
 Evidence and replay commands: verification/ENTRY_DESIGN_2026-11-14.md.
 
 The preceding request about About is incorporated: its existing header link and complete page content are preserved. Registration's duplicate-ID privacy assertion now distinguishes the applicant's own retained input from forbidden account/ID disclosure in feedback. Initial added input-retention test failed before implementation; the final HTTP checks passed. One browser test incorrectly expected a vertical sidebar at phone width; corrected it to compare with the existing responsive dashboard navigation, then reran successfully.
+
+
+## 2026-11-15 — Implement approved responsive navigation
+
+User prompt: “implement this design and make sure there are no bugs and errors”
+
+Approved preceding mockup: left drawer on phones/tablets, permanent desktop sidebar, current-page label, three roles and both themes. User explicitly removed visible “Menu” text, retaining the three-line icon. Implemented only navigation presentation and progressive controls; no live mutation/schema/account changes, commit or push.
+
+### Approved responsive navigation drawer — 2026-11-15
+
+Implemented the accepted phone/tablet mockup using the existing server-rendered navigation. Below1100px, an icon-only44px Open navigation button opens a native left modal drawer. The compact sticky header keeps the actual page title and role/status visible. Current links remain highlighted; the same permitted links/icons/identity move into the drawer without cloning, fetching or new permissions. Desktop232px sidebar and pagination are unchanged. Escape, Close/backdrop dismissal, focus wrapping/return, short-height scrolling, resize/bfcache reset, safe-area spacing and reduced motion are supported. JavaScript/dialog-unavailable fallback leaves real links visible and wrapped. Guest navigation is unchanged.
+
+Verified:36 regression scripts;448 isolated workflow HTTP assertions;133 PHP lints; JS syntax; strict static audit zero findings;56 role/theme/viewport drawer layouts and30 real route navigations;64 existing entry-page browser combinations. Browser suites reported zero runtime exceptions. Active/pending student, librarian and administrator checked at320/360/768/1024/1099/1100/1440px; keyboard dismissal/wrapping, unsent-input retention, desktop transitions, short-height final-link access, reduced motion and JS-disabled fallback passed. Pilot rows/schema/covers/config match fresh before/after fingerprints. No schema/services/transactions/audit changes or pilot test accounts. Physical-device/Safari/screen-reader and actual400% browser-zoom acceptance for this new drawer remain manual. No commit/push; hosting deferred.
+
+Evidence: verification/NAVIGATION_DRAWER_2026-11-15.md. Next: user phone/tablet/keyboard review, then continue local finalization/evaluation rather than optional features.
+
+The new HTTP check failed before implementation because no drawer/trigger existed. Browser harness initially redeclared a Runtime evaluation variable; scoped its test expression and reran successfully. All application checks listed above passed. Earlier mockup keyboard testing corrected virtual-key codes; the live suite dispatches real Tab/Shift+Tab/Escape codes. No visual/device results inferred from HTTP tests.
