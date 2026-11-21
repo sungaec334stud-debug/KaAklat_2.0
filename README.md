@@ -38,7 +38,7 @@ The current delivery is a **local pilot**. Hosting is deferred. Implemented feat
 | Create/manage staff accounts | No | No | Yes, with protection for the last usable administrator |
 | Assisted password recovery | Receives assistance | May assist students | May assist permitted accounts |
 | Browse administrator audit records | No | No administrator audit browser | Yes |
-| Settings: System default / Light / Dark | Yes | Yes | Yes |
+| Header appearance toggle: Light / Dark | Yes | Yes | Yes |
 
 The interface includes role-specific dashboards/navigation, search and bounded pagination, borrowing-status badges, active/overdue/returned history and clear validation/error states. Navigation visibility is not authorization: the server checks roles, account status, sessions and ownership.
 
@@ -98,14 +98,14 @@ Renewals, fines, ISBNs, barcode scanning, email verification/reminders, waitlist
 
 ## Appearance and keyboard navigation
 
-Open **Settings → Appearance** and choose **System default**, **Light** or **Dark**. The preference belongs to the browser, survives logout and also applies to signed-out pages; it is not synchronized to an account or another device. On a shared browser, the next user sees the last saved appearance.
+Use the **moon/sun button at the top-right of the header** to switch between Light and Dark. Moon means switch to Dark; sun means switch to Light. Tab to the button and press Enter or Space. The 44px control is available in desktop, phone/tablet and signed-out headers; the current page and account status remain visible.
 
-- **Tab / Shift + Tab:** move between controls and links.
-- **Enter:** activate a focused link or button; **Space:** select a focused radio/checkbox or activate a button.
-- For the appearance **radio group**, Tab enters the group at the selected choice. Use **arrow keys** to switch choices, then Tab to leave. Tab does not visit each radio separately.
-- **Skip to content** bypasses navigation. At narrow widths, the navigation row scrolls horizontally; keyboard focus brings its links into view.
+The browser remembers the choice using the existing appearance preference, including across logout. It does not change any account or database record. Existing saved Light/Dark choices are retained. With no saved choice (or an older System default choice), device appearance is followed until the first explicit toggle.
 
-If browser storage is blocked, the page explains that a choice could not be saved. With JavaScript disabled, the device theme still applies; manual appearance controls explain that JavaScript is needed. A recent user-reported keyboard concern awaits confirmation after the native radio instructions; earlier testing is not proof that every accessibility state works.
+The icon rotates and fades while surfaces change color briefly. Reduced-motion preferences disable these effects. With JavaScript disabled, device appearance still works and the unavailable toggle is hidden. Blocked browser storage is reported politely; the change still works for the current page. Old Settings bookmarks redirect to the dashboard after the existing access checks; there is no separate appearance page or Settings menu item.
+
+
+Password fields on login, registration and recovery use a named eye button: closed means masked, open means visible. Click it, or focus it and press Enter/Space. Each field changes independently; the control never submits the form or saves its value. Recovery explains the staff-issued private code and password guidance in plain language, with extra help collapsed until needed.
 
 ## Run the existing local pilot
 
@@ -290,8 +290,8 @@ User-reported local acceptance and the later appearance-keyboard follow-up are r
 | Wrong/missing accounts | The maintained main folder must use `kaaklat_pilot`. Run the startup guard; do not switch to `kaaklat_dev` or import demo records. The old private code copy is archived. |
 | “A usable administrator already exists” | Use the existing administrator or authorized recovery; do not bypass bootstrap protection. |
 | Student cannot borrow | Check pending/suspended state, librarian activation, overdue loans, pending/allowance limits, duplicate title and available copies. |
-| Appearance cannot be saved | Browser storage may be blocked. The page reports the limitation; System follows device appearance. |
-| Tab skips Light/Dark options | Native radio groups use arrow keys within the group. Tab enters/leaves it. |
+| Appearance cannot be saved | Browser storage may be blocked. The toggle still works for this page; the page reports that it could not save. |
+| Change appearance with a keyboard | Tab to the moon/sun header button; press Enter or Space. |
 | Old styles after an update | Hard-refresh with Ctrl+F5; confirm the updated files are in the installation actually being served. |
 | Session expires or old form is refused | Sign in again or refresh the page. Current status/session checks and CSRF/stale-record protections remain authoritative. |
 

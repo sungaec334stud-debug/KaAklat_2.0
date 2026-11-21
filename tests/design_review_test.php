@@ -24,7 +24,7 @@ design_check(substr_count($about, '<li>') === 6, 'All six borrowing steps retain
 design_check(audit_event_label('student.activate') === 'Student account activated', 'Readable event label');
 design_check(audit_event_label('unrecognized.event') === 'Recorded activity', 'Unknown codes never invent a decision');
 design_check(!str_contains(audit_event_label('<script>'), '<script>'), 'Unknown event cannot inject markup');
-foreach (['/returns.php'=>'M8 7H3', '/settings.php'=>'M3 6h18', '/catalog.php'=>'M12 5C8 2'] as $route=>$path) {
+foreach (['/returns.php'=>'M8 7H3', '/catalog.php'=>'M12 5C8 2'] as $route=>$path) {
     design_check(str_contains(portal_icon($route), $path), 'Accepted mock icon: ' . $route);
 }
 $books = [];

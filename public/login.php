@@ -41,10 +41,10 @@ $content = '<section class="auth-wrap" aria-labelledby="auth-title"><div class="
     . '<input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '">'
     . '<div class="field"><label for="username">Username</label><input id="username" name="username" autocomplete="username" maxlength="32" required value="' . h($username) . '"></div>'
     . '<div class="field"><label for="password">Password</label><div class="password-wrap"><input id="password" name="password" autocomplete="current-password" type="password" required>'
-    . '<button class="password-toggle" type="button" data-password="password" aria-controls="password" aria-label="Show password" aria-pressed="false" hidden>Show</button></div></div>'
+    . password_visibility_button_html('password', 'password') . '</div></div>'
     . '<button class="btn submit" type="submit">Log in</button></form>'
     . '<p class="auth-switch">New student? <a href="/register.php">Create an account</a></p>'
-    . '<details class="help" id="recovery"><summary>Forgot your password?</summary><p>Ask your librarian or administrator in person for a recovery secret.</p>'
-    . '<a href="/reset_password.php">Use a recovery secret</a></details></div></div></section>';
+    . '<details class="help" id="recovery"><summary>Forgot your password?</summary><p>Ask your librarian or administrator in person for a private recovery code.</p>'
+    . '<a href="/reset_password.php">Use a recovery code</a></details></div></div></section>';
 
 render_page('Log in', $content);

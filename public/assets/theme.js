@@ -5,37 +5,47 @@
     const choices = ['system', 'light', 'dark'];
     const scheme = window.matchMedia('(prefers-color-scheme: dark)');
     let preference = 'system';
+    let buttons = [];
+    let status = null;
     try {
         const saved = window.localStorage.getItem(key);
         if (choices.includes(saved)) preference = saved;
     } catch { /* System appearance remains usable when browser storage is blocked. */ }
 
     function apply() {
-        document.documentElement.dataset.theme = preference === 'system'
-            ? (scheme.matches ? 'dark' : 'light') : preference;
+        const theme = preference === 'system' ? (scheme.matches ? 'dark' : 'light') : preference;
+        document.documentElement.dataset.theme = theme;
         document.documentElement.dataset.themePreference = preference;
+        const label = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+        buttons.forEach(button => {
+            button.setAttribute('aria-label', label);
+            button.setAttribute('title', label);
+        });
     }
     apply();
     scheme.addEventListener('change', apply);
 
+    window.addEventListener('storage', event => {
+        if (event.key !== key && event.key !== null) return;
+        preference = choices.includes(event.newValue) ? event.newValue : 'system';
+        apply();
+    });
     document.addEventListener('DOMContentLoaded', () => {
-        const options = document.querySelector('#appearance-options');
-        if (!options) return;
-        const status = document.querySelector('#appearance-status');
-        options.disabled = false;
-        document.querySelectorAll('[name="appearance"]').forEach(radio => {
-            radio.checked = radio.value === preference;
+        buttons = [...document.querySelectorAll('[data-theme-toggle]')];
+        status = document.querySelector('#appearance-status');
+        buttons.forEach(button => {
+            button.hidden = false;
+            button.disabled = false;
+            button.addEventListener('click', () => {
+                preference = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+                apply();
+                let message = (preference === 'dark' ? 'Dark' : 'Light') + ' mode enabled and saved in this browser.';
+                try { window.localStorage.setItem(key, preference); }
+                catch { message = 'Appearance updated for this page, but could not be saved. Your browser may be blocking storage.'; }
+                if (status) status.textContent = message;
+            });
         });
-        document.addEventListener('change', event => {
-            if (!event.target.matches('[name="appearance"]') || !choices.includes(event.target.value)) return;
-            preference = event.target.value;
-            apply();
-            try {
-                window.localStorage.setItem(key, preference);
-                status.textContent = 'Appearance updated and saved in this browser.';
-            } catch {
-                status.textContent = 'Appearance updated for this page, but could not be saved. Your browser may be blocking storage.';
-            }
-        });
+        apply();
+        document.documentElement.classList.add('appearance-ready');
     });
 })();

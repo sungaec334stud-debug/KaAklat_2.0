@@ -1,0 +1,21 @@
+{
+  "layouts": 25,
+  "toggles": 50,
+  "roles": 5,
+  "runtimeErrors": 0,
+  "checks": [
+    "one visible 44px header button",
+    "icon/color animation",
+    "keyboard Enter",
+    "rapid clicks",
+    "saved page preference",
+    "legacy system preference",
+    "blocked storage",
+    "no-script fallback",
+    "reduced motion",
+    "no Settings navigation",
+    "current mobile page retained"
+  ],
+  "database": "kaaklat_acceptance_b99e68ef48a6",
+  "limitations": "Chromium emulation; physical-device, Safari, screen-reader and actual 400% zoom remain manual."
+}

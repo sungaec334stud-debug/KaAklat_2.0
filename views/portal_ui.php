@@ -35,7 +35,6 @@ function portal_icon(string $route): string
         '/profile.php' => '<path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10z M3 23v-4c0-7 18-7 18 0v4"/>',
         '/audit.php' => '<path d="M5 2h14v20H5z M8 7h8 M8 12h8 M8 17h5"/>',
         '/recover_account.php' => '<path d="M8 14a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M13 12l9 9 M17 16l3-3"/>',
-        '/settings.php' => '<path d="M3 6h18 M3 12h18 M3 18h18 M7 3v6 M17 9v6 M10 15v6"/>',
         '/about.php' => '<path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 11v7 M12 6v2"/>',
         '/logout.php' => '<path d="M9 3H3v18h6 M7 12h15 M17 7l5 5-5 5"/>',
     ];
@@ -56,4 +55,12 @@ function portal_summary_html(array $summaries, string $heading, string $scope): 
             . h(strtolower($label)) . ' <span aria-hidden="true">→</span></a></section>';
     }
     return $html . '</div></section>';
+}
+
+// Shared presentation only; theme.js owns the browser-local preference.
+function appearance_toggle_html(): string
+{
+    return '<button type="button" class="theme-toggle" data-theme-toggle hidden disabled aria-label="Switch to dark mode" title="Switch to dark mode">'
+        . '<svg class="theme-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"/></svg>'
+        . '<svg class="theme-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>';
 }

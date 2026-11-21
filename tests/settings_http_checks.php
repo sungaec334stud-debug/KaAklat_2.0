@@ -7,9 +7,12 @@ accept_check($code === 303, 'Settings requires authentication');
 curl_close($settingsGuest);
 foreach ($clients as $role => $client) {
     [$code, $html] = accept_http($client, '/settings.php');
-    accept_check($code === 200 && str_contains($html, '<h1>Settings</h1>'), "$role settings access");
-    accept_check(str_contains($html, 'href="/settings.php" aria-current="page"') && str_contains($html, 'name="appearance"'), "$role settings navigation and theme controls");
+    accept_check($code === 303, "$role retired Settings redirects");
+    accept_check(parse_url(curl_getinfo($client, CURLINFO_REDIRECT_URL), PHP_URL_PATH) === '/', "$role retired Settings returns to dashboard");
+    accept_check(!str_contains($html, 'name="appearance"'), "$role retired Settings has no appearance form");
     accept_check(!str_contains($html, 'password_hash') && !str_contains($html, $password), 'Settings excludes private credentials');
+    [$themeCode,$themeHtml] = accept_http($client, '/');
+    accept_check($themeCode === 200 && substr_count($themeHtml, 'data-theme-toggle') === 2 && !str_contains($themeHtml, 'href="/settings.php"'), "$role header controls replace Settings navigation");
     [$code] = accept_http($client, '/settings.php', ['role'=>'administrator','appearance'=>'dark']);
     accept_check($code === 405, 'Settings refuses POST mutation');
 }
@@ -23,7 +26,8 @@ curl_setopt_array($settingsClient, [CURLOPT_RETURNTRANSFER=>true, CURLOPT_COOKIE
 [$code,$html] = accept_http($settingsClient, '/login.php');
 accept_http($settingsClient, '/login.php', ['username'=>'settings_pending','password'=>$password,'csrf_token'=>accept_token($html)]);
 [$code,$html] = accept_http($settingsClient, '/settings.php?user_id=1');
-accept_check($code === 200 && !str_contains($html, 'Acceptance Student'), 'Pending student settings ignores forged account selectors');
+accept_check($code === 303 && !str_contains($html, 'Acceptance Student'), 'Pending student settings ignores forged account selectors');
+[$code,$html] = accept_http($settingsClient, '/');
 accept_check(str_contains($html, '&lt;Fictional settings student&gt;') && !str_contains($html, '<Fictional settings student>'), 'Settings escapes current display name');
 accept_check((bool)preg_grep('/^Cache-Control: private, no-store/i', $settingsHeaders), 'Settings prevents private page caching');
 $db->prepare('UPDATE users SET session_version=session_version+1 WHERE user_id=?')->execute([$settingsId]);

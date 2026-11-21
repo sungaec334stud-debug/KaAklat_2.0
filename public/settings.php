@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/app/bootstrap.php';
 require_once dirname(__DIR__) . '/views/layout.php';
-require_once dirname(__DIR__) . '/views/settings.php';
 
 start_application_session();
 header('Cache-Control: private, no-store');
@@ -26,7 +25,8 @@ try {
         render_page('Settings', '<section class="panel"><h1>Settings</h1><p>Appearance is saved in your browser, not submitted to your account.</p><a href="/settings.php">Open settings</a></section>');
         exit;
     }
-    render_page('Settings', appearance_settings_html());
+    // Retired appearance page: preserve old bookmarks without account mutation.
+    redirect('/');
 } catch (Throwable $error) {
     $reference = bin2hex(random_bytes(8));
     error_log('Settings failure [' . $reference . '] code=' . $error->getCode());

@@ -6,6 +6,15 @@ foreach (['/','/login.php','/register.php','/reset_password.php'] as $entryRoute
     [$code,$body]=accept_http($entryGuest,$entryRoute);
     accept_check($code===200 && str_contains($body,'href="/about.php"'),'Entry route preserves About: '.$entryRoute);
     accept_check(!str_contains($body,'Design preview') && !str_contains($body,'No real accounts'),'No prototype-only controls: '.$entryRoute);
+    if ($entryRoute !== '/') {
+        $expectedEyes = $entryRoute === '/reset_password.php' ? 3 : 1;
+        accept_check(substr_count($body, 'class="password-eye"') === $expectedEyes && !str_contains($body, 'hidden>Show</button>'), 'Shared eye controls replace visible Show text: '.$entryRoute);
+        accept_check(substr_count($body, 'aria-pressed="false" hidden') === $expectedEyes, 'Eye controls start masked with no-script fallback: '.$entryRoute);
+    }
+    if ($entryRoute === '/reset_password.php') {
+        accept_check(!str_contains($body, 'UTF-8 bytes') && str_contains($body, 'Need a recovery code?') && str_contains($body, 'works once and expires after 30 minutes'), 'Recovery uses plain unobtrusive directions with true expiry/single-use information');
+        accept_check(str_contains($body, 'aria-describedby="password-hint"') && str_contains($body, '12–72 basic letters') && str_contains($body, 'approval or suspension status stays the same'), 'Recovery guidance retains password/access rules without technical byte terminology');
+    }
 }
 [$code,$body]=accept_http($entryGuest,'/register.php');
 $entryToken=accept_token($body);

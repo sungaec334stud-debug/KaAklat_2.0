@@ -18,7 +18,7 @@ async function ready(url){for(let i=0;i<100;i++){try{return await fetch(url);}ca
  await go('/login.php');await ev("document.querySelector('[name=username]').value="+JSON.stringify(fixture.librarian)+";document.querySelector('[name=password]').value="+JSON.stringify(fixture.password)+";document.querySelector('[name=password]').form.requestSubmit()");await until("location.pathname==='/'");
  let layouts=0;
  for(const theme of ['light','dark']){
-  await go('/settings.php');await ev("document.querySelector('[name=appearance][value="+theme+"]').click()");
+  await go('/');await ev("if(document.documentElement.dataset.theme!=="+JSON.stringify(theme)+") [...document.querySelectorAll('[data-theme-toggle]')].find(b=>b.getClientRects().length).click()");await pause(300);
   for(const path of ['/manage_books.php','/manage_books.php?q=Fictional&id=1','/manage_books.php?new=1','/manage_books.php?q=NoMatches&id=1']){
    await go(path);
    for(const width of [1440,768,360]){

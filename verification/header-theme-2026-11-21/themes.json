@@ -1,0 +1,16 @@
+{
+  "database": "kaaklat_acceptance_7dec5818f824",
+  "combinations": 216,
+  "runtimeErrors": 0,
+  "contrastFailures": [],
+  "checks": [
+    "theme persistence",
+    "keyboard header toggle",
+    "visible 44px header target",
+    "student and librarian invalid-input summary focus",
+    "system changes",
+    "blocked storage",
+    "JavaScript-free system theme",
+    "guest themes"
+  ]
+}

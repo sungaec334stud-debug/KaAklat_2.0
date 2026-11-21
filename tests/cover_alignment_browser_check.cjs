@@ -20,7 +20,7 @@ async function ready(url){for(let i=0;i<100;i++){try{return await fetch(url);}ca
  async function login(role){await call('Network.clearBrowserCookies');await go('/login.php');await ev("document.querySelector('[name=username]').value="+JSON.stringify(fixture[role])+";document.querySelector('[name=password]').value="+JSON.stringify(fixture.password)+";document.querySelector('[name=password]').form.requestSubmit()");await until("location.pathname==='/' && !!document.querySelector('.dashboard')");}
  await login('librarian');let layouts=0;
  for(const theme of ['light','dark']){
-  await go('/settings.php');await ev("document.querySelector('[name=appearance][value="+theme+"]').click()");
+  await go('/');await ev("if(document.documentElement.dataset.theme!=="+JSON.stringify(theme)+") [...document.querySelectorAll('[data-theme-toggle]')].find(b=>b.getClientRects().length).click()");await pause(300);
   for(const path of ['/review_requests.php','/pickups.php','/returns.php','/students.php?status=active','/students.php?status=suspended','/manage_books.php?id=1&page=3']){
    await go(path);
    for(const width of [1440,768,360]){

@@ -8,8 +8,9 @@ document.querySelectorAll('[data-password]').forEach((button) => {
     button.addEventListener('click', () => {
         const reveal = field.type === 'password';
         field.type = reveal ? 'text' : 'password';
-        button.textContent = reveal ? 'Hide' : 'Show';
         button.setAttribute('aria-pressed', String(reveal));
-        button.setAttribute('aria-label', reveal ? showLabel.replace(/^Show /, 'Hide ') : showLabel);
+        const label = reveal ? showLabel.replace(/^Show /, 'Hide ') : showLabel;
+        button.setAttribute('aria-label', label);
+        button.setAttribute('title', label);
     });
 });

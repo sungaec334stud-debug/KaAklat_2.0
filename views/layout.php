@@ -23,13 +23,12 @@ function render_page(string $title, string $content, bool $landing = false): voi
     }
     if (($navigationUser['role']??null)==='administrator' && $navigationUser['account_status']==='active') { $links += ['/staff.php'=>'Staff accounts','/students.php'=>'Students','/audit.php'=>'Audit records']; }
     if (in_array($navigationUser['role']??null,['librarian','administrator'],true) && $navigationUser['account_status']==='active') { $links['/recover_account.php']='Account recovery'; }
-    if ($navigationUser !== null) { $links['/settings.php'] = 'Settings'; }
     $links['/about.php'] = 'About';
     if ($navigationUser !== null) { $links['/logout.php'] = 'Log out'; }
     // Presentation grouping never adds destinations or grants role permissions.
     if ($navigationUser !== null) {
         $order = $navigationUser['role'] === 'librarian'
-            ? ['/', '/catalog.php', '/manage_books.php', '/review_requests.php', '/pickups.php', '/returns.php', '/students.php', '/recover_account.php', '/settings.php', '/about.php', '/logout.php']
+            ? ['/', '/catalog.php', '/manage_books.php', '/review_requests.php', '/pickups.php', '/returns.php', '/students.php', '/recover_account.php', '/about.php', '/logout.php']
             : array_keys($links);
         $links = array_replace(array_intersect_key(array_fill_keys($order, ''), $links), $links);
     }
@@ -40,12 +39,11 @@ function render_page(string $title, string $content, bool $landing = false): voi
         if ($navigationUser !== null) {
             $group = in_array($url, ['/review_requests.php', '/pickups.php', '/returns.php'], true) ? 'Circulation'
                 : (in_array($url, ['/students.php', '/staff.php', '/audit.php', '/recover_account.php'], true) ? 'Accounts & security'
-                : (in_array($url, ['/settings.php', '/about.php', '/logout.php'], true) ? 'Preferences' : 'Library'));
+                : (in_array($url, ['/about.php', '/logout.php'], true) ? 'Help & account' : 'Library'));
             if ($group !== $lastGroup) { $navigation .= '<span class="nav-group-label">' . h($group) . '</span>'; $lastGroup = $group; }
         }
         $current = $path === $url || ($url === '/' && $path === '/index.php');
-        $utilityClass = $navigationUser !== null && $url === '/settings.php' ? ' class="nav-utility-start"' : '';
-        $navigation .= '<a href="' . h($url) . '"' . ($current ? ' aria-current="page"' : '') . $utilityClass . '>'
+        $navigation .= '<a href="' . h($url) . '"' . ($current ? ' aria-current="page"' : '') . '>'
             . ($navigationUser !== null ? portal_icon($url) : '') . '<span>' . h($label) . '</span></a>';
     }
 
@@ -64,16 +62,18 @@ function render_page(string $title, string $content, bool $landing = false): voi
     $mobileNavigation = '';
     $navigationDialog = '';
     $navigationAssets = '';
+    $themeToggle = appearance_toggle_html();
+    $guestThemeToggle = $navigationUser === null ? $themeToggle : '';
     if ($navigationUser !== null) {
         $role = match ($navigationUser['role']) { 'student'=>'Student', 'librarian'=>'Librarian', 'administrator'=>'Administrator', default=>'Account' };
         $status = $navigationUser['account_status'] === 'pending' ? 'Pending activation' : ucfirst($navigationUser['account_status']);
         $workspaceLabel = '<p class="workspace-label">' . h($role) . ' workspace</p>';
         $identity = '<div class="sidebar-identity"><strong>' . h($navigationUser['display_name']) . '</strong><span>' . h($role) . ' · ' . h($status) . '</span></div>';
-        $portalBar = '<div class="portal-topbar"><div class="portal-location"><span>' . h($role) . ' portal</span><span aria-hidden="true">/</span><strong>' . $safeTitle . '</strong></div><span class="portal-account-status">' . h($status) . '</span></div>';
+        $portalBar = '<div class="portal-topbar"><div class="portal-location"><span>' . h($role) . ' portal</span><span aria-hidden="true">/</span><strong>' . $safeTitle . '</strong></div><div class="portal-header-actions"><span class="portal-account-status">' . h($status) . '</span>' . $themeToggle . '</div></div>';
         $mobileNavigation = '<div class="mobile-navigation-bar" hidden><div class="mobile-navigation-row">'
             . '<button id="navigation-toggle" type="button" aria-label="Open navigation" aria-controls="navigation-drawer" aria-expanded="false">'
             . '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6h18 M3 12h18 M3 18h18"/></svg></button>'
-            . '<a class="mobile-brand" href="/"><img src="/assets/kaaklat-logo.svg" width="36" height="36" alt=""><span>' . $appName . '</span></a></div>'
+            . '<a class="mobile-brand" href="/"><img src="/assets/kaaklat-logo.svg" width="36" height="36" alt=""><span>' . $appName . '</span></a>' . $themeToggle . '</div>'
             . '<div class="mobile-navigation-location"><div><span class="mobile-portal-label">' . h($role) . ' portal</span>'
             . '<strong class="mobile-current-page">' . $safeTitle . '</strong></div><span class="mobile-account-status">' . h($status) . '</span></div></div>';
         $navigationDialog = '<dialog id="navigation-drawer" aria-label="Main navigation"><button type="button" class="navigation-close" aria-label="Close navigation">'
@@ -84,7 +84,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
     $entryAssets = '';
     if ($landing || in_array($path, ['/login.php', '/register.php', '/reset_password.php'], true)) {
         $bodyClass .= ' entry-page';
-        $entryAssets = '<link rel="stylesheet" href="/assets/entry.css?v=20261114"><script src="/assets/entry.js?v=20261114" defer></script>';
+        $entryAssets = '<link rel="stylesheet" href="/assets/entry.css?v=20261121-eye"><script src="/assets/entry.js?v=20261121-eye" defer></script>';
     }
     $workspaceRoutes = ['/staff.php', '/students.php', '/audit.php', '/recover_account.php',
         '/about.php', '/logout.php', '/review_requests.php', '/pickups.php', '/returns.php',
@@ -103,8 +103,8 @@ function render_page(string $title, string $content, bool $landing = false): voi
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{$safeTitle} | {$appName}</title>
     <link rel="icon" href="/assets/kaaklat-logo.svg" type="image/svg+xml">
-    <script src="/assets/theme.js?v=20261113-review"></script>
-    <link rel="stylesheet" href="/assets/app.css?v=20261113-staff-dashboard">
+    <script src="/assets/theme.js?v=20261121-header"></script>
+    <link rel="stylesheet" href="/assets/app.css?v=20261121-header">
     {$workspaceAssets}
     {$entryAssets}
     {$navigationAssets}
@@ -128,9 +128,11 @@ function render_page(string $title, string $content, bool $landing = false): voi
         {$workspaceLabel}
         <nav class="header-nav" aria-label="Main navigation">{$navigation}</nav>
         {$identity}
+        {$guestThemeToggle}
         </div>
     </header>
     {$navigationDialog}
+    <p id="appearance-status" class="visually-hidden" role="status" aria-live="polite"></p>
     <main class="container" id="main-content" tabindex="-1">
         {$portalBar}
         {$flashes}

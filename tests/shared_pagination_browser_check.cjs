@@ -19,7 +19,7 @@ for(const [role,paths] of Object.entries(pages)){
  await ev("document.querySelector('[name=username]').value="+JSON.stringify(fixture[role])+";document.querySelector('[name=password]').value="+JSON.stringify(fixture.password)+";document.querySelector('[name=password]').form.requestSubmit()");
  await until("location.pathname==='/' && !!document.querySelector('.dashboard')");
  for(const theme of ['light','dark']){
-  await go('/settings.php');await ev("document.querySelector('[name=appearance][value="+theme+"]').click()");
+  await go('/');await ev("if(document.documentElement.dataset.theme!=="+JSON.stringify(theme)+") [...document.querySelectorAll('[data-theme-toggle]')].find(b=>b.getClientRects().length).click()");await pause(300);
   for(const path of paths){
    paginationSelector=path.includes('id=1')?'nav.catalog-pagination[aria-label="Copy pages"]':'nav.catalog-pagination:not([aria-label="Copy pages"])';
    await go(path);assert.ok(await ev("!!document.querySelector('nav.catalog-pagination .pagination-summary')"));

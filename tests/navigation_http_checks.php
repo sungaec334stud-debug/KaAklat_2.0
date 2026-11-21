@@ -1,11 +1,11 @@
 <?php
 // Included only by the fictional HTTP harness. Navigation must not grant permissions.
 foreach ($clients as $navRole => $navClient) {
-    [$navCode, $navHtml] = accept_http($navClient, '/settings.php');
+    [$navCode, $navHtml] = accept_http($navClient, '/about.php');
     accept_check($navCode === 200 && substr_count($navHtml, 'id="navigation-toggle"') === 1 && substr_count($navHtml, 'id="navigation-drawer"') === 1, "$navRole has one accessible drawer and trigger");
     accept_check(str_contains($navHtml, 'aria-label="Open navigation"') && str_contains($navHtml, 'aria-expanded="false"') && str_contains($navHtml, 'aria-controls="navigation-drawer"'), "$navRole icon-only trigger has accessible state");
-    accept_check(substr_count($navHtml, '<nav class="header-nav"') === 1 && str_contains($navHtml, 'href="/settings.php" aria-current="page"'), "$navRole retains one role-aware current navigation");
-    accept_check(str_contains($navHtml, 'class="mobile-current-page">Settings</strong>') && !str_contains($navHtml, 'Design preview'), "$navRole receives actual current-page title");
+    accept_check(substr_count($navHtml, '<nav class="header-nav"') === 1 && str_contains($navHtml, 'href="/about.php" aria-current="page"'), "$navRole retains one role-aware current navigation");
+    accept_check(str_contains($navHtml, 'class="mobile-current-page">About KaAklat</strong>') && !str_contains($navHtml, 'Design preview'), "$navRole receives actual current-page title");
     if ($navRole === 'student' || $navRole === 'other') {
         accept_check(!str_contains($navHtml, 'href="/staff.php"') && !str_contains($navHtml, 'href="/pickups.php"'), 'Student drawer excludes staff destinations');
     } elseif ($navRole === 'admin') {

@@ -103,7 +103,7 @@
 .entry-page .field input:hover,.entry-page .field input:focus{border-color:var(--blue)}
 .entry-page .hint{color:var(--muted);font-size:12px;margin-top:5px;line-height:1.5}
 .entry-page .password-wrap{position:relative}
-.entry-page .password-wrap input{padding-right:70px}
+.entry-page .password-wrap input{padding-right:58px}
 .entry-page .password-toggle{position:absolute;right:4px;top:4px;min-height:41px;min-width:58px;border:0;background:transparent;border-radius:3px;color:var(--link);font-size:12px;font-weight:650}
 .entry-page .password-toggle:hover{background:var(--soft)}
 .entry-page .submit{width:100%;margin-top:4px;position:relative}
@@ -243,3 +243,16 @@
 @media(max-width:1050px){.entry-page.is-guest .container,.entry-page.is-guest .header-inner{width:calc(100% - 48px)}}
 @media(max-width:760px){.entry-page.is-guest .container,.entry-page.is-guest .header-inner{width:calc(100% - 36px)}.entry-page .auth-wrap{width:100%}.entry-page.is-guest .header-inner{padding:14px 0;flex-wrap:wrap;gap:12px}.entry-page.is-guest .header-nav{flex-wrap:wrap;margin:0;width:auto}.entry-page.is-guest .brand-university{display:none}.entry-page.is-guest .header-nav a{padding:9px 10px}.entry-page .auth-main{min-width:0}.entry-page .auth-shell{grid-template-columns:1fr}.entry-page .auth-scene{display:none}}
 @media(prefers-reduced-motion:reduce){.entry-page *, .entry-page *:before,.entry-page *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Shared animated eye: state comes only from the associated field's visibility. */
+.entry-page .password-toggle { display: inline-grid; place-items: center; width: 44px; min-width: 44px; height: 44px; min-height: 44px; padding: 0; }
+.entry-page .password-eye { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+.entry-page .password-eye g { transform-origin: 12px 12px; }
+.entry-page .password-eye-open { opacity: 0; transform: scaleY(.15); }
+.entry-page .password-eye-closed { opacity: 1; transform: translateY(0); }
+.entry-page .password-toggle[aria-pressed=true] .password-eye-open { opacity: 1; transform: scaleY(1); }
+.entry-page .password-toggle[aria-pressed=true] .password-eye-closed { opacity: 0; transform: translateY(3px); }
+.entry-page .recovery-code-help { margin: 4px 0 18px; padding-top: 0; border: 0; }
+@media (prefers-reduced-motion: no-preference) {
+    .entry-page .password-eye g { transition: transform 240ms cubic-bezier(.22,1,.36,1), opacity 160ms ease; }
+}

@@ -39,3 +39,12 @@ HTML;
 </aside>
 HTML;
 }
+
+// Shared icon-only control; entry.js owns visibility and accessible state.
+function password_visibility_button_html(string $fieldId, string $fieldLabel): string
+{
+    return '<button class="password-toggle" type="button" data-password="' . h($fieldId) . '" aria-controls="' . h($fieldId) . '" aria-label="Show ' . h($fieldLabel) . '" title="Show ' . h($fieldLabel) . '" aria-pressed="false" hidden>'
+        . '<svg class="password-eye" viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
+        . '<g class="password-eye-open"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></g>'
+        . '<g class="password-eye-closed"><path d="M3 9c2.2 3.8 5.2 5.7 9 5.7s6.8-1.9 9-5.7M5.3 12.1l-1.7 2.3M9.6 14.5l-.5 2.5M14.4 14.5l.5 2.5M18.7 12.1l1.7 2.3"/></g></svg></button>';
+}

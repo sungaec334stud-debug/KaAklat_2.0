@@ -16,18 +16,18 @@ async function run() {
     const {ws,call,ev,screenshot: captureScreenshot,errors}=await connect_browser_protocol(target.webSocketDebuggerUrl, {awaitPromise:false});
     const contrast=[];
     async function until(expression){for(let i=0;i<70;i++){try{if(await ev(expression))return;}catch{}await pause(80);}throw Error('Timed out '+expression);}
-    async function go(path){const r=await call('Page.navigate',{url:base+path});if(r.errorText)throw Error(r.errorText);await until('document.readyState==="complete"');await pause(70);}
-    async function viewport(width){await call('Emulation.setDeviceMetricsOverride',{width,height:1000,deviceScaleFactor:1,mobile:false});}
+    async function go(path){const r=await call('Page.navigate',{url:base+path});if(r.errorText)throw Error(r.errorText);await until('document.readyState==="complete"');await pause(300);}
+    async function viewport(width){await call('Emulation.setDeviceMetricsOverride',{width,height:1000,deviceScaleFactor:1,mobile:false});await pause(150);}
     const screenshot=name=>captureScreenshot(fixture.directory+'/'+name+'.png');
     await call('Page.enable');await call('Runtime.enable');
     let combinations=0;
-    const matrix={active:['/','/settings.php','/catalog.php','/requests.php','/requests.php?book=6','/profile.php','/about.php','/logout.php'],pending:['/settings.php','/catalog.php','/profile.php'],librarian:['/','/settings.php','/catalog.php','/review_requests.php','/pickups.php','/returns.php','/manage_books.php','/students.php','/recover_account.php','/about.php','/logout.php'],admin:['/','/settings.php','/catalog.php','/staff.php','/students.php','/audit.php','/recover_account.php','/about.php','/logout.php']};
+    const matrix={active:['/','/catalog.php','/requests.php','/requests.php?book=6','/profile.php','/about.php','/logout.php'],pending:['/catalog.php','/profile.php'],librarian:['/','/catalog.php','/review_requests.php','/pickups.php','/returns.php','/manage_books.php','/students.php','/recover_account.php','/about.php','/logout.php'],admin:['/','/catalog.php','/staff.php','/students.php','/audit.php','/recover_account.php','/about.php','/logout.php']};
     for(const [role,paths] of Object.entries(matrix)){
         await call('Network.clearBrowserCookies');await go('/login.php');
         await ev("document.querySelector('[name=username]').value="+JSON.stringify(fixture[role])+";document.querySelector('[name=password]').value="+JSON.stringify(fixture.password)+";document.querySelector('[name=password]').form.requestSubmit()");
         await until("location.pathname==='/' && document.querySelector('.dashboard')");
         for(const theme of ['light','dark']){
-            await go('/settings.php');await ev("document.querySelector('[name=appearance][value="+theme+"]').click()");
+            await go('/');await ev("if(document.documentElement.dataset.theme!=="+JSON.stringify(theme)+") [...document.querySelectorAll('[data-theme-toggle]')].find(b=>b.getClientRects().length).click()");await pause(300);
             for(const path of paths){
                 await go(path);assert.equal(await ev('document.documentElement.dataset.theme'),theme,'Theme persists across pages');
                 if (path === '/') {
@@ -45,7 +45,7 @@ async function run() {
                 for(const width of [1440,768,360,320]){
                     await viewport(width);
                     await until("[...document.images].every(i=>i.loading==='lazy' || i.complete)");
-                    const layout=await ev("({width:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth,settings:!!document.querySelector('.header-nav [href=\"/settings.php\"]'),images:[...document.images].every(i=>(i.loading==='lazy'&&!i.complete)||i.naturalWidth>0),current:document.querySelectorAll('.header-nav [aria-current=page]').length})");
+                    const layout=await ev("({width:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth,settings:!document.querySelector('.header-nav [href=\"/settings.php\"]'),images:[...document.images].every(i=>(i.loading==='lazy'&&!i.complete)||i.naturalWidth>0),current:document.querySelectorAll('.header-nav [aria-current=page]').length})");
                     assert.ok(layout.scroll<=layout.width,JSON.stringify({role,theme,path,width,layout}));assert.ok(layout.settings);assert.ok(layout.images,'Missing image '+path);combinations++;
                 }
                 await viewport(1440);
@@ -65,7 +65,7 @@ async function run() {
                     }return result;
                 })()`);
                 contrast.push(...failures.map(f=>({role,theme,path,...f})));
-                if(theme==='dark'&&['/','/settings.php','/requests.php','/review_requests.php'].includes(path))await screenshot(role+'-'+path.replace(/\W/g,'')+'-dark');
+                if(theme==='dark'&&['/','/requests.php','/review_requests.php'].includes(path))await screenshot(role+'-'+path.replace(/\W/g,'')+'-dark');
             }
         }
         if (role === 'active') {
@@ -77,33 +77,33 @@ async function run() {
         if (role === 'librarian') {
             await go('/review_requests.php');
             await ev("document.querySelector('[name=days]').value='8';document.querySelector('[name=note]').value='';document.querySelector('button[value=approve]').click()");
-            await until("!!document.querySelector('.error-summary, [role=alert]')");
+            await until("document.readyState==='complete' && document.activeElement.matches('.error-summary, [role=alert]')");
             assert.ok(await ev("document.activeElement.matches('.error-summary, [role=alert]')"),'Invalid librarian decision focuses summary');
             await screenshot('librarian-invalid-dark');
         }
         console.log('PASS role pages/layout:',role);
     }
-    await go('/settings.php');await viewport(360);
-    await ev("document.querySelector('[name=appearance][value=system]').focus()");
-    await call('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowRight',code:'ArrowRight',windowsVirtualKeyCode:39});
-    await call('Input.dispatchKeyEvent',{type:'keyUp',key:'ArrowRight',code:'ArrowRight',windowsVirtualKeyCode:39});
-    assert.equal(await ev('document.documentElement.dataset.theme'),'light','Native keyboard theme change');
-    await ev("document.querySelector('.header-nav [href=\"/settings.php\"]').focus()");
-    assert.ok(await ev("(()=>{const r=document.activeElement.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth})()"),'Keyboard scrolls settings into view');
-    await screenshot('settings-phone');
-    await ev("document.querySelector('[name=appearance][value=system]').click()");
-    for(const value of ['dark','light']){await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-color-scheme',value}]});await pause(80);assert.equal(await ev('document.documentElement.dataset.theme'),value,'System changes applied');}
+    await go('/');await viewport(360);
+    await call('Emulation.setFocusEmulationEnabled',{enabled:true});
+    await ev("[...document.querySelectorAll('[data-theme-toggle]')].find(b=>b.getClientRects().length).focus()");
+    const before=await ev('document.documentElement.dataset.theme');
+    await call('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13,text:'\r'});
+    await call('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});
+    await pause(100);
+    assert.notEqual(await ev('document.documentElement.dataset.theme'),before,'Keyboard header toggle');
+    await ev("localStorage.removeItem('kaaklat.appearance')");await go('/');
+    for(const value of ['dark','light']){await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-color-scheme',value}]});await pause(300);assert.equal(await ev('document.documentElement.dataset.theme'),value,'Device theme until explicit choice');}
     const injection=await call('Page.addScriptToEvaluateOnNewDocument',{source:"Object.defineProperty(window,'localStorage',{get(){throw new Error('blocked')}})"});
-    await go('/settings.php');await ev("document.querySelector('[name=appearance][value=dark]').click()");
+    await go('/');await ev("[...document.querySelectorAll('[data-theme-toggle]')].find(b=>b.getClientRects().length).click()");
     assert.ok(await ev("document.querySelector('#appearance-status').textContent.includes('could not be saved')"));
     await call('Page.removeScriptToEvaluateOnNewDocument',{identifier:injection.identifier});
     await call('Emulation.setScriptExecutionDisabled',{value:true});
-    await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-color-scheme',value:'dark'}]});await go('/settings.php');
-    assert.ok(await ev("document.querySelector('#appearance-options').disabled && !document.documentElement.dataset.theme && getComputedStyle(document.documentElement).colorScheme==='dark'"),'JS-free system theme and honest disabled controls');
+    await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-color-scheme',value:'dark'}]});await go('/');
+    assert.ok(await ev("[...document.querySelectorAll('[data-theme-toggle]')].every(b=>b.hidden) && !document.documentElement.dataset.theme && getComputedStyle(document.documentElement).colorScheme==='dark'"),'No-script device theme and hidden toggle');
     await call('Emulation.setScriptExecutionDisabled',{value:false});
     await call('Network.clearBrowserCookies');
     for(const path of ['/','/login.php','/register.php','/reset_password.php','/about.php']){await go(path);for(const theme of ['dark','light']){await ev("localStorage.setItem('kaaklat.appearance',"+JSON.stringify(theme)+")");await go(path);for(const width of [1440,360]){await viewport(width);assert.ok(await ev('document.documentElement.scrollWidth<=document.documentElement.clientWidth'),'Guest overflow');}if(theme==='dark'&&path==='/login.php')await screenshot('guest-login-dark');}}
-    const report={database:fixture.database,directory:fixture.directory,combinations,runtimeErrors:errors.length,contrastFailures:contrast,checks:['theme persistence','keyboard radio selection','narrow navigation keyboard visibility','student and librarian invalid-input summary focus','system changes','blocked storage','JavaScript-free system theme','guest themes']};
+    const report={database:fixture.database,directory:fixture.directory,combinations,runtimeErrors:errors.length,contrastFailures:contrast,checks:['theme persistence','keyboard header toggle','visible 44px header target','student and librarian invalid-input summary focus','system changes','blocked storage','JavaScript-free system theme','guest themes']};
     fs.writeFileSync(fixture.directory+'/theme-browser-results.json',JSON.stringify(report,null,2));
     console.log(JSON.stringify(report,null,2));assert.equal(errors.length,0);assert.equal(contrast.length,0,'Rendered text contrast');ws.close();
 }

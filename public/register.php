@@ -52,7 +52,7 @@ $content = '<section class="auth-wrap register" aria-labelledby="auth-title"><di
     . '<div class="field"><label for="username">Username</label><input id="username" name="username" autocomplete="username" maxlength="32" pattern="[a-zA-Z0-9_]{3,32}" aria-describedby="username-hint" required value="' . h($values['username']) . '">'
     . '<p id="username-hint" class="hint">3–32 letters, numbers or underscores.</p></div></div>'
     . '<div class="field"><label for="password">Password</label><div class="password-wrap"><input id="password" name="password" autocomplete="new-password" type="password" minlength="12" maxlength="72" aria-describedby="password-hint" required>'
-    . '<button class="password-toggle" type="button" data-password="password" aria-controls="password" aria-label="Show password" aria-pressed="false" hidden>Show</button></div>'
+    . password_visibility_button_html('password', 'password') . '</div>'
     . '<p id="password-hint" class="hint">Use a short phrase with 12–72 basic letters, numbers, spaces or symbols.</p></div>'
     . '<div class="access-note"><div><strong>One quick check before you borrow.</strong><p>Show your physical school ID to a librarian to activate your account.</p></div></div>'
     . '<button class="btn submit" type="submit">Create account</button></form>'
