@@ -1,0 +1,71 @@
+/* Shared interaction rhythm. Presentation only; native actions never wait for motion. */
+:root {
+    --motion-press: 120ms;
+    --motion-feedback: 160ms;
+    --motion-selection: 180ms;
+    --motion-ease: cubic-bezier(.16, 1, .3, 1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    /* Icon controls retain their own eye/sun/moon animation and geometry. */
+    :is(button, .button, .btn):not(.theme-toggle):not(.password-toggle) {
+        transition: background-color var(--motion-feedback) ease,
+                    border-color var(--motion-feedback) ease,
+                    color var(--motion-feedback) ease,
+                    transform var(--motion-press) var(--motion-ease);
+    }
+    :is(button, .button, .btn):not(.theme-toggle):not(.password-toggle):not(:disabled):not([aria-disabled=true]):active {
+        transform: scale(.985);
+    }
+    :is(input:not([type=checkbox]):not([type=radio]), select, textarea) {
+        transition: border-color var(--motion-feedback) ease,
+                    background-color var(--motion-feedback) ease;
+    }
+    :is(.header-nav a, .account-tabs a, .workspace-record > summary,
+        .managed-catalog-record, .staff-stat, .count-card, .editor-section > summary) {
+        transition: background-color var(--motion-feedback) ease,
+                    border-color var(--motion-feedback) ease,
+                    color var(--motion-feedback) ease;
+    }
+    /* Keep the accepted public-entry composition, with a shorter arrival and no wait. */
+    .entry-page :is(.enter, .enter-later, .reading-slip) {
+        animation-duration: 240ms;
+        animation-delay: 0s;
+    }
+    .entry-page .hero-photo img { animation-duration: 420ms; }
+    /* Entry pages already have their own composition. No repeated card stagger. */
+    body:not(.entry-page) #main-content > :is(.panel, .dashboard, .about-page),
+    :is(.flash, .field-error),
+    :is(.help, .editor-section, .catalog-more-filters)[open] > :not(summary) {
+        animation: interaction-arrive var(--motion-feedback) ease-out;
+    }
+    #navigation-drawer[open]::backdrop {
+        animation: interaction-arrive var(--motion-feedback) ease-out;
+    }
+}
+
+/* Hover feedback only on devices with a real hover pointer; no sticky touch lift. */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+    .workspace-record:not([open]) > summary:hover,
+    .managed-catalog-record:not(.is-selected):has(.managed-select:hover) {
+        background-color: var(--soft);
+    }
+    .book-card .book-cover { transition: border-color var(--motion-feedback) ease; }
+    .book-card:focus-within .book-cover { border-color: var(--focus); }
+}
+
+@keyframes interaction-arrive {
+    from { opacity: .72; }
+    to { opacity: 1; }
+}
+
+/* Focus rings are always immediate. No scroll interception, loops or delayed controls. */
+@media (prefers-reduced-motion: reduce) {
+    :is(button, .button, .btn, input, select, textarea, summary, .header-nav a,
+        .managed-catalog-record, .staff-stat, .count-card, .book-cover) {
+        transition: none !important;
+    }
+}
+@media print {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+}

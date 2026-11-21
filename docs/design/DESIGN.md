@@ -150,3 +150,17 @@ Evidence: verification/NAVIGATION_DRAWER_2026-11-15.md. Next: user phone/tablet/
 ## Password visibility and recovery copy - 2026-11-21
 
 views/auth_entry.php owns password_visibility_button_html(); entry.js controls only the associated field type and state-specific accessible label/title/aria-pressed. No field values are stored, logged, cloned or submitted by the toggle. entry.css owns a 44px icon target with short eyelid/iris opacity/transform transitions under no-preference motion only. Hidden password fields show a closed eye; revealed fields an open eye. All three recovery fields remain independent; no-JS controls stay hidden and forms remain usable. Login/registration/reset controllers retain their POST/CSRF/validation/service logic. Reset labels and small hints explain staff-issued code, exact private paste, 30-minute single use and unchanged access status; extra help is native collapsed details. The 12-72 byte server rule is unchanged; the guidance recommends basic characters so users need not understand byte encodings. Existing header theme/navigation/pagination owners are unchanged.
+
+
+## Shared interaction motion - 2026-11-21
+
+Approved register: subtle/professional task feedback. public/assets/motion.css owns --motion-press120ms, --motion-feedback160ms, --motion-selection180ms and --motion-ease cubic-bezier(.16,1,.3,1); it loads after the existing component styles through views/layout.php. Existing entry arrivals use240ms/no delay and the hero photo420ms. Focus outlines, form actions and native navigation are never delayed. Pagination is excluded. No looping, scroll reveal, height animation, broad transition:all, third-party dependency or new state persistence.
+
+workspace.js remains the record-selection owner. Only a deliberate changed selection with focus gets a bounded180ms opacity/4px horizontal handoff. Previous motion is cancelled before every selection, on reduced-motion changes and pagehide. Missing animate() simply skips the effect; no animation is required for original forms or no-script fallback. Initial selection and error-link reveal do not animate. The stylesheet's nonessential effects require prefers-reduced-motion:no-preference; hover effects additionally require a fine hover pointer. Existing theme, eye and drawer animations retain their owners. No business, validation, POST, CSRF or focus semantics change.
+
+Evidence: verification/MOTION_REFINEMENT_2026-11-21.md and verification/motion-2026-11-21/. A source-hash inventory records the exact tested runtime and test files. Physical-device/assistive-technology and hardware-performance limits are recorded in the report.
+
+
+## About developer card - 2026-11-21
+
+Approved identity hierarchy is owned by views/about.php and scoped workspace.css rules: section heading,96px portrait beside name/role/course, concise project contribution, labelled native Email/GitHub actions, and visible email address. At540px and below the identity grid stacks; wrapped actions remain at least44px tall. Use existing semantic palette/focus/motion; keep all other About information unchanged. The repository destination is the configured maintained public project URL. Do not invent qualifications, responsibilities, adviser credits or academic dates. No extra technical-stack section or new fields are introduced. No JS or backend change is required. Evidence: verification/DEVELOPER_CARD_2026-11-21.md.

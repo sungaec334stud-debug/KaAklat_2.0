@@ -1,0 +1,17 @@
+{
+  "layouts": 120,
+  "selections": 6,
+  "runtimeErrors": 0,
+  "checks": [
+    "button press",
+    "finite record handoff",
+    "rapid interruption",
+    "immediate keyboard/error focus",
+    "native disclosures",
+    "reduced motion including mid-animation change",
+    "missing WAAPI fallback",
+    "no-JS forms",
+    "pagination excluded"
+  ],
+  "limitations": "Chromium emulation; physical devices, Safari, screen readers and actual 400% zoom remain manual."
+}

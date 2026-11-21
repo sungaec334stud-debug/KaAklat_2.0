@@ -32,8 +32,18 @@
     records[0].before(layout);
     const entries = [];
     let selected = null;
+    const motion = window.matchMedia('(prefers-reduced-motion: no-preference)');
+    let selectionAnimation = null;
+    function stopSelectionMotion() {
+        selectionAnimation?.cancel();
+        selectionAnimation = null;
+    }
+    motion.addEventListener('change', stopSelectionMotion);
+    window.addEventListener('pagehide', stopSelectionMotion);
 
     function select(entry, focus = false) {
+        const changed = selected !== entry;
+        stopSelectionMotion();
         if (selected) {
             selected.details.append(selected.record);
             selected.details.open = false;
@@ -51,6 +61,13 @@
         if (heading && focus) {
             heading.tabIndex = -1;
             heading.focus();
+        }
+        // Animate only a deliberate changed selection, never initial/error focus.
+        if (changed && focus && motion.matches && typeof inspector.animate === 'function') {
+            selectionAnimation = inspector.animate(
+                [{opacity: .72, transform: 'translateX(4px)'}, {opacity: 1, transform: 'none'}],
+                {duration: 180, easing: 'cubic-bezier(.16,1,.3,1)'}
+            );
         }
     }
 

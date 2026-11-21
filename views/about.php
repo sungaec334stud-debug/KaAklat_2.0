@@ -37,13 +37,22 @@ function about_html(): string
         </ol>
     </section>
     <section class="panel about-developer" aria-labelledby="about-developer-heading">
-        <img class="developer-photo" src="/assets/emmanuel-sunga.jpg" width="180" height="180" loading="lazy" alt="Emmanuel C. Sunga, developer of KaAklat">
-        <div>
-            <h2 id="about-developer-heading">Meet the developer</h2>
-            <h3>Emmanuel C. Sunga</h3>
-            <p>Third-year Computer Science student at Universidad de Dagupan.</p>
-            <p>Developer of KaAklat.</p>
-            <a href="mailto:emmanuelsunga200527@gmail.com">emmanuelsunga200527@gmail.com</a>
+        <h2 id="about-developer-heading">Meet the developer</h2>
+        <div class="developer-identity">
+            <img class="developer-photo" src="/assets/emmanuel-sunga.jpg" width="96" height="96" loading="lazy" alt="Emmanuel C. Sunga, developer of KaAklat">
+            <div class="developer-details">
+                <h3>Emmanuel C. Sunga</h3>
+                <p class="developer-role">KaAklat developer</p>
+                <p class="developer-study">Third-year Computer Science student at Universidad de Dagupan.</p>
+            </div>
+        </div>
+        <p class="developer-contribution">Created KaAklat as a student-developed library management system to support book discovery, borrowing requests and library workflows.</p>
+        <div class="developer-contact">
+            <div class="developer-links">
+                <a class="button button-secondary" href="mailto:emmanuelsunga200527@gmail.com">Email Emmanuel</a>
+                <a href="https://github.com/sungaec334stud-debug/KaAklat_2.0">View project on GitHub</a>
+            </div>
+            <p class="developer-email">emmanuelsunga200527@gmail.com</p>
         </div>
     </section>
 </article>

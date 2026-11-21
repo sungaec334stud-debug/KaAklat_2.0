@@ -1,0 +1,16 @@
+{
+  "layouts": 30,
+  "runtimeErrors": 0,
+  "checks": [
+    "all five role states",
+    "Light/Dark at320/768/1440px",
+    "portrait row/phone stack",
+    "44px real contact links",
+    "keyboard focus order",
+    "email and school/course facts retained",
+    "six borrowing steps and disclaimer retained",
+    "reduced motion",
+    "no-script content"
+  ],
+  "limitations": "Chromium emulation only; physical devices, Safari, screen readers and actual400% zoom remain manual."
+}

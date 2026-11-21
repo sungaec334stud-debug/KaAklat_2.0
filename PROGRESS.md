@@ -1,5 +1,19 @@
 # KaAklat progress
 
+## About developer card - 2026-11-21
+
+Refined the approved About developer card: portrait/name/role/course grouped in a responsive identity row, stacked on narrow phones; concise existing-project contribution; labelled44px Email Emmanuel and View project on GitHub links; original email address remains visible. No new qualifications, research credits or specific responsibilities were invented. All school, demonstration and six-step borrowing content outside the card remains byte-identical. Existing photo, themes, focus, no-script and motion behavior retained. Only views/about.php, its scoped workspace.css styles and the workspace CSS cache version in views/layout.php change at runtime.
+
+Verified with36 regression scripts in an isolated fictional database; changed PHP lint; strict design audit with zero findings;30 Chromium layouts across guest/active/pending/librarian/administrator, Light/Dark and320/768/1440px. Tests cover portrait row/phone stack, wrapping,44px native links, true destinations, keyboard focus order, facts/borrowing preservation, reduced motion and no-JS. Zero runtime exceptions. Desktop and phone captures visually inspected. Backend/schema/operator and prior motion sources unchanged. Pilot preservation and final transfer are recorded in verification/DEVELOPER_CARD_2026-11-21.md. Physical devices, Safari, screen-reader and actual400% zoom remain manual. No commit/push.
+
+
+## Subtle interaction motion - 2026-11-21
+
+Implemented the approved subtle/professional animation refinement using one shared motion.css loaded by views/layout.php. Buttons have120ms press feedback; navigation/status tabs, fields and selected rows use160ms state transitions. Routine pages, feedback and native disclosures use brief opacity-only arrivals; existing entry composition is shortened to240ms with no delay (photo420ms). Existing eye/theme/drawer effects remain. Workspace explicit changed-record selection uses a180ms native animation, cancels previous motion on rapid selection, preference change or pagehide, and keeps immediate DOM moves/focus. No library, fake loading, delayed submission, scroll interception or content gating. Reduced-motion and no-JS fallback remain; pagination design and backend are unchanged.
+
+Verified on isolated fictional fixtures:36 regressions,458 HTTP assertions,19 theme and17 eye controller checks,129 PHP lints and22 JS syntax checks. Motion browser120 route/theme/viewport combinations and6 keyboard selection cases; existing78 workspace layouts/30 interactions,64 entry combinations,25 header layouts/50 toggles,18 eye layouts/30 field cases,56 navigation layouts/26 routes and10 catalog-alignment cases. Zero browser exceptions and zero strict design-audit findings. Pilot row/schema/covers/config fingerprints remain exact. Physical devices, Safari, screen readers, actual400% zoom and hardware frame-rate measurements remain manual. See verification/MOTION_REFINEMENT_2026-11-21.md. No commit or push; hosting deferred.
+
+
 ## Animated password eye and plain recovery guidance - 2026-11-21
 
 Replaced visible Show/Hide text with one shared 44px animated eye on login, registration and all three recovery fields. Each field starts masked and changes independently; accurate Show/Hide accessible labels, aria-pressed, Enter/Space, no-script masking and reduced-motion support retained. Recovery now labels the private secret as a code, uses a concise basic-character passphrase hint instead of UTF-8 byte jargon, and offers collapsed help to obtain/renew a code. Existing password byte validator, POST fields, CSRF, 30-minute/single-use recovery, status and session safeguards are unchanged. The uncommitted animated header implementation is preserved.

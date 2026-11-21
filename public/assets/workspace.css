@@ -268,11 +268,19 @@
 .workspace-screen .about-school h2, .workspace-screen .about-borrowing h2 { font-size: 1.3rem; }
 .workspace-screen .about-school h3 { font-size: 1rem; margin-top: 24px; }
 .workspace-screen .about-school p { font-size: .875rem; }
-.workspace-screen .about-developer { grid-column: 2; grid-row: 2; align-self: start; padding: 24px; border-radius: 9px; margin: 0; display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
-.workspace-screen .about-developer .developer-photo { width: 100px; height: 100px; flex-basis: 100px; }
-.workspace-screen .about-developer h2 { font-size: 1.15rem; }
-.workspace-screen .about-developer h3 { font-size: 1rem; }
+.workspace-screen .about-developer { grid-column: 2; grid-row: 2; align-self: start; padding: 24px; border-radius: 9px; margin: 0; display: block; }
+.workspace-screen .about-developer .developer-identity { display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; gap: 18px; }
+.workspace-screen .about-developer .developer-photo { width: 96px; height: 96px; }
+.workspace-screen .about-developer h2 { font-size: 1.1rem; margin: 0 0 20px; }
+.workspace-screen .about-developer h3 { font-size: 1.2rem; line-height: 1.35; margin: 0; overflow-wrap: anywhere; }
 .workspace-screen .about-developer p, .workspace-screen .about-developer a { font-size: .875rem; overflow-wrap: anywhere; }
+.workspace-screen .about-developer .developer-role { margin: 5px 0 8px; color: var(--link); font-weight: 600; }
+.workspace-screen .about-developer .developer-study { margin: 0; color: var(--muted); line-height: 1.6; }
+.workspace-screen .about-developer .developer-contribution { margin: 20px 0; line-height: 1.7; }
+.workspace-screen .about-developer .developer-contact { padding-top: 14px; border-top: 1px solid var(--line); }
+.workspace-screen .about-developer .developer-links { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; }
+.workspace-screen .about-developer .developer-links a { display: inline-flex; align-items: center; min-height: 44px; margin: 0; }
+.workspace-screen .about-developer .developer-email { margin: 10px 0 0; font-size: .8rem; color: var(--muted); }
 .workspace-screen .about-borrowing { grid-column: 1/-1; margin: 0; padding: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 9px; }
 .workspace-screen .about-borrowing > p, .workspace-screen .about-steps p { font-size: .875rem; }
 .workspace-screen .about-steps { gap: 12px 30px; padding-left: 24px; }
@@ -283,7 +291,6 @@
     .managed-workspace { grid-template-columns: minmax(0,1fr) minmax(300px,1fr); }
     .workspace-screen .about-page { grid-template-columns: minmax(0,1fr); }
     .workspace-screen .about-school, .workspace-screen .about-developer, .workspace-screen .about-borrowing { grid-column: 1; grid-row: auto; }
-    .workspace-screen .about-developer { flex-direction: row; }
 }
 @media (max-width:900px) {
     .managed-workspace { grid-template-columns: minmax(0,1fr); }
@@ -296,7 +303,7 @@
 @media (max-width:540px) {
     .workspace-inspector, .managed-editor { padding: 18px; }
     .workspace-screen .profile-account, .workspace-screen .recovery-form, .workspace-screen .about-borrowing, .workspace-screen .about-school, .workspace-screen .about-developer { padding: 20px; }
-    .workspace-screen .about-developer { flex-direction: column; }
+    .workspace-screen .about-developer .developer-identity { grid-template-columns: minmax(0, 1fr); gap: 12px; }
     .workspace-screen .profile-details > div { gap: 5px; }
     .workspace-screen .account-tabs ul { gap: 6px; }
     .workspace-screen .account-tabs a { font-size: .75rem; padding: 10px 11px; }

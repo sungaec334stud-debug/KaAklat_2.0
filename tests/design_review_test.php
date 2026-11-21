@@ -21,6 +21,10 @@ foreach (['Arellano Street', 'Pantal', 'Mission and vision', 'Competence, Unity,
     design_check(str_contains($about, $fact), 'About information retained: ' . $fact);
 }
 design_check(substr_count($about, '<li>') === 6, 'All six borrowing steps retained');
+design_check(str_contains($about, 'class="developer-identity"') && str_contains($about, 'KaAklat developer'), 'Developer identity and role grouped with portrait');
+design_check(str_contains($about, '>Email Emmanuel</a>') && str_contains($about, '>View project on GitHub</a>'), 'Developer actions have meaningful visible labels');
+design_check(str_contains($about, 'href="https://github.com/sungaec334stud-debug/KaAklat_2.0"'), 'Developer project points to the maintained repository');
+design_check(str_contains($about, 'Created KaAklat as a student-developed library management system'), 'Developer contribution describes the existing project');
 design_check(audit_event_label('student.activate') === 'Student account activated', 'Readable event label');
 design_check(audit_event_label('unrecognized.event') === 'Recorded activity', 'Unknown codes never invent a decision');
 design_check(!str_contains(audit_event_label('<script>'), '<script>'), 'Unknown event cannot inject markup');
