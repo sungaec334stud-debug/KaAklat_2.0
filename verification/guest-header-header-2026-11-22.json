@@ -1,0 +1,1458 @@
+{
+  "layouts": 160,
+  "runtimeErrors": 0,
+  "measurements": [
+    {
+      "theme": "light",
+      "width": 320,
+      "route": "/login.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 248,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "route": "/register.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 248,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "route": "/reset_password.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 248,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "route": "/about.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 248,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "route": "/",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 248,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 375,
+      "route": "/login.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 303,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 375,
+      "route": "/register.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 303,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 375,
+      "route": "/reset_password.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 303,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 375,
+      "route": "/about.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 303,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 375,
+      "route": "/",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 303,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "route": "/login.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 318,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "route": "/register.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 318,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "route": "/reset_password.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 318,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "route": "/about.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 318,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "route": "/",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 318,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 450,
+      "route": "/login.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 378,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 450,
+      "route": "/register.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 378,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 450,
+      "route": "/reset_password.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 378,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 450,
+      "route": "/about.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 378,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 450,
+      "route": "/",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 378,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 540,
+      "route": "/login.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 468,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 540,
+      "route": "/register.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 468,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 540,
+      "route": "/reset_password.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 468,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 540,
+      "route": "/about.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 468,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 540,
+      "route": "/",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 468,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 760,
+      "route": "/login.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 688,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 760,
+      "route": "/register.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 688,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 760,
+      "route": "/reset_password.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 688,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 760,
+      "route": "/about.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 688,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 760,
+      "route": "/",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 688,
+      "navY": 70
+    },
+    {
+      "theme": "light",
+      "width": 761,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 683,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 761,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 683,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 761,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 683,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 761,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 683,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 761,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 683,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 690,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 690,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 690,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 690,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 690,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 820,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 742,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 820,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 742,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 820,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 742,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 820,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 742,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 820,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 742,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 946,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 946,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 946,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 946,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 946,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1050,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 972,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1050,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 972,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1050,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 972,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1050,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 972,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1050,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 972,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1051,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 957,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1051,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 957,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1051,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 957,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1051,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 957,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1051,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 957,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1100,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1006,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1100,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1006,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1100,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1006,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1100,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1006,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1100,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1006,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1280,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1186,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1280,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1186,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1280,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1186,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1280,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1186,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1280,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1186,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 95,
+      "themeX": 1291,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 95,
+      "themeX": 1291,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 95,
+      "themeX": 1291,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 95,
+      "themeX": 1291,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 95,
+      "themeX": 1291,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 335,
+      "themeX": 1531,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 335,
+      "themeX": 1531,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 335,
+      "themeX": 1531,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 335,
+      "themeX": 1531,
+      "navY": 24
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 335,
+      "themeX": 1531,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "route": "/login.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 248,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "route": "/register.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 248,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "route": "/reset_password.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 248,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "route": "/about.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 248,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "route": "/",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 248,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 375,
+      "route": "/login.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 303,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 375,
+      "route": "/register.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 303,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 375,
+      "route": "/reset_password.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 303,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 375,
+      "route": "/about.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 303,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 375,
+      "route": "/",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 303,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "route": "/login.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 318,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "route": "/register.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 318,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "route": "/reset_password.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 318,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "route": "/about.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 318,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "route": "/",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 318,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 450,
+      "route": "/login.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 378,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 450,
+      "route": "/register.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 378,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 450,
+      "route": "/reset_password.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 378,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 450,
+      "route": "/about.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 378,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 450,
+      "route": "/",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 378,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 540,
+      "route": "/login.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 468,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 540,
+      "route": "/register.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 468,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 540,
+      "route": "/reset_password.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 468,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 540,
+      "route": "/about.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 468,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 540,
+      "route": "/",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 468,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 760,
+      "route": "/login.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 688,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 760,
+      "route": "/register.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 688,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 760,
+      "route": "/reset_password.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 688,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 760,
+      "route": "/about.php",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 688,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 760,
+      "route": "/",
+      "headerHeight": 129,
+      "brandX": 18,
+      "themeX": 688,
+      "navY": 70
+    },
+    {
+      "theme": "dark",
+      "width": 761,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 683,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 761,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 683,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 761,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 683,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 761,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 683,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 761,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 683,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 690,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 690,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 690,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 690,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 690,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 820,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 742,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 820,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 742,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 820,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 742,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 820,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 742,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 820,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 742,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 946,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 946,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 946,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 946,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 946,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1050,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 972,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1050,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 972,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1050,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 972,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1050,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 972,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1050,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 24,
+      "themeX": 972,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1051,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 957,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1051,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 957,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1051,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 957,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1051,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 957,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1051,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 957,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1100,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1006,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1100,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1006,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1100,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1006,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1100,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1006,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1100,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1006,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1280,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1186,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1280,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1186,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1280,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1186,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1280,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1186,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1280,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 40,
+      "themeX": 1186,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 95,
+      "themeX": 1291,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 95,
+      "themeX": 1291,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 95,
+      "themeX": 1291,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 95,
+      "themeX": 1291,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 95,
+      "themeX": 1291,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "route": "/login.php",
+      "headerHeight": 93,
+      "brandX": 335,
+      "themeX": 1531,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "route": "/register.php",
+      "headerHeight": 93,
+      "brandX": 335,
+      "themeX": 1531,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "route": "/reset_password.php",
+      "headerHeight": 93,
+      "brandX": 335,
+      "themeX": 1531,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "route": "/about.php",
+      "headerHeight": 93,
+      "brandX": 335,
+      "themeX": 1531,
+      "navY": 24
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "route": "/",
+      "headerHeight": 93,
+      "brandX": 335,
+      "themeX": 1531,
+      "navY": 24
+    }
+  ],
+  "checks": [
+    "five public routes have matching header geometry and typography",
+    "sixteen widths including375 and breakpoint boundaries",
+    "Light/Dark",
+    "consistent university visibility",
+    "44px controls",
+    "left brand/right theme on phones",
+    "native keyboard order",
+    "reduced motion",
+    "no-script parity"
+  ],
+  "limitations": "Chromium emulation only; physical devices, Safari, screen readers and actual400% zoom remain manual."
+}

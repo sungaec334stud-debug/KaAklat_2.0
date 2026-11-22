@@ -87,7 +87,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
     $entryAssets = '';
     if ($landing || in_array($path, ['/login.php', '/register.php', '/reset_password.php'], true)) {
         $bodyClass .= ' entry-page';
-        $entryAssets = '<link rel="stylesheet" href="/assets/entry.css?v=20261122-help"><script src="/assets/entry.js?v=20261122-help" defer></script>';
+        $entryAssets = '<link rel="stylesheet" href="/assets/entry.css?v=20261122-header-parity"><script src="/assets/entry.js?v=20261122-help" defer></script>';
     }
     $workspaceRoutes = ['/staff.php', '/students.php', '/audit.php', '/recover_account.php',
         '/about.php', '/logout.php', '/review_requests.php', '/pickups.php', '/returns.php',
@@ -107,7 +107,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
     <title>{$safeTitle} | {$appName}</title>
     <link rel="icon" href="/assets/kaaklat-logo.svg" type="image/svg+xml">
     <script src="/assets/theme.js?v=20261121-header"></script>
-    <link rel="stylesheet" href="/assets/app.css?v=20261122-guest-nav">
+    <link rel="stylesheet" href="/assets/app.css?v=20261122-header-parity">
     {$workspaceAssets}
     {$entryAssets}
     {$navigationAssets}

@@ -591,3 +591,10 @@ User screenshots showed large gaps left by the previous formatting pass. Created
 
 ### Hierarchical TOC formatting — 2026-11-13
 Created output/documents/KaAklat_Chapters_1_2_3_Styled_TOC.docx. TOC1 bold major chapter/reference/appendix rows with group spacing; TOC2 indented regular subheading rows; retained linked page-reference fields and refreshed in Word.47 pages. Exact document text/media unchanged; non-TOC page text unchanged; all internal links resolve. TOC rendered and visually verified. Initial whole-PDF-text comparison differed because dot leaders changed; corrected comparison excludes styled TOC and checks exact OOXML text instead. No application tests. Prior copy preserved.
+
+
+## Consistent public headers - 2026-11-22
+
+Unified Welcome, Login, Registration, Password recovery and guest About headers in public/assets/app.css. Removed conflicting entry.css header overrides. Desktop branding, university label, navigation and theme control now share dimensions; phones use left branding/right theme above centered links. The university header label is consistently hidden at 1050px and below; page content remains intact. Authenticated navigation, theme logic, native page transitions and database code are unchanged.
+
+Verification: 160 header layouts across five routes, sixteen widths (320–1920px) and both themes; 25 theme layouts/50 toggles; 18 actual document transitions; 64 entry combinations and four fixture role sign-ins. PHP lint, JavaScript syntax and strict design audit pass. Browser checks use isolated fictional fixtures, not pilot accounts. Physical devices, Safari, screen readers and actual 400% zoom were not rerun. Evidence: verification/GUEST_HEADER_PARITY_2026-11-22.md. No commit or push.

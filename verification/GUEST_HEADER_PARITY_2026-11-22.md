@@ -1,0 +1,7 @@
+# Public header consistency verification — 2026-11-22
+
+The same shared layout was receiving different styles: entry.css overrode header sizing and mobile university visibility on entry routes, while guest About loaded only the base styles. A browser comparison reproduced a 40px height mismatch at 320px before the fix. All guest header styling now has one owner in app.css. The layout changes only stylesheet cache versions; authentication, content, navigation JavaScript and database logic remain unchanged.
+
+Passed: 160 cross-route header comparisons (five routes × sixteen widths × Light/Dark), including 375px and breakpoint boundaries; 44px controls, overflow, keyboard order/focus, reduced motion and no-JavaScript parity. Header/theme checks passed 25 layouts/50 toggles. Native page navigation passed 18 actual transitions. Entry checks passed 64 combinations plus four role sign-ins. The older entry test needed document-load synchronization before reading computed sidebar styles; the runtime sidebar required no change. Layout PHP lint, test syntax and strict static design audit passed (zero findings). Mobile and desktop header screenshots were visually inspected.
+
+Fixtures, credentials, browser profiles, screenshots and raw logs remain outside the project. Sanitized reports accompany this document. Chromium emulation is not physical-device, Safari, screen-reader or actual 400% zoom acceptance. No hosting, schema, pilot database, commit or push operation is included.

@@ -1178,3 +1178,12 @@ User supplied a short MP4 showing Forgot your password repeatedly expanding/coll
 ## 2026-11-22 - Sliding public tabs and natural page transitions
 
 User supplied a13.88s clip switching public header tabs and asked for sliding click feedback and smooth, natural page transitions with a little loading feedback but no slowness. Identified full document replacement as the cut. Added guest-only native cross-document crossfades, a sliding current-tab marker and an actual-pending indicator with no artificial wait. Core PHP routes/forms remain native. Final tests/review and progressive-enhancement/manual-device limits are in verification/PUBLIC_PAGE_NAVIGATION_2026-11-22.md. Earlier pending timezone/header/help fixes preserved. No commit/push.
+
+User request: "can we fix the header inconsistencies in all these views" (Login, Registration and About, desktop and phone screenshots).
+
+
+## Consistent public headers - 2026-11-22
+
+Unified Welcome, Login, Registration, Password recovery and guest About headers in public/assets/app.css. Removed conflicting entry.css header overrides. Desktop branding, university label, navigation and theme control now share dimensions; phones use left branding/right theme above centered links. The university header label is consistently hidden at 1050px and below; page content remains intact. Authenticated navigation, theme logic, native page transitions and database code are unchanged.
+
+Verification: 160 header layouts across five routes, sixteen widths (320–1920px) and both themes; 25 theme layouts/50 toggles; 18 actual document transitions; 64 entry combinations and four fixture role sign-ins. PHP lint, JavaScript syntax and strict design audit pass. Browser checks use isolated fictional fixtures, not pilot accounts. Physical devices, Safari, screen readers and actual 400% zoom were not rerun. Evidence: verification/GUEST_HEADER_PARITY_2026-11-22.md. No commit or push.

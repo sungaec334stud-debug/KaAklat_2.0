@@ -632,3 +632,10 @@ Implemented the accepted phone/tablet mockup using the existing server-rendered 
 Verified:36 regression scripts;448 isolated workflow HTTP assertions;133 PHP lints; JS syntax; strict static audit zero findings;56 role/theme/viewport drawer layouts and30 real route navigations;64 existing entry-page browser combinations. Browser suites reported zero runtime exceptions. Active/pending student, librarian and administrator checked at320/360/768/1024/1099/1100/1440px; keyboard dismissal/wrapping, unsent-input retention, desktop transitions, short-height final-link access, reduced motion and JS-disabled fallback passed. Pilot rows/schema/covers/config match fresh before/after fingerprints. No schema/services/transactions/audit changes or pilot test accounts. Physical-device/Safari/screen-reader and actual400% browser-zoom acceptance for this new drawer remain manual. No commit/push; hosting deferred.
 
 Evidence: verification/NAVIGATION_DRAWER_2026-11-15.md. Next: user phone/tablet/keyboard review, then continue local finalization/evaluation rather than optional features.
+
+
+## Consistent public headers - 2026-11-22
+
+Unified Welcome, Login, Registration, Password recovery and guest About headers in public/assets/app.css. Removed conflicting entry.css header overrides. Desktop branding, university label, navigation and theme control now share dimensions; phones use left branding/right theme above centered links. The university header label is consistently hidden at 1050px and below; page content remains intact. Authenticated navigation, theme logic, native page transitions and database code are unchanged.
+
+Verification: 160 header layouts across five routes, sixteen widths (320–1920px) and both themes; 25 theme layouts/50 toggles; 18 actual document transitions; 64 entry combinations and four fixture role sign-ins. PHP lint, JavaScript syntax and strict design audit pass. Browser checks use isolated fictional fixtures, not pilot accounts. Physical devices, Safari, screen readers and actual 400% zoom were not rerun. Evidence: verification/GUEST_HEADER_PARITY_2026-11-22.md. No commit or push.
