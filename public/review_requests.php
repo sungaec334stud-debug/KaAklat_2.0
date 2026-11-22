@@ -67,7 +67,7 @@ try {
         $content .= '<article class="management-section"><header class="circulation-heading">' . circulation_cover_html($row) . '<h2>' . h($row['title']) . '</h2></header>'
             . '<p><strong>' . h($row['student_name']) . '</strong> (' . h($row['username']) . ') · ' . h(ucfirst($row['account_status'])) . '</p>'
             . '<p>' . h($eligibility) . ' Approved pickups and active loans: ' . h($row['live_allowance']) . '/5. Available copies: ' . h($row['available_copies']) . '.</p>'
-            . '<p>Requested duration: <strong>' . h($row['requested_days']) . ' days</strong><br>Submitted ' . h($submitted) . ' (Manila)</p>'
+            . '<p>Requested duration: <strong>' . h($row['requested_days']) . ' days</strong><br>Submitted ' . h($submitted) . '</p>'
             . '<p class="book-description">' . nl2br(h($row['request_reason'])) . '</p>'
             . '<form method="post" novalidate><input type="hidden" name="request_id" value="' . h($id) . '">'
             . '<input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '">'

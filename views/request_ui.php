@@ -71,23 +71,23 @@ function request_history_row_html(array $row, bool $activeStudent): string
         . '</span><span class="request-row-copy"><span class="request-row-title"><strong>' . h($row['title'])
         . '</strong><span class="status-badge status-' . h(str_replace(' ', '-', $state)) . '">' . h(request_status_label($state))
         . '</span></span><span class="request-key-date' . ($state === 'overdue' ? ' request-key-overdue' : '') . '">'
-        . h($keyDate) . ($state === 'cancelled' && $cancelled === '' ? '' : ' (Manila)') . '</span></span>'
+        . h($keyDate) . '</span></span>'
         . '<span class="request-row-toggle"><span class="request-show">View details</span><span class="request-hide">Hide details</span></span>'
         . '</summary><div class="request-row-detail">' . request_progress_html($state)
-        . '<p>Requested ' . h($row['requested_days']) . ' days · Submitted ' . h($submitted) . ' (Manila)</p>';
+        . '<p>Requested ' . h($row['requested_days']) . ' days · Submitted ' . h($submitted) . '</p>';
 
     if ($row['decision'] === 'approved') {
-        $html .= '<p>Approved duration: <strong>' . h($row['approved_days']) . ' days</strong><br>Pickup deadline: ' . h($pickupDeadline) . ' (Manila)</p>';
+        $html .= '<p>Approved duration: <strong>' . h($row['approved_days']) . ' days</strong><br>Pickup deadline: ' . h($pickupDeadline) . '</p>';
         if ($state === 'awaiting pickup') {
             $html .= '<p>Your copy is held until the pickup deadline. Your borrowing period has not started.</p>';
         }
     }
     if ($row['checked_out_at'] !== null) {
-        $html .= '<p>Picked up: ' . h(request_history_time($row['checked_out_at'])) . ' (Manila)<br>Due date: <strong>'
-            . h($due) . '</strong> (Manila; the entire due date is allowed)</p>';
+        $html .= '<p>Picked up: ' . h(request_history_time($row['checked_out_at'])) . '<br>Due date: <strong>'
+            . h($due) . '</strong> (the entire due date is allowed)</p>';
     }
     if ($returned !== '') {
-        $html .= '<p><strong>Returned:</strong> ' . h($returned) . ' (Manila). This loan is complete.</p>';
+        $html .= '<p><strong>Returned:</strong> ' . h($returned) . '. This loan is complete.</p>';
     }
     $html .= '<p><strong>Original borrowing reason:</strong><br>' . nl2br(h($row['request_reason'])) . '</p>';
     if (in_array($row['decision'], ['approved', 'rejected'], true) && $row['decision_note'] !== null && $row['decision_note'] !== '') {
@@ -96,7 +96,7 @@ function request_history_row_html(array $row, bool $activeStudent): string
     if ($cancelled !== '') {
         $label = $row['cancellation_kind'] === 'expired' ? 'Expiry recorded'
             : 'Cancelled by ' . ($row['cancellation_kind'] === 'student' ? 'you' : 'a librarian');
-        $html .= '<p>' . h($label) . ': ' . h($cancelled) . ' (Manila)</p>';
+        $html .= '<p>' . h($label) . ': ' . h($cancelled) . '</p>';
         if ($row['cancellation_note'] !== null) {
             $html .= '<p><strong>Cancellation explanation:</strong> ' . nl2br(h($row['cancellation_note'])) . '</p>';
         }

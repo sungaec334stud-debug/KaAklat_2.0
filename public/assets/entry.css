@@ -117,6 +117,7 @@
 .entry-page .help summary{font-weight:600;color:var(--link);min-height:44px;align-content:center}
 .entry-page .help p{margin:6px 0 12px;color:var(--muted);font-size:13px}
 .entry-page .help a{display:inline-flex;align-items:center;min-height:36px}
+.entry-page .help-content{display:flow-root}
 .entry-page .form-message{padding:13px 15px;background:var(--soft);border:1px solid var(--line);border-radius:5px;font-size:14px;margin:19px 0}
 .entry-page .form-message.error{background:var(--danger-bg);border-color:var(--danger);color:var(--danger)}
 .entry-page .form-message ul{margin:5px 0 0;padding-left:19px}

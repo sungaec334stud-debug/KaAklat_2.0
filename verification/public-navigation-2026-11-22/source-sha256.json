@@ -1,0 +1,7 @@
+{
+  "public/assets/page-navigation.css": "78eb38e6ddb36f1bd510a2e57eabcc66e9948811b2cae5e71e578703a28274e6",
+  "public/assets/page-navigation.js": "22c31da17d45b18815a6f11445cb55426eddd511a8cc858fce2d2585b29d3f51",
+  "views/layout.php": "685b1e40ebe6c75ed7cb1135ce82c8bf2ee15830b14bfdbd800a4514b6e6319e",
+  "tests/page_navigation_browser_check.cjs": "400d792094e8c78584938e855770867b6107e96648c6e0b4d6353897b3179109",
+  "tests/page_navigation_test.cjs": "72a593dc96b7f193aeb0e8acab5770487fd8a4c69b4dfbf89c377956e5e43ecf"
+}

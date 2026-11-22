@@ -8,6 +8,7 @@ refinement_assert(str_starts_with(return_success_message('returned',fn()=>throw 
 refinement_assert(str_contains(return_success_message('already_returned',fn()=>false),'already recorded'));
 $row=['request_id'=>8,'checked_out_at'=>'2026-11-01 12:00:00','due_date'=>'2026-11-08','overdue'=>false,'title'=>'<script>Book','student_name'=>'<img>Student','username'=>'fictional','copy_code'=>'A"8'];
 $html=return_card_html($row,8,'Receipt <required>',false);
+refinement_assert(str_contains($html,'Nov 1, 2026 8:00 pm') && !str_contains($html,'(Manila'));
 refinement_assert(str_contains($html,'id="receipt-8"') && str_contains($html,'aria-invalid="true"') && str_contains($html,'id="return-8-error"'));
 refinement_assert(!str_contains($html,'<script>Book') && str_contains($html,'&lt;script&gt;Book'));
 refinement_assert(str_contains($html,'Confirm return of &lt;script&gt;Book'));

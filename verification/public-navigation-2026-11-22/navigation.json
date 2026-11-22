@@ -1,0 +1,126 @@
+{
+  "transitions": 18,
+  "runtimeErrors": 0,
+  "samples": [
+    {
+      "theme": "light",
+      "width": 320,
+      "from": "/login.php",
+      "to": "/register.php"
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "from": "/register.php",
+      "to": "/about.php"
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "from": "/about.php",
+      "to": "/login.php"
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "from": "/login.php",
+      "to": "/register.php"
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "from": "/register.php",
+      "to": "/about.php"
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "from": "/about.php",
+      "to": "/login.php"
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "from": "/login.php",
+      "to": "/register.php"
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "from": "/register.php",
+      "to": "/about.php"
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "from": "/about.php",
+      "to": "/login.php"
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "from": "/login.php",
+      "to": "/register.php"
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "from": "/register.php",
+      "to": "/about.php"
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "from": "/about.php",
+      "to": "/login.php"
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "from": "/login.php",
+      "to": "/register.php"
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "from": "/register.php",
+      "to": "/about.php"
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "from": "/about.php",
+      "to": "/login.php"
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "from": "/login.php",
+      "to": "/register.php"
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "from": "/register.php",
+      "to": "/about.php"
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "from": "/about.php",
+      "to": "/login.php"
+    }
+  ],
+  "checks": [
+    "real cross-document transitions",
+    "sliding active marker",
+    "viewport crossfade",
+    "native keyboard navigation",
+    "pending line follows delayed real request",
+    "no artificial navigation wait",
+    "reduced motion",
+    "no-JS forms/links",
+    "transition stylesheet unavailable fallback"
+  ],
+  "limitations": "Chromium emulation only; native cross-document transitions are progressive enhancement; physical devices, Safari, screen readers and actual400% zoom remain manual."
+}

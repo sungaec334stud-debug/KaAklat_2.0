@@ -1,5 +1,33 @@
 ## Staff dashboard parity correction — 2026-11-13
 
+## Public tab and page navigation motion - 2026-11-22
+
+Added guest/public-page navigation continuity for the Log in/Create an account/About tabs shown in the user clip. One decorative aria-hidden active marker slides between native links in220ms; native same-origin document snapshots crossfade in180ms (outgoing120ms). No content scaling/layout morph, artificial navigation delay, AJAX router or form interception. A150ms-delayed indeterminate line is tied to actual eligible page navigation, so fast requests do not flash a loader. Native links/keyboard, destinations, GET/POST, CSRF and browser history remain authoritative. Form submits, modified/download/external/same-document links do not gain pending state or scripted routing. Reduced motion skips nonessential effects and cancels an incoming transition. Unsupported browsers retain native navigation.
+
+Verified using new fictional fixtures:18 actual cross-document transitions at320/768/1440px in Light/Dark, including native marker/root animations, keyboard links, deliberately slow real request, no fake wait, reduced motion, no-JS and missing stylesheet fallback;18 navigation guard unit checks;36 regressions;469 HTTP assertions;64 final entry combinations;25 header layouts/50 toggles and12 prior help-height cases. Zero runtime exceptions; JS/PHP syntax and strict audit pass with zero findings. Independent final review found no actionable issue. All pending header/time/help work preserved; no backend/database change or commit/push.
+
+
+## Smooth entry help expansion and collapse - 2026-11-22
+
+Fixed the abrupt login-card stretch shown in the supplied clip. The native Forgot your password disclosure previously changed layout instantly while only its text faded. entry.js now progressively wraps the help body and animates its measured height over260ms in both directions; the containing card/photo follows normal layout smoothly without scaling text/controls. The same scoped enhancement covers Need a recovery code on the reset page. Repeated clicks reverse from the current height; completion removes the sizing effect. Native summary/links, field values, CSRF and submission behavior remain intact. Reduced-motion uses immediate native toggling; preference changes, resize and pagehide settle active motion. Missing Web Animations support or JavaScript retains native details behavior.
+
+Verified:12 measured route/theme/width cases showing intermediate opening/closing heights, rapid reversals, Enter/Space, unchanged inputs/CSRF/no submission, mid-motion preference change, resize cleanup, long uncapped copy and native fallback;64 existing entry combinations and18 eye layouts/30 field cases;17 eye unit checks; JS syntax, layout PHP lint and strict audit with zero findings. Zero browser exceptions. Independent review found no actionable issue. Backend/controllers, schema, stored data and earlier pending header/time-label work are outside the runtime change. No commit/push.
+
+
+## Guest header alignment - 2026-11-22
+
+Right-aligned the signed-out Log in/Create an account/About navigation beside the existing theme toggle at widths761px and above. One scoped logical auto-margin rule in app.css absorbs the space before the guest navigation instead of distributing it around three header children. The existing phone two-row/wrapping header, all authenticated sidebars/drawers,44px controls, current-page indication and theme animations are preserved. Refreshed the shared CSS cache version in views/layout.php. No routes, form behavior, JavaScript, backend or database changes.
+
+Verified on isolated fictional fixtures:25 header role/width layouts and50 theme toggles, including a new measured guest right-alignment assertion;64 entry route/theme/width combinations with keyboard, errors, no-script and four-role sign-in checks. Zero runtime exceptions; layout PHP lint and strict design audit pass with zero findings. Desktop login screenshot visually inspected. Earlier uncommitted timezone-label work is preserved. No commit/push.
+
+
+## Date labels without repeated timezone suffix - 2026-11-22
+
+Removed repeated parenthetical Manila/Manila-time labels from dashboards, request history, pickups, returns, audit rows and student account/profile dates. Retained the full-day due-date guidance and one concise audit-page explanation that times use Philippine time. UTC-to-Asia/Manila conversion, ISO+08:00 values, stored timestamps, due-date/expiry calculations and all business behavior remain unchanged. This is a display-copy change; no JavaScript, CSS, schema or backend service changed.
+
+Verified in the isolated fictional copy:36 regression scripts,469 HTTP assertions (including11 date-label page checks), eight changed runtime PHP lints, existing rollover/time-format assertions, and explicit return/profile checks that dates remain Philippine time without the label. The first HTTP run timed out during a tool-host interruption after304 passes; unchanged rerun completed with469 passes. No application defect was confirmed. No commit/push.
+
+
 ## About developer card - 2026-11-21
 
 Refined the approved About developer card: portrait/name/role/course grouped in a responsive identity row, stacked on narrow phones; concise existing-project contribution; labelled44px Email Emmanuel and View project on GitHub links; original email address remains visible. No new qualifications, research credits or specific responsibilities were invented. All school, demonstration and six-step borrowing content outside the card remains byte-identical. Existing photo, themes, focus, no-script and motion behavior retained. Only views/about.php, its scoped workspace.css styles and the workspace CSS cache version in views/layout.php change at runtime.

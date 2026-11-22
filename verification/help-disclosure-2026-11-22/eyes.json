@@ -1,0 +1,19 @@
+{
+  "layouts": 18,
+  "fieldCases": 30,
+  "runtimeErrors": 0,
+  "checks": [
+    "five independent masked fields across three routes",
+    "44px centered icon controls",
+    "open/close animations and reduced motion",
+    "Enter and Space",
+    "rapid clicks/value preservation",
+    "no accidental submit",
+    "collapsed recovery help",
+    "plain accurate password/code directions",
+    "no-script submission available",
+    "mismatch errors and secret non-echo"
+  ],
+  "database": "kaaklat_acceptance_c187659f8ce4",
+  "limitations": "Chromium emulation; physical-device, Safari, actual400% zoom and screen-reader acceptance remain manual."
+}

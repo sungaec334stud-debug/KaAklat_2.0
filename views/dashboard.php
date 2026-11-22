@@ -43,7 +43,7 @@ function dashboard_preview_html(string $role, array $preview): string
             $pickup = $loan['due_date'] === null;
             $deadline = $pickup ? dashboard_manila_time($loan['deadline_utc'])
                 : (new DateTimeImmutable($loan['due_date'], new DateTimeZone('Asia/Manila')))->format('M j, Y');
-            $rows[] = [$loan['title'], $deadline . ' (Manila)', $pickup ? 'Pick up by' : 'Return by'];
+            $rows[] = [$loan['title'], $deadline, $pickup ? 'Pick up by' : 'Return by'];
             $overdue = !$pickup && $loan['due_date'] < (new DateTimeImmutable('today', new DateTimeZone('Asia/Manila')))->format('Y-m-d');
             $filter = $pickup ? 'awaiting_pickup' : ($overdue ? 'overdue' : 'active');
             $links = [['/requests.php?status=' . $filter, 'View my requests']];
@@ -54,10 +54,10 @@ function dashboard_preview_html(string $role, array $preview): string
         $empty = 'No requests to review or pickups awaiting collection.';
         $links = [['/review_requests.php', 'Review requests'], ['/pickups.php', 'Open pickups']];
         foreach ($preview['pending'] as $request) {
-            $rows[] = [$request['title'], $request['student_name'] . ' · ' . dashboard_manila_time($request['event_time']) . ' (Manila)', 'Pending review', circulation_cover_html($request)];
+            $rows[] = [$request['title'], $request['student_name'] . ' · ' . dashboard_manila_time($request['event_time']), 'Pending review', circulation_cover_html($request)];
         }
         foreach ($preview['pickups'] as $pickup) {
-            $rows[] = [$pickup['title'], $pickup['student_name'] . ' · ' . dashboard_manila_time($pickup['event_time']) . ' (Manila)', 'Pickup deadline', circulation_cover_html($pickup)];
+            $rows[] = [$pickup['title'], $pickup['student_name'] . ' · ' . dashboard_manila_time($pickup['event_time']), 'Pickup deadline', circulation_cover_html($pickup)];
         }
     } else {
         $heading = 'Recent activity';
@@ -71,7 +71,7 @@ function dashboard_preview_html(string $role, array $preview): string
         ];
         foreach ($preview as $event) {
             $rows[] = [$labels[$event['event_code']], 'By ' . ($event['actor_username'] ?? 'system / local operator'),
-                dashboard_manila_time($event['occurred_at']) . ' (Manila)'];
+                dashboard_manila_time($event['occurred_at'])];
         }
     }
 
@@ -138,7 +138,7 @@ function dashboard_account_panel_html(string $role, array $panels): string
             $student = $panels['students'][0];
             $html .= '<div class="staff-person">' . dashboard_avatar_html($student['display_name'])
                 . '<div><h3>' . h($student['display_name']) . '</h3><p>' . h($student['username'])
-                . '</p><small>Registered ' . h(dashboard_manila_time($student['created_at'])) . ' (Manila)</small></div></div>'
+                . '</p><small>Registered ' . h(dashboard_manila_time($student['created_at'])) . '</small></div></div>'
                 . '<p>Check the physical school ID in person before activating this account.</p>';
         }
         return $html . '<a class="button button-secondary" href="/students.php?status=pending">Review students →</a></div></section>';
@@ -156,13 +156,13 @@ function dashboard_account_panel_html(string $role, array $panels): string
 
 function dashboard_desk_activity_html(array $events): string
 {
-    $html = '<section class="panel dashboard-desk-activity"><header><h2>Recent desk activity</h2><p>Your latest circulation actions · Manila time</p></header>';
+    $html = '<section class="panel dashboard-desk-activity"><header><h2>Recent desk activity</h2><p>Your latest circulation actions</p></header>';
     if ($events === []) { return $html . '<p class="staff-panel-body">No recent circulation actions recorded for your account.</p></section>'; }
     $html .= '<ol>';
     foreach ($events as $event) {
         $html .= '<li><span class="desk-activity-mark" aria-hidden="true">✓</span><div><strong>'
             . h(audit_event_label($event['event_code'])) . '</strong><p>'
-            . h(dashboard_manila_time($event['occurred_at'])) . ' (Manila)</p></div></li>';
+            . h(dashboard_manila_time($event['occurred_at'])) . '</p></div></li>';
     }
     return $html . '</ol></section>';
 }

@@ -23,7 +23,7 @@ function student_profile_html(array $profile): string
         . '<div><dt>Username</dt><dd>' . h($profile['username']) . '</dd></div>'
         . '<div><dt>School student ID</dt><dd>' . h($profile['school_student_id'] ?? 'No school ID on file') . '</dd></div>'
         . '<div><dt>Account status</dt><dd><span class="status-badge">' . h($label) . '</span><p>' . h($explanation) . '</p></dd></div>'
-        . '<div><dt>Registered (Manila time)</dt><dd><time datetime="' . h($registered->format(DateTimeInterface::ATOM)) . '">'
+        . '<div><dt>Registered</dt><dd><time datetime="' . h($registered->format(DateTimeInterface::ATOM)) . '">'
         . h($registered->format('j F Y, g:i A')) . '</time></dd></div></dl>'
         . '<p>These details are view-only. Contact your librarian if something needs correcting.</p></div></div></section>';
     $counts = $profile['counts'];

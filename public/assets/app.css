@@ -539,6 +539,9 @@ html[data-theme=dark] .theme-toggle .theme-moon { opacity: 0; transform: rotate(
 html[data-theme=dark] .theme-toggle .theme-sun { opacity: 1; transform: rotate(0) scale(1); }
 .mobile-navigation-row .mobile-brand { margin-right: auto; min-width: 0; }
 .is-guest .header-inner > .theme-toggle { margin-left: 4px; }
+@media (min-width: 761px) {
+    body.is-guest .site-header .header-nav { margin-inline-start: auto; }
+}
 @media (max-width: 760px) {
     body.is-guest .site-header .header-inner { display: grid; grid-template-columns: minmax(0, 1fr) 44px; align-items: center; }
     body.is-guest .site-header .site-branding { grid-column: 1; grid-row: 1; min-width: 0; }

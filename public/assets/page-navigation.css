@@ -1,0 +1,50 @@
+/* Signed-out native document navigation only. No route or form interception. */
+body.is-guest .site-header .header-nav a { position: relative; isolation: isolate; }
+body.is-guest .site-header .header-nav a[aria-current=page] { background: transparent; }
+.is-guest .nav-current-marker {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--soft);
+    z-index: -1;
+    pointer-events: none;
+    view-transition-name: guest-tab;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    @view-transition { navigation: auto; }
+    ::view-transition { pointer-events: none; }
+    ::view-transition-old(root) { animation: guest-page-out 120ms ease-out both; }
+    ::view-transition-new(root) { animation: guest-page-in 180ms ease-out both; }
+    ::view-transition-group(guest-tab) {
+        animation-duration: 220ms;
+        animation-timing-function: cubic-bezier(.2,.7,.2,1);
+    }
+    ::view-transition-old(guest-tab) { animation: none; opacity: 0; }
+    ::view-transition-new(guest-tab) { animation: none; opacity: 1; }
+    /* The native crossfade replaces, rather than stacks with, the entry choreography. */
+    html.page-transition-arrived :is(.enter, .enter-later, .reading-slip, .hero-photo img, #main-content > .about-page) {
+        animation: none !important;
+    }
+    .is-guest::before {
+        content: '';
+        position: fixed;
+        inset: 0 auto auto 0;
+        width: 28%;
+        height: 2px;
+        background: var(--blue);
+        opacity: 0;
+        z-index: 1000;
+        pointer-events: none;
+    }
+    html.page-navigation-pending .is-guest::before {
+        animation: guest-route-loading 1100ms linear 150ms infinite;
+    }
+}
+@keyframes guest-page-out { to { opacity: 0; } }
+@keyframes guest-page-in { from { opacity: 0; } }
+@keyframes guest-route-loading {
+    from { transform: translateX(-100%); opacity: 1; }
+    to { transform: translateX(360%); opacity: 1; }
+}
+@media print { .is-guest::before { display: none; } }

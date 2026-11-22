@@ -1,0 +1,125 @@
+{
+  "cases": 12,
+  "runtimeErrors": 0,
+  "measurements": [
+    {
+      "route": "/login.php",
+      "theme": "light",
+      "width": 320,
+      "closed": 64,
+      "opening": 141.828125,
+      "expanded": 159.59375,
+      "closing": 89.28125
+    },
+    {
+      "route": "/login.php",
+      "theme": "light",
+      "width": 768,
+      "closed": 64,
+      "opening": 141.78125,
+      "expanded": 159.59375,
+      "closing": 89.25
+    },
+    {
+      "route": "/login.php",
+      "theme": "light",
+      "width": 1440,
+      "closed": 64,
+      "opening": 119.09375,
+      "expanded": 138.796875,
+      "closing": 83.703125
+    },
+    {
+      "route": "/login.php",
+      "theme": "dark",
+      "width": 320,
+      "closed": 64,
+      "opening": 146.984375,
+      "expanded": 159.59375,
+      "closing": 89.171875
+    },
+    {
+      "route": "/login.php",
+      "theme": "dark",
+      "width": 768,
+      "closed": 64,
+      "opening": 134.5,
+      "expanded": 159.59375,
+      "closing": 81.859375
+    },
+    {
+      "route": "/login.php",
+      "theme": "dark",
+      "width": 1440,
+      "closed": 64,
+      "opening": 124.859375,
+      "expanded": 138.796875,
+      "closing": 83.65625
+    },
+    {
+      "route": "/reset_password.php",
+      "theme": "light",
+      "width": 320,
+      "closed": 44,
+      "opening": 103.25,
+      "expanded": 124.390625,
+      "closing": 65.125
+    },
+    {
+      "route": "/reset_password.php",
+      "theme": "light",
+      "width": 768,
+      "closed": 44,
+      "opening": 101.78125,
+      "expanded": 103.59375,
+      "closing": 66.375
+    },
+    {
+      "route": "/reset_password.php",
+      "theme": "light",
+      "width": 1440,
+      "closed": 44,
+      "opening": 92.625,
+      "expanded": 103.59375,
+      "closing": 59.6875
+    },
+    {
+      "route": "/reset_password.php",
+      "theme": "dark",
+      "width": 320,
+      "closed": 44,
+      "opening": 109.453125,
+      "expanded": 124.390625,
+      "closing": 54.59375
+    },
+    {
+      "route": "/reset_password.php",
+      "theme": "dark",
+      "width": 768,
+      "closed": 44,
+      "opening": 87.890625,
+      "expanded": 103.59375,
+      "closing": 51.859375
+    },
+    {
+      "route": "/reset_password.php",
+      "theme": "dark",
+      "width": 1440,
+      "closed": 44,
+      "opening": 87.890625,
+      "expanded": 103.59375,
+      "closing": 55.0625
+    }
+  ],
+  "checks": [
+    "measured intermediate opening and closing heights",
+    "pointer and Enter/Space",
+    "rapid reversals",
+    "unchanged fields/CSRF and no submission",
+    "mid-animation reduced-motion change",
+    "resize cleanup",
+    "uncapped long content",
+    "native fallback without WAAPI or JS"
+  ],
+  "limitations": "Chromium emulation only; physical devices, Safari, screen readers and actual400% zoom remain manual."
+}

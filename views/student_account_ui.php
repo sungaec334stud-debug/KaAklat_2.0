@@ -13,7 +13,7 @@ function student_account_details_html(array $student, bool $showSchoolId): strin
     elseif (!empty($student['reactivated_at'])) { $dates['Last reactivated'] = 'reactivated_at'; }
     foreach ($dates as $label=>$field) {
         $value = !empty($student[$field]) ? display_manila_time($student[$field]) : 'Not recorded';
-        $html .= '<div><dt>'.h($label).' (Manila)</dt><dd>'.h($value).'</dd></div>';
+        $html .= '<div><dt>'.h($label).'</dt><dd>'.h($value).'</dd></div>';
     }
     return $html.'</dl>';
 }

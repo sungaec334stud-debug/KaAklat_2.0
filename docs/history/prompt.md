@@ -1158,3 +1158,23 @@ User: “can we add an animation overhaul to this system to make it feel respons
 ## 2026-11-21 - Developer identity card
 
 User asked how to improve the sparse developer card and approved the proposed layout/content with “Do it”. Grouped the existing portrait/name/course with KaAklat developer role; added a concise description of the existing project and labelled native Email/GitHub links, retaining the readable address and all other About content. No unconfirmed responsibilities, credentials or research credits added. Tested in an isolated fictional copy and preserved the preceding uncommitted motion refinement. Results and remaining manual checks: verification/DEVELOPER_CARD_2026-11-21.md. No commit/push.
+
+
+## 2026-11-22 - Remove repeated Manila time labels
+
+User asked why the system shows “(Manila)” with times and requested removing that text. Removed only visible timezone suffixes/parenthetical headings, retaining Philippine-time conversion, actual time values, full-day due-date wording and one audit-page timezone explanation. Isolated regression/HTTP/time-boundary checks passed; details and the initial transient HTTP timeout are recorded in verification/TIME_LABELS_2026-11-22.md. No commit/push requested.
+
+
+## 2026-11-22 - Right-align signed-out navigation
+
+User requested moving Log in/Create an account/About to the right side of the guest header. Implemented one scoped CSS auto-margin and a cache URL refresh, retaining the theme button and phone wrapping. Existing browser checks now assert measured guest link placement beside the toggle.25 header layouts/50 toggles and64 entry combinations pass; no database or workflow change. Pending timezone-label changes preserved. No commit/push.
+
+
+## 2026-11-22 - Smooth the recorded help-section stretch
+
+User supplied a short MP4 showing Forgot your password repeatedly expanding/collapsing and asked for smooth rather than instant stretching. Reviewed sampled local video frames outside the project; identified native details height snapping, with the existing opacity effect not interpolating layout. Added optional interruptible measured help-body expansion/collapse, preserving native controls, reduced-motion and no-script fallback. Tests and preservation evidence are in verification/HELP_DISCLOSURE_MOTION_2026-11-22.md. Earlier uncommitted header/time-label work retained; no commit/push.
+
+
+## 2026-11-22 - Sliding public tabs and natural page transitions
+
+User supplied a13.88s clip switching public header tabs and asked for sliding click feedback and smooth, natural page transitions with a little loading feedback but no slowness. Identified full document replacement as the cut. Added guest-only native cross-document crossfades, a sliding current-tab marker and an actual-pending indicator with no artificial wait. Core PHP routes/forms remain native. Final tests/review and progressive-enhancement/manual-device limits are in verification/PUBLIC_PAGE_NAVIGATION_2026-11-22.md. Earlier pending timezone/header/help fixes preserved. No commit/push.

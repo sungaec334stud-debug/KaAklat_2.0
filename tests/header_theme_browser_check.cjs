@@ -28,6 +28,7 @@ for(const role of ['guest','active','pending','librarian','admin']){
   if(role!=='guest'&&w<1100)assert.ok(await ev('document.querySelector(".mobile-current-page").getBoundingClientRect().height>0'));
   const box=await ev('(()=>{const r='+visible+'[0].getBoundingClientRect();return {width:r.width,height:r.height,left:r.left,right:r.right}})()');
   assert.ok(box.width>=44&&box.height>=44&&box.left>=0&&box.right<=w);
+  if(role==='guest'&&w>=761)assert.ok(await ev('(()=>{const n=document.querySelector(".header-nav").getBoundingClientRect(),t=document.querySelector("[data-theme-toggle]").getBoundingClientRect(),b=document.querySelector(".site-branding").getBoundingClientRect();return n.left>=b.right&&t.left-n.right>=0&&t.left-n.right<=38&&Math.abs(n.top+n.height/2-t.top-t.height/2)<3})()'),'guest links align right beside theme control');
   if(role==='guest'&&w<=760)assert.ok(await ev('Math.abs('+visible+'[0].getBoundingClientRect().top-document.querySelector(".site-branding").getBoundingClientRect().top)<12'),'guest toggle stays on brand row');
   for(let i=0;i<2;i++){
    const old=await ev('document.documentElement.dataset.theme');

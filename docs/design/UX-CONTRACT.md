@@ -78,3 +78,27 @@ Evidence: verification/MOTION_REFINEMENT_2026-11-21.md and verification/motion-2
 ## About developer card - 2026-11-21
 
 Approved identity hierarchy is owned by views/about.php and scoped workspace.css rules: section heading,96px portrait beside name/role/course, concise project contribution, labelled native Email/GitHub actions, and visible email address. At540px and below the identity grid stacks; wrapped actions remain at least44px tall. Use existing semantic palette/focus/motion; keep all other About information unchanged. The repository destination is the configured maintained public project URL. Do not invent qualifications, responsibilities, adviser credits or academic dates. No extra technical-stack section or new fields are introduced. No JS or backend change is required. Evidence: verification/DEVELOPER_CARD_2026-11-21.md.
+
+
+## Date label refinement - 2026-11-22
+
+User requested removal of the visible (Manila) suffix. Date labels and registration/activation/suspension headings omit repeated parenthetical timezone text. The audit introduction states once that times use Philippine time. views/time.php and existing date conversions remain authoritative and unchanged; internal Manila naming and ISO offsets are retained. Preserve the full-day due-date explanation. No preference, timezone selector, stored-date or workflow change. Evidence: verification/TIME_LABELS_2026-11-22.md.
+
+
+## Guest header alignment - 2026-11-22
+
+At761px and wider, body.is-guest .site-header .header-nav uses margin-inline-start:auto so native guest links sit immediately before the theme button on the right. app.css owns this rule; views/layout.php refreshes the CSS cache URL. The existing760px-and-below grid keeps brand/theme on row one and wrapped guest links on row two. Do not apply this spacing to authenticated navigation or reorder keyboard focus. Evidence: verification/GUEST_HEADER_ALIGNMENT_2026-11-22.md.
+
+
+## Entry help disclosure resize - 2026-11-22
+
+User clip identified abrupt growth/shrink of the login auth-shell when the native help disclosure toggled. entry.js owns optional measured260ms height animation only for .auth-main details.help bodies; entry.css owns a flow-root .help-content wrapper. Original nodes move without cloning. The summary remains native and outside clipping; controls/fields are never scaled. Opening starts at zero when native details is closed (closed children can retain layout boxes). Closing keeps content open through the animation and then settles native open=false, restoring summary focus if a hidden descendant held focus. Rapid actions cancel/reverse from current height; reduced-motion, resize and pagehide clean up. No max-height cap or final fixed height. No-JS/unsupported WAAPI uses native disclosure unchanged.
+
+This deliberately scoped help-body resize is an exception to the earlier general avoidance of layout-height animation: it solves the user-reported layout discontinuity without animating page dimensions or unrelated controls. No form or authentication logic changes. Cache versions for entry.js/entry.css are refreshed together. Evidence: verification/HELP_DISCLOSURE_MOTION_2026-11-22.md.
+
+
+## Public navigation continuity - 2026-11-22
+
+views/layout.php owns guest-only page-navigation.css/js assets and one decorative .nav-current-marker on the existing current guest anchor. Server permissions, routes, native focus and forms are unchanged; authenticated pages do not load these assets. Browser native cross-document view transitions provide viewport crossfade180ms and marker slide220ms, enabled only for no-preference motion. Page content is not dimension-morphed. The head script observes allowlisted public native links without preventing default, fetching, assigning location, adding delays or storing data. Only a real pending navigation can show a150ms-delayed indeterminate2px line; pageshow/Escape/new interaction/submit/preference changes clear pending state. Form and unrelated transitions are skipped.
+
+An incoming document retains page-transition-arrived to suppress duplicate CSS entrances after the native crossfade; page-transition-active and active-transition references still clean up. Reduced-motion changes skip active incoming transitions. Unsupported API/CSS keeps native navigation; native no-script links/forms remain usable. No private inputs, URLs or route state are persisted. Technical reference: https://developer.chrome.com/docs/web-platform/view-transitions/cross-document . Evidence: verification/PUBLIC_PAGE_NAVIGATION_2026-11-22.md.

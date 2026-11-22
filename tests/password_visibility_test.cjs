@@ -3,7 +3,7 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const source=fs.readFileSync(__dirname+'/../public/assets/entry.js','utf8');
 let checks=0;const fields={password:{type:'password',value:'Fictional phrase 123',selectionStart:4,selectionEnd:8},secret:{type:'password',value:'a'.repeat(64)}};
 const buttons=['password','secret','missing'].map(id=>({dataset:{password:id},hidden:true,markup:'<svg>fictional eye structure</svg>',attrs:{'aria-label':'Show '+(id==='secret'?'recovery code':'password'),'aria-pressed':'false'},getAttribute(k){return this.attrs[k]},setAttribute(k,v){this.attrs[k]=v},addEventListener(k,v){this[k]=v},set textContent(v){throw Error('The animated eye markup must not be replaced by Show/Hide text')}}));
-vm.runInNewContext(source,{document:{querySelectorAll:()=>buttons,getElementById:id=>fields[id]}});
+vm.runInNewContext(source,{document:{querySelectorAll:selector=>selector==='[data-password]'?buttons:[],getElementById:id=>fields[id]}});
 function check(fn){fn();checks++}
 check(()=>assert.equal(buttons[0].hidden,false));
 check(()=>assert.equal(buttons[2].hidden,true));

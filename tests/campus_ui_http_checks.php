@@ -32,6 +32,16 @@ foreach ($portalCases as [$client,$path,$expectedLinks,$roleText]) {
     accept_check($xpath->query('//nav[@aria-label="Main navigation"]/a[@aria-current="page"]')->length === 1, 'Campus current route remains unique');
     accept_check(str_contains($html, $roleText) && str_contains($html, 'href="#main-content"') && str_contains($html, 'id="main-content" tabindex="-1"'), 'Campus context and skip-to-main target retained');
 }
+
+// Timezone wording is presentation only; timestamps still use Philippine time.
+foreach ([[$portalStudent, ['/', '/requests.php', '/profile.php']],
+    [$clients['librarian'], ['/', '/review_requests.php', '/pickups.php', '/returns.php', '/students.php']],
+    [$clients['admin'], ['/', '/audit.php', '/students.php']]] as [$timeClient, $timePaths]) {
+    foreach ($timePaths as $timePath) {
+        [$timeCode, $timeHtml] = accept_http($timeClient, $timePath);
+        accept_check($timeCode === 200 && !str_contains($timeHtml, '(Manila'), 'Time display omits parenthetical Manila label: ' . $timePath);
+    }
+}
 [$code,$html] = accept_http($portalStudent, '/');
 accept_check($code === 200 && str_contains($html, 'Only your records') && str_contains($html, 'summary-panel')
     && str_contains($html, '/requests.php?status=awaiting_pickup'), 'Campus dashboard uses own linked shared summary');

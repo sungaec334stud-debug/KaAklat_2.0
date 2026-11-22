@@ -1,0 +1,7 @@
+{
+  "public/assets/entry.js": "c9ee4af33ee2e30b8b4eedae695a90c189e0d772b9138913e2e9cd44ed441f47",
+  "public/assets/entry.css": "6d4badbf85bb0779b240d4870f6a315fe2fba3631fe061da7c97e7cf4a99ac96",
+  "views/layout.php": "cf0bd04c1dc26d45224acdd5c1c09055179a7cd6cedc3f450e6e7d208660c8eb",
+  "tests/password_visibility_test.cjs": "c31f6f748b0fd7051ae73583f06714895a4ce5bc564c2b35e005bbdab820b00c",
+  "tests/help_disclosure_browser_check.cjs": "06311ae663dceaaa8a2871448fff078abecc2083cf884b6f8d98089a0dbab976"
+}

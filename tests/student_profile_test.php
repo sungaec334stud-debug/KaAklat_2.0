@@ -65,6 +65,7 @@ $html = student_profile_html($profile);
 profile_check(str_contains($html, '06-0001-001') && !str_contains($html, '06-0001-002'), 'Only own school ID is shown with leading zeros');
 profile_check(str_contains($html, '&lt;script&gt;Fictional &amp; Student&lt;/script&gt;') && !str_contains($html, '<script>'), 'Profile values escaped');
 profile_check(str_contains($html, '4 November 2026, 1:30 AM') && str_contains($html, '2026-11-04T01:30:00+08:00'), 'UTC registration rolls into correct Manila date');
+profile_check(!str_contains($html, '(Manila') && str_contains($html, '<dt>Registered</dt>'), 'Timezone label omitted without changing the Philippine registration instant');
 foreach (['pending','awaiting_pickup','active'] as $filter) {
     profile_check(str_contains($html, 'href="/requests.php?status=' . $filter . '"'), 'Existing history tab link: ' . $filter);
 }

@@ -1,0 +1,5 @@
+{
+  "public/assets/app.css": "32fadc879a30b61fcf2a0e77179ce5ea537c3a9dab8c07359ffb9c9d7d30c7e2",
+  "views/layout.php": "a74ef4261590743c5ece07dc91c501295a22857b84764cebee89856fa10613e3",
+  "tests/header_theme_browser_check.cjs": "2065402931649c8520fe8ccf554e52610a0a5d636fd87675b330e663c23b857f"
+}
