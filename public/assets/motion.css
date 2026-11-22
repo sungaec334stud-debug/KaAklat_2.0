@@ -69,3 +69,25 @@
 @media print {
     *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* Native disclosures retain their semantics; a finite height effect explains the state change. */
+.disclosure-content { display: flow-root; }
+.disclosure-enhanced > summary { list-style: none; cursor: pointer; }
+.disclosure-enhanced > summary::-webkit-details-marker { display: none; }
+.disclosure-enhanced:not(.request-row) > summary::before,
+.request-row.disclosure-enhanced .request-row-toggle::before {
+    content: ''; display: inline-block; width: 7px; height: 7px;
+    border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+    transform: rotate(-45deg); margin-inline: 2px 10px; vertical-align: 2px;
+}
+.disclosure-enhanced[data-disclosure-open=true]:not(.request-row) > summary::before,
+.request-row.disclosure-enhanced[data-disclosure-open=true] .request-row-toggle::before { transform: rotate(45deg); }
+.disclosure-enhanced[open] > .disclosure-content { animation: none; }
+@media (prefers-reduced-motion: no-preference) {
+    .disclosure-enhanced > summary::before,
+    .request-row.disclosure-enhanced .request-row-toggle::before { transition: transform 260ms cubic-bezier(.2,.7,.2,1); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .disclosure-enhanced > summary::before,
+    .request-row.disclosure-enhanced .request-row-toggle::before { transition: none !important; }
+}

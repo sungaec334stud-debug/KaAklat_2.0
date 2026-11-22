@@ -1,5 +1,19 @@
 # KaAklat progress
 
+
+## Pointer focus outline correction - 2026-11-23
+
+Changed the shared and entry-page negative-tabindex focus selectors from :focus to :focus-visible. Pointer focus on the main container no longer outlines the whole page; keyboard controls and keyboard Skip to content retain visible focus. No blanket outline suppression or focus removal. Both stylesheet cache versions refreshed; pending system motion work preserved. Reproduced the original Welcome-page outline, then passed20 route/theme/width cases across five public routes,375/1440px and Light/Dark, including pointer focus, keyboard links and keyboard skip targets; zero browser runtime errors. Layout PHP lint and diff checks pass. No database, commit or push operation.
+
+## System-wide navigation and expanding-section motion - 2026-11-23
+
+Extended the accepted native document crossfade, sliding current-navigation marker and genuine pending feedback from guest pages to all existing signed-in HTML views. Desktop sidebar/mobile top bar retain continuity. Native links, query/filter/status tabs, browser history and form submissions remain authoritative; no router, artificial delay or persisted inputs. Existing button, selection, theme and password-eye feedback is preserved.
+
+Extracted the Forgot password 260ms measured height behavior from entry.js into shared disclosure.js, loaded after workspace transformations. Native expandable sections now rotate their arrows and animate opening/closing: help, catalog filters, request history, book-editor sections, staff creation and nested student-ID claim review. Workspace record selectors retain their separate inspector handler. Rapid reversal, keyboard operation, focus return, resize, pagehide, external opens/invalid fields and reduced motion retain natural final layout. No-JS/missing Web Animations support uses native details. Existing editor spacing and pagination design are preserved.
+
+Verification: 150 signed-in transitions across four account roles/statuses, Light/Dark and375/768/1440px;21 primary plus2 nested measured disclosures;2 same-page status tabs;12 prior help cases;18 guest transitions;56 drawer layouts/26 routes;160 header comparisons;25 theme layouts/50 toggles;120 existing feedback layouts/6 selections;30 navigation guard checks;36 regression scripts;469 workflow HTTP assertions. Zero browser runtime errors; PHP/JS syntax and strict design audit pass. Static detector style advisories concern existing approved accent borders and their matching marker, retained intentionally. Independent code review found no actionable correctness issue. Physical devices, Safari, screen readers and actual400% zoom were not rerun. Native cross-document effects depend on browser support; fallback remains usable native navigation. No backend/schema/pilot-data changes, hosting, commit or push. See verification/SYSTEM_MOTION_2026-11-23.md.
+
+
 ## Public tab and page navigation motion - 2026-11-22
 
 Added guest/public-page navigation continuity for the Log in/Create an account/About tabs shown in the user clip. One decorative aria-hidden active marker slides between native links in220ms; native same-origin document snapshots crossfade in180ms (outgoing120ms). No content scaling/layout morph, artificial navigation delay, AJAX router or form interception. A150ms-delayed indeterminate line is tied to actual eligible page navigation, so fast requests do not flash a loader. Native links/keyboard, destinations, GET/POST, CSRF and browser history remain authoritative. Form submits, modified/download/external/same-document links do not gain pending state or scripted routing. Reduced motion skips nonessential effects and cancels an incoming transition. Unsupported browsers retain native navigation.

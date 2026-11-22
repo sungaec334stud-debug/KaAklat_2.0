@@ -162,7 +162,7 @@ input, textarea { caret-color: var(--blue); }
 a { color: var(--link); text-underline-offset: .22em; text-decoration-thickness: 1px; }
 a:hover { color: var(--link-hover); }
 :where(a, button, input, select, textarea, summary):focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
-:where([tabindex='-1']):focus { outline: 3px solid var(--focus); outline-offset: 4px; }
+:where([tabindex='-1']):focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
 .skip-link { position: fixed; left: 16px; top: -100px; z-index: 100; padding: 12px 20px; border-radius: 5px; background: var(--surface); }
 .skip-link:focus { top: 12px; }
 .site-header { background: var(--surface); border-bottom: 1px solid var(--line); }

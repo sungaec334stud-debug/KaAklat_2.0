@@ -43,7 +43,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
             if ($group !== $lastGroup) { $navigation .= '<span class="nav-group-label">' . h($group) . '</span>'; $lastGroup = $group; }
         }
         $current = $path === $url || ($url === '/' && $path === '/index.php');
-        $currentMarker = $navigationUser === null && $current ? '<span class="nav-current-marker" aria-hidden="true"></span>' : '';
+        $currentMarker = $current ? '<span class="nav-current-marker" aria-hidden="true"></span>' : '';
         $navigation .= '<a href="' . h($url) . '"' . ($current ? ' aria-current="page"' : '') . '>'
             . $currentMarker . ($navigationUser !== null ? portal_icon($url) : '') . '<span>' . h($label) . '</span></a>';
     }
@@ -65,8 +65,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
     $navigationAssets = '';
     $themeToggle = appearance_toggle_html();
     $guestThemeToggle = $navigationUser === null ? $themeToggle : '';
-    $pageNavigationAssets = $navigationUser === null
-        ? '<link rel="stylesheet" href="/assets/page-navigation.css?v=20261122"><script src="/assets/page-navigation.js?v=20261122"></script>' : '';
+    $pageNavigationAssets = '<link rel="stylesheet" href="/assets/page-navigation.css?v=20261123-system"><script src="/assets/page-navigation.js?v=20261123-system"></script>';
     if ($navigationUser !== null) {
         $role = match ($navigationUser['role']) { 'student'=>'Student', 'librarian'=>'Librarian', 'administrator'=>'Administrator', default=>'Account' };
         $status = $navigationUser['account_status'] === 'pending' ? 'Pending activation' : ucfirst($navigationUser['account_status']);
@@ -87,7 +86,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
     $entryAssets = '';
     if ($landing || in_array($path, ['/login.php', '/register.php', '/reset_password.php'], true)) {
         $bodyClass .= ' entry-page';
-        $entryAssets = '<link rel="stylesheet" href="/assets/entry.css?v=20261122-header-parity"><script src="/assets/entry.js?v=20261122-help" defer></script>';
+        $entryAssets = '<link rel="stylesheet" href="/assets/entry.css?v=20261123-focus"><script src="/assets/entry.js?v=20261123-system" defer></script>';
     }
     $workspaceRoutes = ['/staff.php', '/students.php', '/audit.php', '/recover_account.php',
         '/about.php', '/logout.php', '/review_requests.php', '/pickups.php', '/returns.php',
@@ -95,7 +94,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
     $workspaceAssets = '';
     if (in_array($path, $workspaceRoutes, true)) {
         $bodyClass .= ' workspace-screen';
-        $workspaceAssets = '<link rel="stylesheet" href="/assets/workspace.css?v=20261121-developer">'
+        $workspaceAssets = '<link rel="stylesheet" href="/assets/workspace.css?v=20261123-system">'
             . '<script src="/assets/workspace.js?v=20261121-motion" defer></script>';
     }
     echo <<<HTML
@@ -107,13 +106,14 @@ function render_page(string $title, string $content, bool $landing = false): voi
     <title>{$safeTitle} | {$appName}</title>
     <link rel="icon" href="/assets/kaaklat-logo.svg" type="image/svg+xml">
     <script src="/assets/theme.js?v=20261121-header"></script>
-    <link rel="stylesheet" href="/assets/app.css?v=20261122-header-parity">
+    <link rel="stylesheet" href="/assets/app.css?v=20261123-focus">
     {$workspaceAssets}
     {$entryAssets}
     {$navigationAssets}
     {$pageNavigationAssets}
-    <link rel="stylesheet" href="/assets/motion.css?v=20261121">
+    <link rel="stylesheet" href="/assets/motion.css?v=20261123-system">
     <script src="/assets/forms.js" defer></script>
+    <script src="/assets/disclosure.js?v=20261123-system" defer></script>
 </head>
 <body class="{$bodyClass}">
     <a class="skip-link" href="#main-content">Skip to content</a>

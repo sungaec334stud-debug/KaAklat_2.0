@@ -1,0 +1,352 @@
+{
+  "system": {
+    "transitions": 150,
+    "disclosures": 21,
+    "runtimeErrors": 0,
+    "measurements": [
+      {
+        "route": "/catalog.php",
+        "selector": ".catalog-more-filters",
+        "width": 375,
+        "closed": 51.390625,
+        "opening": 425.5,
+        "full": 558.71875,
+        "closing": 184.734375
+      },
+      {
+        "route": "/manage_books.php?id=1",
+        "selector": ".editor-section",
+        "width": 375,
+        "closed": 77,
+        "opening": 556.03125,
+        "full": 848.53125,
+        "closing": 280.453125
+      },
+      {
+        "route": "/manage_books.php?id=1",
+        "selector": ".editor-section:nth-of-type(2)",
+        "width": 375,
+        "closed": 77,
+        "opening": 683.859375,
+        "full": 899.734375,
+        "closing": 293.171875
+      },
+      {
+        "route": "/manage_books.php?id=1",
+        "selector": ".editor-section:nth-of-type(3)",
+        "width": 375,
+        "closed": 77,
+        "opening": 486.203125,
+        "full": 633.40625,
+        "closing": 223.328125
+      },
+      {
+        "route": "/manage_books.php?id=1",
+        "selector": ".editor-section:nth-of-type(4)",
+        "width": 375,
+        "closed": 77,
+        "opening": 214.046875,
+        "full": 297.40625,
+        "closing": 118.25
+      },
+      {
+        "route": "/requests.php",
+        "selector": ".request-row",
+        "width": 375,
+        "closed": 172.765625,
+        "opening": 430.6875,
+        "full": 522.703125,
+        "closing": 238.140625
+      },
+      {
+        "route": "/staff.php",
+        "selector": ".workspace-create",
+        "width": 375,
+        "closed": 70,
+        "opening": 401.671875,
+        "full": 519.96875,
+        "closing": 188.65625
+      },
+      {
+        "route": "/catalog.php",
+        "selector": ".catalog-more-filters",
+        "width": 768,
+        "closed": 51.390625,
+        "opening": 309.21875,
+        "full": 401.453125,
+        "closing": 116.203125
+      },
+      {
+        "route": "/manage_books.php?id=1",
+        "selector": ".editor-section",
+        "width": 768,
+        "closed": 77,
+        "opening": 628.75,
+        "full": 826.140625,
+        "closing": 273.90625
+      },
+      {
+        "route": "/manage_books.php?id=1",
+        "selector": ".editor-section:nth-of-type(2)",
+        "width": 768,
+        "closed": 77,
+        "opening": 557.9375,
+        "full": 729.390625,
+        "closing": 248.265625
+      },
+      {
+        "route": "/manage_books.php?id=1",
+        "selector": ".editor-section:nth-of-type(3)",
+        "width": 768,
+        "closed": 77,
+        "opening": 470.4375,
+        "full": 611.015625,
+        "closing": 217
+      },
+      {
+        "route": "/manage_books.php?id=1",
+        "selector": ".editor-section:nth-of-type(4)",
+        "width": 768,
+        "closed": 77,
+        "opening": 220.09375,
+        "full": 252.625,
+        "closing": 123.171875
+      },
+      {
+        "route": "/requests.php",
+        "selector": ".request-row",
+        "width": 768,
+        "closed": 90,
+        "opening": 293.75,
+        "full": 366.359375,
+        "closing": 162.8125
+      },
+      {
+        "route": "/staff.php",
+        "selector": ".workspace-create",
+        "width": 768,
+        "closed": 70,
+        "opening": 348.453125,
+        "full": 447.78125,
+        "closing": 169.140625
+      },
+      {
+        "route": "/catalog.php",
+        "selector": ".catalog-more-filters",
+        "width": 1440,
+        "closed": 51.390625,
+        "opening": 245.046875,
+        "full": 313.953125,
+        "closing": 119.96875
+      },
+      {
+        "route": "/manage_books.php?id=1",
+        "selector": ".editor-section",
+        "width": 1440,
+        "closed": 77,
+        "opening": 556.671875,
+        "full": 848.53125,
+        "closing": 369.34375
+      },
+      {
+        "route": "/manage_books.php?id=1",
+        "selector": ".editor-section:nth-of-type(2)",
+        "width": 1440,
+        "closed": 77,
+        "opening": 683.671875,
+        "full": 899.734375,
+        "closing": 383.21875
+      },
+      {
+        "route": "/manage_books.php?id=1",
+        "selector": ".editor-section:nth-of-type(3)",
+        "width": 1440,
+        "closed": 77,
+        "opening": 511.53125,
+        "full": 611.015625,
+        "closing": 216.40625
+      },
+      {
+        "route": "/manage_books.php?id=1",
+        "selector": ".editor-section:nth-of-type(4)",
+        "width": 1440,
+        "closed": 77,
+        "opening": 223.4375,
+        "full": 275.015625,
+        "closing": 113.921875
+      },
+      {
+        "route": "/requests.php",
+        "selector": ".request-row",
+        "width": 1440,
+        "closed": 90,
+        "opening": 261.875,
+        "full": 366.359375,
+        "closing": 162.734375
+      },
+      {
+        "route": "/staff.php",
+        "selector": ".workspace-create",
+        "width": 1440,
+        "closed": 70,
+        "opening": 306.046875,
+        "full": 447.78125,
+        "closing": 169.65625
+      }
+    ],
+    "checks": [
+      "four role/status navigation sets at375/768/1440 in Light/Dark",
+      "native cross-document fade and desktop sliding active marker",
+      "mobile drawer navigation",
+      "measured disclosure expansion/collapse and arrow direction",
+      "keyboard Enter/Space and repeated reversal",
+      "unchanged form values and CSRF/no submission",
+      "reduced-motion and resize cleanup",
+      "no-JS and missing WAAPI fallback"
+    ],
+    "limitations": "Chromium emulation only; physical-device, Safari, screen-reader and actual400% zoom acceptance remain manual."
+  },
+  "edges": {
+    "mode": "edge-checks",
+    "transitions": 0,
+    "disclosures": 2,
+    "statusTabs": 2,
+    "runtimeErrors": 0,
+    "measurements": [
+      {
+        "route": "/students.php?status=pending",
+        "selector": ".student-card details",
+        "width": 375,
+        "closed": 22.390625,
+        "opening": 188.46875,
+        "full": 289.203125,
+        "closing": 92.6875
+      },
+      {
+        "route": "/students.php?status=pending",
+        "selector": ".student-card details",
+        "width": 1440,
+        "closed": 22.390625,
+        "opening": 239.390625,
+        "full": 289.203125,
+        "closing": 92.234375
+      }
+    ],
+    "checks": [
+      "nested student-ID claim disclosures",
+      "same-page status tabs",
+      "measured disclosure expansion/collapse and arrow direction",
+      "keyboard Enter/Space and repeated reversal",
+      "unchanged form values and CSRF/no submission",
+      "reduced-motion and resize cleanup",
+      "no-JS and missing WAAPI fallback"
+    ],
+    "limitations": "Chromium emulation only; physical-device, Safari, screen-reader and actual400% zoom acceptance remain manual."
+  },
+  "help": {
+    "cases": 12,
+    "runtimeErrors": 0,
+    "checks": [
+      "measured intermediate opening and closing heights",
+      "pointer and Enter/Space",
+      "rapid reversals",
+      "unchanged fields/CSRF and no submission",
+      "mid-animation reduced-motion change",
+      "resize cleanup",
+      "uncapped long content",
+      "native fallback without WAAPI or JS"
+    ],
+    "limitations": "Chromium emulation only; physical devices, Safari, screen readers and actual400% zoom remain manual."
+  },
+  "guest": {
+    "transitions": 18,
+    "runtimeErrors": 0,
+    "checks": [
+      "real cross-document transitions",
+      "sliding active marker",
+      "viewport crossfade",
+      "native keyboard navigation",
+      "pending line follows delayed real request",
+      "no artificial navigation wait",
+      "reduced motion",
+      "no-JS forms/links",
+      "transition stylesheet unavailable fallback"
+    ],
+    "limitations": "Chromium emulation only; native cross-document transitions are progressive enhancement; physical devices, Safari, screen readers and actual400% zoom remain manual."
+  },
+  "drawer": {
+    "layouts": 56,
+    "routeChecks": 26,
+    "runtimeErrors": 0,
+    "checks": [
+      "active/pending student, librarian, administrator",
+      "Light/Dark;320/360/768/1024/1099/1100/1440",
+      "icon-only accessible button, unique current route and visible title",
+      "modal focus wrapping; Escape/Close/backdrop focus return",
+      "native role-specific navigation",
+      "unsent input preservation",
+      "open drawer resize to desktop and back",
+      "short-height final-link reachability",
+      "reduced motion",
+      "JavaScript-free wrapped navigation",
+      "guest entry unchanged"
+    ],
+    "limitations": "Chromium simulated widths and short-height reflow, not physical devices, Safari, actual 400% browser zoom or screen readers."
+  },
+  "header": {
+    "layouts": 160,
+    "runtimeErrors": 0,
+    "checks": [
+      "five public routes have matching header geometry and typography",
+      "sixteen widths including375 and breakpoint boundaries",
+      "Light/Dark",
+      "consistent university visibility",
+      "44px controls",
+      "left brand/right theme on phones",
+      "native keyboard order",
+      "reduced motion",
+      "no-script parity"
+    ],
+    "limitations": "Chromium emulation only; physical devices, Safari, screen readers and actual400% zoom remain manual."
+  },
+  "theme": {
+    "layouts": 25,
+    "toggles": 50,
+    "roles": 5,
+    "runtimeErrors": 0,
+    "checks": [
+      "one visible 44px header button",
+      "icon/color animation",
+      "keyboard Enter",
+      "rapid clicks",
+      "saved page preference",
+      "legacy system preference",
+      "blocked storage",
+      "no-script fallback",
+      "reduced motion",
+      "no Settings navigation",
+      "current mobile page retained"
+    ],
+    "limitations": "Chromium emulation; physical-device, Safari, screen-reader and actual 400% zoom remain manual."
+  },
+  "feedback": {
+    "layouts": 120,
+    "selections": 6,
+    "runtimeErrors": 0,
+    "checks": [
+      "button press",
+      "finite record handoff",
+      "rapid interruption",
+      "immediate keyboard/error focus",
+      "native disclosures",
+      "reduced motion including mid-animation change",
+      "missing WAAPI fallback",
+      "no-JS forms",
+      "pagination excluded"
+    ],
+    "limitations": "Chromium emulation; physical devices, Safari, screen readers and actual 400% zoom remain manual."
+  },
+  "navigationGuardChecks": 30,
+  "regressionScripts": 36,
+  "workflowHttpAssertions": 469
+}

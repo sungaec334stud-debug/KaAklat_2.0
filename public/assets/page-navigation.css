@@ -1,7 +1,7 @@
-/* Signed-out native document navigation only. No route or form interception. */
+/* Shared native document navigation. No route or form interception. */
 body.is-guest .site-header .header-nav a { position: relative; isolation: isolate; }
 body.is-guest .site-header .header-nav a[aria-current=page] { background: transparent; }
-.is-guest .nav-current-marker {
+.nav-current-marker {
     position: absolute;
     inset: 0;
     border-radius: inherit;
@@ -23,10 +23,10 @@ body.is-guest .site-header .header-nav a[aria-current=page] { background: transp
     ::view-transition-old(guest-tab) { animation: none; opacity: 0; }
     ::view-transition-new(guest-tab) { animation: none; opacity: 1; }
     /* The native crossfade replaces, rather than stacks with, the entry choreography. */
-    html.page-transition-arrived :is(.enter, .enter-later, .reading-slip, .hero-photo img, #main-content > .about-page) {
+    html.page-transition-arrived :is(.enter, .enter-later, .reading-slip, .hero-photo img, #main-content > .about-page, #main-content > .panel, #main-content > .dashboard) {
         animation: none !important;
     }
-    .is-guest::before {
+    body::before {
         content: '';
         position: fixed;
         inset: 0 auto auto 0;
@@ -37,7 +37,7 @@ body.is-guest .site-header .header-nav a[aria-current=page] { background: transp
         z-index: 1000;
         pointer-events: none;
     }
-    html.page-navigation-pending .is-guest::before {
+    html.page-navigation-pending body::before {
         animation: guest-route-loading 1100ms linear 150ms infinite;
     }
 }
@@ -47,4 +47,17 @@ body.is-guest .site-header .header-nav a[aria-current=page] { background: transp
     from { transform: translateX(-100%); opacity: 1; }
     to { transform: translateX(360%); opacity: 1; }
 }
-@media print { .is-guest::before { display: none; } }
+@media print { body::before { display: none; } }
+
+/* Keep the portal shell still while its selected destination moves. */
+.is-authenticated .header-nav a { position: relative; isolation: isolate; }
+.is-authenticated .header-nav a[aria-current=page]:has(.nav-current-marker) { background: transparent; border-left-color: transparent; }
+.is-authenticated .nav-current-marker { inset-inline-start: -3px; border-left: 3px solid #96c0ff; background: var(--nav-selected); }
+@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
+    .is-authenticated > .site-header { view-transition-name: portal-sidebar; }
+    ::view-transition-group(portal-sidebar) { animation-duration: 180ms; }
+}
+@media (max-width: 1099px) and (prefers-reduced-motion: no-preference) {
+    .navigation-enhanced .mobile-navigation-bar { view-transition-name: portal-mobile-bar; }
+}
+@media (forced-colors: active) { .nav-current-marker { border: 1px solid Highlight; } }

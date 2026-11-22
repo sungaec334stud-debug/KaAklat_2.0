@@ -1,8 +1,8 @@
-// Observe real guest-page navigation. Native links, forms and browser history remain owners.
+// Observe real page navigation. Native links, forms and browser history remain owners.
 (() => {
     const root = document.documentElement;
     const motion = window.matchMedia('(prefers-reduced-motion: no-preference)');
-    const pages = ['/', '/index.php', '/login.php', '/register.php', '/about.php', '/reset_password.php'];
+    const pages = ['/', '/index.php', '/login.php', '/register.php', '/about.php', '/reset_password.php', '/catalog.php', '/requests.php', '/profile.php', '/review_requests.php', '/pickups.php', '/returns.php', '/manage_books.php', '/students.php', '/staff.php', '/audit.php', '/recover_account.php', '/logout.php'];
     let pending = false;
     let activeTransition = null;
     function clearPending() {

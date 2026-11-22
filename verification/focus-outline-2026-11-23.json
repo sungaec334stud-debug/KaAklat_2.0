@@ -1,0 +1,10 @@
+{
+  "cases": 20,
+  "runtimeErrors": 0,
+  "checks": [
+    "pointer-focused content has no page-wide outline",
+    "keyboard links retain focus rings",
+    "keyboard skip link retains visible focus on main"
+  ],
+  "limitations": "Chromium emulation; physical-device/screen-reader checks not rerun."
+}

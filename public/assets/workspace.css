@@ -256,8 +256,8 @@
 .managed-editor > h2 { font-size: 1.25rem; }
 .editor-section { border-top: 1px solid var(--line); padding-block: 16px; margin-top: 12px; }
 .editor-section > summary { min-height: 44px; align-content: center; font-size: .875rem; color: var(--navy); }
-.editor-section > form, .editor-section > section { margin-top: 16px; }
-.managed-editor .editor-section > .management-section { border: 0; padding: 0; margin: 16px 0 0; }
+.editor-section > form, .editor-section > section, .editor-section > .disclosure-content > form, .editor-section > .disclosure-content > section { margin-top: 16px; }
+.managed-editor .editor-section > .management-section, .managed-editor .editor-section > .disclosure-content > .management-section { border: 0; padding: 0; margin: 16px 0 0; }
 .managed-editor .editor-section .student-card { padding-block: 14px; border-bottom: 1px solid var(--line); }
 .workspace-screen .about-page { display: grid; grid-template-columns: minmax(0,1.35fr) minmax(250px,1fr); gap: 24px; }
 .workspace-screen .about-intro { grid-column: 1/-1; border-radius: 9px; min-height: 0; padding: 28px 220px 28px 28px; }

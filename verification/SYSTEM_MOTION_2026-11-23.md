@@ -1,0 +1,20 @@
+# System motion verification — 2026-11-23
+
+The requested extension reuses the accepted guest motion language throughout the signed-in system. The server layout now includes page-navigation assets and a decorative current marker for all roles. Existing native HTML destinations are allowlisted for observation only. No fetch router, preventDefault on links, fake request wait or local/session input storage is introduced. Forms clear pending navigation and remain server-owned. A desktop named sidebar and mobile named top bar provide shell continuity; the page crossfades in180ms and the active desktop marker slides in220ms. Unsupported browsers retain native navigation.
+
+The existing help expansion implementation now lives in shared disclosure.js. It initializes after workspace transformations, wraps only disclosure content in a flow-root, preserves the summary and native semantics, and excludes workspace-record selectors. It measures natural content height for a260ms interruptible open/close. Arrows follow intended state, including during collapse. Reduced motion, resizing and pagehide settle active height effects; invalid fields reopen their containing disclosure. Editor direct-child styles were extended to the wrapper's children to retain spacing. Pagination design, page information, controller/business code, database schema and private configuration remain unchanged.
+
+## Executed checks
+
+- New system browser checks:150 actual signed-in cross-document transitions (active/pending students, librarian, administrator;375/768/1440px;Light/Dark),21 measured expansion/collapse cases, plus a focused edge pass with2 nested ID-claim cases and2 same-page status-tab transitions. Measured intermediate heights, arrow endpoints, rapid reversal, Enter/Space, unchanged field/CSRF values, no submission, reduced-motion event, resize and native no-JS/missing-WAAPI fallback passed.
+- Existing checks:12 help cases;18 guest page transitions;56 drawer layouts/26 routes;160 header layouts;25 theme layouts/50 toggles;120 feedback layouts/6 inspector selections;30 native navigation guard checks. All reports record zero runtime exceptions.
+-36 regression scripts and469 workflow HTTP assertions passed against fictional databases. Layout PHP lint, modified JS syntax and strict static design audit passed with zero audit findings.
+- Desktop and phone screenshots were inspected. A fresh independent code review found no actionable issue. The Impeccable detector returned8 visual-style advisories about approved accent borders; those styles were retained to preserve the accepted design.
+
+The initial new browser test failed because signed-in pages lacked the shared transition observer. A reduced-motion test then exposed arrow transitions needing explicit cancellation styling; the final stylesheet includes that rule. Test synchronization was corrected to wait for the actual browser media-change event and existing inspector arrival before measuring inner disclosures. Resize checks distinguish remaining arrow feedback from prohibited fixed-height effects. A complete primary pass and affected focused edge checks passed after these changes.
+
+## Reproduction and limits
+
+Use a NEW fictional fixture from `php tests/student_profile_browser_fixture.php --campus`, then `node tests/system_motion_browser_check.cjs <private-fixture.json> <external-output-directory>`. The optional `--tail-only` flag runs the nested/status/fallback edge checks independently. Run existing help/page-navigation/navigation/header/theme/motion browser scripts against the same fictional fixture. No pilot accounts or records are used. Sanitized measurements/counts accompany this report; credentials, screenshots, profiles and raw logs stay outside the project.
+
+Chromium emulation does not prove physical-device, Safari, screen-reader or actual400% zoom acceptance. Native View Transitions are progressive enhancement; core navigation and forms remain available without them. No hosting or commit/push is part of this implementation.

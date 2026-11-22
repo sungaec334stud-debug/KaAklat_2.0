@@ -12,7 +12,7 @@
 .entry-page button{color:inherit}
 .entry-page button:disabled{cursor:wait;opacity:.7}
 .entry-page a,.entry-page button,.entry-page input,.entry-page summary{outline-offset:5px}
-.entry-page a:focus-visible,.entry-page button:focus-visible,.entry-page input:focus-visible,.entry-page summary:focus-visible,.entry-page [tabindex='-1']:focus{outline:3px solid var(--focus)}
+.entry-page a:focus-visible,.entry-page button:focus-visible,.entry-page input:focus-visible,.entry-page summary:focus-visible,.entry-page [tabindex='-1']:focus-visible{outline:3px solid var(--focus)}
 .entry-page [hidden]{display:none!important}
 .entry-page .skip{position:absolute;left:12px;top:-80px;z-index:9;background:var(--surface);padding:12px}
 .entry-page .skip:focus{top:10px}

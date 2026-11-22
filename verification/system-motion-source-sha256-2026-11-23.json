@@ -1,0 +1,11 @@
+{
+  "views/layout.php": "1a5e779d8eae9864b24fe94857599e252c6b85d12f421015bef2cfb57bf1586f",
+  "public/assets/page-navigation.js": "9c84bcaadf936d724fa3e0691cc9a9de0ba7a9a25e2ddf95581640025e25eda8",
+  "public/assets/page-navigation.css": "1e578e5b89e33e4e0ffc80d9648c92dafb46749f1b3b9f1625eb3fee06d7d5ed",
+  "public/assets/entry.js": "d96ee401b3ba6a3ecd362812ca5822fe8115633817532873cdfe13f1cd59b3e6",
+  "public/assets/disclosure.js": "2ec825092dc7c333432aa653ee87c12633383e4ceae538711c24d6c8d8da99d3",
+  "public/assets/motion.css": "8b83f3e105610c3dc9e6044ad6bdee54d902787ef3aa9ff28fdfe54968bad6cf",
+  "public/assets/workspace.css": "b21bf182157a58288496b841a1de0f29842756e1184edd356e62a5441b934674",
+  "tests/system_motion_browser_check.cjs": "1c9827aebddb9faa59aa55e93e2798306514ed68c53889ea47a6762f61a7a19e",
+  "tests/page_navigation_test.cjs": "4695271b254ea2e5ef1ddba33f248452b7fb2186ea8c0c59e50ddc81f6761b17"
+}
