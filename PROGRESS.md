@@ -1,6 +1,22 @@
 # KaAklat progress
 
 
+## Student identity review layout - 2026-11-23
+
+Reorganized pending-student identity review into separate labelled Activate account, Correct the school ID and Release a mistaken claim sections. Each native form retains its own required verification checkbox, CSRF token, student ID and stale review version. Confirmation text now names its action; correction includes a uniquely labelled required ID field and linked dashed-format example. Scoped theme-aware CSS aligns checkbox text, fields, hints and buttons with consistent gaps; the existing claim disclosure animation remains. No permission, identity-policy, database or pagination change. Pending archived-book implementation is preserved.
+
+Verified:11 structural/form assertions,6 browser layouts at375/768/1440px in Light/Dark with measured expansion, keyboard checkbox and reduced motion;38 regression scripts;508 fictional workflow HTTP assertions; existing student policy and temporary-table integration tests; changed PHP/JS syntax and strict design audit (zero findings). Zero browser runtime errors; desktop/phone screenshots inspected. Physical-device/Safari/screen-reader/actual400% zoom acceptance was not rerun. No pilot-data mutation, commit or push.
+
+## Librarian archived-book review and restoration - 2026-11-23
+
+Implemented Active books / Archived books tabs inside Manage books. Active librarians can search/page archived titles, inspect protected covers, title/authors, archive date and active/individually archived copy counts, and explicitly confirm Unarchive book. The native POST uses CSRF, fresh role/session checks and actor→book locking. It clears only the title archive timestamp and writes catalog.unarchive_book audit atomically; individually archived copies and all borrowing/author/copy history remain intact. Availability stays derived; titles without active copies remain unavailable. Timestamp plus latest archive audit ID rejects stale confirmations, including a later archive in the same second. Repeated restoration returns a clear error without another write/audit. Administrators retain audit access, not archived-title/cover/restoration access; students/pending students are denied.
+
+No schema migration. Existing managed-workspace, status-tab, pagination, theme, animation, time-display and form primitives are reused. A confirmed no-JavaScript View Transition promise exception found during native restoration verification is fixed by a noscript-only stylesheet disabling that optional effect; scripted animation remains unchanged.
+
+Verified in isolated fictional databases:37 regression scripts,32 archive integration assertions,508 workflow HTTP assertions,36 archive browser layouts at375/768/1440px in Light/Dark,30 navigation guard checks and18 existing guest document transitions. Zero browser runtime errors; changed PHP/JS syntax and strict design audit pass. Desktop/mobile screenshots inspected; independent security/correctness review found no actionable issue. Physical-device, Safari, screen-reader and actual400% zoom checks remain manual. No pilot-record/private-config/cover changes, hosting, commit or push. Evidence: verification/ARCHIVED_BOOKS_2026-11-23.md.
+
+
+
 ## Pointer focus outline correction - 2026-11-23
 
 Changed the shared and entry-page negative-tabindex focus selectors from :focus to :focus-visible. Pointer focus on the main container no longer outlines the whole page; keyboard controls and keyboard Skip to content retain visible focus. No blanket outline suppression or focus removal. Both stylesheet cache versions refreshed; pending system motion work preserved. Reproduced the original Welcome-page outline, then passed20 route/theme/width cases across five public routes,375/1440px and Light/Dark, including pointer focus, keyboard links and keyboard skip targets; zero browser runtime errors. Layout PHP lint and diff checks pass. No database, commit or push operation.

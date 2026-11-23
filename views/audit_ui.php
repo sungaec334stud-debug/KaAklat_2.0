@@ -30,6 +30,7 @@ function audit_event_label(string $code): string
         'catalog.cover' => 'Book cover replaced',
         'catalog.archive_copy' => 'Physical copy archived',
         'catalog.archive_book' => 'Catalog title archived',
+        'catalog.unarchive_book' => 'Catalog title unarchived',
         default => 'Recorded activity',
     };
 }

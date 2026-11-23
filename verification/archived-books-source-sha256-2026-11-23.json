@@ -1,0 +1,16 @@
+{
+  "app/archived_catalog.php": "bd621e5b9848dec16ceaba202401d0d3ad1296f209befc6962ab5c3b2aee258d",
+  "app/catalog_management.php": "792297138a71627409c163f14cddfb2ac17202efd99b2af4f4bf5e0d3a8d78c8",
+  "public/manage_books.php": "8ea9da3a280a3f207b5c3d5be47afb74e784979c2c1f73f45bdd475a8cb6afc2",
+  "public/cover.php": "c78579f02f486f0ce55e15a646d2ec3dc8405ddc6e281a854b24c83e446da754",
+  "views/archived_catalog.php": "c79296c82447e4b70fffff459344e3f531c96f5e02325d3ee7eb4b07f6a0005e",
+  "views/audit_ui.php": "d408179fb9e54be6f8b648e896363ecb48e1f000cc9fd7c8626048221076e783",
+  "views/layout.php": "4af64cf3e3aa03952090b7e024d2fc133e1d8e8f938d41ba0e9d0eaf331377b1",
+  "public/assets/native-navigation.css": "053b897d3ed376b2b01dc56065853d939058b9b85d32380ca7292dcf8eb40ca8",
+  "tests/archive_books_test.php": "9af5b431b763f6e2a86e4e9be84510916e260c317e3e7ec502c5d9e9f3868d8a",
+  "tests/archive_books_http_checks.php": "a4615b1899616debff8aa532732df997756c911ffc327509b70f524abfad73b2",
+  "tests/archive_browser_fixture.php": "804be4e8fd97d3034ae5d675c170041267c2666fb6e659dac25c2c59587ea835",
+  "tests/archive_books_browser_check.cjs": "fd93763aaf498b2caa101e232bd9be51f3a50211416e80d841529f246167eeab",
+  "tests/run_regression.php": "38de8f7897fe403d3e0308889d8e36f23d800a815e6cf320f8b1b161082e0168",
+  "tests/pickup_http_acceptance_test.php": "b8c736f39174345476eed13b74ee46ff78f34230004a65e41ec1f138075b41ae"
+}

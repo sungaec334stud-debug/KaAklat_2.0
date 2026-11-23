@@ -94,7 +94,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
     $workspaceAssets = '';
     if (in_array($path, $workspaceRoutes, true)) {
         $bodyClass .= ' workspace-screen';
-        $workspaceAssets = '<link rel="stylesheet" href="/assets/workspace.css?v=20261123-system">'
+        $workspaceAssets = '<link rel="stylesheet" href="/assets/workspace.css?v=20261123-student-review">'
             . '<script src="/assets/workspace.js?v=20261121-motion" defer></script>';
     }
     echo <<<HTML
@@ -111,6 +111,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
     {$entryAssets}
     {$navigationAssets}
     {$pageNavigationAssets}
+    <noscript><link rel="stylesheet" href="/assets/native-navigation.css"></noscript>
     <link rel="stylesheet" href="/assets/motion.css?v=20261123-system">
     <script src="/assets/forms.js" defer></script>
     <script src="/assets/disclosure.js?v=20261123-system" defer></script>

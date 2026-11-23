@@ -1,0 +1,2 @@
+/* Without scripts there is no observer to settle native transition promises. */
+@view-transition { navigation: none; }

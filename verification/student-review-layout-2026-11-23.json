@@ -1,0 +1,16 @@
+{
+  "layouts": 6,
+  "runtimeErrors": 0,
+  "checks": [
+    "three labelled action sections",
+    "one confirmation and CSRF/version per form",
+    "action-specific text",
+    "phone/tablet/desktop Light/Dark",
+    "smooth measured expansion",
+    "consistent field/confirmation/button spacing",
+    "keyboard checkbox",
+    "reduced motion",
+    "no record mutation"
+  ],
+  "limitations": "Chromium emulation only; physical devices, Safari, screen readers and actual400% zoom remain manual."
+}

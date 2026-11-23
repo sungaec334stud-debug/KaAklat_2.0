@@ -308,3 +308,21 @@
     .workspace-screen .account-tabs ul { gap: 6px; }
     .workspace-screen .account-tabs a { font-size: .75rem; padding: 10px 11px; }
 }
+
+/* Identity review: one clearly bounded native form and confirmation per action. */
+.student-identity-review { display: grid; gap: 20px; margin-top: 16px; }
+.student-identity-review > p { margin: 0; }
+.student-review-action { border: 1px solid var(--line); border-radius: 8px; padding: 18px; background: var(--soft); min-width: 0; }
+.student-review-action h4 { margin: 0 0 8px; font-size: 1rem; color: var(--ink); }
+.student-review-action > p { margin: 0 0 16px; color: var(--muted); }
+.student-review-form { display: grid; gap: 14px; margin: 0; max-width: none; }
+.student-review-form > .student-review-confirmation { display: grid; grid-template-columns: 20px minmax(0, 1fr); align-items: start; gap: 10px; margin: 0; font-weight: 500; line-height: 1.6; }
+.student-review-confirmation input[type=checkbox] { margin: 3px 0 0; width: 18px; height: 18px; }
+.student-review-form > .student-review-field { display: grid; gap: 8px; margin: 0; }
+.student-review-field input { margin: 0; }
+.student-review-form > .hint { margin: -8px 0 0; font-size: .8rem; }
+.student-review-form > button { margin: 0; justify-self: start; max-width: 100%; }
+.student-claim-review { border-top: 1px solid var(--line); padding-top: 16px; }
+.student-claim-review > summary { min-height: 44px; align-content: center; color: var(--ink); font-weight: 650; }
+.student-claim-review > .disclosure-content > p, .student-claim-review > p { margin: 10px 0 16px; }
+.student-claim-actions { display: grid; gap: 16px; }

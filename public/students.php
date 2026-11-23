@@ -6,6 +6,7 @@ require_once dirname(__DIR__) . '/app/bootstrap.php';
 require_once dirname(__DIR__) . '/app/student_accounts.php';
 require_once dirname(__DIR__) . '/views/layout.php';
 require_once dirname(__DIR__) . '/views/student_account_ui.php';
+require_once dirname(__DIR__) . '/views/student_review.php';
 require_once dirname(__DIR__) . '/app/pagination.php';
 
 start_application_session();
@@ -64,21 +65,7 @@ try {
         $form = '<form method="post" action="' . h($sectionUrl) . '"><input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '">'
             . '<input type="hidden" name="student_id" value="' . h($student['user_id']) . '">';
         if ($canReview) {
-            $hasClaim = $student['school_student_id'] !== null;
-            $reviewForm = $form . '<input type="hidden" name="review_version" value="' . h($student['session_version']) . '">'
-                . '<label><input type="checkbox" name="identity_confirmation" required> I checked the physical school ID in person.</label>';
-            $content .= '<div><p>School student ID: ' . h($student['school_student_id'] ?? 'No ID assigned') . '</p>';
-            if ($hasClaim) {
-                $content .= $reviewForm . '<button name="action" value="activate">Activate account</button></form>';
-            }
-            $content .= '<details><summary>Resolve a student ID claim</summary>'
-                . '<p>Correct the ID after verifying the account holder, or release a mistaken claim after verifying the rightful student. A released account stays pending.</p>'
-                . $reviewForm . '<label>Correct school student ID (YY-####-###)<input name="replacement_id" maxlength="11" autocomplete="off" pattern="[0-9]{2}-[0-9]{4}-[0-9]{3}"></label>'
-                . '<button name="action" value="correct_id">Save corrected ID</button></form>';
-            if ($hasClaim) {
-                $content .= $reviewForm . '<button class="button-caution" name="action" value="release_id">Release mistaken claim</button></form>';
-            }
-            $content .= '</details></div>';
+            $content .= student_identity_review_html($student, $sectionUrl, csrf_token());
         } elseif ($status !== 'pending') {
             $content .= $form . '<button name="action" value="' . h($action) . '" aria-label="' . h(ucfirst($action) . ' ' . $student['display_name']) . '">' . h(ucfirst($action)) . '</button></form>';
         } else {

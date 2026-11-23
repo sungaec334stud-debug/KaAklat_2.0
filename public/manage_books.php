@@ -6,6 +6,8 @@ require_once dirname(__DIR__) . '/app/bootstrap.php';
 require_once dirname(__DIR__) . '/app/catalog_management.php';
 require_once dirname(__DIR__) . '/views/layout.php';
 require_once dirname(__DIR__) . '/views/managed_catalog.php';
+require_once dirname(__DIR__) . '/app/archived_catalog.php';
+require_once dirname(__DIR__) . '/views/archived_catalog.php';
 start_application_session();
 header('Cache-Control: no-store');
 try {
@@ -15,13 +17,27 @@ try {
     require_active_librarian($user);
     if (!in_array($_SERVER['REQUEST_METHOD'], ['GET', 'POST'], true)) { http_response_code(405); header('Allow: GET, POST'); exit; }
     [$query, $page] = catalog_parameters($_GET);
+    $status = $_GET['status'] ?? 'active';
+    if (!is_string($status) || !in_array($status, ['active','archived'], true)) { throw new InvalidArgumentException('Choose Active books or Archived books.'); }
     $error = '';
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $savedId = catalog_manage($pdo, $_POST, $_POST['csrf_token'] ?? null, isset($_FILES['cover']) && is_array($_FILES['cover']) ? $_FILES['cover'] : null);
-            flash_set('success', 'Catalog updated successfully.');
+            flash_set('success', ($_POST['action'] ?? '') === 'unarchive_book' ? 'Book unarchived. Individually archived copies remain archived.' : 'Catalog updated successfully.');
+            if (($_POST['action'] ?? '') === 'unarchive_book') { redirect(archived_book_url(null,$query,$page)); }
             redirect(managed_book_url(($_POST['action'] ?? '') === 'archive_book' ? null : $savedId, $query, $page));
         } catch (InvalidArgumentException $exception) { $error = $exception->getMessage(); }
+    }
+    if ($status === 'archived') {
+        $idInput = $_GET['id'] ?? ($_POST['book_id'] ?? null);
+        $id = $idInput === null ? null : filter_var($idInput,FILTER_VALIDATE_INT,['options'=>['min_range'=>1]]);
+        $book = $id ? archived_catalog_book($pdo,$id) : null;
+        if ($idInput !== null && !$book && $error === '') { http_response_code(404); $error='This title is no longer archived. Refresh the archived list.'; }
+        if ($error !== '' && $_SERVER['REQUEST_METHOD'] === 'POST') { http_response_code(400); }
+        $results=archived_catalog_books($pdo,$query,$page);
+        render_page('Manage books','<section class="panel"><h1>Manage books</h1><p>Review archived titles and return eligible books to the active catalog.</p>'
+            .managed_catalog_tabs('archived').archived_catalog_html($results,$query,$book,$error).'</section>');
+        exit;
     }
     $idInput = $_GET['id'] ?? ($_POST['book_id'] ?? null);
     $id = $idInput === null ? null : filter_var($idInput, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
@@ -30,6 +46,7 @@ try {
     $token = '<input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '">';
     $bookField = $book ? '<input type="hidden" name="book_id" value="' . h($id) . '">' : '';
     $content = '<section class="panel"><h1>Manage books</h1><p>Add titles, keep details up to date, and manage physical copies.</p><p><a href="/catalog.php">Browse catalog</a> · <a href="/manage_books.php?new=1">Add a new book</a></p>';
+    $content .= managed_catalog_tabs('active');
     $results = catalog_books($pdo, $query, $page);
     $page = $results['page'];
     $editor = $error !== '' ? '<p class="flash flash-error" role="alert">' . h($error) . '</p>' : '';
@@ -81,6 +98,8 @@ try {
     render_page('Manage books', $content . '</section>');
 } catch (DomainException $exception) {
     http_response_code(403); render_page('Access denied', '<p role="alert">' . h($exception->getMessage()) . '</p>');
+} catch (InvalidArgumentException $exception) {
+    http_response_code(400); render_page('Check catalog options','<p role="alert">'.h($exception->getMessage()).'</p><a href="/manage_books.php">Manage books</a>');
 } catch (Throwable $exception) {
     $reference = bin2hex(random_bytes(8)); error_log('Catalog management failed [' . $reference . '] code=' . $exception->getCode());
     http_response_code(500); render_page('Unable to update catalog', '<p role="alert">Please try again later. Reference: ' . h($reference) . '</p>');

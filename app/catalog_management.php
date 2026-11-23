@@ -85,8 +85,16 @@ function catalog_manage_once(PDO $pdo, array $input, mixed $token, ?array $uploa
         if (array_key_exists($forged, $input)) { throw new InvalidArgumentException('Unexpected form fields. Refresh and try again.'); }
     }
     $action = $input['action'] ?? '';
-    if (!is_string($action) || !in_array($action, ['create', 'edit', 'add_copies', 'cover', 'archive_book', 'archive_copy'], true)) {
+    if (!is_string($action) || !in_array($action, ['create', 'edit', 'add_copies', 'cover', 'archive_book', 'archive_copy', 'unarchive_book'], true)) {
         throw new InvalidArgumentException('Choose a valid catalog action.');
+    }
+    if ($action === 'unarchive_book') {
+        $allowed = ['action','book_id','csrf_token','archive_version','archive_event','restore_confirmation'];
+        if (array_diff(array_keys($input), $allowed) || ($input['restore_confirmation'] ?? null) !== 'yes'
+            || !is_string($input['archive_version'] ?? null) || !preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/D', $input['archive_version'])
+            || filter_var($input['archive_event'] ?? null, FILTER_VALIDATE_INT, ['options'=>['min_range'=>0]]) === false) {
+            throw new InvalidArgumentException('Confirm restoration using the current archived book review.');
+        }
     }
     $actorId = $_SESSION['user_id'] ?? null;
     if (!is_int($actorId)) { throw new DomainException('Sign in as a librarian.'); }
@@ -117,7 +125,15 @@ function catalog_manage_once(PDO $pdo, array $input, mixed $token, ?array $uploa
             $statement = $pdo->prepare('SELECT book_id, archived_at FROM books WHERE book_id = ? FOR UPDATE');
             $statement->execute([$bookId]);
             $book = $statement->fetch();
-            if (!$book || $book['archived_at'] !== null) { throw new InvalidArgumentException('This book is archived or no longer available to edit.'); }
+            if ($action === 'unarchive_book') {
+                $event = $pdo->prepare("SELECT COALESCE(MAX(audit_id),0) FROM audit_events WHERE entity_type='books' AND entity_id=? AND event_code='catalog.archive_book'");
+                $event->execute([$bookId]);
+                if (!$book || $book['archived_at'] === null || $book['archived_at'] !== $input['archive_version']
+                    || (int)$event->fetchColumn() !== (int)$input['archive_event']) {
+                    throw new InvalidArgumentException('This archive has changed or the title is already active. Refresh the archived list before trying again.');
+                }
+                $pdo->prepare('UPDATE books SET archived_at=NULL WHERE book_id=?')->execute([$bookId]);
+            } elseif (!$book || $book['archived_at'] !== null) { throw new InvalidArgumentException('This book is archived or no longer available to edit.'); }
         }
         if ($data !== null) {
             $categoryId = null;

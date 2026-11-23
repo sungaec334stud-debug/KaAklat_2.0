@@ -1,0 +1,27 @@
+{
+  "browser": {
+    "layouts": 36,
+    "runtimeErrors": 0,
+    "checks": [
+      "Active/Archived tabs and current state",
+      "Light/Dark375/768/1440 responsive layouts",
+      "protected covers load",
+      "archived list/detail/pagination/empty states",
+      "explicit zero-active-copy warning",
+      "keyboard tab focus and native Enter",
+      "confirmation validation",
+      "successful restore and active-list visibility",
+      "native no-JS restoration",
+      "student/pending/admin denied"
+    ],
+    "limitations": "Chromium emulation only; physical-device, Safari, screen-reader and actual400% zoom checks remain manual."
+  },
+  "regressionScripts": 37,
+  "integrationAssertions": 32,
+  "httpAssertions": 508,
+  "nativeNavigationGuardChecks": 30,
+  "guestNavigationTransitions": 18,
+  "strictDesignAuditFindings": 0,
+  "schemaMigrationRequired": false,
+  "pilotMutationsDuringVerification": false
+}
