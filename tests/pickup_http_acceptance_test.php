@@ -124,5 +124,6 @@ try {
  require __DIR__ . '/catalog_discovery_http_checks.php';
  require __DIR__.'/archive_books_http_checks.php';
  require __DIR__.'/circulation_filters_http_checks.php';
+ require __DIR__.'/auth_history_http_checks.php';
  echo "Scratch database retained: $name\n";
 } finally {proc_terminate($server);proc_close($server);}

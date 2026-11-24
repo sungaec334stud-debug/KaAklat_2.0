@@ -14,3 +14,11 @@ document.querySelectorAll('[data-password]').forEach((button) => {
         button.setAttribute('title', label);
     });
 });
+
+// A cached pre-login entry must make a fresh GET, never replay a cached POST.
+// Other pages and ordinary browser Back/Forward remain entirely native.
+if (['/login.php', '/register.php'].includes(location.pathname)) {
+    window.addEventListener('pageshow', event => {
+        if (event.persisted) location.replace(location.href);
+    });
+}

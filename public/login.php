@@ -3,10 +3,13 @@
 declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/app/bootstrap.php';
+require_once dirname(__DIR__) . '/app/guest_entry.php';
 require_once dirname(__DIR__) . '/views/layout.php';
 require_once dirname(__DIR__) . '/views/auth_entry.php';
 
 start_application_session();
+header('Cache-Control: no-store');
+redirect_authenticated_entry();
 $config = application_config();
 $errors = [];
 $username = '';

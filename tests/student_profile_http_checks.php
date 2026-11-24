@@ -62,6 +62,9 @@ accept_check($code === 200 && str_contains($html, 'Waiting for librarian activat
 [$code] = accept_http($pendingClient, '/catalog.php');
 accept_check($code === 200, 'Pending profile does not change catalog browsing');
 foreach (['suspended','archived'] as $status) {
+    curl_close($pendingClient);
+    $pendingClient = curl_init();
+    curl_setopt_array($pendingClient, [CURLOPT_RETURNTRANSFER=>true, CURLOPT_COOKIEFILE=>'', CURLOPT_TIMEOUT=>10]);
     $db->exec("UPDATE users SET account_status='pending' WHERE username='profile_http_pending'");
     [$code,$html] = accept_http($pendingClient, '/login.php');
     [$code] = accept_http($pendingClient, '/login.php', ['username'=>'profile_http_pending','password'=>$password,'csrf_token'=>accept_token($html)]);

@@ -1,0 +1,37 @@
+{
+  "browser": {
+    "roleViewportCases": 8,
+    "backChecks": 48,
+    "runtimeErrors": 0,
+    "checks": [
+      "active/pending student, librarian and admin at375/1440",
+      "authenticated Login/Registration redirect without auth forms/sidebar mixture",
+      "native Back between recent app pages",
+      "actual traversal of pre-login entries preserves login",
+      "explicit logout returns true guest login",
+      "server guard without JavaScript"
+    ],
+    "limitations": "Chromium emulation; actual BFCache use depends on browser. Physical devices, Safari, screen readers and actual400% zoom not rerun."
+  },
+  "entry": {
+    "combinations": 64,
+    "runtimeErrors": 0,
+    "fixtureDatabase": "kaaklat_acceptance_b1079260d1d3",
+    "checks": [
+      "four routes / eight widths / Light and Dark",
+      "images, headings, About navigation, no overflow",
+      "keyboard password visibility and recovery disclosure",
+      "client error summary focus and field links",
+      "reduced motion",
+      "320 CSS-pixel reflow",
+      "JavaScript-disabled invalid server submission and retained values/password not echoed",
+      "four role/status sign-ins and unchanged authenticated dashboard shell"
+    ],
+    "limitations": "Chromium emulation only. Actual 400% browser zoom, physical Safari/phone/iPad/tablet and screen-reader checks remain manual."
+  },
+  "regressionScripts": 39,
+  "httpAssertions": 606,
+  "cachedEntryChecks": 6,
+  "pilotMutations": false,
+  "schemaChanged": false
+}

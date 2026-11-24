@@ -86,7 +86,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
     $entryAssets = '';
     if ($landing || in_array($path, ['/login.php', '/register.php', '/reset_password.php'], true)) {
         $bodyClass .= ' entry-page';
-        $entryAssets = '<link rel="stylesheet" href="/assets/entry.css?v=20261123-focus"><script src="/assets/entry.js?v=20261123-system" defer></script>';
+        $entryAssets = '<link rel="stylesheet" href="/assets/entry.css?v=20261123-focus"><script src="/assets/entry.js?v=20261124-history" defer></script>';
     }
     $workspaceRoutes = ['/staff.php', '/students.php', '/audit.php', '/recover_account.php',
         '/about.php', '/logout.php', '/review_requests.php', '/pickups.php', '/returns.php',

@@ -18,8 +18,10 @@ accept_check($newStudent['role']==='student' && $newStudent['account_status']===
 [$code]=accept_http($anonymous,'/requests.php',['action'=>'create','book_id'=>1,'days'=>7,'reason'=>'Fictional study reason','csrf_token'=>$newToken]); accept_check($code===403,'Pending borrowing blocked');
 $review = ['student_id'=>$newStudent['user_id'],'review_version'=>1,'csrf_token'=>$staffToken];
 accept_check($newStudent['school_student_id']==='26-0001-004','School ID preserves leading zeros');
+$claimClient=curl_init();curl_setopt_array($claimClient,[CURLOPT_RETURNTRANSFER=>true,CURLOPT_COOKIEFILE=>'',CURLOPT_TIMEOUT=>10]);
+[$code,$claimHtml]=accept_http($claimClient,'/register.php');$claimToken=accept_token($claimHtml);
 foreach (['26-1-004','26-0001-004'] as $claim) {
-    [$code,$body]=accept_http($anonymous,'/register.php',['school_student_id'=>$claim,'username'=>'second_claim','display_name'=>'Fictional duplicate','password'=>$password,'csrf_token'=>$newToken]);
+    [$code,$body]=accept_http($claimClient,'/register.php',['school_student_id'=>$claim,'username'=>'second_claim','display_name'=>'Fictional duplicate','password'=>$password,'csrf_token'=>$claimToken]);
     $message=$claim==='26-1-004' ? 'YY-####-### format' : 'visit the library';
     // The applicant's own submitted value may remain in their form; no ID or owner is disclosed elsewhere.
     $claimFeedback = preg_replace('/<input[^>]+name="school_student_id"[^>]*>/', '', $body);

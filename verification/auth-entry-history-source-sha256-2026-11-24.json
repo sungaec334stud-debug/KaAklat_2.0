@@ -1,0 +1,13 @@
+{
+  "app/guest_entry.php": "55af7600b141e5f0c71aba5c0eb4f7797a525e78e2eccfe0426b05f55fe24138",
+  "public/login.php": "685e4fd1810b057c93831415f2bcf32507c999116a4200386ebe229b6f1c7359",
+  "public/register.php": "1ca24baaef6b4d54558da61c355ef70d1f02a62bd708a7f3520287b3d1c0b4bc",
+  "public/assets/entry.js": "ebc696e3bb722b5161c39f9267b34fcb2e391e25f39459e38bd234ac1552681f",
+  "views/layout.php": "0fcb4be73fcb0d8dd03d817e450d4b49b5085070bf06943031c6a6825c9c1531",
+  "tests/auth_history_browser_check.cjs": "4b6ed5d971f83e7a665547d37870b2da66eb2a29bcf1da9f47e424365dd4379b",
+  "tests/auth_history_test.cjs": "aab8aee493b5be90cb9c2e994005976d7c46b392f31d0afe517c4f9b0eb42e26",
+  "tests/auth_history_http_checks.php": "79713fbcee71e44c40ce6e9bbcaeb4c22893fc99b1d08b14cd25007111674d98",
+  "tests/pickup_http_acceptance_test.php": "89ca4e56fce063ea6465b716fdfaf7a4c18792baddf5a3e6e0e6f63cb79f45c7",
+  "tests/broad_http_checks.php": "76084c9a9e0e9dee883c87ffb923878aac9cda729c0c610a1a2836f8df9d62ac",
+  "tests/student_profile_http_checks.php": "2d9bdef77c6149a5fab6fc9a26c162f2a4c66b08f4f568914bcd69fc67d1f034"
+}

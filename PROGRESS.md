@@ -1,5 +1,14 @@
 # KaAklat progress
 
+## Signed-in Login/Registration and browser history - 2026-11-24
+
+Fixed Login and Registration rendering guest forms inside an authenticated sidebar. Shared app/guest_entry.php validates the current database-backed session before either rendering or processing these entry forms. Verified signed-in students (active or pending), librarians and administrators redirect to the existing role-aware dashboard with303. Stale entry POSTs do not switch identities or create accounts. Existing idle expiry, session-version revocation and suspended/archived checks remain authoritative. A claimed session that cannot be verified gets a safe503 instead of a mixed page. Login now explicitly sends no-store, matching Registration.
+
+Ordinary Back/Forward between app pages stays native. A BFCache-restored Login/Registration page alone makes a fresh same-URL GET using location.replace, letting the server recheck identity without adding history entries or replaying POST. Guest entry pages, explicit logout, native forms and no-JavaScript server redirects remain available. No history trap, local-storage identity flag, artificial delay or recovery-policy change.
+
+Verified using isolated fictional fixtures:39 PHP regression scripts;606 HTTP assertions (48 new);8 role/viewport history cases with48 Back checks;6 cached-entry unit checks;64 existing responsive Light/Dark entry combinations;zero browser runtime exceptions. Changed PHP/JS syntax passes. Independent read-only review found no blocking issue. Actual BFCache selection varies by browser; physical devices, Safari, screen readers and actual400% zoom were not rerun. No pilot-record/config/cover/schema changes, hosting, commit or push. Evidence: verification/AUTH_ENTRY_HISTORY_2026-11-24.md.
+
+
 ## Circulation sorting and status filters - 2026-11-24
 
 Added shared native GET controls to Review requests, Pickups and Returns. Reviews default to oldest first and offer newest, shortest and longest requested borrowing period. Pickups default to nearest collection deadline and filter All outstanding / Ready for pickup / Expired, with farthest-deadline ordering available. Returns default to earliest due date and filter All outstanding / Overdue / Due today / Active-not-overdue, with latest due date available. Active includes due-today loans. Status uses existing UTC48-hour pickup and Philippine-calendar overdue rules; cancelled/collected/returned history remains excluded. No lifecycle, permission, CSRF, requested-duration cap or availability rule changes.
