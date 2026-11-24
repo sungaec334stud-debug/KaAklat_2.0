@@ -326,3 +326,22 @@
 .student-claim-review > summary { min-height: 44px; align-content: center; color: var(--ink); font-weight: 650; }
 .student-claim-review > .disclosure-content > p, .student-claim-review > p { margin: 10px 0 16px; }
 .student-claim-actions { display: grid; gap: 16px; }
+
+/* Shared circulation GET controls; page1 is implicit whenever Apply is used. */
+.workspace-screen main > section > form.circulation-controls { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,.8fr) minmax(0,.9fr) auto; align-items: end; gap: 14px; padding: 20px; margin-block: 22px; background: var(--soft); border: 1px solid var(--line); border-radius: 8px; }
+.workspace-screen main > section > form.circulation-controls-review { grid-template-columns: minmax(0,1.5fr) minmax(0,1fr) auto; }
+.circulation-controls > div { min-width: 0; }
+.circulation-controls label { display: block; margin: 0 0 6px; font-size: .8125rem; }
+.circulation-controls :is(input,select) { width: 100%; max-width: none; min-height: 44px; margin: 0; font-size: .875rem; }
+.circulation-filter-actions { display: flex; align-items: center; gap: 14px; }
+.circulation-filter-actions button { margin: 0; min-height: 44px; }
+.circulation-filter-actions a { display: inline-flex; align-items: center; min-height: 44px; }
+@media(max-width: 900px) {
+    .workspace-screen main > section > form.circulation-controls { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .circulation-filter-search, .circulation-filter-actions { grid-column: 1/-1; }
+}
+@media(max-width: 480px) {
+    .workspace-screen main > section > form.circulation-controls { grid-template-columns: minmax(0,1fr); padding: 16px; }
+    .circulation-filter-actions button { width: auto; }
+}
+.circulation-controls > .circulation-filter-hint { grid-column: 1/-1; margin: 0; font-size: .8125rem; color: var(--muted); }

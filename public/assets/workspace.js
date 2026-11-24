@@ -107,6 +107,16 @@
         name.textContent = title;
         const meta = document.createElement('span');
         meta.textContent = record.querySelector('p')?.textContent.trim() || 'View details and available actions';
+        if (record.dataset.queueStatus) {
+            // Keep status/deadline legible without concatenating every <br> field in the row.
+            const paragraph = record.querySelector('p');
+            const borrower = [];
+            for (const node of paragraph?.childNodes || []) {
+                if (node.nodeName === 'BR') break;
+                borrower.push(node.textContent);
+            }
+            meta.textContent = [record.dataset.queueStatus, record.dataset.queueDeadline, borrower.join('').trim()].filter(Boolean).join(' · ');
+        }
         const action = document.createElement('span');
         action.className = 'workspace-view';
         action.textContent = 'View →';

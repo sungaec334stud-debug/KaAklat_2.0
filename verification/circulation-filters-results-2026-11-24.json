@@ -1,0 +1,26 @@
+{
+  "browser": {
+    "layouts": 66,
+    "runtimeErrors": 0,
+    "checks": [
+      "11 sort/status views across375/768/1440 Light/Dark",
+      "native labelled44px controls",
+      "no horizontal overflow",
+      "selected options retained",
+      "keyboard focus",
+      "Apply resets page1",
+      "pagination retains search/sort",
+      "JavaScript-free native GET filter",
+      "expired pickup safeguards unchanged",
+      "aligned responsive controls",
+      "queue status and deadline visible in list"
+    ],
+    "limitations": "Chromium emulation only; physical devices, Safari, screen readers and actual400% zoom remain manual."
+  },
+  "regressionScripts": 39,
+  "queueServiceChecks": 34,
+  "httpAssertions": 558,
+  "strictDesignAuditFindings": 0,
+  "schemaMigrationRequired": false,
+  "pilotMutations": false
+}

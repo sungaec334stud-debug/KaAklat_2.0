@@ -7,6 +7,7 @@ require_once dirname(__DIR__) . '/views/layout.php';
 require_once dirname(__DIR__) . '/views/circulation_ui.php';
 require_once dirname(__DIR__) . '/views/request_ui.php';
 
+require_once dirname(__DIR__).'/views/circulation_filters.php';
 start_application_session();
 header('Cache-Control: no-store');
 
@@ -22,6 +23,7 @@ try {
         exit;
     }
     [$search, $page] = catalog_parameters($_GET);
+    $options=circulation_list_options('review',$_GET);
     $errors = '';
     $failedId = null;
     $fieldErrors = [];
@@ -40,7 +42,7 @@ try {
             flash_set('success', $action === 'approve'
                 ? 'Request approved. One copy is held for 48 hours. Borrowing has not started yet.'
                 : 'Request rejected. The student can see your explanation.');
-            redirect('/review_requests.php?' . http_build_query(['q' => $search, 'page' => $page]));
+            redirect('/review_requests.php?' . http_build_query(['q' => $search, 'page' => $page]+$options));
         } catch (InvalidArgumentException $e) {
             http_response_code(400);
             $field = str_contains($e->getMessage(),'Approved days') ? 'days-' . $failedId : (str_contains($e->getMessage(),'duration') || str_contains($e->getMessage(),'Explain') || str_contains($e->getMessage(),'Explanation') ? 'note-' . $failedId : (str_contains($e->getMessage(),'whole days') ? 'days-' . $failedId : ''));
@@ -48,11 +50,10 @@ try {
             $errors = form_error_summary($fieldErrors);
         }
     }
-    $rows = list_review_requests($db, $page, $search,$pagination); $page=$pagination['page'];
+    $rows = list_review_requests($db, $page, $search,$pagination,$options); $page=$pagination['page'];
     $content = '<section class="panel"><h1>Review borrowing requests</h1>' . $errors
         . '<p>Review the student’s reason and choose the final duration. Approval holds one copy for 48 hours; the loan starts only at physical pickup.</p>'
-        . '<form method="get" class="catalog-search"><label for="q">Search pending requests by book or student</label>'
-        . '<input id="q" name="q" maxlength="100" value="' . h($search) . '"><button>Search</button> <a href="/review_requests.php">Clear</a></form>';
+        . circulation_filter_form('review',$search,$options);
     if (!$rows) {
         $content .= '<div class="empty-state"><h2>No pending reviews here</h2><p>Try clearing the search or check ready-to-collect books.</p><a href="/review_requests.php">Clear search / first page</a> · <a href="/pickups.php">View pickups</a></div>';
     }
@@ -80,7 +81,7 @@ try {
             . field_error_html($fieldErrors,'note-' . $id)
             . '<div class="decision-actions"><section><h3>Approve collection</h3><p>Approve <strong>'.h($row['title']).'</strong> for <strong>'.h($row['student_name']).'</strong>. One copy will be held for 48 hours using the duration above.</p><button name="action" value="approve">Approve request</button></section><section><h3>Reject this request</h3><p>Reject this request for '.h($row['student_name']).'. Explain the reason above so the student understands your decision.</p><button class="button-danger" name="action" value="reject">Reject request</button></section></div></form></article>';
     }
-    $content .= pagination_html($pagination, static fn(int $target): string => '?'.http_build_query(['q'=>$search,'page'=>$target]), 'Pending request pages', 'requests');
+    $content .= pagination_html($pagination, static fn(int $target): string => '?'.http_build_query(['q'=>$search,'page'=>$target]+$options), 'Pending request pages', 'requests');
     render_page('Review requests', $content . '</section>');
 } catch (DomainException $e) {
     http_response_code(403);

@@ -30,6 +30,7 @@ $tests[] = 'student_account_details_test.php';
 $tests[] = 'design_review_test.php';
 $tests[] = 'archive_books_test.php';
 $tests[] = 'student_review_layout_test.php';
+$tests[] = 'circulation_filters_test.php';
 foreach ($tests as $test) {
     $process = proc_open([PHP_BINARY, __DIR__ . '/' . $test], [0=>STDIN,1=>STDOUT,2=>STDERR], $pipes);
     if (!is_resource($process) || proc_close($process) !== 0) { fwrite(STDERR, "FAIL: $test\n"); exit(1); }

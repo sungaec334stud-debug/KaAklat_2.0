@@ -1,5 +1,14 @@
 # KaAklat progress
 
+## Circulation sorting and status filters - 2026-11-24
+
+Added shared native GET controls to Review requests, Pickups and Returns. Reviews default to oldest first and offer newest, shortest and longest requested borrowing period. Pickups default to nearest collection deadline and filter All outstanding / Ready for pickup / Expired, with farthest-deadline ordering available. Returns default to earliest due date and filter All outstanding / Overdue / Due today / Active-not-overdue, with latest due date available. Active includes due-today loans. Status uses existing UTC48-hour pickup and Philippine-calendar overdue rules; cancelled/collected/returned history remains excluded. No lifecycle, permission, CSRF, requested-duration cap or availability rule changes.
+
+One server allowlist owns filters/sort keys; SQL values remain parameterized, ordering uses fixed internal expressions and deterministic request-ID ties. Filters apply before counts/pagination. Apply starts page1, Clear restores defaults, and pagination/validation/success redirects retain search/status/sort. Existing pagination design and native forms remain. Queue summaries now show status/deadline with readable separators; full details/actions remain intact. Responsive controls use existing theme tokens and44px native targets.
+
+Verified on isolated fictional fixtures:39 regression scripts including34 new queue service checks;558 workflow HTTP assertions;66 browser layouts (11 status/order views ×375/768/1440px ×Light/Dark), selected options, keyboard focus, labelled44px targets, aligned layouts, no overflow, search/sort pagination retention, page1 reset and no-JS GET filtering. Zero runtime exceptions. PHP/JS syntax and strict design audit pass; phone/desktop screenshots inspected and independent read-only review found no actionable issue. Physical-device/Safari/screen-reader/actual400% zoom acceptance remains manual. No schema migration, pilot mutations, hosting, commit or push. Evidence: verification/CIRCULATION_FILTERS_2026-11-24.md.
+
+
 ## Requested duration caps librarian approval - 2026-11-24
 
 Approved days may now equal or be shorter than the student's requested days, never longer. The decision service validates the authoritative requested_days after locking/rechecking the pending request and before any allocation, expiry cleanup, decision or audit writes. A longer period is refused even with an explanation. Shortening still requires an explanation; rejection behavior remains unchanged. The review field defaults to requested days, uses that request's HTML maximum and linked guidance, and associates an overlong server error with the duration field.

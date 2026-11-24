@@ -5,6 +5,7 @@ require_once dirname(__DIR__).'/app/approved_cancellation.php';
 require_once dirname(__DIR__).'/views/request_ui.php';
 require_once dirname(__DIR__).'/views/layout.php';
 require_once dirname(__DIR__).'/views/circulation_ui.php';
+require_once dirname(__DIR__).'/views/circulation_filters.php';
 start_application_session();
 header('Cache-Control: no-store');
 try {
@@ -15,6 +16,7 @@ try {
     $method=$_SERVER['REQUEST_METHOD'];
     if(!in_array($method,['GET','POST'],true)) { http_response_code(405); header('Allow: GET, POST'); exit; }
     [$search,$page]=catalog_parameters($_GET);
+    $options=circulation_list_options('pickups',$_GET);
     $error=''; $failedId=null; $cancelNote=''; $cancelError='';
     if($method==='POST') {
         try {
@@ -26,7 +28,7 @@ try {
                 $cancelNote=is_string($_POST['cancellation_note']??null)?$_POST['cancellation_note']:'';
                 $result=cancel_approved_request($db,$id,$_POST['csrf_token']??null,$_POST['cancellation_note']??null);
                 flash_set($result==='expired'?'error':'success',$result==='expired'?'This allocation expired; it was not voluntarily cancelled.':($result==='already_cancelled'?'Already cancelled. Original cancellation details are unchanged.':'Uncollected allocation cancelled. History is preserved.'));
-                redirect('/pickups.php?'.http_build_query(['q'=>$search,'page'=>$page]));
+                redirect('/pickups.php?'.http_build_query(['q'=>$search,'page'=>$page]+$options));
             }
             $result=record_pickup($db,$id,$_POST['csrf_token']??null);
             flash_set($result==='expired'?'error':'success',match($result) {
@@ -34,18 +36,18 @@ try {
                 'already_collected'=>'Pickup was already recorded. Its original date and due date are unchanged.',
                 default=>'Physical pickup recorded. The student can now see the loan and due date.'
             });
-            redirect('/pickups.php?'.http_build_query(['q'=>$search,'page'=>$page]));
+            redirect('/pickups.php?'.http_build_query(['q'=>$search,'page'=>$page]+$options));
         } catch(InvalidArgumentException $e) { http_response_code(400); $cancelError=$failedId!==null?$e->getMessage():''; $error=form_error_summary([''=>$e->getMessage()]); }
     }
-    $rows=list_pickups($db,$page,$search,$pagination); $page=$pagination['page'];
+    $rows=list_pickups($db,$page,$search,$pagination,$options); $page=$pagination['page'];
     if($cancelError!=='' && in_array($failedId,array_map('intval',array_column(array_slice($rows,0,20),'request_id')),true)) {
         $error=form_error_summary(['cancel-note-'.$failedId=>$cancelError]);
     }
-    $content='<section class="panel"><h1>Physical book pickup</h1>'.$error.'<p>Confirm only when you physically hand the allocated copy to the student. The borrowing period starts at handover.</p><form method="get" class="catalog-search"><label for="q">Search book or student</label><input id="q" name="q" maxlength="100" value="'.h($search).'"><button>Search</button> <a href="/pickups.php">Clear</a></form>';
+    $content='<section class="panel"><h1>Physical book pickup</h1>'.$error.'<p>Confirm only when you physically hand the allocated copy to the student. The borrowing period starts at handover.</p>'.circulation_filter_form('pickups',$search,$options);
     if(!$rows) { $content.='<p>No pickups on this page. Try clearing the search or return to the first page.</p><a href="/pickups.php">Clear search / first page</a>'; }
     foreach(array_slice($rows,0,20) as $row) {
         $deadline=(new DateTimeImmutable($row['decided_at'],new DateTimeZone('UTC')))->modify('+48 hours')->setTimezone(new DateTimeZone('Asia/Manila'))->format('M j, Y g:i a');
-        $content.='<article class="management-section"><header class="circulation-heading">'.circulation_cover_html($row).'<h2>'.h($row['title']).'</h2></header><p><strong>'.h($row['student_name']).'</strong> ('.h($row['username']).')</p><p>Allocated copy: <strong>'.h($row['copy_code']).'</strong><br>Approved duration: '.h($row['approved_days']).' days<br>Collection deadline: '.h($deadline).'</p>';
+        $content.='<article class="management-section" data-queue-status="'.((bool)$row['expired']?'Expired':'Ready for pickup').'" data-queue-deadline="'.h('Collect by '.$deadline).'"><header class="circulation-heading">'.circulation_cover_html($row).'<h2>'.h($row['title']).'</h2></header><p><strong>'.h($row['student_name']).'</strong> ('.h($row['username']).')</p><p>Allocated copy: <strong>'.h($row['copy_code']).'</strong><br>Approved duration: '.h($row['approved_days']).' days<br>Collection deadline: '.h($deadline).'</p>';
         if((bool)$row['expired']) { $content.='<p class="flash flash-error">Expired — do not hand over this copy. This student needs a new request.</p>'; }
         else { $content.='<p>Awaiting collection. Eligibility is checked again when confirming.</p>'; }
         $content.='<form method="post"><input type="hidden" name="action" value="pickup"><input type="hidden" name="request_id" value="'.h($row['request_id']).'"><input type="hidden" name="csrf_token" value="'.h(csrf_token()).'"><button aria-label="'.h(((bool)$row['expired']?'Release expired allocation for ':'Confirm pickup of ').$row['title'].', copy '.$row['copy_code']).'">'.((bool)$row['expired']?'Release expired allocation':'Confirm physical handover').'</button></form>';
@@ -56,7 +58,7 @@ try {
         }
         $content.='</article>';
     }
-    $content .= pagination_html($pagination, static fn(int $target): string => '?'.http_build_query(['q'=>$search,'page'=>$target]), 'Pickup pages', 'pickups');
+    $content .= pagination_html($pagination, static fn(int $target): string => '?'.http_build_query(['q'=>$search,'page'=>$target]+$options), 'Pickup pages', 'pickups');
     render_page('Physical pickup',$content.'</section>');
 } catch(DomainException $e) {
     http_response_code(403); render_page('Access denied','<section class="panel"><h1>Access denied</h1><p role="alert">'.h($e->getMessage()).'</p><a href="/">Dashboard</a></section>');

@@ -94,8 +94,8 @@ function render_page(string $title, string $content, bool $landing = false): voi
     $workspaceAssets = '';
     if (in_array($path, $workspaceRoutes, true)) {
         $bodyClass .= ' workspace-screen';
-        $workspaceAssets = '<link rel="stylesheet" href="/assets/workspace.css?v=20261123-student-review">'
-            . '<script src="/assets/workspace.js?v=20261121-motion" defer></script>';
+        $workspaceAssets = '<link rel="stylesheet" href="/assets/workspace.css?v=20261124-queue-filters">'
+            . '<script src="/assets/workspace.js?v=20261124-queue-filters" defer></script>';
     }
     echo <<<HTML
 <!doctype html>

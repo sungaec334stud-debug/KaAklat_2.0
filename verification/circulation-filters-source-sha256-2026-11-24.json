@@ -1,0 +1,20 @@
+{
+  "app/circulation_filters.php": "406d489b46a77fc312cf16cdac1a1b4847d68e4108e165a4405f9f382085bbac",
+  "app/request_decisions.php": "38b9f29fb814ff575f74e1c16e04684c76533191f81570207503c93a92538765",
+  "app/pickups.php": "03790adc70a7e3c075bbd939dcc6379dd0f2a4256cfd003f01ba947dfc7caf8e",
+  "app/returns.php": "e9c88bcff1bf55c987e492cb5a1fb5470db1a9e59cf535d2fc84d7880abb7497",
+  "views/circulation_filters.php": "7ffa59a28115de4148ee77c67d82a774a6da57f1abe71b49caa518e824fdc4bb",
+  "views/return_ui.php": "03c8bf1298b03996426351f449a30b3241e2808a979021ef15bd0ac449d66c97",
+  "views/layout.php": "988ca49ff602233ecee4a794614b6f28c5e8d4051d22ff1223d4d7f982a4f940",
+  "public/review_requests.php": "7bf2637600ec1c9d7ba3f2ff8c85c1c2b3a7a1f9752e3093c18c20b21f241950",
+  "public/pickups.php": "6d748c35ce1517a68a20d1793929a84d9306a1fd759834b33bc95102306c990b",
+  "public/returns.php": "807f95f3af5c101f2f4dd6b609559d8047ef931c28bd627323baad54671724a1",
+  "public/assets/workspace.css": "7cfc1c9ea924e5e5c3a0f4e715a954b1d071bd0ae01b3879ef7f8830c1238d69",
+  "public/assets/workspace.js": "b5e2873c459dc6dae2bcb4a1e17a6c2c82187986eea1e891230cb1e2fd8ba7ce",
+  "tests/circulation_filters_test.php": "861afbb163f7ce7c00ee3e6f90f3dbb75e4fbdc285eb9cb970b450de8be1332d",
+  "tests/circulation_filters_http_checks.php": "cbb45f44ef2fbc9766036070ccd420dac87eb53f96c0e9f17f1863bba2a0db01",
+  "tests/circulation_browser_fixture.php": "6c858db50a24cc941922c47077919fd32cc3680807f4a865bf8622b30c8ac603",
+  "tests/circulation_filters_browser_check.cjs": "56fae24b9bb6c94204e7e1408cf0ee5978fb8e228237b2a9fa0e38e08cc828a5",
+  "tests/run_regression.php": "a889412e3d93bf40c3b292a53a7eda9bae3f96bb4ac888c613b99e2f213ba139",
+  "tests/pickup_http_acceptance_test.php": "4d47e3322411823a12b8fea4940bb2d459109a3534c3dbdbe3c1bf958521e3ac"
+}

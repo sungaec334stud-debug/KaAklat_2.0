@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__.'/circulation_filters.php';
 require_once __DIR__ . '/borrow_requests.php';
 
 function require_request_librarian(?array $user): void
@@ -105,10 +106,11 @@ function decide_borrow_request(PDO $db, int $requestId, string $action, mixed $d
     }
 }
 
-function list_review_requests(PDO $db, int $page, string $search='', ?array &$pagination = null): array
+function list_review_requests(PDO $db, int $page, string $search='', ?array &$pagination = null, array $options = []): array
 {
     require_request_librarian(current_user($db));
     if($page<1 || $page>10000 || mb_strlen($search)>100) { throw new InvalidArgumentException('Choose a valid page and search of at most 100 characters.'); }
+    $options=circulation_list_options('review',$options);
     $sql="SELECT r.*,b.title,b.cover_path,b.archived_at AS book_archived_at,u.display_name AS student_name,u.username,u.account_status,
         (SELECT COUNT(*) FROM book_copies c WHERE c.book_id=b.book_id AND c.archived_at IS NULL AND b.archived_at IS NULL AND NOT EXISTS(SELECT 1 FROM loans l JOIN borrow_requests a ON a.request_id=l.request_id WHERE l.copy_id=c.copy_id AND l.returned_at IS NULL AND l.cancelled_at IS NULL AND (l.checked_out_at IS NOT NULL OR a.decided_at>UTC_TIMESTAMP()-INTERVAL 48 HOUR))) AS available_copies,
         (SELECT COUNT(*) FROM loans l JOIN borrow_requests a ON a.request_id=l.request_id WHERE a.student_id=u.user_id AND l.returned_at IS NULL AND l.cancelled_at IS NULL AND (l.checked_out_at IS NOT NULL OR a.decided_at>UTC_TIMESTAMP()-INTERVAL 48 HOUR)) AS live_allowance,
@@ -116,5 +118,6 @@ function list_review_requests(PDO $db, int $page, string $search='', ?array &$pa
         FROM borrow_requests r JOIN books b ON b.book_id=r.book_id JOIN users u ON u.user_id=r.student_id WHERE r.decision='pending'";
     $args=[];
     if(trim($search)!=='') { $sql.=' AND (LOCATE(?,b.title)>0 OR LOCATE(?,u.display_name)>0 OR LOCATE(?,u.username)>0)'; $args=array_fill(0,3,trim($search)); }
-    return pagination_rows($db, $sql, $args, 'r.requested_at,r.request_id', $page, 20, $pagination, 10000, func_num_args() >= 4);
+    $orders=['oldest'=>'r.requested_at ASC,r.request_id ASC','newest'=>'r.requested_at DESC,r.request_id DESC','shortest'=>'r.requested_days ASC,r.requested_at ASC,r.request_id ASC','longest'=>'r.requested_days DESC,r.requested_at ASC,r.request_id ASC'];
+    return pagination_rows($db, $sql, $args, $orders[$options['sort']], $page, 20, $pagination, 10000, func_num_args() >= 4);
 }
