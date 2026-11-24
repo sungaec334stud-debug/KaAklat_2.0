@@ -62,7 +62,8 @@ function decide_borrow_request(PDO $db, int $requestId, string $action, mixed $d
             if ($action==='approve') {
                 if (!$users[$studentId] || $users[$studentId]['role']!=='student' || $users[$studentId]['account_status']!=='active') { throw new InvalidArgumentException('The student must have an active account.'); }
                 if (!$book || $book['archived_at']!==null) { throw new InvalidArgumentException('This book is archived or unavailable.'); }
-                if ($approvedDays!==(int)$request['requested_days'] && $note==='') { throw new InvalidArgumentException('Explain the change to the requested duration.'); }
+                if ($approvedDays>(int)$request['requested_days']) { throw new InvalidArgumentException('Approved days cannot exceed the student’s requested period of ' . (int)$request['requested_days'] . ' days.'); }
+                if ($approvedDays!==(int)$request['requested_days'] && $note==='') { throw new InvalidArgumentException('Explain why the requested duration is being shortened.'); }
                 $s=$db->prepare("SELECT r.book_id,l.checked_out_at,l.due_date FROM loans l JOIN borrow_requests r ON r.request_id=l.request_id WHERE r.student_id=? AND l.returned_at IS NULL AND l.cancelled_at IS NULL AND (l.checked_out_at IS NOT NULL OR r.decided_at>DATE_SUB(?,INTERVAL 48 HOUR))");
                 $s->execute([$studentId,$now]); $live=$s->fetchAll();
                 $today=(new DateTimeImmutable($now,new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d');

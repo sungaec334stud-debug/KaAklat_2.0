@@ -29,9 +29,12 @@ foreach([1,4] as $actor) { $_SESSION['user_id']=$actor; decision_denied(fn()=>de
 $_SESSION['user_id']=3;
 decision_denied(fn()=>decide_borrow_request($pdo,1,'approve',8,'',$token));
 decision_denied(fn()=>decide_borrow_request($pdo,1,'reject',null,'',$token));
-decide_borrow_request($pdo,1,'approve',8,'A fictional revised duration.',$token);
+decision_denied(fn()=>decide_borrow_request($pdo,1,'approve',8,'Even an explanation must not extend the student request.',$token));
+decision_assert($pdo->query('SELECT decision FROM borrow_requests WHERE request_id=1')->fetchColumn()==='pending' && (int)$pdo->query('SELECT COUNT(*) FROM loans')->fetchColumn()===0 && (int)$pdo->query('SELECT COUNT(*) FROM audit_events')->fetchColumn()===0,'Rejected extension leaves request, allocations and audit unchanged');
+decision_denied(fn()=>decide_borrow_request($pdo,1,'approve',6,'',$token));
+decide_borrow_request($pdo,1,'approve',6,'A fictional shorter duration.',$token);
 $row=$pdo->query('SELECT * FROM borrow_requests WHERE request_id=1')->fetch();
-decision_assert((int)$row['requested_days']===7 && (int)$row['approved_days']===8 && $row['request_reason']==='Private fictional reason','Original terms retained');
+decision_assert((int)$row['requested_days']===7 && (int)$row['approved_days']===6 && $row['request_reason']==='Private fictional reason','Original terms retained');
 decision_assert((int)catalog_book($pdo,1)['available_copies']===0,'Approval availability');
 decision_assert($pdo->query('SELECT checked_out_at FROM loans WHERE request_id=1')->fetchColumn()===null,'No pickup');
 decision_denied(fn()=>decide_borrow_request($pdo,1,'approve',7,'',$token));

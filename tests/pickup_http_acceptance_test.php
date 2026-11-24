@@ -53,14 +53,22 @@ try {
  [$code]=accept_http($student,'/requests.php?book=1',['action'=>'create','book_id'=>1,'days'=>7,'reason'=>'Fictional acceptance reason','csrf_token'=>$token]);accept_check($code===303,'Student request submission');
  $id=(int)$db->query('SELECT request_id FROM borrow_requests WHERE student_id=1')->fetchColumn();
  [$code,$html]=accept_http($staff,'/review_requests.php');$staffToken=accept_token($html);accept_check(str_contains($html,'href="/students.php"') && str_contains($html,'href="/pickups.php"'),'Librarian navigation');
- [$code,$html]=accept_http($staff,'/review_requests.php',['request_id'=>$id,'action'=>'approve','days'=>8,'note'=>'','csrf_token'=>$staffToken]);accept_check($code===400 && str_contains($html,'note-'.$id.'-error'),'Changed-duration field error');
- [$code]=accept_http($staff,'/review_requests.php',['request_id'=>$id,'action'=>'approve','days'=>8,'note'=>'Fictional approved duration explanation','csrf_token'=>$staffToken]);accept_check($code===303,'Approval HTTP transition');
+ [$code,$durationHtml]=accept_http($staff,'/review_requests.php');
+ accept_check($code===200 && preg_match('/name="days"[^>]*max="7"[^>]*value="7"/',$durationHtml)===1,'Approval field defaults to requested days and caps at request');
+ $auditBefore=(int)$db->query('SELECT COUNT(*) FROM audit_events')->fetchColumn();
+ foreach([8,30] as $overlong){
+     [$code,$durationHtml]=accept_http($staff,'/review_requests.php',['request_id'=>$id,'action'=>'approve','days'=>$overlong,'note'=>'An explanation cannot extend the student request.','csrf_token'=>$staffToken]);
+     accept_check($code===400 && str_contains($durationHtml,'days-'.$id.'-error') && str_contains($durationHtml,'cannot exceed'),'Overlong approval refused with duration field error');
+     accept_check($db->query('SELECT decision FROM borrow_requests WHERE request_id='.$id)->fetchColumn()==='pending' && (int)$db->query('SELECT COUNT(*) FROM loans')->fetchColumn()===0 && (int)$db->query('SELECT COUNT(*) FROM audit_events')->fetchColumn()===$auditBefore,'Rejected extension leaves pending request, allocation and audit unchanged');
+ }
+ [$code,$html]=accept_http($staff,'/review_requests.php',['request_id'=>$id,'action'=>'approve','days'=>6,'note'=>'','csrf_token'=>$staffToken]);accept_check($code===400 && str_contains($html,'note-'.$id.'-error'),'Changed-duration field error');
+ [$code]=accept_http($staff,'/review_requests.php',['request_id'=>$id,'action'=>'approve','days'=>6,'note'=>'Fictional approved duration explanation','csrf_token'=>$staffToken]);accept_check($code===303,'Approval HTTP transition');
  [$code,$html]=accept_http($staff,'/pickups.php');accept_check($code===200 && str_contains($html,'ACCEPT-1'),'Pickup allocated code shown');
  foreach([['csrf_token'=>'forged'],['role'=>'administrator']] as $forgery){[$code]=accept_http($staff,'/pickups.php',array_replace(['request_id'=>$id,'action'=>'pickup','csrf_token'=>$staffToken],$forgery));accept_check($code===400,'Forged pickup input refused');}
  require_once dirname(__DIR__).'/app/catalog.php'; $availableBefore=(int)catalog_book($db,1)['available_copies'];
  [$code]=accept_http($staff,'/pickups.php',['request_id'=>$id,'action'=>'pickup','csrf_token'=>$staffToken]);accept_check($code===303,'Pickup HTTP transition');
  accept_check((int)catalog_book($db,1)['available_copies']===$availableBefore,'Availability unchanged by pickup');
- $loan=$db->query('SELECT * FROM loans')->fetch();require_once dirname(__DIR__).'/app/pickups.php';accept_check($loan['due_date']===pickup_due_date($loan['checked_out_at'],8),'Actual Manila due date');
+ $loan=$db->query('SELECT * FROM loans')->fetch();require_once dirname(__DIR__).'/app/pickups.php';accept_check($loan['due_date']===pickup_due_date($loan['checked_out_at'],6),'Actual Manila due date');
  [$code]=accept_http($staff,'/pickups.php',['request_id'=>$id,'action'=>'pickup','csrf_token'=>$staffToken]);accept_check($code===303 && $loan===$db->query('SELECT * FROM loans')->fetch() && (int)$db->query("SELECT COUNT(*) FROM audit_events WHERE event_code='loan.collected'")->fetchColumn()===1,'Repeated pickup unchanged and single audit');
  [$code,$html]=accept_http($student,'/requests.php?status=active');accept_check($code===200 && str_contains($html,'Active loan') && str_contains($html,'Picked up:') && str_contains($html,'Fictional approved duration explanation'),'Student active card and approved/original terms');
  [$code,$html]=accept_http($clients['other'],'/requests.php');accept_check(!str_contains($html,'Fictional Acceptance 1') && str_contains($html,'No requests'),'Other student isolated empty state');

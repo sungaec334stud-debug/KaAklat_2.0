@@ -1,0 +1,20 @@
+{
+  "browser": {
+    "layouts": 6,
+    "runtimeErrors": 0,
+    "checks": [
+      "1/7/30 requested bounds and defaults",
+      "Light/Dark375/768/1440",
+      "linked duration guidance",
+      "native overlong validation",
+      "forged native POST rejected by server with field error",
+      "no overflow"
+    ],
+    "limitations": "Chromium emulation only; physical-device, Safari, screen-reader and actual400% zoom checks not rerun."
+  },
+  "regressionScripts": 38,
+  "httpAssertions": 513,
+  "fictionalBackupRestoreChecks": 52,
+  "strictAuditFindings": 0,
+  "pilotMutations": false
+}

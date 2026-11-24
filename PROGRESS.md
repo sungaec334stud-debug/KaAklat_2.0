@@ -1,5 +1,12 @@
 # KaAklat progress
 
+## Requested duration caps librarian approval - 2026-11-24
+
+Approved days may now equal or be shorter than the student's requested days, never longer. The decision service validates the authoritative requested_days after locking/rechecking the pending request and before any allocation, expiry cleanup, decision or audit writes. A longer period is refused even with an explanation. Shortening still requires an explanation; rejection behavior remains unchanged. The review field defaults to requested days, uses that request's HTML maximum and linked guidance, and associates an overlong server error with the duration field.
+
+Existing approved decisions, due dates and historical records are not edited. No schema migration or pilot mutation. Preserved all pre-existing uncommitted documentation. Verified: failing overlong-with-note regression reproduced first; final38 regression scripts,513 isolated workflow HTTP assertions,6 Light/Dark browser layouts at375/768/1440px (1/7/30-day limits, defaults, client rejection and forged POST field error),52 fictional backup/restore compatibility checks, syntax and strict design audit pass. Zero browser runtime errors; independent review found no actionable issue. Physical-device/Safari/screen-reader/actual400% zoom checks remain manual. No hosting, commit or push. Evidence: verification/REQUESTED_DURATION_LIMIT_2026-11-24.md.
+
+
 
 ## Student identity review layout - 2026-11-23
 
@@ -628,3 +635,7 @@ Created output/documents/KaAklat_Chapters_1_2_3_Styled_TOC.docx. TOC1 bold major
 Unified Welcome, Login, Registration, Password recovery and guest About headers in public/assets/app.css. Removed conflicting entry.css header overrides. Desktop branding, university label, navigation and theme control now share dimensions; phones use left branding/right theme above centered links. The university header label is consistently hidden at 1050px and below; page content remains intact. Authenticated navigation, theme logic, native page transitions and database code are unchanged.
 
 Verification: 160 header layouts across five routes, sixteen widths (320–1920px) and both themes; 25 theme layouts/50 toggles; 18 actual document transitions; 64 entry combinations and four fixture role sign-ins. PHP lint, JavaScript syntax and strict design audit pass. Browser checks use isolated fictional fixtures, not pilot accounts. Physical devices, Safari, screen readers and actual 400% zoom were not rerun. Evidence: verification/GUEST_HEADER_PARITY_2026-11-22.md. No commit or push.
+
+## Demo flow and script PDF - 2026-11-23
+
+Created output/pdf/KaAklat_Demo_Flow_and_Script.pdf from the conversation's approved-scope demo guidance: five pages with a 6:20 target, 40-second buffer, navigation cues, nine speaking sections, preparation and truthful-claim reminders. PDF-only deliverable; no application or database changes. Verified five pages and required text using pypdf and visually inspected all five Poppler-rendered pages; no clipping or overlap found. Initial exact text check failed on PDF line wrapping; whitespace normalization corrected the check and the rerun passed. Poppler emitted fallback font warnings but rendered all pages legibly. No live demo rehearsal or application tests performed. Next: presenter timed rehearsal.

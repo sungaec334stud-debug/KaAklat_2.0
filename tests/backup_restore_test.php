@@ -102,7 +102,7 @@ try {
         $source->exec("INSERT INTO book_copies(copy_id,book_id,copy_code) VALUES($book,$book,'RESTORE-$book')");
     }
     $activeId = create_borrow_request($source, 2, 7, 'Fictional active loan history.', restore_session(1));
-    decide_borrow_request($source, $activeId, 'approve', 8, 'Fictional duration explanation.', restore_session(2));
+    decide_borrow_request($source, $activeId, 'approve', 6, 'Fictional duration explanation.', restore_session(2));
     record_pickup($source, $activeId, restore_session(2));
     $returnedId = create_borrow_request($source, 3, 7, 'Fictional returned loan history.', restore_session(1));
     decide_borrow_request($source, $returnedId, 'approve', 7, '', restore_session(2));

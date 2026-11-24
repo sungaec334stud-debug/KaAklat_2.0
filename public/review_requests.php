@@ -43,7 +43,7 @@ try {
             redirect('/review_requests.php?' . http_build_query(['q' => $search, 'page' => $page]));
         } catch (InvalidArgumentException $e) {
             http_response_code(400);
-            $field = str_contains($e->getMessage(),'duration') || str_contains($e->getMessage(),'Explain') || str_contains($e->getMessage(),'Explanation') ? 'note-' . $failedId : (str_contains($e->getMessage(),'whole days') ? 'days-' . $failedId : '');
+            $field = str_contains($e->getMessage(),'Approved days') ? 'days-' . $failedId : (str_contains($e->getMessage(),'duration') || str_contains($e->getMessage(),'Explain') || str_contains($e->getMessage(),'Explanation') ? 'note-' . $failedId : (str_contains($e->getMessage(),'whole days') ? 'days-' . $failedId : ''));
             $fieldErrors = [$field => $e->getMessage()];
             $errors = form_error_summary($fieldErrors);
         }
@@ -71,10 +71,11 @@ try {
             . '<p class="book-description">' . nl2br(h($row['request_reason'])) . '</p>'
             . '<form method="post" novalidate><input type="hidden" name="request_id" value="' . h($id) . '">'
             . '<input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '">'
-            . '<label for="days-' . $id . '">Approved duration (1–30 days)</label><input id="days-' . $id . '" name="days" type="number" min="1" max="30" value="' . h($days) . '">'
+            . '<label for="days-' . $id . '">Approved duration (maximum ' . h($row['requested_days']) . ' days)</label><input id="days-' . $id . '" name="days" type="number" min="1" max="' . h($row['requested_days']) . '" aria-describedby="days-help-' . $id . '" value="' . h($days) . '">'
+            . '<p id="days-help-' . $id . '">Approve the requested period or shorten it. The student’s requested period is the maximum.</p>'
             . field_error_html($fieldErrors,'days-' . $id)
             . '<label for="note-' . $id . '">Explanation for the student (maximum 500 characters)</label>'
-            . '<p id="note-help-' . $id . '">Required when rejecting or changing the requested duration. Eligibility and availability are checked again when you approve.</p>'
+            . '<p id="note-help-' . $id . '">Required when rejecting or shortening the requested duration. Eligibility and availability are checked again when you approve.</p>'
             . '<textarea id="note-' . $id . '" name="note" maxlength="500" rows="3" aria-describedby="note-help-' . $id . '">' . h($note) . '</textarea>'
             . field_error_html($fieldErrors,'note-' . $id)
             . '<div class="decision-actions"><section><h3>Approve collection</h3><p>Approve <strong>'.h($row['title']).'</strong> for <strong>'.h($row['student_name']).'</strong>. One copy will be held for 48 hours using the duration above.</p><button name="action" value="approve">Approve request</button></section><section><h3>Reject this request</h3><p>Reject this request for '.h($row['student_name']).'. Explain the reason above so the student understands your decision.</p><button class="button-danger" name="action" value="reject">Reject request</button></section></div></form></article>';
