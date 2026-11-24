@@ -1,0 +1,25 @@
+{
+  "browser": {
+    "combinations": 64,
+    "runtimeErrors": 0,
+    "fixtureDatabase": "kaaklat_acceptance_f372b927a194",
+    "checks": [
+      "four routes / eight widths / Light and Dark",
+      "images, headings, About navigation, no overflow",
+      "keyboard independent password/confirmation eyes and recovery disclosure",
+      "confirmation mismatch prevention, linked error focus and revalidation after either edit",
+      "client error summary focus and field links",
+      "reduced motion",
+      "320 CSS-pixel reflow",
+      "JavaScript-disabled invalid server submission and retained values/password not echoed",
+      "four role/status sign-ins and unchanged authenticated dashboard shell"
+    ],
+    "limitations": "Chromium emulation only. Actual 400% browser zoom, physical Safari/phone/iPad/tablet and screen-reader checks remain manual."
+  },
+  "regressionScripts": 39,
+  "httpAssertions": 631,
+  "newConfirmationHttpAssertions": 25,
+  "designAuditFindings": 0,
+  "pilotMutations": false,
+  "schemaChanged": false
+}

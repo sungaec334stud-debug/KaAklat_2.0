@@ -1,5 +1,14 @@
 # KaAklat progress
 
+## Registration password confirmation - 2026-11-25
+
+Added required Confirm password below Password, reusing the shared independently named animated eye control and new-password autocomplete. The guest registration controller requires an exact string match before calling register_student; missing, different or array-valued confirmation cannot create an account or audit. Existing CSRF, password policy, pending-student creation, duplicate-ID/username checks and signed-in entry guard remain. Confirmation is transient and never stored; neither password is reflected after errors. Nonsecret values retain escaping. Server mismatch feedback links the summary to an explicitly invalid confirmation field with its hint/error description, including without JavaScript.
+
+Shared forms.js progressively enhances data-match fields using native custom validity and the existing focused/linked error summary. It rechecks either input and submit (including values filled without input events); unrelated forms retain existing behavior. No custom strength meter, dependency, database/schema/config/cover change. The form keeps existing natural scrolling, spacing, responsive themes and reduced-motion behavior.
+
+Verified in isolated fictional fixtures:39 regression scripts,631 workflow HTTP assertions (25 new),64 entry/browser combinations with keyboard eyes, mismatch blocking, linked focus, correction/revalidation, no-JS submission, responsive Light/Dark layouts and zero runtime exceptions; syntax and strict design audit pass. Desktop/phone screenshots inspected. Physical-device/Safari/screen-reader/actual400% zoom checks remain manual. Pilot records untouched; hosting deferred; no commit or push. Evidence: verification/REGISTRATION_CONFIRMATION_2026-11-25.md.
+
+
 ## Signed-in Login/Registration and browser history - 2026-11-24
 
 Fixed Login and Registration rendering guest forms inside an authenticated sidebar. Shared app/guest_entry.php validates the current database-backed session before either rendering or processing these entry forms. Verified signed-in students (active or pending), librarians and administrators redirect to the existing role-aware dashboard with303. Stale entry POSTs do not switch identities or create accounts. Existing idle expiry, session-version revocation and suspended/archived checks remain authoritative. A claimed session that cannot be verified gets a safe503 instead of a mixed page. Login now explicitly sends no-store, matching Registration.

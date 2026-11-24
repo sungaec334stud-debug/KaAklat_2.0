@@ -1,0 +1,10 @@
+{
+  "public/register.php": "53249e4972e4c973457c3d5c53dff19fb5bad2c87cabf058fcfdd51823d14712",
+  "public/assets/forms.js": "db6daccbf7cb8a3c2e6735383082fc9c0b6b48f40832c9109d7bf5bf54eddcce",
+  "views/layout.php": "fb42c598e90f456ba7da7cf41f11267d4ecf49699b21a0d8f5aa7f7e0e216273",
+  "tests/registration_confirmation_http_checks.php": "f4b846874b5c9db5be27294035686a2b67e97b16145437185559de6fa7c9c9fb",
+  "tests/pickup_http_acceptance_test.php": "26817fdbbb063781623cf89e006d43d47ebaba7f2b7a7285019854a59197dcb3",
+  "tests/broad_http_checks.php": "135146b724007a0df1c0441788172c4eafc49940e6101d067b0574dae24afd9c",
+  "tests/entry_http_checks.php": "666b9ead8e304262b6be7f3a65bdb9c70886cb0d8e497d110bb90f9d815beacf",
+  "tests/entry_browser_check.cjs": "7f4ca55cd7c11a14d4143733b77efe43f163c9d3f427dc3fd029b17c5f906e47"
+}

@@ -113,7 +113,7 @@ function render_page(string $title, string $content, bool $landing = false): voi
     {$pageNavigationAssets}
     <noscript><link rel="stylesheet" href="/assets/native-navigation.css"></noscript>
     <link rel="stylesheet" href="/assets/motion.css?v=20261123-system">
-    <script src="/assets/forms.js" defer></script>
+    <script src="/assets/forms.js?v=20261125-confirm" defer></script>
     <script src="/assets/disclosure.js?v=20261123-system" defer></script>
 </head>
 <body class="{$bodyClass}">

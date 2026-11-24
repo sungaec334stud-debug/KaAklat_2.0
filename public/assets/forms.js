@@ -15,6 +15,17 @@ document.querySelectorAll('.field-error').forEach(error => {
 // forms. Server validation remains authoritative, including image and policy checks.
 let generatedFieldId = 0;
 document.querySelectorAll('form[method="post"]').forEach(form => {
+    // Matching fields share native validity and the existing linked error summary.
+    form.querySelectorAll('[data-match]').forEach(field => {
+        const original = document.getElementById(field.dataset.match);
+        if (!original || original.form !== form) return;
+        const update = () => field.setCustomValidity(field.value && field.value !== original.value
+            ? 'Enter the same password in both fields.' : '');
+        field.addEventListener('input', update);
+        original.addEventListener('input', update);
+        form.addEventListener('submit', update);
+        update();
+    });
     form.addEventListener('submit', event => {
         const reject = event.submitter?.value === 'reject';
         const invalid = [...form.querySelectorAll('input, select, textarea')].filter(field => {
